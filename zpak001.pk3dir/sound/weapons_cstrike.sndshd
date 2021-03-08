@@ -1,0 +1,231 @@
+weapon_ak47.fire
+{
+	sample weapons/ak47-1.wav
+	sample weapons/ak47-2.wav
+}
+
+weapon_aug.fire
+{
+	sample weapons/aug-1.wav
+}
+
+weapon_awp.fire
+{
+	sample weapons/awp1.wav
+}
+
+weapon_awp.zoom
+{
+	sample weapons/zoom.wav
+}
+
+weapon_c4bomb.disarm
+{
+	sample weapons/c4_disarm.wav
+}
+
+weapon_c4bomb.disarmed
+{
+	sample weapons/c4_disarmed.wav
+}
+
+weapon_c4bomb.explode
+{
+	sample weapons/c4_explode1.wav
+}
+
+weapon_c4bomb.plant
+{
+	sample weapons/c4_plant.wav
+}
+
+weapon_deagle.fire
+{
+	sample weapons/deagle-1.wav
+	sample weapons/deagle-2.wav
+}
+
+weapon_elites.fire
+{
+	sample weapons/elite_fire.wav
+	sample weapons/elite_fire.wav
+}
+
+weapon_fiveseven.fire
+{
+	sample weapons/fiveseven-1.wav
+}
+
+weapon_flashbang.explode
+{
+	sample weapons/flashbang-1.wav
+}
+
+weapon_g3sg1.fire
+{
+	sample weapons/g3sg1-1.wav
+}
+
+weapon_glock18.fire
+{
+	sample weapons/glock18-2.wav
+}
+
+weapon_glock18.burstfire
+{
+	sample weapons/glock18-1.wav
+}
+
+weapon_hegrenade.bounce
+{
+	sample weapons/he_bounce-1.wav
+}
+
+weapon_hegrenade.explode
+{
+	sample weapons/explode3.wav
+	sample weapons/explode4.wav
+}
+
+weapon_smokegrenade.bounce
+{
+	sample weapons/grenade_hit1.wav
+	sample weapons/grenade_hit2.wav
+	sample weapons/grenade_hit3.wav
+}
+
+weapon_smokegrenade.explode
+{
+	sample weapons/sg_explode.wav
+}
+
+weapon_flashbang.bounce
+{
+	sample weapons/grenade_hit1.wav
+	sample weapons/grenade_hit2.wav
+	sample weapons/grenade_hit3.wav
+}
+
+weapon_flashbang.explode
+{
+	sample weapons/flashbang-1.wav
+	sample weapons/flashbang-2.wav
+}
+
+weapon_knife.hit
+{
+	sample weapons/knife_hitwall1.wav
+}
+
+weapon_knife.hitbody
+{
+	sample weapons/knife_hit1.wav
+	sample weapons/knife_hit2.wav
+	sample weapons/knife_hit3.wav
+	sample weapons/knife_hit4.wav
+}
+
+weapon_knife.hithard
+{
+	sample weapons/knife_stab.wav
+}
+
+weapon_knife.miss
+{
+	sample weapons/knife_slash1.wav
+}
+
+weapon_m3.fire
+{
+	sample weapons/m3-1.wav
+}
+
+weapon_m4a1.fire
+{
+	sample weapons/m4a1_unsil-1.wav
+	sample weapons/m4a1_unsil-2.wav
+}
+
+weapon_m4a1.silenced
+{
+	sample weapons/m4a1-1.wav
+}
+
+weapon_mac10.fire
+{
+	sample weapons/mac10-1.wav
+}
+
+weapon_mp5.fire
+{
+	sample weapons/mp5-1.wav
+}
+
+weapon_p228.fire
+{
+	sample weapons/p228-1.wav
+}
+
+weapon_p90.fire
+{
+	sample weapons/p90-1.wav
+}
+
+
+weapon_para.fire
+{
+	sample weapons/m249-1.wav
+	sample weapons/m249-2.wav
+}
+
+weapon_scout.fire
+{
+	sample weapons/scout_fire-1.wav
+}
+
+weapon_sg550.fire
+{
+	sample weapons/sg550-1.wav
+}
+
+weapon_sg552.fire
+{
+	sample weapons/sg552-1.wav
+}
+
+weapon_smokegrenade.explode
+{
+	sample weapons/sg_explode.wav
+}
+
+weapon_tmp.fire
+{
+	sample weapons/tmp-1.wav
+	sample weapons/tmp-2.wav
+}
+
+weapon_ump45.fire
+{
+	sample weapons/ump45-1.wav
+}
+
+weapon_usp45.fire
+{
+	sample weapons/usp_unsil-1.wav
+}
+
+weapon_usp45.silenced
+{
+	sample weapons/usp1.wav
+	sample weapons/usp2.wav
+}
+
+weapon_xm1014.fire
+{
+	sample weapons/xm1014-1.wav
+}
+
+weapon_xm1014.insertshell
+{
+	sample weapons/m3_insertshell.wav
+}

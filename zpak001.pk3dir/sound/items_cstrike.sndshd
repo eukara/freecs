@@ -1,0 +1,14 @@
+buy.kevlar
+{
+	sample items/tr_kevlar.wav
+}
+
+buy.weapon
+{
+	sample items/gunpickup2.wav
+}
+
+buy.ammo
+{
+	sample items/9mmclip1.wav
+}

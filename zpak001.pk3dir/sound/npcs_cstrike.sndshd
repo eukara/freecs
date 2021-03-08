@@ -1,0 +1,8 @@
+hostage_entity.follow
+{
+	sample hostage/hos1.wav
+	sample hostage/hos2.wav
+	sample hostage/hos3.wav
+	sample hostage/hos4.wav
+	sample hostage/hos5.wav
+}

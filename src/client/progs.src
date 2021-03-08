@@ -1,0 +1,42 @@
+#pragma target fte
+#pragma progs_dat  "../../csprogs.dat"
+#pragma includedir "../../../valve/src"
+
+#define CSQC
+#define CLIENT
+#define VALVE
+#define CSTRIKE
+#define CLASSIC_VGUI
+#define GS_RENDERFX
+
+#includelist
+../../../src/shared/fteextensions.qc
+../../../src/shared/defs.h
+../shared/defs.h
+defs.h
+../../../src/client/defs.h
+../../../src/vgui/include.src
+../../../src/gs-entbase/client.src
+../../../src/gs-entbase/shared.src
+../shared/include.src
+
+predict.qc
+textmenu.qc
+init.qc
+player.qc
+entities.qc
+cmds.qc
+game_event.qc
+../../../valve/src/client/view.qc
+crosshair.qc
+../../../valve/src/client/obituary.qc
+hud.qc
+hud_weaponselect.qc
+../../../valve/src/client/scoreboard.qc
+../../../valve/src/client/input.qc
+radio.qc
+../../../base/src/client/modelevent.qc
+
+../../../src/client/include.src
+../../../src/shared/include.src
+#endlist
