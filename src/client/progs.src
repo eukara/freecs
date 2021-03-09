@@ -33,7 +33,6 @@ crosshair.qc
 hud.qc
 hud_weaponselect.qc
 ../../../valve/src/client/scoreboard.qc
-../../../valve/src/client/input.qc
 radio.qc
 ../../../base/src/client/modelevent.qc
 

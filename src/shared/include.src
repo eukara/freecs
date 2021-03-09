@@ -47,6 +47,7 @@ w_hegrenade.qc
 w_smokegrenade.qc
 weapons.qc
 ../../../valve/src/shared/weapon_common.qc
+input.qc
 pmove.qc
 ../../../valve/src/shared/pmove_water.qc
 item_c4bomb.qc
