@@ -670,13 +670,13 @@ HUD_Draw(void)
 		return;
 	}
 
+	Radar_Draw();
 	HUD_DrawNotify();
 	HUD_DrawHealth();
 	HUD_DrawArmor();
 	HUD_DrawZones();
 	HUD_DrawProgress();
 	HUD_DrawFlashlight();
-	Radar_Draw();
 	Damage_Draw();
 }
 

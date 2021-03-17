@@ -189,7 +189,7 @@ HUD_DrawWeaponSelect(void)
 		return;
 	}
 
-	vector vecPos = g_hudmins + [16,16];
+	vector vecPos = g_hudmins + [128+32,16];
 
 	int b;
 	int wantslot = g_weapons[pSeat->m_iHUDWeaponSelected].slot;

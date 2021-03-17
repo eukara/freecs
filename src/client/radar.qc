@@ -27,7 +27,9 @@ Radar_Init(void)
 void
 Radar_Draw(void)
 {
-	drawpic(g_hudmins, g_cs_radar, [128,128], [1,1,1], 0.25f, DRAWFLAG_ADDITIVE);
+	vector radpos = g_hudmins + [16,16];
+
+	drawpic(radpos, g_cs_radar, [128,128], [1,1,1], 0.25f, DRAWFLAG_ADDITIVE);
 
 	for (entity a = world; (a = find(a, ::classname, "player"));) {
 		vector color;
@@ -61,7 +63,7 @@ Radar_Draw(void)
 		matrix[2] = 0;
 
 		/* we need to fit 1024 in-game units into the 64px radar image */
-		vector apos = g_hudmins + [62,62] + (matrix * (64/CSRADAR_DISTANCE));
+		vector apos = radpos + [62,62] + (matrix * (64/CSRADAR_DISTANCE));
 
 		if (getplayerkeyfloat(a.entnum-1, "*team") == TEAM_CT)
 			color = [115, 155, 205] / 255;
