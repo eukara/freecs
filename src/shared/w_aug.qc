@@ -126,6 +126,7 @@ w_aug_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_EjectShell(SHELL_RIFLE, 0);
 
 	int r = (float)input_sequence % 3;
 	switch (r) {

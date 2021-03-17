@@ -132,6 +132,10 @@ ClientGame_RendererRestart(string rstr)
 	g_cs_scope7 = spriteframe("sprites/bottom.spr", 0, 0.0f);
 	g_cs_scope8 = spriteframe("sprites/bottom_right.spr", 0, 0.0f);
 
+	SHELL_PISTOL = getmodelindex("models/pshell.mdl");
+	SHELL_RIFLE = getmodelindex("models/rshell.mdl");
+	SHELL_RIFLELARGE = getmodelindex("models/rshell_big.mdl");
+
 	Obituary_Precache();
 
 	FX_Blood_Init();

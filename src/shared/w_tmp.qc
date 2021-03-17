@@ -127,6 +127,7 @@ w_tmp_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_EjectShell(SHELL_PISTOL, 0);
 
 	int r = (float)input_sequence % 3;
 	switch (r) {
@@ -267,7 +268,7 @@ weapon_t w_tmp =
 	.primary	= w_tmp_primary,
 	.secondary	= __NULL__,
 	.reload		= w_tmp_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_tmp_release,
 	.crosshair	= w_tmp_hud,
 	.precache	= w_tmp_precache,
 	.pickup		= w_tmp_pickup,

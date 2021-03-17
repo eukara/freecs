@@ -125,6 +125,7 @@ w_sg552_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_EjectShell(SHELL_RIFLE, 0);
 
 	int r = (float)input_sequence % 3;
 	switch (r) {
@@ -290,7 +291,7 @@ weapon_t w_sg552 =
 	.primary	= w_sg552_primary,
 	.secondary	= w_sg552_secondary,
 	.reload		= w_sg552_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_sg552_release,
 	.crosshair	= w_sg552_hud,
 	.precache	= w_sg552_precache,
 	.pickup		= w_sg552_pickup,

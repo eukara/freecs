@@ -50,6 +50,10 @@ var string g_cs_scope6;
 var string g_cs_scope7;
 var string g_cs_scope8;
 
+var float SHELL_PISTOL;
+var float SHELL_RIFLE;
+var float SHELL_RIFLELARGE;
+
 struct
 {
 	/* viewmodel stuff */
@@ -57,6 +61,7 @@ struct
 	entity m_eMuzzleflash;
 	int m_iVMBones;
 	int m_iVMEjectBone;
+	float m_fEjectModel;
 	int m_iLastWeapon;
 	int m_iOldWeapon;
 	float m_flBobTime;

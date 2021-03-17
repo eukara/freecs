@@ -159,6 +159,7 @@ w_glock18_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_EjectShell(SHELL_PISTOL, 0);
 #else
 
 	if (pl.flags & FL_CROUCHING)
