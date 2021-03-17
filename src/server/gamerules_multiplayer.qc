@@ -38,10 +38,12 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 	WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
 	WriteByte(MSG_MULTICAST, EV_OBITUARY);
 	if (g_dmg_eAttacker.netname)
-		WriteString(MSG_MULTICAST, g_dmg_eAttacker.netname);
+		WriteString(MSG_MULTICAST, strcat(HUD_GetChatColorHEX(g_dmg_eAttacker.team), g_dmg_eAttacker.netname));
 	else
 		WriteString(MSG_MULTICAST, g_dmg_eAttacker.classname);
-	WriteString(MSG_MULTICAST, pl.netname);
+
+	WriteString(MSG_MULTICAST, strcat(HUD_GetChatColorHEX(pl.team), pl.netname));
+
 	WriteByte(MSG_MULTICAST, g_dmg_iWeapon);
 	WriteByte(MSG_MULTICAST, 0);
 	msg_entity = world;

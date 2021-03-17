@@ -19,6 +19,7 @@ defs.h
 ../../../src/gs-entbase/shared.src
 ../shared/include.src
 
+radar.qc
 nightvision.qc
 draw.qc
 textmenu.qc

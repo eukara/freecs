@@ -676,6 +676,7 @@ HUD_Draw(void)
 	HUD_DrawZones();
 	HUD_DrawProgress();
 	HUD_DrawFlashlight();
+	Radar_Draw();
 	Damage_Draw();
 }
 

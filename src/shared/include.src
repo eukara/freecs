@@ -1,5 +1,4 @@
  #includelist
-defs.h
 flags.h
 player.h
 ../../../valve/src/shared/weapon_common.h

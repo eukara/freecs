@@ -141,4 +141,6 @@ ClientGame_RendererRestart(string rstr)
 	FX_Spark_Init();
 	FX_Impact_Init();
 	FX_Smokenade_Init();
+
+	Radar_Init();
 }

@@ -16,6 +16,7 @@
 ../../../src/server/defs.h
 ../../../src/gs-entbase/server.src
 ../../../src/gs-entbase/shared.src
+../shared/defs.h
 
 defs.h
 ../shared/include.src

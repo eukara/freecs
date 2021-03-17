@@ -32,3 +32,15 @@ enum
 	STAT_GAMETIME,
 	STAT_GAMESTATE
 };
+
+string
+HUD_GetChatColorHEX(float fTeam)
+{
+	if (fTeam == TEAM_CT) {
+		return "^x7AC";
+	} else if (fTeam == TEAM_T) {
+		return "^xC33";
+	} else {
+		return "^xCCC";
+	}
+}
