@@ -1,0 +1,483 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-21 15:30+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "VGUI_TITLE_MOTD"
+msgstr "Message Of The Day"
+
+msgid "VGUI_TITLE_TEAMS"
+msgstr "Team Selection"
+
+msgid "VGUI_TITLE_TSEL"
+msgstr "Terrorist Selection"
+
+msgid "VGUI_TITLE_CTSEL"
+msgstr "Counter-Terrorist Selection"
+
+msgid "VGUI_TITLE_BUY"
+msgstr "Buy Menu"
+
+msgid "VGUI_TITLE_HANDGUN"
+msgstr "Handguns"
+
+msgid "VGUI_TITLE_SHOTGUN"
+msgstr "Shotgun"
+
+msgid "VGUI_TITLE_SMG"
+msgstr "Sub-Machine-Guns"
+
+msgid "VGUI_TITLE_RIFLE"
+msgstr "Rifles"
+
+msgid "VGUI_TITLE_MG"
+msgstr "Machineguns"
+
+msgid "VGUI_TITLE_EQUIPMENT"
+msgstr "Equipment"
+
+msgid "WEAPON_NONE"
+msgstr "None"
+
+msgid "WEAPON_KNIFE"
+msgstr "Knife"
+
+msgid "WEAPON_USP"
+msgstr "H&K USP .45 Tactical"
+
+msgid "WEAPON_GLOCK18"
+msgstr "Glock18 Select Fire"
+
+msgid "WEAPON_DEAGLE"
+msgstr "Desert Eagle .50AE"
+
+msgid "WEAPON_P228"
+msgstr "SIG P228"
+
+msgid "WEAPON_ELITES"
+msgstr "Dual Beretta 96G Elite"
+
+msgid "WEAPON_FIVESEVEN"
+msgstr "FN Five-Seven"
+
+msgid "WEAPON_M3"
+msgstr "Benelli M3 Super90"
+
+msgid "WEAPON_XM1014"
+msgstr "Benelli XM1014"
+
+msgid "WEAPON_MP5"
+msgstr "H&K MP5-Navy"
+
+msgid "WEAPON_P90"
+msgstr "FN P90"
+
+msgid "WEAPON_UMP45"
+msgstr "H&K UMP45"
+
+msgid "WEAPON_MAC10"
+msgstr "Ingram MAC-10"
+
+msgid "WEAPON_TMP"
+msgstr "Steyr Tactical Machine Pistol"
+
+msgid "WEAPON_AK47"
+msgstr "AK-47"
+
+msgid "WEAPON_SG552"
+msgstr "Sig SG-552 Commando"
+
+msgid "WEAPON_M4A1"
+msgstr "Colt M4A1 Carbine"
+
+msgid "WEAPON_AUG"
+msgstr "Steyr Aug"
+
+msgid "WEAPON_SCOUT"
+msgstr "Steyr Scout"
+
+msgid "WEAPON_AWP"
+msgstr "AI Arctic Warfare/Magnum"
+
+msgid "WEAPON_G3SG1"
+msgstr "H&K G3/SG-1 Sniper Rifle"
+
+msgid "WEAPON_SG550"
+msgstr "Sig SG-550 Sniper"
+
+msgid "WEAPON_PARA"
+msgstr "FN M249 Para"
+
+msgid "EQUIPMENT_KEVLAR"
+msgstr "Kevlar"
+
+msgid "EQUIPMENT_HELMET"
+msgstr "Kevlar & Helmet"
+
+msgid "WEAPON_FLASHBANG"
+msgstr "Flashbang"
+
+msgid "WEAPON_HEGRENADE"
+msgstr "HE Grenade"
+
+msgid "WEAPON_SMOKEGRENADE"
+msgstr "Smoke Grenade"
+
+msgid "EQUIPMENT_DEFUSALKIT"
+msgstr "Defusal Kit"
+
+msgid "EQUIPMENT_NIGHTVISION"
+msgstr "NightVision"
+
+msgid "VGUI_TITLE_AMMO1"
+msgstr "Primary Ammo"
+
+msgid "VGUI_TITLE_AMMO2"
+msgstr "Secondary Ammo"
+
+msgid "VGUI_EXIT"
+msgstr "Exit"
+
+msgid "BUY_PRICETAG"
+msgstr "Price: $%i"
+
+msgid "BUY_CALIBER"
+msgstr "Caliber: %i"
+
+msgid "BUY_RPM"
+msgstr "Rounds Per Minute: %d"
+
+msgid "VGUI_BACK"
+msgstr "Back"
+
+msgid "VGUI_OK"
+msgstr "OK"
+
+msgid "RADIO_TITLE1"
+msgstr "Radio Commands"
+
+msgid "RADIO_TITLE2"
+msgstr "Group Radio Commands"
+
+msgid "RADIO_TITLE3"
+msgstr "Radio Responses"
+
+msgid "SCORE_TITLE_SPECTATOR"
+msgstr "Spectator"
+
+msgid "SCORE_TITLE_T"
+msgstr "Terrorists"
+
+msgid "SCORE_TITLE_CT"
+msgstr "CT Forces"
+
+msgid "SCORE_TITLE_VIP"
+msgstr "VIP"
+
+msgid "SCORE_DEAD"
+msgstr "%s [DEAD]"
+
+msgid "SCORE_VIP"
+msgstr "%s [VIP]"
+
+msgid "SCORE_PLAYERS"
+msgstr "(%i players)"
+
+msgid "SCORE_SCORE"
+msgstr "SCORE"
+
+msgid "SCORE_DEATHS"
+msgstr "DEATHS"
+
+msgid "SCORE_LATENCY"
+msgstr "LATENCY"
+
+msgid "SCORE_VOICE"
+msgstr "VOICE"
+
+msgid "VGUI_SPEC_TCOUNTER"
+msgstr "Terrorists: %d"
+
+msgid "VGUI_SPEC_CTCOUNTER"
+msgstr "CT Forces: %d"
+
+msgid "VGUI_T1_TITLE"
+msgstr "Phoenix Connexion"
+
+msgid "VGUI_T1_TXT1"
+msgstr "The Phoenix Faction was formed shortly"
+
+msgid "VGUI_T1_TXT2"
+msgstr "after the breakup of the USSR. Having"
+
+msgid "VGUI_T1_TXT3"
+msgstr "established a reputation for killing"
+
+msgid "VGUI_T1_TXT4"
+msgstr "anyone that gets in their way."
+
+msgid "VGUI_T1_TXT5"
+msgstr "The Phoenix Faction is one of the most"
+
+msgid "VGUI_T1_TXT6"
+msgstr "feared terrorist groups in Eastern Europe."
+
+msgid "VGUI_T2_TITLE"
+msgstr "L337 Krew"
+
+msgid "VGUI_T2_TXT1"
+msgstr "Middle Eastern fundamentalist group bent"
+
+msgid "VGUI_T2_TXT2"
+msgstr "on world domination and various other"
+
+msgid "VGUI_T2_TXT3"
+msgstr "evil deeds."
+
+msgid "VGUI_T2_TXT4"
+msgstr " "
+
+msgid "VGUI_T2_TXT5"
+msgstr " "
+
+msgid "VGUI_T2_TXT6"
+msgstr " "
+
+msgid "VGUI_T3_TITLE"
+msgstr "Arctic Avengers"
+
+msgid "VGUI_T3_TXT1"
+msgstr "Swedish terrorist faction founded in 1977."
+
+msgid "VGUI_T3_TXT2"
+msgstr "Famous for their bombing of the Canadian"
+
+msgid "VGUI_T3_TXT3"
+msgstr "embassy in 1990."
+
+msgid "VGUI_T3_TXT4"
+msgstr " "
+
+msgid "VGUI_T3_TXT5"
+msgstr " "
+
+msgid "VGUI_T3_TXT6"
+msgstr " "
+
+msgid "VGUI_T4_TITLE"
+msgstr "Guerilla Warfare"
+
+msgid "VGUI_T4_TXT1"
+msgstr "A terrorist faction founded in the"
+
+msgid "VGUI_T4_TXT2"
+msgstr "Middle East, Guerilla Warfare, has a"
+
+msgid "VGUI_T4_TXT3"
+msgstr "reputation for ruthlessness. Their disgust"
+
+msgid "VGUI_T4_TXT4"
+msgstr "for the American lifestyle was demonstrated"
+
+msgid "VGUI_T4_TXT5"
+msgstr "in their 1982 bombing of a school bus full"
+
+msgid "VGUI_T4_TXT6"
+msgstr "of Rock and Roll musicians."
+
+msgid "VGUI_CT1_TITLE"
+msgstr "Seal Team 6"
+
+msgid "VGUI_CT1_TXT1"
+msgstr "Seal Team 6 (to be known later as DEVGRU)"
+
+msgid "VGUI_CT1_TXT2"
+msgstr "was founded in 1980 under the command of"
+
+msgid "VGUI_CT1_TXT3"
+msgstr "Lieutenant-Commander Richard Marcincko."
+
+msgid "VGUI_CT1_TXT4"
+msgstr "ST-6 was placed on permanent alert to"
+
+msgid "VGUI_CT1_TXT5"
+msgstr "respond to terrorist attacks against"
+
+msgid "VGUI_CT1_TXT6"
+msgstr "American targets worldwide."
+
+msgid "VGUI_CT2_TITLE"
+msgstr "German GSG9"
+
+msgid "VGUI_CT2_TXT1"
+msgstr "GSG-9 was born out of the tragic events"
+
+msgid "VGUI_CT2_TXT2"
+msgstr "that led to the death of several"
+
+msgid "VGUI_CT2_TXT3"
+msgstr "Israeli athletes during the 1972 Olympic"
+
+msgid "VGUI_CT2_TXT4"
+msgstr "games in Munich, Germany."
+
+msgid "VGUI_CT2_TXT5"
+msgstr " "
+
+msgid "VGUI_CT2_TXT6"
+msgstr " "
+
+msgid "VGUI_CT3_TITLE"
+msgstr "UK SAS"
+
+msgid "VGUI_CT3_TXT1"
+msgstr "The world-renowned British SAS was founded"
+
+msgid "VGUI_CT3_TXT2"
+msgstr "in the Second World War by a man named"
+
+msgid "VGUI_CT3_TXT3"
+msgstr "David Stirling. Their role during WW2"
+
+msgid "VGUI_CT3_TXT4"
+msgstr "involved gathering intelligence behind enemy"
+
+msgid "VGUI_CT3_TXT5"
+msgstr "lines and executing sabotage strikes and"
+
+msgid "VGUI_CT3_TXT6"
+msgstr "assassinations against key targets."
+
+msgid "VGUI_CT4_TITLE"
+msgstr "French GIGN"
+
+msgid "VGUI_CT4_TXT1"
+msgstr "France's elite Counter-Terrorist unit was"
+
+msgid "VGUI_CT4_TXT2"
+msgstr "designed to be a fast response force"
+
+msgid "VGUI_CT4_TXT3"
+msgstr "that could decisively react to any large-"
+
+msgid "VGUI_CT4_TXT4"
+msgstr "scale terrorist incident. Consisting of no"
+
+msgid "VGUI_CT4_TXT5"
+msgstr "more than 100 men, the GIGN has earned its"
+
+msgid "VGUI_CT4_TXT6"
+msgstr "reputation through a history of successful ops."
+
+msgid "VGUI_TEAM_T"
+msgstr "Terrorists"
+
+msgid "VGUI_TEAM_CT"
+msgstr "Counter-Terrorists"
+
+msgid "VGUI_TEAM_AUTO"
+msgstr "Auto-Assign"
+
+msgid "VGUI_TEAM_SPEC"
+msgstr "Spectate"
+
+msgid "RADIO_BLOW"
+msgstr "Get out of there, it's gonna blow!"
+msgid "RADIO_BOMBDEF"
+msgstr "The bomb has been defused."
+msgid "RADIO_BOMBPL"
+msgstr "The bomb has been planted."
+msgid "RADIO_CIRCLEBACK"
+msgstr "Circle around back!"
+msgid "RADIO_CLEAR"
+msgstr "Sector clear."
+msgid "RADIO_COM_FOLLOWCOM"
+msgstr "Okay team, follow my command!"
+msgid "RADIO_COM_GETINPOS"
+msgstr "Get in position and wait for my go!"
+msgid "RADIO_COM_GO"
+msgstr "Go, go, go!"
+msgid "RADIO_COM_REPORTIN"
+msgstr "Report in, team!"
+msgid "RADIO_CT_AFFIRM"
+msgstr "Affirmative."
+msgid "RADIO_CT_BACKUP"
+msgstr "Need backup!"
+msgid "RADIO_CT_COVERME"
+msgstr "Cover me!"
+msgid "RADIO_CT_ENEMYS"
+msgstr "Enemy spotted."
+msgid "RADIO_CT_FIREINHOLE"
+msgstr "Fire in the hole!"
+msgid "RADIO_CT_IMHIT"
+msgstr "I'm hit!"
+msgid "RADIO_CT_INPOS"
+msgstr "I'm in position."
+msgid "RADIO_CT_POINT"
+msgstr "I'll take the point."
+msgid "RADIO_CT_REPORTINGIN"
+msgstr "Reporting in."
+msgid "RADIO_CTWIN"
+msgstr "Counter-Terrorists win!"
+msgid "RADIO_ENEMYDOWN"
+msgstr "Enemy down!"
+msgid "RADIO_FALLBACK"
+msgstr "Team, fall back!"
+msgid "RADIO_FIREASSIS"
+msgstr "Taking fire, need assistance!"
+msgid "RADIO_FOLLOWME"
+msgstr "Follow me!"
+msgid "RADIO_GETOUT"
+msgstr "Team, let's get out of here!"
+msgid "RADIO_GO"
+msgstr "Okay, let's go."
+msgid "RADIO_HITASSIST"
+msgstr "I'm hit! Need assistance!"
+msgid "RADIO_HOSDOWN"
+msgstr "Hostage down."
+msgid "RADIO_LETSGO"
+msgstr "Okay, let's go."
+msgid "RADIO_LOCKNLOAD"
+msgstr "Lock 'n load."
+msgid "RADIO_MATEDOWN"
+msgstr "Teammate down."
+msgid "RADIO_MEETME"
+msgstr "Meet at the rendezvous point."
+msgid "RADIO_MOVEOUT"
+msgstr "Alright, let's move out."
+msgid "RADIO_NEGATIVE"
+msgstr "Negative."
+msgid "RADIO_POSITION"
+msgstr "Hold this position!"
+msgid "RADIO_REGROUP"
+msgstr "Regroup, team!"
+msgid "RADIO_RESCUED"
+msgstr "A hostage has been rescued."
+msgid "RADIO_ROGER"
+msgstr "Roger that."
+msgid "RADIO_ROUNDDRAW"
+msgstr "Round draw!"
+msgid "RADIO_STICKTOG"
+msgstr "Stick together, team!"
+msgid "RADIO_STORMFRONT"
+msgstr "Storm the front!"
+msgid "RADIO_TAKEPOINT"
+msgstr "You take the point!"
+msgid "RADIO_TERWIN"
+msgstr "Terrorists win!"
+msgid "RADIO_VIP"
+msgstr "Protect the VIP, team!"
