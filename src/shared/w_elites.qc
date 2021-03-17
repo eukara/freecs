@@ -144,7 +144,7 @@ w_elites_primary(void)
 
 	int r = (float)input_sequence % 5;
 	if (pl.mode_temp) {
-		View_EjectShell(SHELL_PISTOL, 1);
+		View_EjectShellAttachment(SHELL_PISTOL, 1, [0, -80, 100]);
 
 		if (pl.elites_mag <= 0) {
 			Weapons_ViewAnimation(ELITES_SHOOT_LEFTLAST);
@@ -168,7 +168,7 @@ w_elites_primary(void)
 			}
 		}
 	} else {
-		View_EjectShell(SHELL_PISTOL, 0);
+		View_EjectShellAttachment(SHELL_PISTOL, 0, [0, 80, 100]);
 		if (pl.elites_mag <= 0) {
 			Weapons_ViewAnimation(ELITES_SHOOT_RIGHTLAST);
 		} else {

@@ -155,7 +155,7 @@ w_usp45_primary(void)
 		View_SetMuzzleflash(MUZZLE_SMALL);
 	}
 
-	View_EjectShell(SHELL_PISTOL, 0);
+	View_EjectShellAttachment(SHELL_PISTOL, 0, [0, -80, 100]);
 #else
 	/* Different sounds without silencer */
 	if (pl.mode_usp45 == 1) {

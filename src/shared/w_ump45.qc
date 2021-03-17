@@ -127,7 +127,7 @@ w_ump45_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
-	View_EjectShell(SHELL_PISTOL, 0);
+	View_EjectShellAttachment(SHELL_PISTOL, 0, [0, -80, 100]);
 #else
 	TraceAttack_SetPenetrationPower(0);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 30, [accuracy,accuracy], WEAPON_UMP45);

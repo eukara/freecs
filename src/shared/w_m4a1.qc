@@ -146,7 +146,7 @@ w_m4a1_primary(void)
 	} else {
 		View_SetMuzzleflash(MUZZLE_RIFLE);
 	}
-	View_EjectShell(SHELL_RIFLE, 0);
+	View_EjectShellAttachment(SHELL_RIFLE, 0, [0, -80, 100]);
 
 	/* this stuff is predicted */
 	int r = (float)input_sequence % 3;

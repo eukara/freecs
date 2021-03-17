@@ -129,7 +129,7 @@ w_p228_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
-	View_EjectShell(SHELL_PISTOL, 0);
+	View_EjectShellAttachment(SHELL_PISTOL, 0, [0, -80, 100]);
 
 	if (pl.p228_mag <= 0) {
 		Weapons_ViewAnimation(P228_SHOOT_EMPTY);

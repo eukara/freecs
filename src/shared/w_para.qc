@@ -124,7 +124,7 @@ w_para_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
-	View_EjectShell(SHELL_RIFLE, 0);
+	View_EjectShellAttachment(SHELL_RIFLE, 0, [0, -80, 100]);
 
 	int r = (float)input_sequence % 2;
 	switch (r) {
