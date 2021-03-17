@@ -16,6 +16,12 @@ Featuring proper weapon prediction to enable stress-free netplay.
 ![Preview 3](img/preview3.jpg)
 ![Preview 4](img/preview4.jpg)
 
+## Installation
+Grab the latest binary release, extract and put an FTEQW engine binary (for your platform) into the same folder as the default.fmf and readme file.
+Get FTEQW here: https://www.fteqw.org/
+
+Run the engine and when in-game download the needed content, or optionally merge your own HL + CS 1.5 installation.
+
 ## Building
 Clone the repository into the Nuclide-SDK:
 
