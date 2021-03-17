@@ -102,15 +102,17 @@ switch (fHeader) {
 		float fSender = readbyte();
 		float fTeam = readbyte();
 		string sMessage = readstring();
+		string strName = strcat(HUD_GetChatColorHEX(getplayerkeyfloat(fSender, "*team")), getplayerkeyvalue(fSender, "name"));
 
-		CSQC_Parse_Print(sprintf("%s: %s", getplayerkeyvalue(fSender, "name"), sMessage), PRINT_CHAT);
+		CSQC_Parse_Print(sprintf("%s^xF80: %s", strName, sMessage), PRINT_CHAT);
 		break;
 	case EV_CHAT_TEAM:
 		float fSender2 = readbyte();
 		float fTeam2 = readbyte();
 		string sMessage2 = readstring();
+		string strName2 = strcat(HUD_GetChatColorHEX(getplayerkeyfloat(fSender2, "*team")), getplayerkeyvalue(fSender2, "name"));
 
-		CSQC_Parse_Print(sprintf("[TEAM] %s: %s", getplayerkeyvalue(fSender2, "name"), sMessage2), PRINT_CHAT);
+		CSQC_Parse_Print(sprintf("^xF80[TEAM] ^7%s^7^xF80: %s", strName2, sMessage2), PRINT_CHAT);
 		break;
 	case EV_CHAT_VOX:
 		Vox_Play(readstring());
