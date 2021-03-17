@@ -107,6 +107,9 @@ ClientGame_Init(float apilevel, string enginename, float engineversion)
 	registercommand("enemydown");
 
 	Obituary_Init();
+
+	Sound_Precache("nvg.on");
+	Sound_Precache("nvg.off");
 }
 
 void

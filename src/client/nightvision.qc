@@ -17,21 +17,49 @@
 void
 Nightvision_Toggle(void)
 {
+	player pl = (player)pSeat->m_ePlayer;
+
+	if (!(pl.g_items & ITEM_NIGHTVISION)) {
+		pSeat->m_iNightvision = 0;
+		return;
+	}
+
 	pSeat->m_iNightvision = 1 - pSeat->m_iNightvision;
+
+	if (pSeat->m_iNightvision)
+		Sound_Play(self, CHAN_AUTO, "nvg.on");
+	else
+		Sound_Play(self, CHAN_AUTO, "nvg.off");
 }
 
 void
 Nightvision_PreFrame(void)
 {
+	player pl = (player)pSeat->m_ePlayer;
+
 	if (!pSeat->m_iNightvision)
 		return;
 
-	
+	if (!(pl.g_items & ITEM_NIGHTVISION)) {
+		pSeat->m_iNightvision = 0;
+		return;
+	}
+
+	dynamiclight_add(pSeat->m_vecPredictedOrigin, 768, [1,1,1]);
 }
 
 void
 Nightvision_PostFrame(void)
 {
+	player pl = (player)pSeat->m_ePlayer;
+
 	if (!pSeat->m_iNightvision)
 		return;
+
+	if (!(pl.g_items & ITEM_NIGHTVISION)) {
+		pSeat->m_iNightvision = 0;
+		return;
+	}
+
+	drawpic(video_mins, "fade_modulate", g_hudres, [0,1,0], 1.0f, 0);
 }

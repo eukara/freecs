@@ -17,11 +17,11 @@
 void
 ClientGame_PreDraw(void) 
 {
-
+	Nightvision_PreFrame();
 }
 
 void
 ClientGame_PostDraw(void)
 {
-
+	Nightvision_PostFrame();
 }

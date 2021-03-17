@@ -12,3 +12,13 @@ buy.ammo
 {
 	sample items/9mmclip1.wav
 }
+
+nvg.on
+{
+	sample items/nvg_on.wav
+}
+
+nvg.off
+{
+	sample items/nvg_off.wav
+}
