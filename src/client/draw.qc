@@ -14,30 +14,14 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*
-=================
-Predict_PreFrame
-
-We're part way through parsing new player data.
-Propagate our pmove state to whatever the current frame before its stomped on 
-(so any non-networked state updates locally).
-=================
-*/
 void
-GamePredict_PreFrame(player pl)
+ClientGame_PreDraw(void) 
 {
+
 }
 
-/*
-=================
-Predict_PostFrame
-
-We're part way through parsing new player data.
-Rewind our pmove state back to before we started predicting. 
-(to give consistent state instead of accumulating errors)
-=================
-*/
 void
-GamePredict_PostFrame(player pl)
+ClientGame_PostDraw(void)
 {
+
 }

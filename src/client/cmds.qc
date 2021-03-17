@@ -34,7 +34,7 @@ ClientGame_ConsoleCommand(void)
 		Textmenu_Toggle("RADIOC");
 		break;
 	case "nightvision":
-		/*Nightvision_Toggle();*/
+		Nightvision_Toggle();
 		break;
 	case "drop":
 		sendevent("DropWeapon", "");

@@ -146,6 +146,7 @@ struct
 	int m_iTimeUnitsOld;
 	float m_flTimeAlpha;
 	vector m_vecMoneyColor;
+	int m_iNightvision;
 } g_seats[4], *pSeat;
 
 void HUD_DrawAmmo1(void);

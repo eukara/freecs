@@ -1,6 +1,5 @@
 #pragma target fte
 #pragma progs_dat  "../../csprogs.dat"
-#pragma includedir "../../../valve/src"
 
 #define CSQC
 #define CLIENT
@@ -20,7 +19,8 @@ defs.h
 ../../../src/gs-entbase/shared.src
 ../shared/include.src
 
-predict.qc
+nightvision.qc
+draw.qc
 textmenu.qc
 init.qc
 player.qc
