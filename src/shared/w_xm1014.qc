@@ -128,26 +128,19 @@ w_xm1014_primary(void)
 	}
 
 	/* ammo check */
-#ifdef CLIENT
 	if (!pl.xm1014_mag) {
 		return;
 	}
-#else
-	if (!pl.xm1014_mag) {
-		return;
-	}
-#endif
 
 	Cstrike_ShotMultiplierAdd(pl, 6);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+	pl.xm1014_mag--;
 
 #ifdef CLIENT
-	pl.xm1014_mag--;
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 #else
 	TraceAttack_SetPenetrationPower(0);
 	TraceAttack_FireBullets(6, pl.origin + pl.view_ofs, 22, [accuracy,accuracy], WEAPON_XM1014);
-	pl.xm1014_mag--;
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTopTemp(ANIM_SHOOT_SHOTGUN, 0.45f);
@@ -175,21 +168,13 @@ void
 w_xm1014_reload(void)
 {
 	player pl = (player)self;
-#ifdef CLIENT
-	if (pl.xm1014_mag >= 7) {
-		return;
-	}
-	if (pl.ammo_buckshot <= 0) { 
-		return;
-	}
-#else
+
 	if (pl.xm1014_mag >= 7) {
 		return;
 	}
 	if (pl.ammo_buckshot <= 0) {
 		return;
 	}
-#endif
 	
 	if (pl.mode_temp > XM1014S_IDLE) {
 		return;
@@ -205,6 +190,13 @@ w_xm1014_release(void)
 
 	w_cstrike_weaponrelease();
 
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.mode_temp == XM1014S_IDLE && pl.xm1014_mag == 0 && pl.ammo_buckshot > 0) {
+		Weapons_Reload();
+		return;
+	}
+
 	if (pl.w_idle_next > 0.0) {
 		return;
 	}
@@ -215,22 +207,15 @@ w_xm1014_release(void)
 		pl.w_idle_next = 0.65f;
 	} else if (pl.mode_temp == XM1014S_RELOAD) {
 		Weapons_ViewAnimation(XM1014_INSERT);
-#ifdef CLIENT
-		pl.xm1014_mag++;
-		pl.ammo_buckshot--;
-
-		if (pl.ammo_buckshot <= 0 || pl.xm1014_mag >= 7) {
-			pl.mode_temp = XM1014S_RELOAD_END;
-		}
-#else
 		pl.xm1014_mag++;
 		pl.ammo_buckshot--;
 		w_xm1014_updateammo(pl);
+#ifdef SERVER
 		Sound_Play(pl, CHAN_WEAPON, "weapon_xm1014.insertshell");
+#endif
 		if (pl.ammo_buckshot <= 0 || pl.xm1014_mag >= 7) {
 			pl.mode_temp = XM1014S_RELOAD_END;
 		}
-#endif
 		pl.w_idle_next = 0.5f;
 	} else if (pl.mode_temp == XM1014S_RELOAD_END) {
 		Weapons_ViewAnimation(XM1014_RELOAD_END);
@@ -280,7 +265,7 @@ w_xm1014_hudpic(int selected, vector pos, float a)
 			[0,135/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -291,7 +276,7 @@ w_xm1014_hudpic(int selected, vector pos, float a)
 			[0,135/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}

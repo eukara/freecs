@@ -180,6 +180,21 @@ w_mac10_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_mac10_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.mac10_mag == 0 && pl.ammo_45acp > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_mac10_aimanim(void)
 {
@@ -220,7 +235,7 @@ w_mac10_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -231,7 +246,7 @@ w_mac10_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -250,7 +265,7 @@ weapon_t w_mac10 =
 	.primary	= w_mac10_primary,
 	.secondary	= __NULL__,
 	.reload		= w_mac10_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_mac10_release,
 	.crosshair	= w_mac10_hud,
 	.precache	= w_mac10_precache,
 	.pickup		= w_mac10_pickup,

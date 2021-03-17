@@ -180,6 +180,21 @@ w_ak47_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_ak47_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.ak47_mag == 0 && pl.ammo_762mm > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_ak47_aimanim(void)
 {
@@ -220,7 +235,7 @@ w_ak47_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -231,7 +246,7 @@ w_ak47_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -250,7 +265,7 @@ weapon_t w_ak47 =
 	.primary	= w_ak47_primary,
 	.secondary	= __NULL__,
 	.reload		= w_ak47_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_ak47_release,
 	.crosshair	= w_ak47_hud,
 	.precache	= w_ak47_precache,
 	.pickup		= w_ak47_pickup,

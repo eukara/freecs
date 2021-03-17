@@ -126,26 +126,19 @@ w_m3_primary(void)
 		return;
 	}
 
-#ifdef CLIENT
 	if (!pl.m3_mag) {
 		return;
 	}
-#else
-	if (!pl.m3_mag) {
-		return;
-	}
-#endif
 
 	Cstrike_ShotMultiplierAdd(pl, 9);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+	pl.m3_mag--;
 
 #ifdef CLIENT
-	pl.m3_mag--;
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 #else
 	TraceAttack_SetPenetrationPower(0);
 	TraceAttack_FireBullets(9, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_M3);
-	pl.m3_mag--;
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTopTemp(ANIM_SHOOT_SHOTGUN, 0.45f);
@@ -173,21 +166,13 @@ void
 w_m3_reload(void)
 {
 	player pl = (player)self;
-#ifdef CLIENT
-	if (pl.m3_mag >= 8) {
-		return;
-	}
-	if (pl.ammo_buckshot <= 0) { 
-		return;
-	}
-#else
+
 	if (pl.m3_mag >= 8) {
 		return;
 	}
 	if (pl.ammo_buckshot <= 0) {
 		return;
 	}
-#endif
 	
 	if (pl.mode_temp > M3S_IDLE) {
 		return;
@@ -203,6 +188,13 @@ w_m3_release(void)
 
 	w_cstrike_weaponrelease();
 
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.mode_temp == M3S_IDLE && pl.m3_mag == 0 && pl.ammo_buckshot > 0) {
+		Weapons_Reload();
+		return;
+	}
+
 	if (pl.w_idle_next > 0.0) {
 		return;
 	}
@@ -213,21 +205,15 @@ w_m3_release(void)
 		pl.w_idle_next = 0.65f;
 	} else if (pl.mode_temp == M3S_RELOAD) {
 		Weapons_ViewAnimation(M3_INSERT);
-#ifdef CLIENT
-		pl.m3_mag++;
-		pl.ammo_buckshot--;
-
-		if (pl.ammo_buckshot <= 0 || pl.m3_mag >= 8) {
-			pl.mode_temp = M3S_RELOAD_END;
-		}
-#else
 		pl.m3_mag++;
 		pl.ammo_buckshot--;
 		w_m3_updateammo(pl);
+#ifdef SERVER
+		//Sound_Play(pl, CHAN_WEAPON, "weapon_m3.insertshell");
+#endif
 		if (pl.ammo_buckshot <= 0 || pl.m3_mag >= 8) {
 			pl.mode_temp = M3S_RELOAD_END;
 		}
-#endif
 		pl.w_idle_next = 0.5f;	
 	} else if (pl.mode_temp == M3S_RELOAD_END) {
 		Weapons_ViewAnimation(M3_RELOAD_END);
@@ -277,7 +263,7 @@ w_m3_hudpic(int selected, vector pos, float a)
 			[0,135/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -288,7 +274,7 @@ w_m3_hudpic(int selected, vector pos, float a)
 			[0,135/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}

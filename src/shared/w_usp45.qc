@@ -263,6 +263,21 @@ w_usp45_reload(void)
 	pl.w_attack_next = 2.5f;
 }
 
+void
+w_usp45_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.usp45_mag == 0 && pl.ammo_45acp > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_usp45_aimanim(void)
 {
@@ -303,7 +318,7 @@ w_usp45_hudpic(int selected, vector pos, float a)
 			[0,90/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -314,7 +329,7 @@ w_usp45_hudpic(int selected, vector pos, float a)
 			[0,90/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -333,7 +348,7 @@ weapon_t w_usp45 =
 	.primary	= w_usp45_primary,
 	.secondary	= w_usp45_secondary,
 	.reload		= w_usp45_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_usp45_release,
 	.crosshair	= w_usp45_hud,
 	.precache	= w_usp45_precache,
 	.pickup		= w_usp45_pickup,

@@ -107,6 +107,8 @@ void
 w_c4bomb_release(void)
 {
 	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
 	
 	if (pl.mode_temp == C4S_DROPPING) {
 		if (pl.w_idle_next <= 0.0f) {
@@ -190,7 +192,7 @@ w_c4bomb_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			g_hud_color,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -201,7 +203,7 @@ w_c4bomb_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			g_hud_color,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}

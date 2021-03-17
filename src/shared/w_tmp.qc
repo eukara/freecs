@@ -182,6 +182,21 @@ w_tmp_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_tmp_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.tmp_mag == 0 && pl.ammo_9mm > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_tmp_aimanim(void)
 {
@@ -222,7 +237,7 @@ w_tmp_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -233,7 +248,7 @@ w_tmp_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}

@@ -200,6 +200,21 @@ w_aug_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_aug_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.aug_mag == 0 && pl.ammo_762mm > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_aug_aimanim(void)
 {
@@ -245,7 +260,7 @@ w_aug_hudpic(int selected, vector pos, float a)
 			[0,45/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -256,7 +271,7 @@ w_aug_hudpic(int selected, vector pos, float a)
 			[0,45/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -275,7 +290,7 @@ weapon_t w_aug =
 	.primary	= w_aug_primary,
 	.secondary	= w_aug_secondary,
 	.reload		= w_aug_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_aug_release,
 	.crosshair	= w_aug_hud,
 	.precache	= w_aug_precache,
 	.pickup		= w_aug_pickup,

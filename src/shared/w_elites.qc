@@ -237,6 +237,21 @@ w_elites_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_elites_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.elites_mag == 0 && pl.ammo_9mm > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_elites_aimanim(void)
 {
@@ -277,7 +292,7 @@ w_elites_hudpic(int selected, vector pos, float a)
 			[0,90/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -288,7 +303,7 @@ w_elites_hudpic(int selected, vector pos, float a)
 			[0,90/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -307,7 +322,7 @@ weapon_t w_elites =
 	.primary	= w_elites_primary,
 	.secondary	= __NULL__,
 	.reload		= w_elites_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_elites_release,
 	.crosshair	= w_elites_hud,
 	.precache	= w_elites_precache,
 	.pickup		= w_elites_pickup,

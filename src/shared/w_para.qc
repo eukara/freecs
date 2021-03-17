@@ -176,6 +176,21 @@ w_para_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_para_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.para_mag == 0 && pl.ammo_556mmbox > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_para_aimanim(void)
 {
@@ -216,7 +231,7 @@ w_para_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -227,7 +242,7 @@ w_para_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -246,7 +261,7 @@ weapon_t w_para =
 	.primary	= w_para_primary,
 	.secondary	= __NULL__,
 	.reload		= w_para_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_para_release,
 	.crosshair	= w_para_hud,
 	.precache	= w_para_precache,
 	.pickup		= w_para_pickup,

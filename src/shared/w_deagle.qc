@@ -185,6 +185,21 @@ w_deagle_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_deagle_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.deagle_mag == 0 && pl.ammo_50ae > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_deagle_aimanim(void)
 {
@@ -225,7 +240,7 @@ w_deagle_hudpic(int selected, vector pos, float a)
 			[0,90/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -236,7 +251,7 @@ w_deagle_hudpic(int selected, vector pos, float a)
 			[0,90/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -255,7 +270,7 @@ weapon_t w_deagle =
 	.primary	= w_deagle_primary,
 	.secondary	= __NULL__,
 	.reload		= w_deagle_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_deagle_release,
 	.crosshair	= w_deagle_hud,
 	.precache	= w_deagle_precache,
 	.pickup		= w_deagle_pickup,

@@ -185,6 +185,21 @@ w_fiveseven_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_fiveseven_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.fiveseven_mag == 0 && pl.ammo_57mm > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_fiveseven_aimanim(void)
 {
@@ -225,7 +240,7 @@ w_fiveseven_hudpic(int selected, vector pos, float a)
 			[0,135/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -236,7 +251,7 @@ w_fiveseven_hudpic(int selected, vector pos, float a)
 			[0,135/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -255,7 +270,7 @@ weapon_t w_fiveseven =
 	.primary	= w_fiveseven_primary,
 	.secondary	= __NULL__,
 	.reload		= w_fiveseven_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_fiveseven_release,
 	.crosshair	= w_fiveseven_hud,
 	.precache	= w_fiveseven_precache,
 	.pickup		= w_fiveseven_pickup,

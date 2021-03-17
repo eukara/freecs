@@ -179,6 +179,8 @@ void
 w_flashbang_release(void)
 {
 	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
 	
 	if (pl.w_idle_next > 0.0) {
 		return;
@@ -241,7 +243,7 @@ w_flashbang_hudpic(int selected, vector pos, float a)
 			[0,90/256],
 			[170/256,45/256],
 			g_hud_color,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -252,7 +254,7 @@ w_flashbang_hudpic(int selected, vector pos, float a)
 			[0,90/256],
 			[170/256,45/256],
 			g_hud_color,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}

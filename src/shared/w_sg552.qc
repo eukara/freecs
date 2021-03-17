@@ -200,6 +200,21 @@ w_sg552_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_sg552_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.sg552_mag == 0 && pl.ammo_556mm > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_sg552_aimanim(void)
 {
@@ -245,7 +260,7 @@ w_sg552_hudpic(int selected, vector pos, float a)
 			[0,45/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -256,7 +271,7 @@ w_sg552_hudpic(int selected, vector pos, float a)
 			[0,45/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}

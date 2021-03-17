@@ -164,15 +164,9 @@ w_smokegrenade_primary(void)
 	}
 
 	/* Ammo check */
-#ifdef CLIENT
 	if (pl.ammo_smokegrenade <= 0) {
 		return;
 	}
-#else
-	if (pl.ammo_smokegrenade <= 0) {
-		return;
-	}
-#endif
 
 	Weapons_ViewAnimation(SMOKEGRENADE_PULLPIN);
 	pl.mode_temp = 1;
@@ -184,17 +178,18 @@ void
 w_smokegrenade_release(void)
 {
 	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
 	
 	if (pl.w_idle_next > 0.0) {
 		return;
 	}
 
 	if (pl.mode_temp == 1) {
-#ifdef CLIENT
 		pl.ammo_smokegrenade--;
+#ifdef CLIENT
 		Weapons_ViewAnimation(SMOKEGRENADE_THROW);
 #else
-		pl.ammo_smokegrenade--;
 		w_smokegrenade_throw();
 #endif
 		pl.mode_temp = 2;
@@ -246,7 +241,7 @@ w_smokegrenade_hudpic(int selected, vector pos, float a)
 			[0,135/256],
 			[170/256,45/256],
 			g_hud_color,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -257,7 +252,7 @@ w_smokegrenade_hudpic(int selected, vector pos, float a)
 			[0,135/256],
 			[170/256,45/256],
 			g_hud_color,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}

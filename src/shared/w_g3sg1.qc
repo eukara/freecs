@@ -194,6 +194,21 @@ w_g3sg1_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_g3sg1_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.g3sg1_mag == 0 && pl.ammo_762mm > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_g3sg1_aimanim(void)
 {
@@ -237,7 +252,7 @@ w_g3sg1_hudpic(int selected, vector pos, float a)
 			[0,180/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -248,7 +263,7 @@ w_g3sg1_hudpic(int selected, vector pos, float a)
 			[0,180/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -267,7 +282,7 @@ weapon_t w_g3sg1 =
 	.primary	= w_g3sg1_primary,
 	.secondary	= w_g3sg1_secondary,
 	.reload		= w_g3sg1_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_g3sg1_release,
 	.crosshair	= w_g3sg1_hud,
 	.precache	= w_g3sg1_precache,
 	.pickup		= w_g3sg1_pickup,

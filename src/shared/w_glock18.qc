@@ -141,17 +141,27 @@ w_glock18_primary(void)
 		return;
 	}
 
-	Cstrike_ShotMultiplierAdd(pl, 1);
-	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
-	pl.glock18_mag--;
+	int shotcount = (pl.mode_glock18) ? 3 : 1;
+
+	/* fix shotcount if we're < 3 in burst mode */
+	if (pl.glock18_mag < 3 && pl.mode_glock18)
+		shotcount = pl.glock18_mag;
+
+	for (int i = 0; i < shotcount; i ++) {
+		Cstrike_ShotMultiplierAdd(pl, 1);
+		float accuracy = Cstrike_CalculateAccuracy(pl, (pl.mode_glock18) ? 175 : 200);
+		pl.glock18_mag--;
+#ifdef SERVER
+		TraceAttack_SetPenetrationPower(0);
+		TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_GLOCK18);
+#endif
+	}
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 #else
-	TraceAttack_SetPenetrationPower(0);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_GLOCK18);
 
-	if (self.flags & FL_CROUCHING)
+	if (pl.flags & FL_CROUCHING)
 		Animation_PlayerTopTemp(ANIM_SHOOT_ONEHAND, 0.45f);
 	else
 		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
@@ -245,6 +255,21 @@ w_glock18_reload(void)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
+void
+w_glock18_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.glock18_mag == 0 && pl.ammo_9mm > 0) {
+		Weapons_Reload();
+		return;
+	}
+}
+
 float
 w_glock18_aimanim(void)
 {
@@ -285,7 +310,7 @@ w_glock18_hudpic(int selected, vector pos, float a)
 			[0,45/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -296,7 +321,7 @@ w_glock18_hudpic(int selected, vector pos, float a)
 			[0,45/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -315,7 +340,7 @@ weapon_t w_glock18 =
 	.primary	= w_glock18_primary,
 	.secondary	= w_glock18_secondary,
 	.reload		= w_glock18_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_glock18_release,
 	.crosshair	= w_glock18_hud,
 	.precache	= w_glock18_precache,
 	.pickup		= w_glock18_pickup,

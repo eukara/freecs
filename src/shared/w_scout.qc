@@ -115,6 +115,13 @@ w_scout_release(void)
 
 	w_cstrike_weaponrelease();
 
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.scout_mag == 0 && pl.ammo_762mm > 0) {
+		Weapons_Reload();
+		return;
+	}
+
 	if (pl.w_idle_next > 0.0f) {
 		pl.viewzoom = 1.0f;
 		return;
@@ -269,7 +276,7 @@ w_scout_hudpic(int selected, vector pos, float a)
 			[0,45/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -280,7 +287,7 @@ w_scout_hudpic(int selected, vector pos, float a)
 			[0,45/256],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}

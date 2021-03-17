@@ -117,26 +117,19 @@ w_ump45_primary(void)
 	}
 
 	/* ammo check */
-#ifdef CLIENT
 	if (!pl.ump45_mag) {
 		return;
 	}
-#else
-	if (!pl.ump45_mag) {
-		return;
-	}
-#endif
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 210);
+	pl.ump45_mag--;
 
 #ifdef CLIENT
-	pl.ump45_mag--;
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 #else
 	TraceAttack_SetPenetrationPower(0);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 30, [accuracy,accuracy], WEAPON_UMP45);
-	pl.ump45_mag--;
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTopTemp(ANIM_SHOOT_MP5, 0.45f);
@@ -171,29 +164,37 @@ w_ump45_reload(void)
 	if (pl.w_attack_next > 0.0) {
 		return;
 	}
+	if (pl.ump45_mag >= 25) {
+		return;
+	}
+	if (!pl.ammo_45acp) {
+		return;
+	}
 
 #ifdef CLIENT
-	if (pl.ump45_mag >= 25) {
-		return;
-	}
-	if (!pl.ammo_45acp) {
-		return;
-	}
+	Weapons_ViewAnimation(UMP45_RELOAD);
 #else
-	if (pl.ump45_mag >= 25) {
-		return;
-	}
-	if (!pl.ammo_45acp) {
-		return;
-	}
-
 	Weapons_ReloadWeapon(pl, player::ump45_mag, player::ammo_45acp, 25);
 	Weapons_UpdateAmmo(pl, pl.ump45_mag, pl.ammo_45acp, -1);
 #endif
 
-	Weapons_ViewAnimation(UMP45_RELOAD);
 	pl.w_attack_next = 3.5f;
 	pl.w_idle_next = pl.w_attack_next;
+}
+
+void
+w_ump45_release(void)
+{
+	player pl = (player)self;
+
+	w_cstrike_weaponrelease();
+
+	/* auto-reload if need be */
+	if (pl.w_attack_next <= 0.0)
+	if (pl.ump45_mag == 0 && pl.ammo_45acp > 0) {
+		Weapons_Reload();
+		return;
+	}
 }
 
 float
@@ -236,7 +237,7 @@ w_ump45_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	} else {
@@ -247,7 +248,7 @@ w_ump45_hudpic(int selected, vector pos, float a)
 			[0,0],
 			[170/256,45/256],
 			hud_col,
-			1.0f,
+			a,
 			DRAWFLAG_ADDITIVE
 		);
 	}
@@ -266,7 +267,7 @@ weapon_t w_ump45 =
 	.primary	= w_ump45_primary,
 	.secondary	= __NULL__,
 	.reload		= w_ump45_reload,
-	.release	= w_cstrike_weaponrelease,
+	.release	= w_ump45_release,
 	.crosshair	= w_ump45_hud,
 	.precache	= w_ump45_precache,
 	.pickup		= w_ump45_pickup,
