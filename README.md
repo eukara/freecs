@@ -16,6 +16,14 @@ Featuring proper weapon prediction to enable stress-free netplay.
 ![Preview 3](img/preview3.jpg)
 ![Preview 4](img/preview4.jpg)
 
+## Features and Improvements
+* Native support for Windows/Mac/Linux/BSD and wherever else FTEQW runs on
+* Better support for higher display modes and aspect ratios
+* Much easier modding by having the entire logic be in modern QuakeC
+* Netcode that's always improving and more advanced prediction
+* Open-source code for transparent modding
+* Very permissive license (ISC/BSD)
+
 ## Installation
 Grab the latest binary release, extract and put an FTEQW engine binary (for your platform) into the same folder as the default.fmf and readme file.
 Get FTEQW here: https://www.fteqw.org/
