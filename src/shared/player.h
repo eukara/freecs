@@ -271,11 +271,15 @@ player::ReceiveEntity(float new)
 	if (fl & PLAYER_ORIGIN_Z)
 		origin[2] = readcoord();
 	if (fl & PLAYER_ANGLES_X)
-		pitch = readfloat();
-	if (fl & PLAYER_ANGLES_Y)
+		v_angle[0] = pitch = readfloat();
+	if (fl & PLAYER_ANGLES_Y) {
 		angles[1] = readfloat();
-	if (fl & PLAYER_ANGLES_Z)
+		v_angle[1] = readfloat();
+	}
+	if (fl & PLAYER_ANGLES_Z) {
 		angles[2] = readfloat();
+		v_angle[1] = readfloat();
+	}
 
 	if (fl & PLAYER_VELOCITY) {
 		velocity[0] = readcoord();
@@ -746,10 +750,14 @@ player::SendEntity(entity ePEnt, float fChanged)
 		WriteCoord(MSG_ENTITY, origin[2]);
 	if (fChanged & PLAYER_ANGLES_X)
 		WriteFloat(MSG_ENTITY, v_angle[0]);
-	if (fChanged & PLAYER_ANGLES_Y)
+	if (fChanged & PLAYER_ANGLES_Y) {
 		WriteFloat(MSG_ENTITY, angles[1]);
-	if (fChanged & PLAYER_ANGLES_Z)
+		WriteFloat(MSG_ENTITY, v_angle[1]);
+	}
+	if (fChanged & PLAYER_ANGLES_Z) {
 		WriteFloat(MSG_ENTITY, angles[2]);
+		WriteFloat(MSG_ENTITY, v_angle[2]);
+	}
 	if (fChanged & PLAYER_VELOCITY) {
 		WriteCoord(MSG_ENTITY, velocity[0]);
 		WriteCoord(MSG_ENTITY, velocity[1]);

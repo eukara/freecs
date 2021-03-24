@@ -49,6 +49,8 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 	msg_entity = world;
 	multicast([0,0,0], MULTICAST_ALL);
 
+	Plugin_PlayerObituary(g_dmg_eAttacker, g_dmg_eTarget, g_dmg_iWeapon, g_dmg_iHitBody, g_dmg_iDamage);
+
 	/* death-counter */
 	pl.deaths++;
 	forceinfokey(pl, "*deaths", ftos(pl.deaths));
@@ -801,6 +803,7 @@ CSMultiplayerRules::PlayerClearWeaponry(base_player pp)
 	pl.sg550_mag = 0;
 	pl.para_mag = 0;
 	pl.viewzoom = 1.0f;
+	pl.mode_temp = 0;
 }
 
 /*
@@ -855,7 +858,7 @@ Force the player to become an observer.
 void
 CSMultiplayerRules::PlayerMakeSpectator(base_player pl)
 {
-	pl.classname = "spectator";
+	pl.classname = "dead";
 	pl.health = 0;
 	pl.armor = 0;
 	pl.takedamage = DAMAGE_NO;

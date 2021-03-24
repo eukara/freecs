@@ -143,8 +143,11 @@ CSEv_BuyEquipment_f(float fUtil)
 			Sound_Play(pl, CHAN_ITEM, "buy.kevlar");
 			break;
 		case 1:
-			if (pl.g_items & ITEM_HELMET && pl.armor >= 0)
+			/* if we already have a helmet, buy just armor */
+			if (pl.g_items & ITEM_HELMET && pl.armor >= 0) {
+				CSEv_BuyEquipment_f(0);
 				return;
+			}
 
 			pl.armor = 100;
 			pl.g_items |= ITEM_HELMET;
@@ -200,6 +203,6 @@ CSEv_BuyEquipment_f(float fUtil)
 		}
 		Money_AddMoney(pl, -g_cstrikeUtilPrice[iUtil]);
 	} else {
-		//centerprint(pl, "You have insufficient funds!");
+		centerprint(pl, "You have insufficient funds!");
 	}
 } 

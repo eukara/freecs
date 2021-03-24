@@ -115,7 +115,8 @@ ClientGame_Init(float apilevel, string enginename, float engineversion)
 void
 ClientGame_InitDone(void)
 {
-	Textmenu_Call("TEAM_SELECT");
+	if (getplayerkeyfloat(player_localnum, "*spec") == 2)
+		Textmenu_Call("TEAM_SELECT");
 }
 
 void
