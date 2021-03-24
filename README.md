@@ -11,10 +11,20 @@ This allows the code to be fully free and unencumbered, unlike similar projects.
 
 Featuring proper weapon prediction to enable stress-free netplay.
 
+The engine you want to use to run this is FTEQW (https://www.fteqw.org), which is a project unrelated to this. It just happens to support the file-formats FreeHL needs.
+
 ![Preview 1](img/preview1.jpg)
 ![Preview 2](img/preview2.jpg)
 ![Preview 3](img/preview3.jpg)
 ![Preview 4](img/preview4.jpg)
+
+## Features and Improvements
+* Native support for Windows/Mac/Linux/BSD and wherever else FTEQW runs on
+* Better support for higher display modes and aspect ratios
+* Much easier modding by having the entire logic be in modern QuakeC
+* Netcode that's always improving and more advanced prediction
+* Open-source code for transparent modding
+* Very permissive license (ISC/BSD)
 
 ## Installation
 Grab the latest binary release, extract and put an FTEQW engine binary (for your platform) into the same folder as the default.fmf and readme file.
@@ -23,6 +33,8 @@ Get FTEQW here: https://www.fteqw.org/
 Run the engine and when in-game download the needed content, or optionally merge your own HL + CS 1.5 installation.
 
 ## Building
+Make sure you've cloned the FreeHL repo (external) into the Nuclide-SDK.
+
 Clone the repository into the Nuclide-SDK:
 
 > git clone REPOURL cstrike
