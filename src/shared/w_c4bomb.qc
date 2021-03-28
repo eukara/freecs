@@ -180,6 +180,18 @@ w_c4bomb_hud(void)
 #endif
 }
 
+int
+w_c4bomb_pickup(int new, int startammo)
+{
+#ifdef SERVER
+	player pl = (player)self;
+
+	if (pl.team != TEAM_T)
+		return FALSE;
+#endif
+	return TRUE;
+}
+
 void
 w_c4bomb_hudpic(int selected, vector pos, float a)
 {
@@ -225,7 +237,7 @@ weapon_t w_c4bomb =
 	.release	= w_c4bomb_release,
 	.crosshair	= w_c4bomb_hud,
 	.precache	= w_c4bomb_precache,
-	.pickup		= __NULL__,
+	.pickup		= w_c4bomb_pickup,
 	.updateammo	= w_c4bomb_updateammo,
 	.wmodel		= w_c4bomb_wmodel,
 	.pmodel		= w_c4bomb_pmodel,
