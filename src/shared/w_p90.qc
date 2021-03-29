@@ -125,7 +125,7 @@ w_p90_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
-	View_EjectShellAttachment(SHELL_PISTOL, 0, [0, -80, 100]);
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
 
 	int r = (float)input_sequence % 3;
 	switch (r) {

@@ -686,28 +686,75 @@ string g_specmodes[] = {
 	"Third Person",
 	"First Person"
 };
+
+#define SPEC_SEP_COL [0.204,0.196,0.114]
+#define SPEC_FG_COL [0.561,0.561,0.212]
 void
 HUD_DrawSpectator(void)
 {
-	// FIXME
+	vector vecPos;
+	float flSep;
+	string strText;
+	int iMinutes, iSeconds;
+
 	Textmenu_Draw();
 	Obituary_Draw();
 
-	HUD_DrawTimer(1);
 	Textmenu_Draw();
 
+	/* parts on top and bottom */
+	drawfill(g_hudmins, [g_hudres[0], 32], [0,0,0], 0.75f, DRAWFLAG_NORMAL);
+	drawfill(g_hudmins + [0, g_hudres[1]-32], [g_hudres[0], 32], [0,0,0], 0.75f, DRAWFLAG_NORMAL);
+
+	/* tracking player box */
+	drawrect(g_hudmins + [(g_hudres[0] / 2) - 111, g_hudres[1]-26], [222,20], 1.0f, SPEC_SEP_COL, 1.0f, DRAWFLAG_NORMAL);
 	spectator spec = (spectator)pSeat->m_ePlayer;
-	drawfont = FONT_20;
-	vector vecPos;
-	string strText;
+	strText = strcat(HUD_GetChatColorHEX(getplayerkeyfloat(spec.spec_ent - 1, "*team")), getplayerkeyvalue(spec.spec_ent - 1, "name"));
+	vecPos[0] = g_hudmins[0] + (g_hudres[0] / 2) - (stringwidth(strText, TRUE, [12,12]) / 2);
+	vecPos[1] = g_hudres[1]-21;
+	drawstring(vecPos, strText, [12,12], [1,1,1], 1.0f, DRAWFLAG_NORMAL);
 
-	strText = sprintf("Tracking: %s", getplayerkeyvalue(spec.spec_ent - 1, "name"));
-	vecPos[0] = g_hudmins[0] + (g_hudres[0] / 2) - (stringwidth(strText, TRUE, [20,20]) / 2);
-	vecPos[1] = g_hudmins[1] + g_hudres[1] - 60;
-	drawstring(vecPos, strText, [20,20], [1,1,1], 1.0f, DRAWFLAG_ADDITIVE);
+	/* tracking mode box */
+	drawrect(g_hudmins + [(g_hudres[0] / 2) + 128, g_hudres[1]-26], [172,20], 1.0f, SPEC_SEP_COL, 1.0f, DRAWFLAG_NORMAL);
+	strText = g_specmodes[spec.spec_mode];
+	vecPos[0] = (g_hudmins[0] + (g_hudres[0] / 2) + 214) - (stringwidth(strText, TRUE, [12,12]) / 2);
+	vecPos[1] = g_hudres[1]-21;
+	drawstring(vecPos, strText, [12,12], SPEC_FG_COL, 1.0f, DRAWFLAG_NORMAL);
 
-	strText = sprintf("Mode: %s", g_specmodes[spec.spec_mode]);
-	vecPos[0] = g_hudmins[0] + (g_hudres[0] / 2) - (stringwidth(strText, TRUE, [20,20]) / 2);
-	vecPos[1] = g_hudmins[1] + g_hudres[1] - 40;
-	drawstring(vecPos, strText, [20,20], [1,1,1], 1.0f, DRAWFLAG_ADDITIVE);
+	/* money */
+	strText = sprintf("$ %i", getstati(STAT_MONEY));
+	flSep = stringwidth(strText, TRUE, [12,12]);
+
+	if (flSep < 42)
+		flSep = 42;
+
+	flSep = g_hudmins[0] + (g_hudres[0] - flSep) - 10;
+
+	vecPos[0] = flSep + 8;
+	vecPos[1] = g_hudmins[1] + 3;
+	drawstring(vecPos, strText, [12,12], SPEC_FG_COL, 1.0f, DRAWFLAG_NORMAL);
+
+	/* score/money separator */
+	drawfill([flSep,1], [4,30], SPEC_SEP_COL, 1.0f, DRAWFLAG_NORMAL);
+
+	/* team scores */
+	drawfont = FONT_CON;
+	strText = sprintf("Terrorist Forces: %s", serverkey("teamscore_1"));
+	vecPos[0] = flSep - stringwidth(strText, TRUE, [12,12]) - 2;
+	vecPos[1] = g_hudmins[1] + 3;
+	drawstring(vecPos, strText, [12,12], SPEC_FG_COL, 1.0f, DRAWFLAG_NORMAL);
+
+	strText = sprintf("CT Forces: %s", serverkey("teamscore_2"));
+	vecPos[0] = flSep - stringwidth(strText, TRUE, [12,12]) - 2;
+	vecPos[1] = g_hudmins[1] + 16;
+	drawstring(vecPos, strText, [12,12], SPEC_FG_COL, 1.0f, DRAWFLAG_NORMAL);
+
+	/* time display */
+	drawpic([flSep + 8, 15], "gfx/vgui/640_timer", [14, 14], [1,1,1], 1.0f, DRAWFLAG_NORMAL);
+	iMinutes = getstatf(STAT_GAMETIME) / 60;
+	iSeconds = getstatf(STAT_GAMETIME) - 60 * iMinutes;
+	strText = sprintf("%i:%02i", iMinutes, iSeconds);
+	vecPos[0] = flSep + 8 + 17;
+	vecPos[1] = g_hudmins[1] + 17;
+	drawstring(vecPos, strText, [12,12], SPEC_FG_COL, 1.0f, DRAWFLAG_NORMAL);
 }

@@ -203,6 +203,10 @@ w_scout_primary(void)
 	Sound_Play(pl, CHAN_WEAPON, "weapon_scout.fire");
 #endif
 
+#ifdef CLIENT
+	View_AddEvent(w_rifle_ejectshell, 0.5f);
+#endif
+
 	pl.w_attack_next = 1.25f;
 	pl.w_idle_next = pl.w_attack_next;
 }

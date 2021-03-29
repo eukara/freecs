@@ -26,6 +26,48 @@ Price: $1000
 
 */
 
+#ifdef CLIENT
+void w_elites_ejectshell(int side)
+{
+	static void w_elites_ejectshell_death(void) {
+		remove(self);
+	}
+	static void w_elites_ejectshell_touch(void) {
+		if (other == world)
+			Sound_Play(self, CHAN_BODY, "modelevent_shell.land");
+	}
+	entity eShell = spawn();
+	setmodel(eShell, "models/pshell.mdl");
+	eShell.solid = SOLID_BBOX;
+	eShell.movetype = MOVETYPE_BOUNCE;
+	eShell.drawmask = MASK_ENGINE;
+	eShell.angles = [pSeat->m_eViewModel.angles[0], pSeat->m_eViewModel.angles[1], 0];
+	eShell.velocity = pSeat->m_vecPredictedVelocity;
+
+	makevectors(pSeat->m_eViewModel.angles);
+	eShell.velocity += (v_forward * 0);
+	eShell.velocity += (v_right * -80);
+	eShell.velocity += (v_up * 100);
+	eShell.touch = w_elites_ejectshell_touch;
+
+	eShell.avelocity = [0,45,900];
+	eShell.think = w_elites_ejectshell_death;
+	eShell.nextthink = time + 2.5f;
+	setsize(eShell, [0,0,0], [0,0,0]);
+	setorigin(eShell, gettaginfo(pSeat->m_eViewModel, pSeat->m_iVMBones + 1 + side));
+}
+
+void w_pistol_ejectshell_left(void)
+{
+	w_elites_ejectshell(1);
+}
+
+void w_pistol_ejectshell_right(void)
+{
+	w_elites_ejectshell(0);
+}
+#endif
+
 enum
 {
 	ELITES_IDLE,
@@ -144,7 +186,7 @@ w_elites_primary(void)
 
 	int r = (float)input_sequence % 5;
 	if (pl.mode_temp) {
-		View_EjectShellAttachment(SHELL_PISTOL, 1, [0, -80, 100]);
+		View_AddEvent(w_pistol_ejectshell_left, 0.0f);
 
 		if (pl.elites_mag <= 0) {
 			Weapons_ViewAnimation(ELITES_SHOOT_LEFTLAST);
@@ -168,7 +210,7 @@ w_elites_primary(void)
 			}
 		}
 	} else {
-		View_EjectShellAttachment(SHELL_PISTOL, 0, [0, 80, 100]);
+		View_AddEvent(w_pistol_ejectshell_right, 0.0f);
 		if (pl.elites_mag <= 0) {
 			Weapons_ViewAnimation(ELITES_SHOOT_RIGHTLAST);
 		} else {

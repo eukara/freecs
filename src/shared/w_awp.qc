@@ -26,6 +26,38 @@ Price: $4750
 
 */
 
+#ifdef CLIENT
+void w_sniper_ejectshell(void)
+{
+	static void w_sniper_ejectshelldeath(void) {
+		remove(self);
+	}
+	static void w_sniper_ejectshell_touch(void) {
+		if (other == world)
+			Sound_Play(self, CHAN_BODY, "modelevent_shell.land");
+	}
+	entity eShell = spawn();
+	setmodel(eShell, "models/rshell_big.mdl");
+	eShell.solid = SOLID_BBOX;
+	eShell.movetype = MOVETYPE_BOUNCE;
+	eShell.drawmask = MASK_ENGINE;
+	eShell.angles = [pSeat->m_eViewModel.angles[0], pSeat->m_eViewModel.angles[1], 0];
+	eShell.velocity = pSeat->m_vecPredictedVelocity;
+
+	makevectors(pSeat->m_eViewModel.angles);
+	eShell.velocity += (v_forward * 0);
+	eShell.velocity += (v_right * -80);
+	eShell.velocity += (v_up * 100);
+	eShell.touch = w_sniper_ejectshell_touch;
+
+	eShell.avelocity = [0,45,900];
+	eShell.think = w_sniper_ejectshelldeath;
+	eShell.nextthink = time + 2.5f;
+	setsize(eShell, [0,0,0], [0,0,0]);
+	setorigin(eShell, gettaginfo(pSeat->m_eViewModel, pSeat->m_iVMBones + 1));
+}
+#endif
+
 enum
 {
 	AWP_IDLE,
@@ -195,6 +227,7 @@ w_awp_primary(void)
 		Weapons_ViewAnimation(AWP_SHOOT3);
 		break;
 	}
+	View_AddEvent(w_sniper_ejectshell, 0.9f);
 #else
 	TraceAttack_SetPenetrationPower(2);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 115, [accuracy,accuracy], WEAPON_AWP);

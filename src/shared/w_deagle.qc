@@ -26,6 +26,38 @@ Price: $650
 
 */
 
+#ifdef CLIENT
+void w_pistol_ejectshell(void)
+{
+	static void w_pistol_ejectshell_death(void) {
+		remove(self);
+	}
+	static void w_pistol_ejectshell_touch(void) {
+		if (other == world)
+			Sound_Play(self, CHAN_BODY, "modelevent_shell.land");
+	}
+	entity eShell = spawn();
+	setmodel(eShell, "models/pshell.mdl");
+	eShell.solid = SOLID_BBOX;
+	eShell.movetype = MOVETYPE_BOUNCE;
+	eShell.drawmask = MASK_ENGINE;
+	eShell.angles = [pSeat->m_eViewModel.angles[0], pSeat->m_eViewModel.angles[1], 0];
+	eShell.velocity = pSeat->m_vecPredictedVelocity;
+
+	makevectors(pSeat->m_eViewModel.angles);
+	eShell.velocity += (v_forward * 0);
+	eShell.velocity += (v_right * -80);
+	eShell.velocity += (v_up * 100);
+	eShell.touch = w_pistol_ejectshell_touch;
+
+	eShell.avelocity = [0,45,900];
+	eShell.think = w_pistol_ejectshell_death;
+	eShell.nextthink = time + 2.5f;
+	setsize(eShell, [0,0,0], [0,0,0]);
+	setorigin(eShell, gettaginfo(pSeat->m_eViewModel, pSeat->m_iVMBones + 1));
+}
+#endif
+
 enum
 {
 	DEAGLE_IDLE,
@@ -129,7 +161,6 @@ w_deagle_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
-	View_EjectShellAttachment(SHELL_PISTOL, 0, [0, -80, 100]);
 
 	if (pl.deagle_mag <= 0) {
 		Weapons_ViewAnimation(DEAGLE_SHOOT_EMPTY);
@@ -144,6 +175,7 @@ w_deagle_primary(void)
 			break;
 		}
 	}
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
 	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 54, [accuracy,accuracy], WEAPON_DEAGLE);

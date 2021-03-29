@@ -46,7 +46,7 @@ depending on what the player is doing
 =================
 */
 void Animation_PlayerUpdate(void) {
-	self.basebone = cvar("spinebone"); // gettagindex(self, "Bip01 Spine");
+	self.basebone = 39;
 
 	if (self.baseframe_time < time) {
 		base_player pl = (base_player)self;

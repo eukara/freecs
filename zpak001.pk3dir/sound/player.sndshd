@@ -4,21 +4,15 @@ player.headshot
 	sample player/headshot2.wav
 	sample player/headshot3.wav
 }
+
 player.headshotarmor
 {
 	sample player/bhit_helmet-1.wav
 }
 
-player.hitbody
-{
-	sample player/pl_pain2.wav
-	sample player/pl_pain4.wav
-	sample player/pl_die1.wav
-}
-
 player.hitarmor
 {
-	sample player/bhitkevlar-1.wav
+	sample player/bhit_kevlar-1.wav
 }
 
 player.fall
@@ -26,10 +20,12 @@ player.fall
 	sample player/pl_pain2.wav
 	sample player/pl_pain7.wav
 }
+
 player.lightfall
 {
 	sample player/pl_fallpain1.wav
 }
+
 player.die
 {
 	sample player/die1.wav
@@ -37,19 +33,23 @@ player.die
 	sample player/die3.wav
 	sample player/death6.wav
 }
+
 player.gasplight
 {
 	sample misc/null.wav
 }
+
 player.gaspheavy
 {
 	sample misc/null.wav
 }
+
 player.waterexit
 {
 	sample player/pl_wade1.wav
 	sample player/pl_wade3.wav
 }
+
 player.waterenter
 {
 	sample player/pl_wade2.wav

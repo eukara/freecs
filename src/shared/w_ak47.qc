@@ -27,6 +27,38 @@ Terrorists only weapon
 
 */
 
+#ifdef CLIENT
+void w_rifle_ejectshell(void)
+{
+	static void w_rifle_ejectshell_death(void) {
+		remove(self);
+	}
+	static void w_rifle_ejectshell_touch(void) {
+		if (other == world)
+			Sound_Play(self, CHAN_BODY, "modelevent_shell.land");
+	}
+	entity eShell = spawn();
+	setmodel(eShell, "models/rshell.mdl");
+	eShell.solid = SOLID_BBOX;
+	eShell.movetype = MOVETYPE_BOUNCE;
+	eShell.drawmask = MASK_ENGINE;
+	eShell.angles = [pSeat->m_eViewModel.angles[0], pSeat->m_eViewModel.angles[1], 0];
+	eShell.velocity = pSeat->m_vecPredictedVelocity;
+
+	makevectors(pSeat->m_eViewModel.angles);
+	eShell.velocity += (v_forward * 0);
+	eShell.velocity += (v_right * -80);
+	eShell.velocity += (v_up * 80);
+	eShell.touch = w_rifle_ejectshell_touch;
+
+	eShell.avelocity = [0,45,900];
+	eShell.think = w_rifle_ejectshell_death;
+	eShell.nextthink = time + 2.5f;
+	setsize(eShell, [0,0,0], [0,0,0]);
+	setorigin(eShell, gettaginfo(pSeat->m_eViewModel, pSeat->m_iVMBones + 1));
+}
+#endif
+
 enum
 {
 	AK47_IDLE,
@@ -44,6 +76,7 @@ w_ak47_precache(void)
 	Sound_Precache("weapon_ak47.fire");
 	precache_model("models/w_ak47.mdl");
 #else
+	Sound_Precache("modelevent_shell.land");
 	precache_model("models/v_ak47.mdl");
 	precache_model("models/p_ak47.mdl");
 #endif
@@ -126,7 +159,7 @@ w_ak47_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
-	View_EjectShellAttachment(SHELL_RIFLE, 0, [0, -80, 100]);
+	View_AddEvent(w_rifle_ejectshell, 0.0f);
 
 	int r = (float)input_sequence % 3;
 	switch (r) {

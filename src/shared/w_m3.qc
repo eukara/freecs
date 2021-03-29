@@ -26,6 +26,39 @@ Price: $1700
 
 */
 
+#ifdef CLIENT
+void w_m3_ejectshell(void)
+{
+	static void w_m3_ejectshell_death(void) {
+		remove(self);
+	}
+	static void w_m3_ejectshell_touch(void) {
+		if (other == world)
+			Sound_Play(self, CHAN_BODY, "modelevent_shotgunshell.land");
+	}
+	entity eShell = spawn();
+	setmodel(eShell, "models/shotgunshell.mdl");
+	eShell.solid = SOLID_BBOX;
+	eShell.movetype = MOVETYPE_BOUNCE;
+	eShell.drawmask = MASK_ENGINE;
+	eShell.angles = [pSeat->m_eViewModel.angles[0], pSeat->m_eViewModel.angles[1] + 20, 0];
+	eShell.velocity = pSeat->m_vecPredictedVelocity;
+
+	makevectors(pSeat->m_eViewModel.angles);
+	eShell.velocity += (v_forward * 0);
+	eShell.velocity += (v_right * -80);
+	eShell.velocity += (v_up * 100);
+	eShell.touch = w_m3_ejectshell_touch;
+
+	eShell.avelocity = [0,45,900];
+	eShell.think = w_m3_ejectshell_death;
+	eShell.renderflags |= RF_DEPTHHACK;
+	eShell.nextthink = time + 2.5f;
+	setsize(eShell, [0,0,0], [0,0,0]);
+	setorigin(eShell, pSeat->m_eViewModel.origin + (v_forward * 10) + (v_right * 10) + (v_up * -8));
+}
+#endif
+
 enum
 {
 	M3_IDLE,
@@ -54,6 +87,7 @@ w_m3_precache(void)
 #else
 	precache_model("models/v_m3.mdl");
 	precache_model("models/p_m3.mdl");
+	Sound_Precache("modelevent_shotgunshell.land");
 #endif
 }
 
@@ -157,6 +191,10 @@ w_m3_primary(void)
 		Weapons_ViewAnimation(M3_SHOOT2);
 		break;
 	}
+
+#ifdef CLIENT
+	View_AddEvent(w_m3_ejectshell, 0.6f);
+#endif
 
 	pl.w_attack_next = 1.0f;
 	pl.w_idle_next = pl.w_attack_next;

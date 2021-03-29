@@ -41,6 +41,9 @@ void Game_Worldspawn(void)
 	Sound_Precache("buy.kevlar");
 	Sound_Precache("buy.weapon");
 	Sound_Precache("buy.ammo");
+	Sound_Precache("player.headshot");
+	Sound_Precache("player.hitarmor");
+	Sound_Precache("player.headshotarmor");
 
 	/* some Counter-Strike maps do not have weapon pickups, so we want to
 	 * precache these regardless in case of someone dropping a weapon,
