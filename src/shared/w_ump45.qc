@@ -125,6 +125,19 @@ w_ump45_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 210);
 	pl.ump45_mag--;
 
+	int r = (float)input_sequence % 3;
+	switch (r) {
+	case 0:
+		Weapons_ViewAnimation(UMP45_SHOOT1);
+		break;
+	case 1:
+		Weapons_ViewAnimation(UMP45_SHOOT2);
+		break;
+	default:
+		Weapons_ViewAnimation(UMP45_SHOOT3);
+		break;
+	}
+
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
@@ -139,19 +152,6 @@ w_ump45_primary(void)
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ump45.fire");
 #endif
-
-	int r = (float)input_sequence % 3;
-	switch (r) {
-	case 0:
-		Weapons_ViewAnimation(UMP45_SHOOT1);
-		break;
-	case 1:
-		Weapons_ViewAnimation(UMP45_SHOOT2);
-		break;
-	default:
-		Weapons_ViewAnimation(UMP45_SHOOT3);
-		break;
-	}
 
 	pl.w_attack_next = 0.105f;
 	pl.w_idle_next = pl.w_attack_next;

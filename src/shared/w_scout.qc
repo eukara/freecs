@@ -191,6 +191,7 @@ w_scout_primary(void)
 		Weapons_ViewAnimation(SCOUT_SHOOT2);
 		break;
 	}
+	View_AddEvent(w_rifle_ejectshell, 0.5f);
 #else
 	TraceAttack_SetPenetrationPower(2);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 75, [accuracy,accuracy], WEAPON_SCOUT);
@@ -201,10 +202,6 @@ w_scout_primary(void)
 		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_scout.fire");
-#endif
-
-#ifdef CLIENT
-	View_AddEvent(w_rifle_ejectshell, 0.5f);
 #endif
 
 	pl.w_attack_next = 1.25f;

@@ -146,7 +146,6 @@ w_m4a1_primary(void)
 	} else {
 		View_SetMuzzleflash(MUZZLE_RIFLE);
 	}
-	View_AddEvent(w_rifle_ejectshell, 0.0f);
 
 	/* this stuff is predicted */
 	int r = (float)input_sequence % 3;
@@ -175,6 +174,7 @@ w_m4a1_primary(void)
 			break;
 		}
 	}
+	View_AddEvent(w_rifle_ejectshell, 0.0f);
 #else
 	/* Different sounds without silencer */
 	if (pl.mode_m4a1 == 1) {

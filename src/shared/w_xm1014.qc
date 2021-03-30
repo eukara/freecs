@@ -168,20 +168,6 @@ w_xm1014_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.xm1014_mag--;
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-#else
-	TraceAttack_SetPenetrationPower(0);
-	TraceAttack_FireBullets(6, pl.origin + pl.view_ofs, 22, [accuracy,accuracy], WEAPON_XM1014);
-
-	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTopTemp(ANIM_SHOOT_SHOTGUN, 0.45f);
-	else
-		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_SHOTGUN, 0.45f);
-
-	Sound_Play(pl, CHAN_WEAPON, "weapon_xm1014.fire");
-#endif
-
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
@@ -193,7 +179,18 @@ w_xm1014_primary(void)
 	}
 
 #ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_xm1014_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_FireBullets(6, pl.origin + pl.view_ofs, 22, [accuracy,accuracy], WEAPON_XM1014);
+
+	if (self.flags & FL_CROUCHING)
+		Animation_PlayerTopTemp(ANIM_SHOOT_SHOTGUN, 0.45f);
+	else
+		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_SHOTGUN, 0.45f);
+
+	Sound_Play(pl, CHAN_WEAPON, "weapon_xm1014.fire");
 #endif
 
 	pl.w_attack_next = 0.25f;

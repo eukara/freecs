@@ -186,8 +186,6 @@ w_elites_primary(void)
 
 	int r = (float)input_sequence % 5;
 	if (pl.mode_temp) {
-		View_AddEvent(w_pistol_ejectshell_left, 0.0f);
-
 		if (pl.elites_mag <= 0) {
 			Weapons_ViewAnimation(ELITES_SHOOT_LEFTLAST);
 		} else {
@@ -209,8 +207,8 @@ w_elites_primary(void)
 				break;
 			}
 		}
+		View_AddEvent(w_pistol_ejectshell_left, 0.0f);
 	} else {
-		View_AddEvent(w_pistol_ejectshell_right, 0.0f);
 		if (pl.elites_mag <= 0) {
 			Weapons_ViewAnimation(ELITES_SHOOT_RIGHTLAST);
 		} else {
@@ -232,6 +230,7 @@ w_elites_primary(void)
 				break;
 			}
 		}
+		View_AddEvent(w_pistol_ejectshell_right, 0.0f);
 	}
 #else
 	TraceAttack_SetPenetrationPower(0);

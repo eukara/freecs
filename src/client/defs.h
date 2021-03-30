@@ -63,6 +63,7 @@ struct
 
 	void(void) m_pEventCall;
 	float m_flEventTime;
+	float m_flEventFrame;
 
 	int m_iLastWeapon;
 	int m_iOldWeapon;

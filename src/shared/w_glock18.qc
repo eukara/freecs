@@ -157,23 +157,6 @@ w_glock18_primary(void)
 #endif
 	}
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-	View_AddEvent(w_pistol_ejectshell, 0.0f);
-#else
-
-	if (pl.flags & FL_CROUCHING)
-		Animation_PlayerTopTemp(ANIM_SHOOT_ONEHAND, 0.45f);
-	else
-		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
-
-	if (pl.mode_glock18) {
-		Sound_Play(pl, CHAN_WEAPON, "weapon_glock18.burstfire");
-	} else {
-		Sound_Play(pl, CHAN_WEAPON, "weapon_glock18.fire");
-	}
-#endif
-
 	if (pl.mode_glock18) {
 		int r = (float)input_sequence % 2;
 		switch (r) {
@@ -193,6 +176,23 @@ w_glock18_primary(void)
 		}
 		pl.w_attack_next = 0.15f;
 	}
+
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
+#else
+	if (pl.flags & FL_CROUCHING)
+		Animation_PlayerTopTemp(ANIM_SHOOT_ONEHAND, 0.45f);
+	else
+		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
+
+	if (pl.mode_glock18) {
+		Sound_Play(pl, CHAN_WEAPON, "weapon_glock18.burstfire");
+	} else {
+		Sound_Play(pl, CHAN_WEAPON, "weapon_glock18.fire");
+	}
+#endif
+
 	pl.gflags |= GF_SEMI_TOGGLED;
 	pl.w_idle_next = pl.w_attack_next;
 }

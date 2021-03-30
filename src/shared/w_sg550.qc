@@ -124,7 +124,6 @@ w_sg550_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
-	View_AddEvent(w_rifle_ejectshell, 0.0f);
 
 	int r = (float)input_sequence % 2;
 	switch (r) {
@@ -135,6 +134,7 @@ w_sg550_primary(void)
 		Weapons_ViewAnimation(SCOUT_SHOOT2);
 		break;
 	}
+	View_AddEvent(w_rifle_ejectshell, 0.0f);
 #else
 	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 70, [accuracy,accuracy], WEAPON_SG550);

@@ -147,32 +147,6 @@ w_usp45_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.usp45_mag--;
 
-	/* actual firing */
-#ifdef CLIENT
-	if (pl.mode_usp45 == 1) {
-		View_SetMuzzleflash(0);
-	} else {
-		View_SetMuzzleflash(MUZZLE_SMALL);
-	}
-
-	View_AddEvent(w_pistol_ejectshell, 0.0f);
-#else
-	/* Different sounds without silencer */
-	if (pl.mode_usp45 == 1) {
-		Sound_Play(pl, CHAN_WEAPON, "weapon_usp45.silenced");
-	} else {
-		Sound_Play(pl, CHAN_WEAPON, "weapon_usp45.fire");
-	}
-
-	TraceAttack_SetPenetrationPower(0);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_USP45);
-
-	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTopTemp(ANIM_SHOOT_ONEHAND, 0.45f);
-	else
-		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
-#endif
-
 	/* this stuff is predicted */
 	int r = (float)input_sequence % 3;
 	if (pl.mode_usp45 == 1) {
@@ -208,6 +182,32 @@ w_usp45_primary(void)
 			}
 		}
 	}
+
+#ifdef CLIENT
+	if (pl.mode_usp45 == 1) {
+		View_SetMuzzleflash(0);
+	} else {
+		View_SetMuzzleflash(MUZZLE_SMALL);
+	}
+
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
+#else
+	/* Different sounds without silencer */
+	if (pl.mode_usp45 == 1) {
+		Sound_Play(pl, CHAN_WEAPON, "weapon_usp45.silenced");
+	} else {
+		Sound_Play(pl, CHAN_WEAPON, "weapon_usp45.fire");
+	}
+
+	/* actual firing */
+	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_USP45);
+
+	if (self.flags & FL_CROUCHING)
+		Animation_PlayerTopTemp(ANIM_SHOOT_ONEHAND, 0.45f);
+	else
+		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
+#endif
 
 	pl.gflags |= GF_SEMI_TOGGLED;
 	pl.w_attack_next = 0.15f;

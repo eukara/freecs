@@ -125,7 +125,6 @@ w_p90_primary(void)
 
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
-	View_AddEvent(w_pistol_ejectshell, 0.0f);
 
 	int r = (float)input_sequence % 3;
 	switch (r) {
@@ -139,6 +138,7 @@ w_p90_primary(void)
 		Weapons_ViewAnimation(P90_SHOOT3);
 		break;
 	}
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
 	TraceAttack_SetPenetrationPower(0);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_P90);
