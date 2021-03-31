@@ -133,9 +133,13 @@ ClientGame_RendererRestart(string rstr)
 	g_cs_scope7 = spriteframe("sprites/bottom.spr", 0, 0.0f);
 	g_cs_scope8 = spriteframe("sprites/bottom_right.spr", 0, 0.0f);
 
-	SHELL_PISTOL = getmodelindex("models/pshell.mdl");
-	SHELL_RIFLE = getmodelindex("models/rshell.mdl");
-	SHELL_RIFLELARGE = getmodelindex("models/rshell_big.mdl");
+	precache_model("models/pshell.mdl");
+	precache_model("models/rshell.mdl");
+	precache_model("models/rshell_big.mdl");
+	precache_model("models/shotgunshell.mdl");
+	precache_model("sprites/muzzleflash1.spr");
+	precache_model("sprites/muzzleflash2.spr");
+	precache_model("sprites/muzzleflash3.spr");
 
 	Obituary_Precache();
 

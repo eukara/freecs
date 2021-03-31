@@ -20,13 +20,13 @@ Nightvision_Toggle(void)
 	player pl = (player)pSeat->m_ePlayer;
 
 	if (!(pl.g_items & ITEM_NIGHTVISION)) {
-		pSeat->m_iNightvision = 0;
+		pSeatLocal->m_iNightvision = 0;
 		return;
 	}
 
-	pSeat->m_iNightvision = 1 - pSeat->m_iNightvision;
+	pSeatLocal->m_iNightvision = 1 - pSeatLocal->m_iNightvision;
 
-	if (pSeat->m_iNightvision)
+	if (pSeatLocal->m_iNightvision)
 		Sound_Play(self, CHAN_AUTO, "nvg.on");
 	else
 		Sound_Play(self, CHAN_AUTO, "nvg.off");
@@ -37,11 +37,11 @@ Nightvision_PreFrame(void)
 {
 	player pl = (player)pSeat->m_ePlayer;
 
-	if (!pSeat->m_iNightvision)
+	if (!pSeatLocal->m_iNightvision)
 		return;
 
 	if (!(pl.g_items & ITEM_NIGHTVISION)) {
-		pSeat->m_iNightvision = 0;
+		pSeatLocal->m_iNightvision = 0;
 		return;
 	}
 
@@ -53,11 +53,11 @@ Nightvision_PostFrame(void)
 {
 	player pl = (player)pSeat->m_ePlayer;
 
-	if (!pSeat->m_iNightvision)
+	if (!pSeatLocal->m_iNightvision)
 		return;
 
 	if (!(pl.g_items & ITEM_NIGHTVISION)) {
-		pSeat->m_iNightvision = 0;
+		pSeatLocal->m_iNightvision = 0;
 		return;
 	}
 
