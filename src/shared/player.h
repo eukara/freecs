@@ -32,8 +32,8 @@ enumflags
 	PLAYER_ARMOR,
 	PLAYER_MOVETYPE,
 	PLAYER_VIEWOFS,
-	PLAYER_BASEFRAME,
-	PLAYER_FRAME,
+	PLAYER_TOPFRAME,
+	PLAYER_BOTTOMFRAME,
 	PLAYER_AMMO1,
 	PLAYER_AMMO2,
 	PLAYER_AMMO3,
@@ -184,6 +184,12 @@ class player:base_player
 	float cs_shottime;
 	float cs_shottime_net;
 
+	float anim_top; float anim_top_net;
+	float anim_top_time; float anim_top_time_net;
+	float anim_top_delay; float anim_top_delay_net;
+	float anim_bottom; float anim_bottom_net;
+	float anim_bottom_time; float anim_bottom_time_net;
+
 #ifdef CLIENT
 	/* External model */
 	entity p_model;
@@ -196,7 +202,6 @@ class player:base_player
 	int cs_cross_deltadist;
 	float cs_crosshairdistance;
 
-	virtual void(void) gun_offset;
 	virtual void(void) draw;
 	virtual float() predraw;
 	virtual void(void) postdraw;
@@ -281,12 +286,16 @@ player::ReceiveEntity(float new)
 		movetype = readbyte();
 	if (fl & PLAYER_VIEWOFS)
 		view_ofs[2] = readfloat();
-	if (fl & PLAYER_BASEFRAME)
-		baseframe = readbyte();
-	if (fl & PLAYER_FRAME) {
-		frame = readbyte();
-		frame1time = 0.0f;
-		frame2time = 0.0f;
+
+	/* animation */
+	if (fl & PLAYER_TOPFRAME) {
+		anim_top = readbyte();
+		anim_top_time = readfloat();
+		anim_top_delay = readfloat();
+	}
+	if (fl & PLAYER_BOTTOMFRAME) {
+		anim_bottom = readbyte();
+		anim_bottom_time = readfloat();
 	}
 
 	if (fl & PLAYER_AMMO1) {
@@ -405,6 +414,12 @@ player::PredictPreFrame(void)
 
 	cs_shotmultiplier_net = cs_shotmultiplier;
 	cs_shottime_net = cs_shottime;
+
+	anim_top_net = anim_top;
+	anim_top_delay_net = anim_top_delay;
+	anim_top_time_net = anim_top_time;
+	anim_bottom_net = anim_bottom;
+	anim_bottom_time_net = anim_bottom_time;
 }
 
 /*
@@ -461,6 +476,12 @@ player::PredictPostFrame(void)
 
 	cs_shotmultiplier = cs_shotmultiplier_net;
 	cs_shottime = cs_shottime_net;
+
+	anim_top = anim_top_net;
+	anim_top_delay = anim_top_delay_net;
+	anim_top_time = anim_top_time_net;
+	anim_bottom = anim_bottom_net;
+	anim_bottom_time = anim_bottom_time_net;
 }
 
 #else
@@ -523,11 +544,11 @@ player::EvaluateEntity(void)
 	if (old_viewofs != view_ofs[2])
 		SendFlags |= PLAYER_VIEWOFS;
 
-	if (old_baseframe != baseframe)
-		SendFlags |= PLAYER_BASEFRAME;
-
-	if (old_frame != frame)
-		SendFlags |= PLAYER_FRAME;
+	/* animation */
+	if (anim_bottom_net != anim_bottom || anim_bottom_time != anim_bottom_time_net)
+		SendFlags |= PLAYER_BOTTOMFRAME;
+	if (anim_top_net != anim_top || anim_top_time != anim_top_time_net || anim_top_delay != anim_top_delay_net)
+		SendFlags |= PLAYER_TOPFRAME;
 
 	/* ammo 1 type updates */
 	if (glock18_mag_net != glock18_mag)
@@ -679,6 +700,12 @@ player::EvaluateEntity(void)
 	cs_shotmultiplier_net = cs_shotmultiplier;
 	cs_shottime_net = cs_shottime;
 
+	anim_top_net = anim_top;
+	anim_top_delay_net = anim_top_delay;
+	anim_top_time_net = anim_top_time;
+	anim_bottom_net = anim_bottom;
+	anim_bottom_time_net = anim_bottom_time;
+
 	if (g_cs_gamestate != GAME_FREEZE) {
 		if (progress <= 0.0f) {
 			flags &= ~FL_FROZEN;
@@ -757,10 +784,16 @@ player::SendEntity(entity ePEnt, float fChanged)
 		WriteByte(MSG_ENTITY, movetype);
 	if (fChanged & PLAYER_VIEWOFS)
 		WriteFloat(MSG_ENTITY, view_ofs[2]);
-	if (fChanged & PLAYER_BASEFRAME)
-		WriteByte(MSG_ENTITY, baseframe);
-	if (fChanged & PLAYER_FRAME)
-		WriteByte(MSG_ENTITY, frame);
+
+	if (fChanged & PLAYER_TOPFRAME) {
+		WriteByte(MSG_ENTITY, anim_top);
+		WriteFloat(MSG_ENTITY, anim_top_time);
+		WriteFloat(MSG_ENTITY, anim_top_delay);
+	}
+	if (fChanged & PLAYER_BOTTOMFRAME) {
+		WriteByte(MSG_ENTITY, anim_bottom);
+		WriteFloat(MSG_ENTITY, anim_bottom_time);
+	}
 
 	if (fChanged & PLAYER_AMMO1) {
  		WriteByte(MSG_ENTITY, usp45_mag);

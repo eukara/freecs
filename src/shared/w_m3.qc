@@ -186,9 +186,9 @@ w_m3_primary(void)
 	TraceAttack_FireBullets(9, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_M3);
 
 	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTopTemp(ANIM_SHOOT_SHOTGUN, 0.45f);
+		Animation_PlayerTop(pl, ANIM_SHOOT_SHOTGUN, 0.45f);
 	else
-		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_SHOTGUN, 0.45f);
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_SHOTGUN, 0.45f);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_m3.fire");
 #endif

@@ -238,14 +238,14 @@ w_elites_primary(void)
 
 	if (self.flags & FL_CROUCHING) {
 		if (pl.mode_temp)
-			Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT2_DUALPISTOLS, 0.45f);
+			Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT2_DUALPISTOLS, 0.45f);
 		else
-			Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_DUALPISTOLS, 0.45f);
+			Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_DUALPISTOLS, 0.45f);
 	} else {
 		if (pl.mode_temp)
-			Animation_PlayerTopTemp(ANIM_SHOOT2_DUALPISTOLS, 0.45f);
+			Animation_PlayerTop(pl, ANIM_SHOOT2_DUALPISTOLS, 0.45f);
 		else
-			Animation_PlayerTopTemp(ANIM_SHOOT_DUALPISTOLS, 0.45f);
+			Animation_PlayerTop(pl, ANIM_SHOOT_DUALPISTOLS, 0.45f);
 	}
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_elites.fire");

@@ -187,9 +187,9 @@ w_m4a1_primary(void)
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_M4A1);
 
 	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTopTemp(ANIM_SHOOT_RIFLE, 0.45f);
+		Animation_PlayerTop(pl, ANIM_SHOOT_RIFLE, 0.45f);
 	else
-		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
 #endif
 
 	pl.w_attack_next = 0.0875f;

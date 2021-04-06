@@ -37,7 +37,6 @@ CSGameRules::BuyingPossible(base_player pl)
 void
 CSGameRules::PlayerPostFrame(base_player pp)
 {
-	Animation_PlayerUpdate();
 }
 
 void

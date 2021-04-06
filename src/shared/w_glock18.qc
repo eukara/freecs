@@ -182,9 +182,9 @@ w_glock18_primary(void)
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
 	if (pl.flags & FL_CROUCHING)
-		Animation_PlayerTopTemp(ANIM_SHOOT_ONEHAND, 0.45f);
+		Animation_PlayerTop(pl, ANIM_SHOOT_ONEHAND, 0.45f);
 	else
-		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
 
 	if (pl.mode_glock18) {
 		Sound_Play(pl, CHAN_WEAPON, "weapon_glock18.burstfire");

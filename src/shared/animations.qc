@@ -28,6 +28,8 @@
 .float lerpfrac;
 .float subblend2frac;
 .float subblendfrac;
+.float basesubblend2frac;
+.float basesubblendfrac;
 
 void Animation_Print(string sWow) {
 #ifdef CLIENT
@@ -35,6 +37,23 @@ void Animation_Print(string sWow) {
 #else 
 	bprint(PRINT_HIGH, sprintf("SSQC: %s", sWow) );
 #endif	
+}
+
+void
+Animation_TimerUpdate(player pl)
+{
+	makevectors([0, pl.angles[1], 0]);
+
+	/* top animation is always just being incremented */
+	pl.anim_top_time += input_timelength;
+	pl.anim_top_delay -= input_timelength;
+
+	/* we may be walking backwards, thus decrement bottom */
+	if (dotproduct(pl.velocity, v_forward) < 0) {
+		pl.anim_bottom_time -= input_timelength;
+	} else {
+		pl.anim_bottom_time += input_timelength;
+	}
 }
 
 /*
@@ -45,114 +64,71 @@ Called every frame to update the animation sequences
 depending on what the player is doing
 =================
 */
-void Animation_PlayerUpdate(void) {
-	self.basebone = 39;
+void
+Animation_PlayerUpdate(player pl)
+{
+	pl.basebone = 39;
 
-	if (self.baseframe_time < time) {
-		base_player pl = (base_player)self;
-		self.baseframe = Weapons_GetAim(pl.activeweapon);
-		self.baseframe_old = self.frame;
+	if (pl.anim_top_delay <= 0.0f) {
+		pl.anim_top = Weapons_GetAim(pl.activeweapon);
 	}
 
-	/* in order to appear jumping, we want to not be on ground, 
-	 * but also make sure we're not just going down a ramp */
-	if (!(self.flags & FL_ONGROUND) && (self.velocity[2] > 0 || self.frame == ANIM_JUMP)) {
-		self.frame = ANIM_JUMP;
-	} else if (vlen(self.velocity) == 0) {
-		if (self.flags & FL_CROUCHING) {
-			self.frame = ANIM_IDLE_CROUCH;
+	if (vlen(pl.velocity) == 0) {
+		if (pl.flags & FL_CROUCHING) {
+			pl.anim_bottom = ANIM_IDLE_CROUCH;
 		} else {
-			self.frame = ANIM_IDLE;
+			pl.anim_bottom = ANIM_IDLE;
 		}
-	} else if (vlen(self.velocity) < 150) {
-		if (self.flags & FL_CROUCHING) {
-			self.frame = ANIM_RUN_CROUCH;
+	} else if (vlen(pl.velocity) < 150) {
+		if (pl.flags & FL_CROUCHING) {
+			pl.anim_bottom = ANIM_RUN_CROUCH;
 		} else {
-			self.frame = ANIM_WALK;
+			pl.anim_bottom = ANIM_WALK;
 		}
-	} else if (vlen(self.velocity) > 150) {
-		if (self.flags & FL_CROUCHING) {
-			self.frame = ANIM_RUN_CROUCH;
+	} else if (vlen(pl.velocity) > 150) {
+		if (pl.flags & FL_CROUCHING) {
+			pl.anim_bottom = ANIM_RUN_CROUCH;
 		} else {
-			self.frame = ANIM_RUN;
+			pl.anim_bottom = ANIM_RUN;
 		}
 	}
 
-	// Lerp it down!
-	if (self.lerpfrac > 0) {
-		self.lerpfrac -= frametime * 5;
-		if (self.lerpfrac < 0) {
-			self.lerpfrac = 0;
-		}
+	pl.baseframe = pl.anim_top;
+	pl.baseframe1time = pl.anim_top_time;
+	pl.frame = pl.anim_bottom;
+	pl.frame1time = pl.anim_bottom_time;
+
+	/* hack, we can't play the animations in reverse the normal way */
+	if (pl.frame1time < 0.0f) {
+		pl.frame1time = 10.0f;
 	}
 
-	if (self.baselerpfrac > 0) {
-		self.baselerpfrac -= frametime * 5;
-		if (self.baselerpfrac < 0) {
-			self.baselerpfrac = 0;
-		}
-	}
-
-	if (self.frame != self.frame_last) {
-		//Animation_Print(sprintf("New Frame: %d, Last Frame: %d\n", self.frame, self.frame_last));
-		
-		// Move everything over to frame 2
-		self.frame2time = self.frame1time;
-		self.frame2 = self.frame_last;
-		
-		// Set frame_last to avoid this being called again
-		self.frame_last = self.frame;
-		
-		self.lerpfrac = 1.0f;
-		self.frame1time = 0.0f;
-	}
+	makevectors([0, pl.angles[1], 0]);
+	float fCorrect = dotproduct(pl.velocity, v_right) * 0.25f;
 	
-	if (self.baseframe != self.baseframe_last) {
-		//Animation_Print(sprintf("New Baseframe: %d, Last Baseframe: %d\n", self.baseframe, self.baseframe_last));
-		
-		// Move everything over to frame 2
-		self.baseframe2time = self.baseframe1time;
-		self.baseframe2 = self.baseframe_last;
-		
-		// Set frame_last to avoid this being called again
-		self.baseframe_last = self.baseframe;
-		
-		self.baselerpfrac = 1.0f;
-		self.baseframe1time = 0.0f;
-	}
-
-	// Force the code above to update if we switched positions
-	if (self.fWasCrouching != (self.flags & FL_CROUCHING)) {
-		self.baseframe_old = 0;
-		self.baseframe_time = 0;
-		self.fWasCrouching = (self.flags & FL_CROUCHING);
-	}
+	pl.subblendfrac = -fCorrect * 0.05f;
+	pl.subblend2frac *= -0.1f;
+	pl.angles[1] -= fCorrect;
 
 #ifdef SERVER
-	// On the CSQC it's done in Player.c
-	self.subblendfrac = 
-	self.subblend2frac = self.v_angle[0] / 90;
+	pl.basesubblendfrac = 
+	pl.basesubblend2frac = pl.v_angle[0] / 90;
+#else
+	pl.basesubblendfrac = 
+	pl.basesubblend2frac = pl.pitch / 90;
 #endif
-
-	self.angles[0] = self.angles[2] = 0;
 }
 
-/*
-=================
-Animation_PlayerTop
-
-Changes the animation sequence for the upper body part
-=================
-*/
-void Animation_PlayerTop(float fFrame) {
-	self.baseframe = fFrame;
-	self.baseframe_old = fFrame;
+void
+Animation_PlayerTop(player pl, float topanim, float timer)
+{
+	pl.anim_top = topanim;
+	pl.anim_top_time = 0.0f;
+	pl.anim_top_delay = timer;
 }
 
-void Animation_PlayerTopTemp(float fFrame, float fTime) {
-	self.baseframe = fFrame;
-	self.baseframe_time = time + fTime;
-#ifdef SERVER
-	self.SendFlags |= PLAYER_FRAME;
-#endif
+void
+Animation_PlayerBottom(player pl, float botanim, float timer)
+{
+	pl.anim_bottom = botanim;
 }

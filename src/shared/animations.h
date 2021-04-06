@@ -113,5 +113,3 @@ enum
 	ANIM_CROUCH_DIE
 };
 
-void Animation_PlayerTop(float);
-void Animation_PlayerTopTemp(float, float);

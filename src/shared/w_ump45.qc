@@ -146,9 +146,9 @@ w_ump45_primary(void)
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 30, [accuracy,accuracy], WEAPON_UMP45);
 
 	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTopTemp(ANIM_SHOOT_MP5, 0.45f);
+		Animation_PlayerTop(pl, ANIM_SHOOT_MP5, 0.45f);
 	else
-		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_MP5, 0.45f);
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_MP5, 0.45f);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ump45.fire");
 #endif

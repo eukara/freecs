@@ -140,9 +140,9 @@ w_para_primary(void)
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 35, [accuracy,accuracy], WEAPON_PARA);
 
 	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTopTemp(ANIM_CROUCH_SHOOT_PARA, 0.45f);
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_PARA, 0.45f);
 	else
-		Animation_PlayerTopTemp(ANIM_SHOOT_PARA, 0.45f);
+		Animation_PlayerTop(pl, ANIM_SHOOT_PARA, 0.45f);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_para.fire");
 #endif
