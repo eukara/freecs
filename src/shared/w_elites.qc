@@ -27,7 +27,8 @@ Price: $1000
 */
 
 #ifdef CLIENT
-void w_elites_ejectshell(int side)
+void
+w_elites_ejectshell(int side)
 {
 	static void w_elites_ejectshell_death(void) {
 		remove(self);
@@ -57,12 +58,14 @@ void w_elites_ejectshell(int side)
 	setorigin(eShell, gettaginfo(pSeat->m_eViewModel, pSeat->m_iVMBones + 1 + side));
 }
 
-void w_pistol_ejectshell_left(void)
+void
+w_pistol_ejectshell_left(void)
 {
 	w_elites_ejectshell(1);
 }
 
-void w_pistol_ejectshell_right(void)
+void
+w_pistol_ejectshell_right(void)
 {
 	w_elites_ejectshell(0);
 }
@@ -181,9 +184,6 @@ w_elites_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.elites_mag--;
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-
 	int r = (float)input_sequence % 5;
 	if (pl.mode_temp) {
 		if (pl.elites_mag <= 0) {
@@ -207,7 +207,6 @@ w_elites_primary(void)
 				break;
 			}
 		}
-		View_AddEvent(w_pistol_ejectshell_left, 0.0f);
 	} else {
 		if (pl.elites_mag <= 0) {
 			Weapons_ViewAnimation(ELITES_SHOOT_RIGHTLAST);
@@ -230,11 +229,7 @@ w_elites_primary(void)
 				break;
 			}
 		}
-		View_AddEvent(w_pistol_ejectshell_right, 0.0f);
 	}
-#else
-	TraceAttack_SetPenetrationPower(0);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 45, [accuracy,accuracy], WEAPON_ELITES);
 
 	if (self.flags & FL_CROUCHING) {
 		if (pl.mode_temp)
@@ -248,6 +243,16 @@ w_elites_primary(void)
 			Animation_PlayerTop(pl, ANIM_SHOOT_DUALPISTOLS, 0.45f);
 	}
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+
+	if (pl.mode_temp)
+		View_AddEvent(w_pistol_ejectshell_left, 0.0f);
+	else
+		View_AddEvent(w_pistol_ejectshell_right, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 45, [accuracy,accuracy], WEAPON_ELITES);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_elites.fire");
 #endif
 
@@ -261,19 +266,16 @@ w_elites_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.elites_mag >= 30) {
+	if (pl.elites_mag >= 30)
 		return;
-	}
-	if (!pl.ammo_9mm) {
+	if (!pl.ammo_9mm)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(ELITES_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::elites_mag, player::ammo_9mm, 30);
 #endif
 

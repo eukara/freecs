@@ -24,7 +24,8 @@ Game_InitRules(void)
 	}
 }
 
-void Game_Worldspawn(void)
+void
+Game_Worldspawn(void)
 {
 	precache_model("models/player/arctic/arctic.mdl");
 	precache_model("models/player/gign/gign.mdl");

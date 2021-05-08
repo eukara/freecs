@@ -19,7 +19,8 @@
 UseWorkaround
 ====================
 */
-void UseWorkaround(entity eTarget)
+void
+UseWorkaround(entity eTarget)
 {
 	eActivator = self;
 	entity eOldSelf = self;
@@ -33,7 +34,8 @@ void UseWorkaround(entity eTarget)
 Player_UseDown
 ====================
 */
-void Player_UseDown(void)
+void
+Player_UseDown(void)
 {
 	if (self.health <= 0) {
 		return;
@@ -67,14 +69,18 @@ void Player_UseDown(void)
 Player_UseUp
 ====================
 */
-void Player_UseUp(void) {
+void
+Player_UseUp(void)
+{
 	if (!(self.flags & FL_USE_RELEASED)) {
 		self.flags |= FL_USE_RELEASED;
 	}
 }
 
 void Weapons_Draw(void);
-void CSEv_PlayerSwitchWeapon_i(int w)
+
+void
+CSEv_PlayerSwitchWeapon_i(int w)
 {
 	player pl = (player)self;
 	pl.activeweapon = w;

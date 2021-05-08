@@ -112,19 +112,14 @@ w_mp5_primary(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (!pl.mp5_mag) {
+	if (!pl.mp5_mag)
 		return;
-	}
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 220);
 	pl.mp5_mag--;
-
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
 
 	int r = (float)input_sequence % 3;
 	switch (r) {
@@ -138,16 +133,18 @@ w_mp5_primary(void)
 		Weapons_ViewAnimation(MP5_SHOOT3);
 		break;
 	}
-	View_AddEvent(w_pistol_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(0);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_MP5);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_MP5, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_MP5, 0.45f);
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_MP5);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mp5.fire");
 #endif
 
@@ -160,19 +157,16 @@ w_mp5_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.mp5_mag >= 30) {
+	if (pl.mp5_mag >= 30)
 		return;
-	}
-	if (!pl.ammo_9mm) {
+	if (!pl.ammo_9mm)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(MP5_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::mp5_mag, player::ammo_9mm, 30);
 	Weapons_UpdateAmmo(pl, pl.mp5_mag, pl.ammo_9mm, -1);
 #endif

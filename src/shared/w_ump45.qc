@@ -112,14 +112,10 @@ w_ump45_primary(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-
-	/* ammo check */
-	if (!pl.ump45_mag) {
+	if (!pl.ump45_mag)
 		return;
-	}
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 210);
@@ -138,18 +134,17 @@ w_ump45_primary(void)
 		break;
 	}
 
+	if (self.flags & FL_CROUCHING)
+		Animation_PlayerTop(pl, ANIM_SHOOT_MP5, 0.45f);
+	else
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_MP5, 0.45f);
+
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
 	TraceAttack_SetPenetrationPower(0);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 30, [accuracy,accuracy], WEAPON_UMP45);
-
-	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTop(pl, ANIM_SHOOT_MP5, 0.45f);
-	else
-		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_MP5, 0.45f);
-
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ump45.fire");
 #endif
 
@@ -162,19 +157,16 @@ w_ump45_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.ump45_mag >= 25) {
+	if (pl.ump45_mag >= 25)
 		return;
-	}
-	if (!pl.ammo_45acp) {
+	if (!pl.ammo_45acp)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(UMP45_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::ump45_mag, player::ammo_45acp, 25);
 	Weapons_UpdateAmmo(pl, pl.ump45_mag, pl.ammo_45acp, -1);
 #endif

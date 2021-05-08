@@ -18,56 +18,56 @@ static CUIWindow winChooseTeam;
 static CUIWindow winCTTeam;
 static CUIWindow winTTeam;
 
-void 
+void
 T_Skin1(void)
 {
 	sendevent("GamePlayerSpawn", "f", 1);
 	winTTeam.Hide();
 }
-void 
+void
 T_Skin2(void)
 {
 	sendevent("GamePlayerSpawn", "f", 2);
 	winTTeam.Hide();
 }
-void 
+void
 T_Skin3(void)
 {
 	sendevent("GamePlayerSpawn", "f", 3);
 	winTTeam.Hide();
 }
-void 
+void
 T_Skin4(void)
 {
 	sendevent("GamePlayerSpawn", "f", 4);
 	winTTeam.Hide();
 }
 
-void 
+void
 CT_Skin1(void)
 {
 	sendevent("GamePlayerSpawn", "f", 5);
 	winCTTeam.Hide();
 }
-void 
+void
 CT_Skin2(void)
 {
 	sendevent("GamePlayerSpawn", "f", 6);
 	winCTTeam.Hide();
 }
-void 
+void
 CT_Skin3(void)
 {
 	sendevent("GamePlayerSpawn", "f", 7);
 	winCTTeam.Hide();
 }
-void 
+void
 CT_Skin4(void)
 {
 	sendevent("GamePlayerSpawn", "f", 8);
 	winCTTeam.Hide();
 }
-void 
+void
 VGUI_GoSpectator(void)
 {
 	sendevent("GamePlayerSpawn", "f", 0);

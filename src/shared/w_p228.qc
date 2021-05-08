@@ -113,22 +113,16 @@ w_p228_primary(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.gflags & GF_SEMI_TOGGLED) {
+	if (pl.gflags & GF_SEMI_TOGGLED)
 		return;
-	}
-	if (!pl.p228_mag) {
+	if (!pl.p228_mag)
 		return;
-	}
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.p228_mag--;
-
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
 
 	if (pl.p228_mag <= 0) {
 		Weapons_ViewAnimation(P228_SHOOT_EMPTY);
@@ -146,16 +140,18 @@ w_p228_primary(void)
 			break;
 		}
 	}
-	View_AddEvent(w_pistol_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(0);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 40, [accuracy,accuracy], WEAPON_P228);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_ONEHAND, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 40, [accuracy,accuracy], WEAPON_P228);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_p228.fire");
 #endif
 
@@ -169,19 +165,16 @@ w_p228_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.p228_mag >= 30) {
+	if (pl.p228_mag >= 30)
 		return;
-	}
-	if (!pl.ammo_357sig) {
+	if (!pl.ammo_357sig)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(P228_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::p228_mag, player::ammo_357sig, 13);
 	Weapons_UpdateAmmo(pl, pl.p228_mag, pl.ammo_357sig, -1);
 #endif

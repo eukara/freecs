@@ -98,7 +98,8 @@ w_smokegrenade_draw(void)
 }
 
 #ifdef SERVER
-void w_smokegrenade_throw(void)
+void
+w_smokegrenade_throw(void)
 {
 	static void smokegrenade_explode(void)
 	{

@@ -77,10 +77,10 @@ switch (fHeader) {
 		FX_BreakModel(count, vecPos, vSize, [0,0,0], fStyle);
 		break;
 	case EV_IMPACT:
-		int iType;
+		impactType_t iType;
 		vector vOrigin, vNormal;
 
-		iType = (int)readbyte();
+		iType = (impactType_t)readbyte();
 		vOrigin[0] = readcoord();
 		vOrigin[1] = readcoord();
 		vOrigin[2] = readcoord();

@@ -28,7 +28,8 @@ Terrorists only weapon
 */
 
 #ifdef CLIENT
-void w_rifle_ejectshell(void)
+void
+w_rifle_ejectshell(void)
 {
 	static void w_rifle_ejectshell_death(void) {
 		remove(self);
@@ -157,9 +158,6 @@ w_ak47_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.ak47_mag--;
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
@@ -172,16 +170,18 @@ w_ak47_primary(void)
 		Weapons_ViewAnimation(AK47_SHOOT3);
 		break;
 	}
-	View_AddEvent(w_rifle_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 36, [accuracy,accuracy], WEAPON_AK47);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_AK47, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_AK47, 0.45f);
-	
+
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_rifle_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(1);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 36, [accuracy,accuracy], WEAPON_AK47);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ak47.fire");
 #endif
 
@@ -204,9 +204,9 @@ w_ak47_reload(void)
 		return;
 	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(AK47_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::ak47_mag, player::ammo_762mm, 30);
 #endif
 

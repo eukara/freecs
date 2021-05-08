@@ -27,7 +27,8 @@ Price: $4750
 */
 
 #ifdef CLIENT
-void w_sniper_ejectshell(void)
+void
+w_sniper_ejectshell(void)
 {
 	static void w_sniper_ejectshelldeath(void) {
 		remove(self);
@@ -212,9 +213,6 @@ w_awp_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, -1);
 	pl.awp_mag--;
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
@@ -227,15 +225,18 @@ w_awp_primary(void)
 		Weapons_ViewAnimation(AWP_SHOOT3);
 		break;
 	}
-	View_AddEvent(w_sniper_ejectshell, 0.9f);
-#else
-	TraceAttack_SetPenetrationPower(2);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 115, [accuracy,accuracy], WEAPON_AWP);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_RIFLE, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
+
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_sniper_ejectshell, 0.9f);
+#else
+	TraceAttack_SetPenetrationPower(2);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 115, [accuracy,accuracy], WEAPON_AWP);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_awp.fire");
 #endif
@@ -249,19 +250,16 @@ w_awp_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.awp_mag >= 10) {
+	if (pl.awp_mag >= 10)
 		return;
-	}
-	if (!pl.ammo_338mag) {
+	if (!pl.ammo_338mag)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(AWP_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::awp_mag, player::ammo_338mag, 10);
 #endif
 

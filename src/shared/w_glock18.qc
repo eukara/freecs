@@ -109,6 +109,7 @@ w_glock18_draw(void)
 {
 	player pl = (player)self;
 	Weapons_SetModel("models/v_glock18.mdl");
+
 	int r = (float)input_sequence % 2;
 	switch (r) {
 	case 0:
@@ -130,16 +131,12 @@ w_glock18_primary(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-
-	if (pl.gflags & GF_SEMI_TOGGLED) {
+	if (pl.gflags & GF_SEMI_TOGGLED)
 		return;
-	}
-	if (!pl.glock18_mag) {
+	if (!pl.glock18_mag)
 		return;
-	}
 
 	int shotcount = (pl.mode_glock18) ? 3 : 1;
 
@@ -177,15 +174,15 @@ w_glock18_primary(void)
 		pl.w_attack_next = 0.15f;
 	}
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-	View_AddEvent(w_pistol_ejectshell, 0.0f);
-#else
 	if (pl.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_ONEHAND, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
+#else
 	if (pl.mode_glock18) {
 		Sound_Play(pl, CHAN_WEAPON, "weapon_glock18.burstfire");
 	} else {
@@ -226,17 +223,13 @@ w_glock18_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.glock18_mag >= 20) {
+	if (pl.glock18_mag >= 20)
 		return;
-	}
-	if (!pl.ammo_9mm) {
+	if (!pl.ammo_9mm)
 		return;
-	}
 
-#ifdef CLIENT
 	int r = (float)input_sequence % 2;
 	switch (r) {
 	case 0:
@@ -246,8 +239,8 @@ w_glock18_reload(void)
 		Weapons_ViewAnimation(GLOCK_RELOAD2);
 		break;
 	}
-#else
 
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::glock18_mag, player::ammo_9mm, 20);
 	Weapons_UpdateAmmo(pl, pl.glock18_mag, pl.ammo_9mm, -1);
 #endif

@@ -27,7 +27,8 @@ Price: $1700
 */
 
 #ifdef CLIENT
-void w_m3_ejectshell(void)
+void
+w_m3_ejectshell(void)
 {
 	static void w_m3_ejectshell_death(void) {
 		remove(self);
@@ -243,9 +244,6 @@ w_m3_release(void)
 		pl.m3_mag++;
 		pl.ammo_buckshot--;
 		w_m3_updateammo(pl);
-#ifdef SERVER
-		//Sound_Play(pl, CHAN_WEAPON, "weapon_m3.insertshell");
-#endif
 		if (pl.ammo_buckshot <= 0 || pl.m3_mag >= 8) {
 			pl.mode_temp = M3S_RELOAD_END;
 		}

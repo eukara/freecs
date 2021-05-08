@@ -41,154 +41,61 @@ enumflags
 	PLAYER_CSSHOTTIME
 };
 
-enumflags
-{
-	AMMO1_USP45,
-	AMMO1_GLOCK18,
-	AMMO1_DEAGLE,
-	AMMO1_P228,
-	AMMO1_ELITES,
-	AMMO1_FIVESEVEN,
-	AMMO1_M3,
-	AMMO1_XM1014,
-	AMMO1_MP5,
-	AMMO1_P90,
-	AMMO1_UMP45,
-	AMMO1_MAC10,
-	AMMO1_TMP,
-	AMMO1_AK47,
-	AMMO1_SG552,
-	AMMO1_M4A1,
-	AMMO1_AUG,
-	AMMO1_SCOUT,
-	AMMO1_AWP,
-	AMMO1_G3SG1,
-	AMMO1_SG550,
-	AMMO1_PARA,
-};
-
-enumflags
-{
-	AMMO2_50AE,
-	AMMO2_762MM,
-	AMMO2_556MM,
-	AMMO2_556MMBOX,
-	AMMO2_338MAG,
-	AMMO2_9MM,
-	AMMO2_BUCKSHOT,
-	AMMO2_45ACP,
-	AMMO2_357SIG,
-	AMMO2_57MM,
-	AMMO2_HEGRENADE,
-	AMMO2_FBGRENADE,
-	AMMO2_SMOKEGRENADE,
-};
-
-enumflags
-{
-	AMMO3_MODE_USP45,
-	AMMO3_MODE_M4A1,
-	AMMO3_MODE_GLOCK18,
-};
-
 noref int input_sequence;
 class player:base_player
 {
 	int ingame;
 
-	int ammo_50ae;
-	int  ammo_50ae_net;
-	int ammo_762mm;
-	int  ammo_762mm_net;
-	int ammo_556mm;
-	int  ammo_556mm_net;
-	int ammo_556mmbox;
-	int  ammo_556mmbox_net;
-	int ammo_338mag;
-	int  ammo_338mag_net;
-	int ammo_9mm;
-	int  ammo_9mm_net;
-	int ammo_buckshot;
-	int  ammo_buckshot_net;
-	int ammo_45acp;
-	int  ammo_45acp_net;
-	int ammo_357sig;
-	int  ammo_357sig_net;
-	int ammo_57mm;
-	int  ammo_57mm_net;
-	int ammo_hegrenade;
-	int  ammo_hegrenade_net;
-	int ammo_fbgrenade;
-	int  ammo_fbgrenade_net;
-	int ammo_smokegrenade;
-	int  ammo_smokegrenade_net;
+	PREDICTED_INT(usp45_mag);
+	PREDICTED_INT(glock18_mag);
+	PREDICTED_INT(deagle_mag);
+	PREDICTED_INT(p228_mag);
+	PREDICTED_INT(elites_mag);
+	PREDICTED_INT(fiveseven_mag);
+	PREDICTED_INT(m3_mag);
+	PREDICTED_INT(xm1014_mag);
+	PREDICTED_INT(mp5_mag);
+	PREDICTED_INT(p90_mag);
+	PREDICTED_INT(ump45_mag);
+	PREDICTED_INT(mac10_mag);
+	PREDICTED_INT(tmp_mag);
+	PREDICTED_INT(ak47_mag);
+	PREDICTED_INT(sg552_mag);
+	PREDICTED_INT(m4a1_mag);
+	PREDICTED_INT(aug_mag);
+	PREDICTED_INT(scout_mag);
+	PREDICTED_INT(awp_mag);
+	PREDICTED_INT(g3sg1_mag);
+	PREDICTED_INT(sg550_mag);
+	PREDICTED_INT(para_mag);
 
-	/* Weapon specific */
-	int usp45_mag;
-	int usp45_mag_net;
-	int glock18_mag;
-	int glock18_mag_net;
-	int deagle_mag;
-	int deagle_mag_net;
-	int p228_mag;
-	int p228_mag_net;
-	int elites_mag;
-	int elites_mag_net;
-	int fiveseven_mag;
-	int fiveseven_mag_net;
-	int m3_mag;
-	int m3_mag_net;
-	int xm1014_mag;
-	int xm1014_mag_net;
-	int mp5_mag;
-	int mp5_mag_net;
-	int p90_mag;
-	int p90_mag_net;
-	int ump45_mag;
-	int ump45_mag_net;
-	int mac10_mag;
-	int mac10_mag_net;
-	int tmp_mag;
-	int tmp_mag_net;
-	int ak47_mag;
-	int ak47_mag_net;
-	int sg552_mag;
-	int sg552_mag_net;
-	int m4a1_mag;
-	int m4a1_mag_net;
-	int aug_mag;
-	int aug_mag_net;
-	int scout_mag;
-	int scout_mag_net;
-	int awp_mag;
-	int awp_mag_net;
-	int g3sg1_mag;
-	int g3sg1_mag_net;
-	int sg550_mag;
-	int sg550_mag_net;
-	int para_mag;
-	int para_mag_net;
+	PREDICTED_INT(ammo_50ae);
+	PREDICTED_INT(ammo_762mm);
+	PREDICTED_INT(ammo_556mm);
+	PREDICTED_INT(ammo_556mmbox);
+	PREDICTED_INT(ammo_338mag);
+	PREDICTED_INT(ammo_9mm);
+	PREDICTED_INT(ammo_buckshot);
+	PREDICTED_INT(ammo_45acp);
+	PREDICTED_INT(ammo_357sig);
+	PREDICTED_INT(ammo_57mm);
+	PREDICTED_INT(ammo_hegrenade);
+	PREDICTED_INT(ammo_fbgrenade);
+	PREDICTED_INT(ammo_smokegrenade);
 
-	int mode_usp45;
-	int mode_usp45_net;
-	int mode_m4a1;
-	int mode_m4a1_net;
-	int mode_glock18;
-	int mode_glock18_net;
+	PREDICTED_INT(mode_usp45);
+	PREDICTED_INT(mode_m4a1);
+	PREDICTED_INT(mode_glock18);
+	PREDICTED_INT(mode_temp);
 
-	int mode_temp;
-	int mode_temp_net;
+	PREDICTED_INT(cs_shotmultiplier);
+	PREDICTED_FLOAT(cs_shottime);
 
-	int cs_shotmultiplier;
-	int cs_shotmultiplier_net;
-	float cs_shottime;
-	float cs_shottime_net;
-
-	float anim_top; float anim_top_net;
-	float anim_top_time; float anim_top_time_net;
-	float anim_top_delay; float anim_top_delay_net;
-	float anim_bottom; float anim_bottom_net;
-	float anim_bottom_time; float anim_bottom_time_net;
+	PREDICTED_FLOAT(anim_top);
+	PREDICTED_FLOAT(anim_top_time);
+	PREDICTED_FLOAT(anim_top_delay);
+	PREDICTED_FLOAT(anim_bottom); 
+	PREDICTED_FLOAT(anim_bottom_time);
 
 #ifdef CLIENT
 	/* External model */
@@ -205,7 +112,7 @@ class player:base_player
 	virtual void(void) draw;
 	virtual float() predraw;
 	virtual void(void) postdraw;
-	virtual void(float) ReceiveEntity;
+	virtual void(float, float) ReceiveEntity;
 	virtual void(void) PredictPreFrame;
 	virtual void(void) PredictPostFrame;
 #else
@@ -227,65 +134,9 @@ player::ReceiveEntity
 =================
 */
 void
-player::ReceiveEntity(float new)
+player::ReceiveEntity(float new, float fl)
 {
-	float fl;
-
-	/* seed for our prediction table */
-	sequence = servercommandframe;
-
-	fl = readfloat();
-
-	/* HACK: we need to make this more reliable */
-	if (fl == UPDATE_ALL) {
-		/* we respawned */
-		gravity = __NULL__;
-	}
-
-	if (fl & PLAYER_MODELINDEX)
-		modelindex = readshort();
-
-	if (fl & PLAYER_ORIGIN) {
-		origin[0] = readcoord();
-		origin[1] = readcoord();
-	}
-
-	if (fl & PLAYER_ORIGIN_Z)
-		origin[2] = readcoord();
-	if (fl & PLAYER_ANGLES_X)
-		v_angle[0] = pitch = readfloat();
-	if (fl & PLAYER_ANGLES_Y) {
-		angles[1] = readfloat();
-		v_angle[1] = readfloat();
-	}
-	if (fl & PLAYER_ANGLES_Z) {
-		angles[2] = readfloat();
-		v_angle[1] = readfloat();
-	}
-
-	if (fl & PLAYER_VELOCITY) {
-		velocity[0] = readcoord();
-		velocity[1] = readcoord();
-	}
-
-	if (fl & PLAYER_VELOCITY_Z)
-		velocity[2] = readcoord();
-	if (fl & PLAYER_FLAGS) {
-		flags = readfloat();
-		gflags = readfloat();
-	}
-	if (fl & PLAYER_WEAPON)
-		activeweapon = readbyte();
-	if (fl & PLAYER_ITEMS)
-		g_items = (__variant)readfloat();
-	if (fl & PLAYER_HEALTH)
-		health = readbyte();
-	if (fl & PLAYER_ARMOR)
-		armor = readbyte();
-	if (fl & PLAYER_MOVETYPE)
-		movetype = readbyte();
-	if (fl & PLAYER_VIEWOFS)
-		view_ofs[2] = readfloat();
+	base_player::ReceiveEntity(new, fl);
 
 	/* animation */
 	if (fl & PLAYER_TOPFRAME) {
@@ -370,56 +221,58 @@ so we can roll them back later.
 void
 player::PredictPreFrame(void)
 {
-	usp45_mag_net = usp45_mag;
-	glock18_mag_net = glock18_mag;
-	deagle_mag_net = deagle_mag;
-	p228_mag_net = p228_mag;
-	elites_mag_net = elites_mag;
-	fiveseven_mag_net = fiveseven_mag;
-	m3_mag_net = m3_mag;
-	xm1014_mag_net = xm1014_mag;
-	mp5_mag_net = mp5_mag;
-	p90_mag_net = p90_mag;
-	ump45_mag_net = ump45_mag;
-	mac10_mag_net = mac10_mag;
-	tmp_mag_net = tmp_mag;
-	ak47_mag_net = ak47_mag;
-	sg552_mag_net = sg552_mag;
-	m4a1_mag_net = m4a1_mag;
-	aug_mag_net = aug_mag;
-	scout_mag_net = scout_mag;
-	awp_mag_net = awp_mag;
-	g3sg1_mag_net = g3sg1_mag;
-	sg550_mag_net = sg550_mag;
-	para_mag_net = para_mag;
+	base_player::PredictPreFrame();
 
-	ammo_50ae_net = ammo_50ae;
-	ammo_762mm_net = ammo_762mm;
-	ammo_556mm_net = ammo_556mm;
-	ammo_556mmbox_net = ammo_556mmbox;
-	ammo_338mag_net = ammo_338mag;
-	ammo_9mm_net = ammo_9mm;
-	ammo_buckshot_net = ammo_buckshot;
-	ammo_45acp_net = ammo_45acp;
-	ammo_357sig_net = ammo_357sig;
-	ammo_57mm_net = ammo_57mm;
-	ammo_hegrenade_net = ammo_hegrenade;
-	ammo_fbgrenade_net = ammo_fbgrenade;
-	ammo_smokegrenade_net = ammo_smokegrenade;
+	SAVE_STATE(usp45_mag);
+	SAVE_STATE(glock18_mag);
+	SAVE_STATE(deagle_mag);
+	SAVE_STATE(p228_mag);
+	SAVE_STATE(elites_mag);
+	SAVE_STATE(fiveseven_mag);
+	SAVE_STATE(m3_mag);
+	SAVE_STATE(xm1014_mag);
+	SAVE_STATE(mp5_mag);
+	SAVE_STATE(p90_mag);
+	SAVE_STATE(ump45_mag);
+	SAVE_STATE(mac10_mag);
+	SAVE_STATE(tmp_mag);
+	SAVE_STATE(ak47_mag);
+	SAVE_STATE(sg552_mag);
+	SAVE_STATE(m4a1_mag);
+	SAVE_STATE(aug_mag);
+	SAVE_STATE(scout_mag);
+	SAVE_STATE(awp_mag);
+	SAVE_STATE(g3sg1_mag);
+	SAVE_STATE(sg550_mag);
+	SAVE_STATE(para_mag);
 
-	mode_usp45_net = mode_usp45;
-	mode_m4a1_net = mode_m4a1;
-	mode_glock18_net = mode_glock18;
-	mode_temp_net = mode_temp;
+	SAVE_STATE(ammo_50ae);
+	SAVE_STATE(ammo_762mm);
+	SAVE_STATE(ammo_556mm);
+	SAVE_STATE(ammo_556mmbox);
+	SAVE_STATE(ammo_338mag);
+	SAVE_STATE(ammo_9mm);
+	SAVE_STATE(ammo_buckshot);
+	SAVE_STATE(ammo_45acp);
+	SAVE_STATE(ammo_357sig);
+	SAVE_STATE(ammo_57mm);
+	SAVE_STATE(ammo_hegrenade);
+	SAVE_STATE(ammo_fbgrenade);
+	SAVE_STATE(ammo_smokegrenade);
 
-	cs_shotmultiplier_net = cs_shotmultiplier;
-	cs_shottime_net = cs_shottime;
+	SAVE_STATE(mode_usp45);
+	SAVE_STATE(mode_m4a1);
+	SAVE_STATE(mode_glock18);
+	SAVE_STATE(mode_temp);
 
-	anim_top_net = anim_top;
-	anim_top_delay_net = anim_top_delay;
-	anim_top_time_net = anim_top_time;
-	anim_bottom_net = anim_bottom;
-	anim_bottom_time_net = anim_bottom_time;
+	SAVE_STATE(cs_shotmultiplier);
+	SAVE_STATE(cs_shottime);
+
+	SAVE_STATE(anim_top);
+	SAVE_STATE(anim_top_time);
+	SAVE_STATE(anim_top_delay);
+	SAVE_STATE(anim_bottom); 
+	SAVE_STATE(anim_bottom_time);
 }
 
 /*
@@ -432,117 +285,65 @@ Where we roll back our values to the ones last sent/verified by the server.
 void
 player::PredictPostFrame(void)
 {
-	usp45_mag = usp45_mag_net;
-	glock18_mag = glock18_mag_net;
-	deagle_mag = deagle_mag_net;
-	p228_mag = p228_mag_net;
-	elites_mag = elites_mag_net;
-	fiveseven_mag = fiveseven_mag_net;
-	m3_mag = m3_mag_net;
-	xm1014_mag = xm1014_mag_net;
-	mp5_mag = mp5_mag_net;
-	p90_mag = p90_mag_net;
-	ump45_mag = ump45_mag_net;
-	mac10_mag = mac10_mag_net;
-	tmp_mag = tmp_mag_net;
-	ak47_mag = ak47_mag_net;
-	sg552_mag = sg552_mag_net;
-	m4a1_mag = m4a1_mag_net;
-	aug_mag = aug_mag_net;
-	scout_mag = scout_mag_net;
-	awp_mag = awp_mag_net;
-	g3sg1_mag = g3sg1_mag_net;
-	sg550_mag = sg550_mag_net;
-	para_mag = para_mag_net;
+	base_player::PredictPostFrame();
 
-	ammo_50ae = ammo_50ae_net;
-	ammo_762mm = ammo_762mm_net;
-	ammo_556mm = ammo_556mm_net;
-	ammo_556mmbox = ammo_556mmbox_net;
-	ammo_338mag = ammo_338mag_net;
-	ammo_9mm = ammo_9mm_net;
-	ammo_buckshot = ammo_buckshot_net;
-	ammo_45acp = ammo_45acp_net;
-	ammo_357sig = ammo_357sig_net;
-	ammo_57mm = ammo_57mm_net;
-	ammo_hegrenade = ammo_hegrenade_net;
-	ammo_fbgrenade = ammo_fbgrenade_net;
-	ammo_smokegrenade = ammo_smokegrenade_net;
+	ROLL_BACK(usp45_mag);
+	ROLL_BACK(glock18_mag);
+	ROLL_BACK(deagle_mag);
+	ROLL_BACK(p228_mag);
+	ROLL_BACK(elites_mag);
+	ROLL_BACK(fiveseven_mag);
+	ROLL_BACK(m3_mag);
+	ROLL_BACK(xm1014_mag);
+	ROLL_BACK(mp5_mag);
+	ROLL_BACK(p90_mag);
+	ROLL_BACK(ump45_mag);
+	ROLL_BACK(mac10_mag);
+	ROLL_BACK(tmp_mag);
+	ROLL_BACK(ak47_mag);
+	ROLL_BACK(sg552_mag);
+	ROLL_BACK(m4a1_mag);
+	ROLL_BACK(aug_mag);
+	ROLL_BACK(scout_mag);
+	ROLL_BACK(awp_mag);
+	ROLL_BACK(g3sg1_mag);
+	ROLL_BACK(sg550_mag);
+	ROLL_BACK(para_mag);
 
-	mode_usp45 = mode_usp45_net;
-	mode_m4a1 = mode_m4a1_net;
-	mode_glock18 = mode_glock18_net;
-	mode_temp = mode_temp_net;
+	ROLL_BACK(ammo_50ae);
+	ROLL_BACK(ammo_762mm);
+	ROLL_BACK(ammo_556mm);
+	ROLL_BACK(ammo_556mmbox);
+	ROLL_BACK(ammo_338mag);
+	ROLL_BACK(ammo_9mm);
+	ROLL_BACK(ammo_buckshot);
+	ROLL_BACK(ammo_45acp);
+	ROLL_BACK(ammo_357sig);
+	ROLL_BACK(ammo_57mm);
+	ROLL_BACK(ammo_hegrenade);
+	ROLL_BACK(ammo_fbgrenade);
+	ROLL_BACK(ammo_smokegrenade);
 
-	cs_shotmultiplier = cs_shotmultiplier_net;
-	cs_shottime = cs_shottime_net;
+	ROLL_BACK(mode_usp45);
+	ROLL_BACK(mode_m4a1);
+	ROLL_BACK(mode_glock18);
+	ROLL_BACK(mode_temp);
 
-	anim_top = anim_top_net;
-	anim_top_delay = anim_top_delay_net;
-	anim_top_time = anim_top_time_net;
-	anim_bottom = anim_bottom_net;
-	anim_bottom_time = anim_bottom_time_net;
+	ROLL_BACK(cs_shotmultiplier);
+	ROLL_BACK(cs_shottime);
+
+	ROLL_BACK(anim_top);
+	ROLL_BACK(anim_top_time);
+	ROLL_BACK(anim_top_delay);
+	ROLL_BACK(anim_bottom); 
+	ROLL_BACK(anim_bottom_time);
 }
 
 #else
 void
 player::EvaluateEntity(void)
 {
-	SendFlags |= PLAYER_KEEPALIVE;
-
-	if (old_modelindex != modelindex)
-		SendFlags |= PLAYER_MODELINDEX;
-
-	if (old_origin[0] != origin[0])
-		SendFlags |= PLAYER_ORIGIN;
-
-	if (old_origin[1] != origin[1])
-		SendFlags |= PLAYER_ORIGIN;
-
-	if (old_origin[2] != origin[2])
-		SendFlags |= PLAYER_ORIGIN_Z;
-
-	if (old_angles[0] != v_angle[0])
-		SendFlags |= PLAYER_ANGLES_X;
-
-	if (old_angles[1] != angles[1])
-		SendFlags |= PLAYER_ANGLES_Y;
-
-	if (old_angles[2] != angles[2])
-		SendFlags |= PLAYER_ANGLES_Z;
-
-	if (old_velocity[0] != velocity[0])
-		SendFlags |= PLAYER_VELOCITY;
-
-	if (old_velocity[1] != velocity[1])
-		SendFlags |= PLAYER_VELOCITY;
-
-	if (old_velocity[2] != velocity[2])
-		SendFlags |= PLAYER_VELOCITY_Z;
-
-	if (old_flags != flags)
-		SendFlags |= PLAYER_FLAGS;
-
-	if (old_gflags != gflags)
-		SendFlags |= PLAYER_FLAGS;
-
-	if (old_activeweapon != activeweapon)
-		SendFlags |= PLAYER_WEAPON;
-
-	if (old_items != g_items)
-		SendFlags |= PLAYER_ITEMS;
-
-	if (old_health != health)
-		SendFlags |= PLAYER_HEALTH;
-
-	if (old_armor != armor)
-		SendFlags |= PLAYER_ARMOR;
-
-	if (old_movetype != movetype)
-		SendFlags |= PLAYER_MOVETYPE;
-
-	if (old_viewofs != view_ofs[2])
-		SendFlags |= PLAYER_VIEWOFS;
+	base_player::EvaluateEntity();
 
 	/* animation */
 	if (anim_bottom_net != anim_bottom || anim_bottom_time != anim_bottom_time_net)
@@ -551,160 +352,144 @@ player::EvaluateEntity(void)
 		SendFlags |= PLAYER_TOPFRAME;
 
 	/* ammo 1 type updates */
-	if (glock18_mag_net != glock18_mag)
+	if (ATTR_CHANGED(glock18_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (usp45_mag_net != usp45_mag)
+	else if (ATTR_CHANGED(usp45_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (glock18_mag_net != glock18_mag)
+	else if (ATTR_CHANGED(glock18_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (deagle_mag_net != deagle_mag)
+	else if (ATTR_CHANGED(deagle_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (p228_mag_net != p228_mag)
+	else if (ATTR_CHANGED(p228_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (elites_mag_net != elites_mag)
+	else if (ATTR_CHANGED(elites_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (fiveseven_mag_net != fiveseven_mag)
+	else if (ATTR_CHANGED(fiveseven_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (m3_mag_net != m3_mag)
+	else if (ATTR_CHANGED(m3_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (xm1014_mag_net != xm1014_mag)
+	else if (ATTR_CHANGED(xm1014_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (mp5_mag_net != mp5_mag)
+	else if (ATTR_CHANGED(mp5_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (p90_mag_net != p90_mag)
+	else if (ATTR_CHANGED(p90_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (ump45_mag_net != ump45_mag)
+	else if (ATTR_CHANGED(ump45_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (mac10_mag_net != mac10_mag)
+	else if (ATTR_CHANGED(mac10_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (tmp_mag_net != tmp_mag)
+	else if (ATTR_CHANGED(tmp_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (ak47_mag_net != ak47_mag)
+	else if (ATTR_CHANGED(ak47_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (sg552_mag_net != sg552_mag)
+	else if (ATTR_CHANGED(sg552_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (m4a1_mag_net != m4a1_mag)
+	else if (ATTR_CHANGED(m4a1_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (aug_mag_net != aug_mag)
+	else if (ATTR_CHANGED(aug_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (scout_mag_net != scout_mag)
+	else if (ATTR_CHANGED(scout_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (awp_mag_net != awp_mag)
+	else if (ATTR_CHANGED(awp_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (g3sg1_mag_net != g3sg1_mag)
+	else if (ATTR_CHANGED(g3sg1_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (sg550_mag_net != sg550_mag)
+	else if (ATTR_CHANGED(sg550_mag))
 		SendFlags |= PLAYER_AMMO1;
-	if (para_mag_net != para_mag)
+	else if (ATTR_CHANGED(para_mag))
 		SendFlags |= PLAYER_AMMO1;
 
-	if (ammo_50ae_net != ammo_50ae)
+	if (ATTR_CHANGED(ammo_50ae))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_762mm_net != ammo_762mm)
+	else if (ATTR_CHANGED(ammo_762mm))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_556mm_net != ammo_556mm)
+	else if (ATTR_CHANGED(ammo_556mm))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_556mmbox_net != ammo_556mmbox)
+	else if (ATTR_CHANGED(ammo_556mmbox))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_338mag_net != ammo_338mag)
+	else if (ATTR_CHANGED(ammo_338mag))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_9mm_net != ammo_9mm)
+	else if (ATTR_CHANGED(ammo_9mm))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_buckshot_net != ammo_buckshot)
+	else if (ATTR_CHANGED(ammo_buckshot))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_45acp_net != ammo_45acp)
+	else if (ATTR_CHANGED(ammo_45acp))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_357sig_net != ammo_357sig)
+	else if (ATTR_CHANGED(ammo_357sig))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_57mm_net != ammo_57mm)
+	else if (ATTR_CHANGED(ammo_57mm))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_hegrenade_net != ammo_hegrenade)
+	else if (ATTR_CHANGED(ammo_hegrenade))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_fbgrenade_net != ammo_fbgrenade)
+	else if (ATTR_CHANGED(ammo_fbgrenade))
 		SendFlags |= PLAYER_AMMO2;
-	if (ammo_smokegrenade_net != ammo_smokegrenade)
+	else if (ATTR_CHANGED(ammo_smokegrenade))
 		SendFlags |= PLAYER_AMMO2;
 
-	if (mode_usp45_net != mode_usp45)
+	if (ATTR_CHANGED(mode_usp45))
 		SendFlags |= PLAYER_AMMO3;
-	if (mode_m4a1_net != mode_m4a1)
+	else if (ATTR_CHANGED(mode_m4a1))
 		SendFlags |= PLAYER_AMMO3;
-	if (mode_glock18_net != mode_glock18)
+	else if (ATTR_CHANGED(mode_glock18))
 		SendFlags |= PLAYER_AMMO3;
-	if (mode_temp_net != mode_temp)
+	else if (ATTR_CHANGED(mode_temp))
 		SendFlags |= PLAYER_AMMO3;
-	if (cs_shotmultiplier != cs_shotmultiplier_net)
+
+	if (ATTR_CHANGED(cs_shotmultiplier))
 		SendFlags |= PLAYER_CSSHOT;
-	if (cs_shottime != cs_shottime_net)
+	if (ATTR_CHANGED(cs_shottime))
 		SendFlags |= PLAYER_CSSHOTTIME;
 
-	old_modelindex = modelindex;
-	old_origin = origin;
-	old_angles = angles;
-	old_angles[0] = v_angle[0];
-	old_velocity = velocity;
-	old_flags = flags;
-	old_gflags = gflags;
-	old_activeweapon = activeweapon;
-	old_items = g_items;
-	old_health = health;
-	old_armor = armor;
-	old_movetype = movetype;
-	old_viewofs = view_ofs[2];
-	old_baseframe = baseframe;
-	old_frame = frame;
+	SAVE_STATE(usp45_mag);
+	SAVE_STATE(glock18_mag);
+	SAVE_STATE(deagle_mag);
+	SAVE_STATE(p228_mag);
+	SAVE_STATE(elites_mag);
+	SAVE_STATE(fiveseven_mag);
+	SAVE_STATE(m3_mag);
+	SAVE_STATE(xm1014_mag);
+	SAVE_STATE(mp5_mag);
+	SAVE_STATE(p90_mag);
+	SAVE_STATE(ump45_mag);
+	SAVE_STATE(mac10_mag);
+	SAVE_STATE(tmp_mag);
+	SAVE_STATE(ak47_mag);
+	SAVE_STATE(sg552_mag);
+	SAVE_STATE(m4a1_mag);
+	SAVE_STATE(aug_mag);
+	SAVE_STATE(scout_mag);
+	SAVE_STATE(awp_mag);
+	SAVE_STATE(g3sg1_mag);
+	SAVE_STATE(sg550_mag);
+	SAVE_STATE(para_mag);
 
-	glock18_mag_net = glock18_mag;
-	usp45_mag_net = usp45_mag;
-	glock18_mag_net = glock18_mag;
-	deagle_mag_net = deagle_mag;
-	p228_mag_net = p228_mag;
-	elites_mag_net = elites_mag;
-	fiveseven_mag_net = fiveseven_mag;
-	m3_mag_net = m3_mag;
-	xm1014_mag_net = xm1014_mag;
-	mp5_mag_net = mp5_mag;
-	p90_mag_net = p90_mag;
-	ump45_mag_net = ump45_mag;
-	mac10_mag_net = mac10_mag;
-	tmp_mag_net = tmp_mag;
-	ak47_mag_net = ak47_mag;
-	sg552_mag_net = sg552_mag;
-	m4a1_mag_net = m4a1_mag;
-	aug_mag_net = aug_mag;
-	scout_mag_net = scout_mag;
-	awp_mag_net = awp_mag;
-	g3sg1_mag_net = g3sg1_mag;
-	sg550_mag_net = sg550_mag;
-	para_mag_net = para_mag;
+	SAVE_STATE(ammo_50ae);
+	SAVE_STATE(ammo_762mm);
+	SAVE_STATE(ammo_556mm);
+	SAVE_STATE(ammo_556mmbox);
+	SAVE_STATE(ammo_338mag);
+	SAVE_STATE(ammo_9mm);
+	SAVE_STATE(ammo_buckshot);
+	SAVE_STATE(ammo_45acp);
+	SAVE_STATE(ammo_357sig);
+	SAVE_STATE(ammo_57mm);
+	SAVE_STATE(ammo_hegrenade);
+	SAVE_STATE(ammo_fbgrenade);
+	SAVE_STATE(ammo_smokegrenade);
 
-	ammo_50ae_net = ammo_50ae;
-	ammo_762mm_net = ammo_762mm;
-	ammo_556mm_net = ammo_556mm;
-	ammo_556mmbox_net = ammo_556mmbox;
-	ammo_338mag_net = ammo_338mag;
-	ammo_9mm_net = ammo_9mm;
-	ammo_buckshot_net = ammo_buckshot;
-	ammo_45acp_net = ammo_45acp;
-	ammo_357sig_net = ammo_357sig;
-	ammo_57mm_net = ammo_57mm;
-	ammo_hegrenade_net = ammo_hegrenade;
-	ammo_fbgrenade_net = ammo_fbgrenade;
-	ammo_smokegrenade_net = ammo_smokegrenade;
+	SAVE_STATE(mode_usp45);
+	SAVE_STATE(mode_m4a1);
+	SAVE_STATE(mode_glock18);
+	SAVE_STATE(mode_temp);
 
-	mode_usp45_net = mode_usp45;
-	mode_m4a1_net = mode_m4a1;
-	mode_glock18_net = mode_glock18;
-	mode_temp_net = mode_temp;
+	SAVE_STATE(cs_shotmultiplier);
+	SAVE_STATE(cs_shottime);
 
-	cs_shotmultiplier_net = cs_shotmultiplier;
-	cs_shottime_net = cs_shottime;
-
-	anim_top_net = anim_top;
-	anim_top_delay_net = anim_top_delay;
-	anim_top_time_net = anim_top_time;
-	anim_bottom_net = anim_bottom;
-	anim_bottom_time_net = anim_bottom_time;
+	SAVE_STATE(anim_top);
+	SAVE_STATE(anim_top_time);
+	SAVE_STATE(anim_top_delay);
+	SAVE_STATE(anim_bottom); 
+	SAVE_STATE(anim_bottom_time);
 
 	if (g_cs_gamestate != GAME_FREEZE) {
 		if (progress <= 0.0f) {
@@ -743,47 +528,7 @@ player::SendEntity(entity ePEnt, float fChanged)
 	WriteByte(MSG_ENTITY, ENT_PLAYER);
 	WriteFloat(MSG_ENTITY, fChanged);
 
-	/* really trying to get our moneys worth with 23 bits of mantissa */
-	if (fChanged & PLAYER_MODELINDEX)
-		WriteShort(MSG_ENTITY, modelindex);
-	if (fChanged & PLAYER_ORIGIN) {
-		WriteCoord(MSG_ENTITY, origin[0]);
-		WriteCoord(MSG_ENTITY, origin[1]);
-	}
-	if (fChanged & PLAYER_ORIGIN_Z)
-		WriteCoord(MSG_ENTITY, origin[2]);
-	if (fChanged & PLAYER_ANGLES_X)
-		WriteFloat(MSG_ENTITY, v_angle[0]);
-	if (fChanged & PLAYER_ANGLES_Y) {
-		WriteFloat(MSG_ENTITY, angles[1]);
-		WriteFloat(MSG_ENTITY, v_angle[1]);
-	}
-	if (fChanged & PLAYER_ANGLES_Z) {
-		WriteFloat(MSG_ENTITY, angles[2]);
-		WriteFloat(MSG_ENTITY, v_angle[2]);
-	}
-	if (fChanged & PLAYER_VELOCITY) {
-		WriteCoord(MSG_ENTITY, velocity[0]);
-		WriteCoord(MSG_ENTITY, velocity[1]);
-	}
-	if (fChanged & PLAYER_VELOCITY_Z)
-		WriteCoord(MSG_ENTITY, velocity[2]);
-	if (fChanged & PLAYER_FLAGS) {
-		WriteFloat(MSG_ENTITY, flags);
-		WriteFloat(MSG_ENTITY, gflags);
-	}
-	if (fChanged & PLAYER_WEAPON)
-		WriteByte(MSG_ENTITY, activeweapon);
-	if (fChanged & PLAYER_ITEMS)
-		WriteFloat(MSG_ENTITY, (__variant)g_items);
-	if (fChanged & PLAYER_HEALTH)
-		WriteByte(MSG_ENTITY, bound(0, health, 255));
-	if (fChanged & PLAYER_ARMOR)
-		WriteByte(MSG_ENTITY, armor);
-	if (fChanged & PLAYER_MOVETYPE)
-		WriteByte(MSG_ENTITY, movetype);
-	if (fChanged & PLAYER_VIEWOFS)
-		WriteFloat(MSG_ENTITY, view_ofs[2]);
+	base_player::SendEntity(ePEnt, fChanged);
 
 	if (fChanged & PLAYER_TOPFRAME) {
 		WriteByte(MSG_ENTITY, anim_top);

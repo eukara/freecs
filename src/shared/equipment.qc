@@ -15,7 +15,8 @@
  */
 
 #ifdef SERVER
-void CSEv_PlayerBuyEquipment_f(float fID) {
+void
+CSEv_PlayerBuyEquipment_f(float fID) {
 /*	if (Rules_BuyingPossible() == FALSE) {
 		return;
 	}

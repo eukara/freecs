@@ -27,7 +27,8 @@ Price: $3000
 */
 
 #ifdef CLIENT
-void w_xm1014_ejectshell(void)
+void
+w_xm1014_ejectshell(void)
 {
 	static void w_xm1014_ejectshell_death(void) {
 		remove(self);
@@ -178,18 +179,17 @@ w_xm1014_primary(void)
 		break;
 	}
 
+	if (self.flags & FL_CROUCHING)
+		Animation_PlayerTop(pl, ANIM_SHOOT_SHOTGUN, 0.45f);
+	else
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_SHOTGUN, 0.45f);
+
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_xm1014_ejectshell, 0.0f);
 #else
 	TraceAttack_SetPenetrationPower(0);
 	TraceAttack_FireBullets(6, pl.origin + pl.view_ofs, 22, [accuracy,accuracy], WEAPON_XM1014);
-
-	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTop(pl, ANIM_SHOOT_SHOTGUN, 0.45f);
-	else
-		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_SHOTGUN, 0.45f);
-
 	Sound_Play(pl, CHAN_WEAPON, "weapon_xm1014.fire");
 #endif
 

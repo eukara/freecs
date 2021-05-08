@@ -139,15 +139,6 @@ w_m4a1_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 220);
 	pl.m4a1_mag--;
 
-	/* actual firing */
-#ifdef CLIENT
-	if (pl.mode_m4a1 == 1) {
-		View_SetMuzzleflash(0);
-	} else {
-		View_SetMuzzleflash(MUZZLE_RIFLE);
-	}
-
-	/* this stuff is predicted */
 	int r = (float)input_sequence % 3;
 	if (pl.mode_m4a1 == 1) {
 		switch (r) {
@@ -174,6 +165,19 @@ w_m4a1_primary(void)
 			break;
 		}
 	}
+
+	if (self.flags & FL_CROUCHING)
+		Animation_PlayerTop(pl, ANIM_SHOOT_RIFLE, 0.45f);
+	else
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
+
+	/* actual firing */
+#ifdef CLIENT
+	if (pl.mode_m4a1 == 1) {
+		View_SetMuzzleflash(0);
+	} else {
+		View_SetMuzzleflash(MUZZLE_RIFLE);
+	}
 	View_AddEvent(w_rifle_ejectshell, 0.0f);
 #else
 	/* Different sounds without silencer */
@@ -185,11 +189,6 @@ w_m4a1_primary(void)
 
 	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_M4A1);
-
-	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTop(pl, ANIM_SHOOT_RIFLE, 0.45f);
-	else
-		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
 #endif
 
 	pl.w_attack_next = 0.0875f;
@@ -224,23 +223,19 @@ w_m4a1_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.m4a1_mag >= 30) {
+	if (pl.m4a1_mag >= 30)
 		return;
-	}
-	if (!pl.ammo_556mm) {
+	if (!pl.ammo_556mm)
 		return;
-	}
 
-#ifdef CLIENT
-	if (pl.mode_m4a1 == 1) {
+	if (pl.mode_m4a1 == 1)
 		Weapons_ViewAnimation(M4A1_RELOAD);
-	} else {
+	else
 		Weapons_ViewAnimation(M4A1_RELOADUNSIL);
-	}
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::m4a1_mag, player::ammo_556mm, 30);
 #endif
 	

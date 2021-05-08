@@ -111,19 +111,14 @@ w_sg550_primary(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (!pl.sg550_mag) {
+	if (!pl.sg550_mag)
 		return;
-	}
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.sg550_mag--;
-
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
 
 	int r = (float)input_sequence % 2;
 	switch (r) {
@@ -134,16 +129,19 @@ w_sg550_primary(void)
 		Weapons_ViewAnimation(SCOUT_SHOOT2);
 		break;
 	}
-	View_AddEvent(w_rifle_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 70, [accuracy,accuracy], WEAPON_SG550);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_RIFLE, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
 
+
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_rifle_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(1);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 70, [accuracy,accuracy], WEAPON_SG550);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_sg550.fire");
 #endif
 
@@ -155,17 +153,18 @@ void
 w_sg550_secondary(void)
 {
 	player pl = (player)self;
-	if (pl.w_attack_next) {
+
+	if (pl.w_attack_next)
 		return;
-	}
+
 	/* Simple toggle of fovs */
-	if (pl.viewzoom == 1.0f) {
+	if (pl.viewzoom == 1.0f)
 		pl.viewzoom = 0.45f;
-	} else if (pl.viewzoom == 0.45f) {
+	else if (pl.viewzoom == 0.45f)
 		pl.viewzoom = 0.1f;
-	} else {
+	else
 		pl.viewzoom = 1.0f;
-	}
+
 	pl.w_attack_next = 0.5f;
 }
 
@@ -174,19 +173,16 @@ w_sg550_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.sg550_mag >= 30) {
+	if (pl.sg550_mag >= 30)
 		return;
-	}
-	if (!pl.ammo_556mm) {
+	if (!pl.ammo_556mm)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(SG550_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::sg550_mag, player::ammo_556mm, 30);
 	Weapons_UpdateAmmo(pl, pl.sg550_mag, pl.ammo_556mm, -1);
 #endif

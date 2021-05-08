@@ -21,7 +21,8 @@ info_player_start
 Counter-Terrorist Spawnpoints
 =================
 */
-void info_player_start(void)
+void
+info_player_start(void)
 {
 	if (autocvar_fcs_swapteams == TRUE) {
 		self.classname = "info_player_deathmatch";
@@ -36,7 +37,8 @@ info_player_deathmatch
 Terrorist Spawnpoints
 =================
 */
-void info_player_deathmatch(void)
+void
+info_player_deathmatch(void)
 {
 	if (autocvar_fcs_swapteams == TRUE) {
 		self.classname = "info_player_start";
@@ -45,14 +47,16 @@ void info_player_deathmatch(void)
 }
 
 /* Counter-Strike: Source compat */
-void info_player_counterterrorist(void)
+void
+info_player_counterterrorist(void)
 {
 	setorigin(self, self.origin + [0,0,32]);
 	self.classname = "info_player_start";
 	info_player_start();
 }
 
-void info_player_terrorist(void)
+void
+info_player_terrorist(void)
 {
 	setorigin(self, self.origin + [0,0,32]);
 	self.classname = "info_player_deathmatch";
@@ -64,6 +68,7 @@ void info_player_terrorist(void)
 info_vip_start
 =================
 */
-void info_vip_start(void)
+void
+info_vip_start(void)
 {
 }

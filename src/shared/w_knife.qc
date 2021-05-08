@@ -79,10 +79,8 @@ w_knife_deathmsg(void)
 void
 w_knife_draw(void)
 {
-#ifdef CLIENT
 	Weapons_SetModel("models/v_knife.mdl");
 	Weapons_ViewAnimation(KNIFE_DRAW);
-#endif
 }
 
 void
@@ -95,7 +93,6 @@ w_knife_primary(void)
 	}
 	pl.w_attack_next = 0.7f;
 
-#ifdef CLIENT
 	int r = (float)input_sequence % 2;
 	switch (r) {
 	case 0:
@@ -105,18 +102,19 @@ w_knife_primary(void)
 		Weapons_ViewAnimation(KNIFE_SLASH2);
 		break;
 	}
-#else
+
+	if (self.flags & FL_CROUCHING)
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_KNIFE, 1.33f);
+	else
+		Animation_PlayerTop(pl, ANIM_SHOOT_KNIFE, 1.33f);
+
+#ifdef SERVER
 	vector src;
 	Weapons_MakeVectors();
 	src = pl.origin + pl.view_ofs;
 	traceline(src, src + (v_forward * 32), FALSE, pl);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_knife.miss");
-
-	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_KNIFE, 1.33f);
-	else
-		Animation_PlayerTop(pl, ANIM_SHOOT_KNIFE, 1.33f);
 
 	if (trace_fraction >= 1.0) {
 		return;
@@ -145,10 +143,15 @@ w_knife_secondary(void)
 	}
 	pl.w_attack_next = 1.2f;
 
-#ifdef CLIENT
+
 	Weapons_ViewAnimation(KNIFE_STAB);
-#else
-	
+
+	if (self.flags & FL_CROUCHING)
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_KNIFE, 1.33f);
+	else
+		Animation_PlayerTop(pl, ANIM_SHOOT_KNIFE, 1.33f);
+
+#ifdef SERVER
 	vector src;
 	Weapons_MakeVectors();
 	src = pl.origin + pl.view_ofs;

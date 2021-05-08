@@ -122,9 +122,6 @@ w_g3sg1_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.g3sg1_mag--;
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-
 	int r = (float)input_sequence % 2;
 	switch (r) {
 	case 0:
@@ -134,16 +131,18 @@ w_g3sg1_primary(void)
 		Weapons_ViewAnimation(SCOUT_SHOOT2);
 		break;
 	}
-	View_AddEvent(w_rifle_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(2);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 80, [accuracy,accuracy], WEAPON_G3SG1);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_RIFLE, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_rifle_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(2);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 80, [accuracy,accuracy], WEAPON_G3SG1);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_g3sg1.fire");
 #endif
 
@@ -174,19 +173,16 @@ w_g3sg1_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.g3sg1_mag >= 20) {
+	if (pl.g3sg1_mag >= 20)
 		return;
-	}
-	if (!pl.ammo_762mm) {
+	if (!pl.ammo_762mm)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(G3SG1_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::g3sg1_mag, player::ammo_762mm, 20);
 	Weapons_UpdateAmmo(pl, pl.g3sg1_mag, pl.ammo_762mm, -1);
 #endif

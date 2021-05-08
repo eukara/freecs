@@ -98,7 +98,8 @@ w_flashbang_draw(void)
 }
 
 #ifdef SERVER
-void w_flashbang_throw(void)
+void
+w_flashbang_throw(void)
 {
 	static void flashbang_explode(void)
 	{

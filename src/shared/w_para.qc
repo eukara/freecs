@@ -111,19 +111,14 @@ w_para_primary(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (!pl.para_mag) {
+	if (!pl.para_mag)
 		return;
-	}
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 175);
 	pl.para_mag--;
-
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
 
 	int r = (float)input_sequence % 2;
 	switch (r) {
@@ -134,16 +129,18 @@ w_para_primary(void)
 		Weapons_ViewAnimation(SCOUT_SHOOT2);
 		break;
 	}
-	View_AddEvent(w_rifle_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 35, [accuracy,accuracy], WEAPON_PARA);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_PARA, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_SHOOT_PARA, 0.45f);
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_rifle_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(1);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 35, [accuracy,accuracy], WEAPON_PARA);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_para.fire");
 #endif
 
@@ -156,19 +153,16 @@ w_para_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.para_mag >= 100) {
+	if (pl.para_mag >= 100)
 		return;
-	}
-	if (!pl.ammo_556mmbox) {
+	if (!pl.ammo_556mmbox)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(PARA_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::para_mag, player::ammo_556mmbox, 100);
 	Weapons_UpdateAmmo(pl, pl.para_mag, pl.ammo_556mmbox, -1);
 #endif

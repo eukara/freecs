@@ -22,7 +22,8 @@ class item_suit:CBaseTrigger
 	virtual void(void) Respawn;
 };
 
-void item_suit::touch(void)
+void
+item_suit::touch(void)
 {
 	player pl = (player)other;
 
@@ -48,7 +49,8 @@ void item_suit::touch(void)
 	}
 }
 
-void item_suit::Respawn(void)
+void
+item_suit::Respawn(void)
 {
 	SetSolid(SOLID_TRIGGER);
 	SetMovetype(MOVETYPE_TOSS);
@@ -60,7 +62,8 @@ void item_suit::Respawn(void)
 	nextthink = -1;
 }
 
-void item_suit::item_suit(void)
+void
+item_suit::item_suit(void)
 {
 	model = "models/w_kevlar.mdl";
 	precache_sound("items/tr_kevlar.wav");

@@ -127,9 +127,6 @@ w_fiveseven_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.fiveseven_mag--;
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-
 	if (pl.fiveseven_mag <= 0) {
 		Weapons_ViewAnimation(FIVESEVEN_SHOOT_EMPTY);
 	} else {
@@ -143,16 +140,18 @@ w_fiveseven_primary(void)
 			break;
 		}
 	}
-	View_AddEvent(w_pistol_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(0);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_FIVESEVEN);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_ONEHAND, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_FIVESEVEN);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_fiveseven.fire");
 #endif
 
@@ -166,19 +165,16 @@ w_fiveseven_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.fiveseven_mag >= 20) {
+	if (pl.fiveseven_mag >= 20)
 		return;
-	}
-	if (!pl.ammo_57mm) {
+	if (!pl.ammo_57mm)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(FIVESEVEN_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::fiveseven_mag, player::ammo_57mm, 20);
 #endif
 

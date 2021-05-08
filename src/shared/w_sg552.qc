@@ -112,19 +112,14 @@ w_sg552_primary(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (!pl.sg552_mag) {
+	if (!pl.sg552_mag)
 		return;
-	}
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 220);
 	pl.sg552_mag--;
-
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
 
 	int r = (float)input_sequence % 3;
 	switch (r) {
@@ -138,24 +133,26 @@ w_sg552_primary(void)
 		Weapons_ViewAnimation(SG552_SHOOT3);
 		break;
 	}
-	View_AddEvent(w_rifle_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33, [accuracy,accuracy], WEAPON_SG552);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_RIFLE, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_rifle_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(1);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33, [accuracy,accuracy], WEAPON_SG552);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_sg552.fire");
 #endif
 
-	if (pl.viewzoom == 1.0f) {
+	if (pl.viewzoom == 1.0f)
 		pl.w_attack_next = 0.0825f;
-	} else {
+	else
 		pl.w_attack_next = 0.15f;
-	}
+
 	pl.w_idle_next = pl.w_attack_next;
 }
 
@@ -163,15 +160,16 @@ void
 w_sg552_secondary(void)
 {
 	player pl = (player)self;
-	if (pl.w_attack_next) {
+
+	if (pl.w_attack_next)
 		return;
-	}
+
 	/* Simple toggle of fovs */
-	if (pl.viewzoom == 1.0f) {
+	if (pl.viewzoom == 1.0f)
 		pl.viewzoom = 0.2f;
-	} else {
+	else
 		pl.viewzoom = 1.0f;
-	}
+
 	pl.w_attack_next = 0.5f;
 }
 
@@ -180,19 +178,16 @@ w_sg552_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.sg552_mag >= 30) {
+	if (pl.sg552_mag >= 30)
 		return;
-	}
-	if (!pl.ammo_556mm) {
+	if (!pl.ammo_556mm)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(SG552_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::sg552_mag, player::ammo_556mm, 30);
 	Weapons_UpdateAmmo(pl, pl.sg552_mag, pl.ammo_556mm, -1);
 #endif

@@ -123,9 +123,6 @@ w_mac10_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.mac10_mag--;
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
@@ -138,16 +135,18 @@ w_mac10_primary(void)
 		Weapons_ViewAnimation(MAC10_SHOOT3);
 		break;
 	}
-	View_AddEvent(w_pistol_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(0);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 29, [accuracy,accuracy], WEAPON_MAC10);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_MP5, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_MP5, 0.45f);
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 29, [accuracy,accuracy], WEAPON_MAC10);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mac10.fire");
 #endif
 
@@ -160,19 +159,16 @@ w_mac10_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.mac10_mag >= 30) {
+	if (pl.mac10_mag >= 30)
 		return;
-	}
-	if (!pl.ammo_45acp) {
+	if (!pl.ammo_45acp)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(MAC10_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::mac10_mag, player::ammo_45acp, 30);
 	Weapons_UpdateAmmo(pl, pl.mac10_mag, pl.ammo_45acp, -1);
 #endif

@@ -124,9 +124,6 @@ w_aug_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 215);
 	pl.aug_mag--;
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
@@ -139,16 +136,18 @@ w_aug_primary(void)
 		Weapons_ViewAnimation(AUG_SHOOT3);
 		break;
 	}
-	View_AddEvent(w_rifle_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 32, [accuracy,accuracy], WEAPON_AUG);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_RIFLE, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_rifle_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(1);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 32, [accuracy,accuracy], WEAPON_AUG);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_aug.fire");
 #endif
 
@@ -190,10 +189,9 @@ w_aug_reload(void)
 	if (!pl.ammo_762mm) {
 		return;
 	}
-
-#ifdef CLIENT
 	Weapons_ViewAnimation(AUG_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::aug_mag, player::ammo_762mm, 30);
 #endif
 

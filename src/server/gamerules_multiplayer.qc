@@ -936,7 +936,8 @@ CSEv_JoinTeam_f
 Event Handling, called by the Client codebase via 'sendevent'
 =================
 */
-void CSEv_JoinTeam_f(float flChar)
+void
+CSEv_JoinTeam_f(float flChar)
 {
 	CSMultiplayerRules rules = (CSMultiplayerRules)g_grMode;
 	player pl = (player)self;
@@ -1004,7 +1005,8 @@ void CSEv_JoinTeam_f(float flChar)
 	}
 }
 
-void CSEv_JoinAuto(void)
+void
+CSEv_JoinAuto(void)
 {
 	int ct_count = 0;
 	int t_count = 1;

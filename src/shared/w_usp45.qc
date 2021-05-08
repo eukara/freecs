@@ -130,18 +130,12 @@ w_usp45_primary(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-
-	if (pl.gflags & GF_SEMI_TOGGLED) {
+	if (pl.gflags & GF_SEMI_TOGGLED)
 		return;
-	}
-
-	/* ammo check */
-	if (!pl.usp45_mag) {
+	if (!pl.usp45_mag)
 		return;
-	}
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
@@ -183,6 +177,11 @@ w_usp45_primary(void)
 		}
 	}
 
+	if (self.flags & FL_CROUCHING)
+		Animation_PlayerTop(pl, ANIM_SHOOT_ONEHAND, 0.45f);
+	else
+		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
+
 #ifdef CLIENT
 	if (pl.mode_usp45 == 1) {
 		View_SetMuzzleflash(0);
@@ -202,11 +201,6 @@ w_usp45_primary(void)
 	/* actual firing */
 	TraceAttack_SetPenetrationPower(0);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_USP45);
-
-	if (self.flags & FL_CROUCHING)
-		Animation_PlayerTop(pl, ANIM_SHOOT_ONEHAND, 0.45f);
-	else
-		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
 #endif
 
 	pl.gflags |= GF_SEMI_TOGGLED;
@@ -219,19 +213,17 @@ w_usp45_secondary(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0) {
+	if (pl.w_attack_next > 0)
 		return;
-	}
 
 	/* toggle silencer */
 	pl.mode_usp45 = 1 - pl.mode_usp45;
 
 	/* play the animation */
-	if (pl.mode_usp45) {
+	if (pl.mode_usp45)
 		Weapons_ViewAnimation(USP45_ADDSIL);
-	} else {
+	else
 		Weapons_ViewAnimation(USP45_DETACHSIL);
-	}
 
 	pl.w_attack_next = 3.1f;
 	pl.w_idle_next = pl.w_attack_next;
@@ -242,23 +234,19 @@ w_usp45_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.usp45_mag >= 12) {
+	if (pl.usp45_mag >= 12)
 		return;
-	}
-	if (!pl.ammo_45acp) {
+	if (!pl.ammo_45acp)
 		return;
-	}
 
-#ifdef CLIENT
-	if (pl.mode_usp45 == 1) {
+	if (pl.mode_usp45 == 1)
 		Weapons_ViewAnimation(USP45_RELOAD);
-	} else {
+	else
 		Weapons_ViewAnimation(USP45_RELOADUNSIL);
-	}
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::usp45_mag, player::ammo_45acp, 12);
 #endif
 

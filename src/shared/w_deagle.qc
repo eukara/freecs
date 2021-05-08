@@ -27,7 +27,8 @@ Price: $650
 */
 
 #ifdef CLIENT
-void w_pistol_ejectshell(void)
+void
+w_pistol_ejectshell(void)
 {
 	static void w_pistol_ejectshell_death(void) {
 		remove(self);
@@ -144,23 +145,16 @@ w_deagle_primary(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-
-	if (pl.gflags & GF_SEMI_TOGGLED) {
+	if (pl.gflags & GF_SEMI_TOGGLED)
 		return;
-	}
-	if (!pl.deagle_mag) {
+	if (!pl.deagle_mag)
 		return;
-	}
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.deagle_mag--;
-
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
 
 	if (pl.deagle_mag <= 0) {
 		Weapons_ViewAnimation(DEAGLE_SHOOT_EMPTY);
@@ -175,16 +169,18 @@ w_deagle_primary(void)
 			break;
 		}
 	}
-	View_AddEvent(w_pistol_ejectshell, 0.0f);
-#else
-	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 54, [accuracy,accuracy], WEAPON_DEAGLE);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_SHOOT_ONEHAND, 0.45f);
 
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_pistol_ejectshell, 0.0f);
+#else
+	TraceAttack_SetPenetrationPower(1);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 54, [accuracy,accuracy], WEAPON_DEAGLE);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_deagle.fire");
 #endif
 
@@ -207,10 +203,9 @@ w_deagle_reload(void)
 	if (!pl.ammo_50ae) {
 		return;
 	}
-
-#ifdef CLIENT
 	Weapons_ViewAnimation(DEAGLE_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::deagle_mag, player::ammo_50ae, 7);
 #endif
 

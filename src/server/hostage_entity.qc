@@ -159,7 +159,7 @@ hostage_entity::Pain(void)
 	Money_AddMoney((base_player)g_dmg_eAttacker, -(g_dmg_iDamage * 25));
 }
 
-void 
+void
 hostage_entity::Death(void)
 {
 	WarnAllies();

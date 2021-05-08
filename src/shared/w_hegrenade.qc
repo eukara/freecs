@@ -98,7 +98,8 @@ w_hegrenade_draw(void)
 }
 
 #ifdef SERVER
-void w_hegrenade_throw(void)
+void
+w_hegrenade_throw(void)
 {
 	static void hegrenade_explode(void)
 	{

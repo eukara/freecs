@@ -140,22 +140,21 @@ void
 w_scout_secondary(void)
 {
 	player pl = (player)self;
-	if (pl.w_attack_next) {
+
+	if (pl.w_attack_next)
 		return;
-	}
 
 #ifdef SSQC
 	Sound_Play(pl, CHAN_WEAPON, "weapon_awp.zoom");
 #endif
 
 	/* Simple toggle of fovs */
-	if (pl.mode_temp == 1) {
+	if (pl.mode_temp == 1)
 		pl.mode_temp = 2;
-	} else if (pl.mode_temp == 2) {
+	else if (pl.mode_temp == 2)
 		pl.mode_temp = 0;
-	} else {
+	else
 		pl.mode_temp = 1;
-	}
 
 	pl.w_attack_next = 0.3f;
 	pl.w_idle_next = 0.0f;
@@ -179,9 +178,6 @@ w_scout_primary(void)
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.scout_mag--;
 
-#ifdef CLIENT
-	View_SetMuzzleflash(MUZZLE_RIFLE);
-
 	int r = (float)input_sequence % 2;
 	switch (r) {
 	case 0:
@@ -191,16 +187,19 @@ w_scout_primary(void)
 		Weapons_ViewAnimation(SCOUT_SHOOT2);
 		break;
 	}
-	View_AddEvent(w_rifle_ejectshell, 0.5f);
-#else
-	TraceAttack_SetPenetrationPower(2);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 75, [accuracy,accuracy], WEAPON_SCOUT);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_RIFLE, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
 
+
+#ifdef CLIENT
+	View_SetMuzzleflash(MUZZLE_RIFLE);
+	View_AddEvent(w_rifle_ejectshell, 0.5f);
+#else
+	TraceAttack_SetPenetrationPower(2);
+	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 75, [accuracy,accuracy], WEAPON_SCOUT);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_scout.fire");
 #endif
 
@@ -213,19 +212,16 @@ w_scout_reload(void)
 {
 	player pl = (player)self;
 
-	if (pl.w_attack_next > 0.0) {
+	if (pl.w_attack_next > 0.0)
 		return;
-	}
-	if (pl.scout_mag >= 10) {
+	if (pl.scout_mag >= 10)
 		return;
-	}
-	if (!pl.ammo_762mm) {
+	if (!pl.ammo_762mm)
 		return;
-	}
 
-#ifdef CLIENT
 	Weapons_ViewAnimation(SCOUT_RELOAD);
-#else
+
+#ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::scout_mag, player::ammo_762mm, 10);
 	Weapons_UpdateAmmo(pl, pl.scout_mag, pl.ammo_762mm, -1);
 #endif
