@@ -36,7 +36,7 @@ void Animation_Print(string sWow) {
 	print(sprintf("[DEBUG] %s", sWow));
 #else 
 	bprint(PRINT_HIGH, sprintf("SSQC: %s", sWow) );
-#endif
+#endif	
 }
 
 void
@@ -53,7 +53,8 @@ Animation_TimerUpdate(player pl, float ftime)
 		pl.anim_bottom_time -= ftime;
 	} else {
 		pl.anim_bottom_time += ftime;
-	
+	}
+}
 
 /*
 =================
