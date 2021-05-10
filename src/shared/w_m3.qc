@@ -152,21 +152,34 @@ w_m3_draw(void)
 #endif
 }
 
+void w_m3_release(void);
+
 void
 w_m3_primary(void)
 {
 	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
+		w_m3_release();
 		return;
 	}
 
-	if (!pl.m3_mag) {
+	/* interrupt reloading if no longer empty */
+	if (pl.mode_temp == M3S_RELOAD && pl.m3_mag >= 1) {
+		pl.mode_temp = M3S_RELOAD_END;
+		w_m3_release();
+		return;
+	} else if (pl.mode_temp > M3S_IDLE) {
+		w_m3_release();
 		return;
 	}
 
-	Cstrike_ShotMultiplierAdd(pl, 9);
-	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+	/* Ammo check */
+	if (pl.m3_mag <= 0) {
+		w_m3_release();
+		return;
+	}
+
 	pl.m3_mag--;
 
 	int r = (float)input_sequence % 2;
@@ -184,7 +197,6 @@ w_m3_primary(void)
 	View_AddEvent(w_m3_ejectshell, 0.6f);
 #else
 	TraceAttack_SetPenetrationPower(0);
-	TraceAttack_FireBullets(9, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_M3);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_SHOTGUN, 0.45f);
@@ -193,6 +205,14 @@ w_m3_primary(void)
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_m3.fire");
 #endif
+
+	for (int i = 0; i < 9; i++) {
+		Cstrike_ShotMultiplierAdd(pl, 1);
+		pl.punchangle[0] = -4 * (9 / 6);
+#ifdef SERVER
+		TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 26, [random(-1,1) * 0.1,random(-1,1) * 0.05], WEAPON_M3);
+#endif
+	}
 
 	pl.w_attack_next = 1.0f;
 	pl.w_idle_next = pl.w_attack_next;

@@ -151,22 +151,35 @@ w_xm1014_draw(void)
 #endif
 }
 
+
+void w_xm1014_release(void);
+
 void
 w_xm1014_primary(void)
 {
 	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
+		w_xm1014_release();
 		return;
 	}
 
-	/* ammo check */
-	if (!pl.xm1014_mag) {
+	/* interrupt reloading if no longer empty */
+	if (pl.mode_temp == XM1014S_RELOAD && pl.xm1014_mag >= 1) {
+		pl.mode_temp = XM1014S_RELOAD_END;
+		w_xm1014_release();
+		return;
+	} else if (pl.mode_temp > XM1014S_IDLE) {
+		w_xm1014_release();
 		return;
 	}
 
-	Cstrike_ShotMultiplierAdd(pl, 6);
-	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+	/* Ammo check */
+	if (pl.xm1014_mag <= 0) {
+		w_xm1014_release();
+		return;
+	}
+
 	pl.xm1014_mag--;
 
 	int r = (float)input_sequence % 3;
@@ -189,10 +202,17 @@ w_xm1014_primary(void)
 	View_AddEvent(w_xm1014_ejectshell, 0.0f);
 #else
 	TraceAttack_SetPenetrationPower(0);
-	TraceAttack_FireBullets(6, pl.origin + pl.view_ofs, 22, [accuracy,accuracy], WEAPON_XM1014);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_xm1014.fire");
 #endif
 
+	for (int i = 0; i < 6; i++) {
+		Cstrike_ShotMultiplierAdd(pl, 1);
+		pl.punchangle[0] = -4 * (6 / 6);
+#ifdef SERVER
+		TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 22, [random(-1,1) * 0.1,random(-1,1) * 0.05], WEAPON_M3);
+#endif
+	}
+	
 	pl.w_attack_next = 0.25f;
 	pl.w_idle_next = pl.w_attack_next;
 }

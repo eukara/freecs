@@ -32,13 +32,37 @@
 void
 Cstrike_ShotMultiplierAdd(player pl, int shots)
 {
+	int r;
+
 	/* more than 12 is enough, you can barely hit the barn */
 	pl.cs_shotmultiplier = bound(0, pl.cs_shotmultiplier + shots, 12);
 
 	pl.cs_shottime = 0.2f;
 	pl.punchangle[0] = -4 * (pl.cs_shotmultiplier / 6);
-	pl.punchangle[1] = random(-1, 1);
+
+	r = (float)input_sequence % 5;
+	switch (r) {
+	case 1:
+		pl.punchangle[1] = -0.1;
+		break;
+	case 2:
+		pl.punchangle[1] = 0.25;
+		break;
+	case 3:
+		pl.punchangle[1] = -0.25;
+		break;
+	case 4:
+		pl.punchangle[1] = 0.5;
+		break;
+	case 5:
+		pl.punchangle[1] = 0.1;
+		break;
+	default:
+		pl.punchangle[1] = -0.5;
+		break;
+	}
 }
+
 
 /* generate an accuracy value that we'll pass onto TraceAttack */
 float
