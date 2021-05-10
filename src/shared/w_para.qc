@@ -86,11 +86,11 @@ w_para_pickup(int new, int startammo)
 		if (pl.ammo_556mmbox < AMMO_MAX_556MMBOX) {
 			pl.ammo_556mmbox = bound(0, pl.ammo_556mmbox + 100, AMMO_MAX_556MMBOX);
 		} else {
-			return FALSE;
+			return (0);
 		}
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 void

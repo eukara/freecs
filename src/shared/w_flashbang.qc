@@ -64,10 +64,10 @@ w_flashbang_pickup(int new, int startammo)
 	if (pl.ammo_fbgrenade < AMMO_MAX_FLASHBANG) {
 		pl.ammo_fbgrenade = bound(0, pl.ammo_fbgrenade + 1, AMMO_MAX_FLASHBANG);
 	} else {
-		return FALSE;
+		return (0);
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 string

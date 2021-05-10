@@ -198,7 +198,7 @@ ClientGame_ConsoleCommand(void)
 		sendevent("Radio", "f", RADIO_ENEMYDOWN);
 		break;
 	default:
-		return FALSE;
+		return (0);
 	}
-	return TRUE;
+	return (1);
 }

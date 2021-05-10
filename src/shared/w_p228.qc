@@ -88,11 +88,11 @@ w_p228_pickup(int new, int startammo)
 		if (pl.ammo_357sig < AMMO_MAX_357SIG) {
 			pl.ammo_357sig = bound(0, pl.ammo_357sig + 13, AMMO_MAX_357SIG);
 		} else {
-			return FALSE;
+			return (0);
 		}
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 void

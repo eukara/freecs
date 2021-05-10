@@ -87,11 +87,11 @@ w_fiveseven_pickup(int new, int startammo)
 		if (pl.ammo_57mm < AMMO_MAX_57MM) {
 			pl.ammo_57mm = bound(0, pl.ammo_57mm + 20, AMMO_MAX_57MM);
 		} else {
-			return FALSE;
+			return (0);
 		}
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 void

@@ -64,10 +64,10 @@ w_smokegrenade_pickup(int new, int startammo)
 	if (pl.ammo_smokegrenade < AMMO_MAX_SMOKE) {
 		pl.ammo_smokegrenade = bound(0, pl.ammo_smokegrenade + 1, AMMO_MAX_SMOKE);
 	} else {
-		return FALSE;
+		return (0);
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 string

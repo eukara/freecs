@@ -86,11 +86,11 @@ w_scout_pickup(int new, int startammo)
 		if (pl.ammo_762mm < AMMO_MAX_762MM) {
 			pl.ammo_762mm = bound(0, pl.ammo_762mm + 10, AMMO_MAX_762MM);
 		} else {
-			return FALSE;
+			return (0);
 		}
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 void

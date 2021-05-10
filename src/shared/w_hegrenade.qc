@@ -64,10 +64,10 @@ w_hegrenade_pickup(int new, int startammo)
 	if (pl.ammo_hegrenade < AMMO_MAX_HENADE) {
 		pl.ammo_hegrenade = bound(0, pl.ammo_hegrenade + 1, AMMO_MAX_HENADE);
 	} else {
-		return FALSE;
+		return (0);
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 string

@@ -1,7 +1,7 @@
  #includelist
 flags.h
 player.h
-../../../valve/src/shared/weapon_common.h
+../../../base/src/shared/weapon_common.h
 animations.h
 animations.qc
 
@@ -45,8 +45,8 @@ w_flashbang.qc
 w_hegrenade.qc
 w_smokegrenade.qc
 weapons.qc
-../../../valve/src/shared/weapon_common.qc
-input.qc
+../../../base/src/shared/weapon_common.qc
+../../../base/src/shared/input.qc
 pmove.qc
 ../../../valve/src/shared/pmove_water.qc
 item_c4bomb.qc

@@ -97,11 +97,11 @@ w_m4a1_pickup(int new, int startammo)
 		if (pl.ammo_556mm < AMMO_MAX_556MM) {
 			pl.ammo_556mm = bound(0, pl.ammo_556mm + 30, AMMO_MAX_556MM);
 		} else {
-			return FALSE;
+			return (0);
 		}
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 void

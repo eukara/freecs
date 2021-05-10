@@ -120,11 +120,11 @@ w_deagle_pickup(int new, int startammo)
 		if (pl.ammo_50ae < AMMO_MAX_50AE) {
 			pl.ammo_50ae = bound(0, pl.ammo_50ae + 7, AMMO_MAX_50AE);
 		} else {
-			return FALSE;
+			return (0);
 		}
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 void

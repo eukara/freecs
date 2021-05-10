@@ -87,11 +87,11 @@ w_ump45_pickup(int new, int startammo)
 		if (pl.ammo_45acp < AMMO_MAX_45ACP) {
 			pl.ammo_45acp = bound(0, pl.ammo_45acp + 25, AMMO_MAX_45ACP);
 		} else {
-			return FALSE;
+			return (0);
 		}
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 void

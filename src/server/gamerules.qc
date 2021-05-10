@@ -29,7 +29,7 @@ CSGameRules::PlayerPain(base_player pl)
 int
 CSGameRules::BuyingPossible(base_player pl)
 {
-	return FALSE;
+	return (0);
 }
 
 /* we check what fields have changed over the course of the frame and network

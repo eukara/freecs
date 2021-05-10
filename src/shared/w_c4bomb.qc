@@ -187,9 +187,9 @@ w_c4bomb_pickup(int new, int startammo)
 	player pl = (player)self;
 
 	if (pl.team != TEAM_T)
-		return FALSE;
+		return (0);
 #endif
-	return TRUE;
+	return (1);
 }
 
 void

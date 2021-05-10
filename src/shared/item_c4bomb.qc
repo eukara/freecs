@@ -54,7 +54,7 @@ item_c4::SendEntity(entity pvsent, float flags)
 	WriteCoord(MSG_ENTITY, angles[1]);
 	WriteCoord(MSG_ENTITY, angles[2]);
 	WriteShort(MSG_ENTITY, modelindex);
-	return TRUE;
+	return (1);
 }
 
 void

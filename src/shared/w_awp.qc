@@ -121,11 +121,11 @@ w_awp_pickup(int new, int startammo)
 		if (pl.ammo_338mag < 20) {
 			pl.ammo_338mag = bound(0, pl.ammo_338mag + 10, 20);
 		} else {
-			return FALSE;
+			return (0);
 		}
 	}
 #endif
-	return TRUE;
+	return (1);
 }
 
 void

@@ -21,7 +21,7 @@ CSMultiplayerRules::MaxItemPerSlot(int slot)
 	if (slot == 3) {
 		return 3;
 	}
-	return 1;
+	return (1);
 }
 
 void
@@ -355,42 +355,42 @@ int
 CSMultiplayerRules::BuyingPossible(base_player pl)
 {
 	if (pl.health <= 0) {
-		return FALSE;
+		return (0);
 	}
 	
 	if (g_cs_gamestate == GAME_ACTIVE) {
 		if (((autocvar_mp_roundtime * 60) - g_cs_gametime) > autocvar_mp_buytime) {
 			centerprint(pl, sprintf("%d seconds have passed...\nYou can't buy anything now!", autocvar_mp_buytime));
-			return FALSE;
+			return (0);
 		}
 	}
 	
 	if (pl.team == TEAM_VIP) {
 		centerprint(pl, "You are the VIP...\nYou can't buy anything!\n");
-		return FALSE;
+		return (0);
 	}
 	
 	if (g_cstrike_buying == BUY_NEITHER) {
 		centerprint(pl, "Sorry, you aren't meant\nto be buying anything.\n");
-		return FALSE;
+		return (0);
 	}
 	
 	if (g_cstrike_buying != BUY_BOTH) {
 		if (g_cstrike_buying == BUY_CT && pl.team == TEAM_T) {
 			centerprint(pl, "Terrorists aren't allowed to\nbuy anything on this map!\n");
-			return FALSE;
+			return (0);
 		} else if (g_cstrike_buying == BUY_T && pl.team == TEAM_CT) {
 			centerprint(pl, "CTs aren't allowed to buy\nanything on this map!\n");
-			return FALSE;
+			return (0);
 		}
 	}
 	
 	if (!(pl.gflags & GF_BUYZONE)) {
 		centerprint(pl, "Sorry, you aren't in a buyzone.\n");
-		return FALSE;
+		return (0);
 	}
 	
-	return TRUE;
+	return (1);
 }
 
 void
@@ -913,10 +913,10 @@ CSMultiplayerRules::ConsoleCommand(base_player pp, string cmd)
 		}
 		break;
 	default:
-		return FALSE;
+		return (0);
 	}
 
-	return TRUE;
+	return (1);
 }
 
 void
