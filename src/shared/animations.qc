@@ -36,25 +36,24 @@ void Animation_Print(string sWow) {
 	print(sprintf("[DEBUG] %s", sWow));
 #else 
 	bprint(PRINT_HIGH, sprintf("SSQC: %s", sWow) );
-#endif	
+#endif
 }
 
 void
-Animation_TimerUpdate(player pl)
+Animation_TimerUpdate(player pl, float ftime)
 {
 	makevectors([0, pl.angles[1], 0]);
 
 	/* top animation is always just being incremented */
-	pl.anim_top_time += input_timelength;
-	pl.anim_top_delay -= input_timelength;
+	pl.anim_top_time += ftime;
+	pl.anim_top_delay -= ftime;
 
 	/* we may be walking backwards, thus decrement bottom */
 	if (dotproduct(pl.velocity, v_forward) < 0) {
-		pl.anim_bottom_time -= input_timelength;
+		pl.anim_bottom_time -= ftime;
 	} else {
-		pl.anim_bottom_time += input_timelength;
-	}
-}
+		pl.anim_bottom_time += ftime;
+	
 
 /*
 =================
