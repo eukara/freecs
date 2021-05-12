@@ -226,6 +226,17 @@ w_smokegrenade_hud(void)
 #endif
 }
 
+int
+w_smokegrenade_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.ammo_smokegrenade <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_smokegrenade_hudpic(int selected, vector pos, float a)
 {
@@ -281,7 +292,8 @@ weapon_t w_smokegrenade =
 	.pmodel		= w_smokegrenade_pmodel,
 	.deathmsg	= w_smokegrenade_deathmsg,
 	.aimanim	= w_smokegrenade_aimanim,
-	.hudpic		= w_smokegrenade_hudpic
+	.hudpic		= w_smokegrenade_hudpic,
+	.isempty	= w_smokegrenade_isempty
 };
 
 #ifdef SERVER

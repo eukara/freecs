@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 Marco Hladik <marco@icculus.org>
+ * Copyright (c) 2016-2021 Marco Hladik <marco@icculus.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -24,6 +24,10 @@
 #define PMOVE_WATERACCELERATE 8
 #define PMOVE_ACCELERATE 4
 #define PMOVE_MAXSPEED 250
+
+/* Counter-Strike players are hunched over a little bit */
+#define PHY_VIEWPOS [0,0,18]
+#define PHY_VIEWPOS_CROUCHED [0,0,12]
 
 .float waterlevel;
 .float watertype;
@@ -130,9 +134,10 @@ GamePMove_Maxspeed(player target)
 void
 GamePMove_Fall(player target, float impactspeed)
 {
+	impactspeed *= 1.25f;
 	if (impactspeed > 580) {
 #ifdef SERVER
-		float fFallDamage = (impactspeed - 580) * (100 / (1024 - 580)) * 1.75f;
+		float fFallDamage = (impactspeed - 580) * (100 / (1024 - 580)) * 0.75f;
 		Damage_Apply(target, world, fFallDamage, 0, DMG_FALL);
 
 		if (random() < 0.5)
@@ -157,6 +162,6 @@ GamePMove_Jump(player target)
 	} else {
 		/* slow the player down a bit to prevent bhopping like crazy */
 		target.velocity *= 0.80f;
-		target.velocity[2] += 220;
+		target.velocity[2] += 200;
 	}
 }

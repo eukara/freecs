@@ -94,12 +94,12 @@ Triggered by clients, plays a message to members of the same team
 void
 CSEv_Radio_f(float fMessage)
 {
-	static void CSEv_Radio_Send(float fMessage, entity eEnt) {
+	static void CSEv_Radio_Send(float fMessage, entity eEnt, entity eTarg) {
 		WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
 		WriteByte(MSG_MULTICAST, EV_RADIOMSG2);
 		WriteByte(MSG_MULTICAST, num_for_edict(eEnt) - 1);
 		WriteByte(MSG_MULTICAST, fMessage);
-		msg_entity = eEnt;
+		msg_entity = eTarg;
 		multicast([0,0,0], MULTICAST_ONE);
 	}
 	
@@ -121,9 +121,9 @@ CSEv_Radio_f(float fMessage)
 	
 	for (entity eFind = world; (eFind = find(eFind, classname, "player"));) {
 		if (eFind.team == fTargetTeam) {
-			CSEv_Radio_Send(fMessage, eFind);
+			CSEv_Radio_Send(fMessage, self, eFind);
 		} else if (eFind.team == TEAM_VIP && fTargetTeam == TEAM_CT) {
-			CSEv_Radio_Send(fMessage, eFind);
+			CSEv_Radio_Send(fMessage, self, eFind);
 		}
 	}
 	

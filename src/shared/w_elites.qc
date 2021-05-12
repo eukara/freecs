@@ -316,6 +316,17 @@ w_elites_hud(void)
 #endif
 }
 
+int
+w_elites_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.elites_mag <= 0 && pl.ammo_9mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_elites_hudpic(int selected, vector pos, float a)
 {
@@ -323,7 +334,7 @@ w_elites_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.elites_mag == 0 && pl.ammo_9mm == 0)
+	if (w_elites_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -362,6 +373,7 @@ weapon_t w_elites =
 	.id		= ITEM_ELITES,
 	.slot		= 1,
 	.slot_pos	= 4,
+	.weight		= 5,
 	.allow_drop	= TRUE,
 	.draw		= w_elites_draw,
 	.holster	= __NULL__,
@@ -377,7 +389,8 @@ weapon_t w_elites =
 	.pmodel		= w_elites_pmodel,
 	.deathmsg	= w_elites_deathmsg,
 	.aimanim	= w_elites_aimanim,
-	.hudpic		= w_elites_hudpic
+	.hudpic		= w_elites_hudpic,
+	.isempty	= w_elites_isempty
 };
 
 #ifdef SERVER

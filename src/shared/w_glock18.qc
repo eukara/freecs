@@ -282,6 +282,17 @@ w_glock18_hud(void)
 #endif
 }
 
+int
+w_glock18_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.glock18_mag <= 0 && pl.ammo_9mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_glock18_hudpic(int selected, vector pos, float a)
 {
@@ -289,7 +300,7 @@ w_glock18_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.glock18_mag == 0 && pl.ammo_9mm == 0)
+	if (w_glock18_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -328,6 +339,7 @@ weapon_t w_glock18 =
 	.id		= ITEM_GLOCK18,
 	.slot		= 1,
 	.slot_pos	= 1,
+	.weight		= 5,
 	.allow_drop	= TRUE,
 	.draw		= w_glock18_draw,
 	.holster	= __NULL__,
@@ -343,7 +355,8 @@ weapon_t w_glock18 =
 	.pmodel		= w_glock18_pmodel,
 	.deathmsg	= w_glock18_deathmsg,
 	.aimanim	= w_glock18_aimanim,
-	.hudpic		= w_glock18_hudpic
+	.hudpic		= w_glock18_hudpic,
+	.isempty	= w_glock18_isempty
 };
 
 #ifdef SERVER

@@ -287,6 +287,17 @@ w_m4a1_release(void)
 	pl.w_idle_next = 5.0f;
 }
 
+int
+w_m4a1_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.m4a1_mag <= 0 && pl.ammo_556mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_m4a1_hudpic(int selected, vector pos, float a)
 {
@@ -294,7 +305,7 @@ w_m4a1_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.m4a1_mag == 0 && pl.ammo_556mm == 0)
+	if (w_m4a1_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -333,6 +344,7 @@ weapon_t w_m4a1 =
 	.id		= ITEM_M4A1,
 	.slot		= 0,
 	.slot_pos	= 9,
+	.weight		= 25,
 	.allow_drop 	= TRUE,
 	.draw		= w_m4a1_draw,
 	.holster	= __NULL__,
@@ -348,7 +360,8 @@ weapon_t w_m4a1 =
 	.pmodel		= w_m4a1_pmodel,
 	.deathmsg	= w_m4a1_deathmsg,
 	.aimanim	= w_m4a1_aimanim,
-	.hudpic		= w_m4a1_hudpic
+	.hudpic		= w_m4a1_hudpic,
+	.isempty	= w_m4a1_isempty
 };
 
 #ifdef SERVER

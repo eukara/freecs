@@ -247,6 +247,17 @@ w_ak47_hud(void)
 #endif
 }
 
+int
+w_ak47_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.ak47_mag <= 0 && pl.ammo_762mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_ak47_hudpic(int selected, vector pos, float a)
 {
@@ -254,7 +265,7 @@ w_ak47_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.ak47_mag == 0 && pl.ammo_762mm == 0)
+	if (w_ak47_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -293,6 +304,7 @@ weapon_t w_ak47 =
 	.id		= ITEM_AK47,
 	.slot		= 0,
 	.slot_pos	= 7,
+	.weight		= 25,
 	.allow_drop	= TRUE,
 	.draw		= w_ak47_draw,
 	.holster	= __NULL__,
@@ -308,7 +320,8 @@ weapon_t w_ak47 =
 	.pmodel		= w_ak47_pmodel,
 	.deathmsg	= w_ak47_deathmsg,
 	.aimanim	= w_ak47_aimanim,
-	.hudpic		= w_ak47_hudpic
+	.hudpic		= w_ak47_hudpic,
+	.isempty	= w_ak47_isempty
 };
 
 #ifdef SERVER

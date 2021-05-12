@@ -234,6 +234,17 @@ w_sg552_hud(void)
 #endif
 }
 
+int
+w_sg552_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.sg552_mag <= 0 && pl.ammo_556mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_sg552_hudpic(int selected, vector pos, float a)
 {
@@ -241,7 +252,7 @@ w_sg552_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.sg552_mag == 0 && pl.ammo_556mm == 0)
+	if (w_sg552_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -280,6 +291,7 @@ weapon_t w_sg552 =
 	.id		= ITEM_SG552,
 	.slot		= 0,
 	.slot_pos	= 8,
+	.weight		= 25,
 	.allow_drop	= TRUE,
 	.draw		= w_sg552_draw,
 	.holster	= __NULL__,
@@ -295,7 +307,8 @@ weapon_t w_sg552 =
 	.pmodel		= w_sg552_pmodel,
 	.deathmsg	= w_sg552_deathmsg,
 	.aimanim	= w_sg552_aimanim,
-	.hudpic		= w_sg552_hudpic
+	.hudpic		= w_sg552_hudpic,
+	.isempty	= w_sg552_isempty
 };
 
 #ifdef SERVER

@@ -227,6 +227,17 @@ w_sg550_hud(void)
 #endif
 }
 
+int
+w_sg550_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.sg550_mag <= 0 && pl.ammo_556mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_sg550_hudpic(int selected, vector pos, float a)
 {
@@ -234,7 +245,7 @@ w_sg550_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.sg550_mag == 0 && pl.ammo_556mm == 0)
+	if (w_sg550_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -273,6 +284,7 @@ weapon_t w_sg550 =
 	.id		= ITEM_SG550,
 	.slot		= 0,
 	.slot_pos	= 14,
+	.weight		= 20,
 	.allow_drop	= TRUE,
 	.draw		= w_sg550_draw,
 	.holster	= __NULL__,
@@ -288,7 +300,8 @@ weapon_t w_sg550 =
 	.pmodel		= w_sg550_pmodel,
 	.deathmsg	= w_sg550_deathmsg,
 	.aimanim	= w_sg550_aimanim,
-	.hudpic		= w_sg550_hudpic
+	.hudpic		= w_sg550_hudpic,
+	.isempty	= w_sg550_isempty
 };
 
 #ifdef SERVER

@@ -59,6 +59,7 @@ info_hostage_rescue::touch(void)
 		return;
 
 	Radio_BroadcastMessage(RADIO_RESCUED);
+	CSBot_HostageRescueNotify();
 	g_cs_hostagesrescued++;
 
 	Money_AddMoney((player)hosty.m_eFollowing, 1000);

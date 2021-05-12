@@ -169,19 +169,13 @@ Ammo_BuyCaliber(player pl, int cal, int free)
 	return rv;
 }
 
-/* We want to loop through all the possible weapons in case the server
- * enabled the ability to pick up more than one primary/secondary weapon */
+
 void
-CSEv_AmmoBuySecondary(void)
+Ammo_BuySecondary(base_player pp, int free)
 {
 	int cal = 0;
 	int ps = 0;
-	player pl = (player)self;
-	CSGameRules rules = (CSGameRules)g_grMode;
-
-	if (rules.BuyingPossible(pl) == FALSE) {
-		return;
-	}
+	player pl = (player)pp;
 
 	for (int i = 1; i < g_weapons.length; i++) {
 		if ((pl.g_items & g_weapons[i].id) && (g_weapons[i].slot == 1)) {
@@ -212,23 +206,33 @@ CSEv_AmmoBuySecondary(void)
 		}
 	}
 
-	if (ps) {
+	if (ps && !free) {
 		Sound_Play(pl, CHAN_ITEM, "buy.ammo");
 	}
 	Weapons_RefreshAmmo(pl);
 }
 
+/* We want to loop through all the possible weapons in case the server
+ * enabled the ability to pick up more than one primary/secondary weapon */
 void
-CSEv_AmmoBuyPrimary(void)
+CSEv_AmmoBuySecondary(void)
 {
-	int ps = 0;
-	int cal = 0;
 	player pl = (player)self;
-	CSGameRules rules = (CSGameRules)g_grMode;
 
+	CSGameRules rules = (CSGameRules)g_grMode;
 	if (rules.BuyingPossible(pl) == FALSE) {
 		return;
 	}
+
+	Ammo_BuySecondary(pl, FALSE);
+}
+
+void
+Ammo_BuyPrimary(base_player pp, int free)
+{
+	int ps = 0;
+	int cal = 0;
+	player pl = (player)pp;
 
 	for (int i = 1; i < g_weapons.length; i++) {
 		if ((pl.g_items & g_weapons[i].id) && (g_weapons[i].slot == 0)) {
@@ -283,16 +287,30 @@ CSEv_AmmoBuyPrimary(void)
 				break;
 			}
 
-			if (Ammo_BuyCaliber(pl, cal, FALSE) == 1) {
+			if (Ammo_BuyCaliber(pl, cal, free) == 1) {
 				ps = 1;
 			}
 		}
 	}
 
-	if (ps) {
+	if (ps && !free) {
 		Sound_Play(pl, CHAN_ITEM, "buy.ammo");
 	}
+
 	Weapons_RefreshAmmo(pl);
+}
+
+void
+CSEv_AmmoBuyPrimary(void)
+{
+	player pl = (player)self;
+
+	CSGameRules rules = (CSGameRules)g_grMode;
+	if (rules.BuyingPossible(pl) == FALSE) {
+		return;
+	}
+
+	Ammo_BuyPrimary(pl, FALSE);
 }
 
 void

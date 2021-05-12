@@ -216,6 +216,17 @@ w_p228_hud(void)
 #endif
 }
 
+int
+w_p228_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.p228_mag <= 0 && pl.ammo_357sig <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_p228_hudpic(int selected, vector pos, float a)
 {
@@ -223,7 +234,7 @@ w_p228_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.p228_mag == 0 && pl.ammo_357sig == 0)
+	if (w_p228_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -262,6 +273,7 @@ weapon_t w_p228 =
 	.id		= ITEM_P228,
 	.slot		= 1,
 	.slot_pos	= 3,
+	.weight		= 5,
 	.allow_drop	= TRUE,
 	.draw		= w_p228_draw,
 	.holster	= __NULL__,
@@ -277,7 +289,8 @@ weapon_t w_p228 =
 	.pmodel		= w_p228_pmodel,
 	.deathmsg	= w_p228_deathmsg,
 	.aimanim	= w_p228_aimanim,
-	.hudpic		= w_p228_hudpic
+	.hudpic		= w_p228_hudpic,
+	.isempty	= w_p228_isempty
 };
 
 #ifdef SERVER

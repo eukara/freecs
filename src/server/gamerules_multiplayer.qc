@@ -95,7 +95,11 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 	corpse.classname = "remove_me";
 
 	/* gamerule stuff */
-	PlayerMakeSpectator(pl);
+	static void GoSpec(void) {
+		spawnfunc_spectator();
+	}
+	pl.think = GoSpec;
+	pl.nextthink = time;
 	pl.classname = "player";
 	forceinfokey(pl, "*dead", "1"); 
 	forceinfokey(pl, "*team", ftos(pl.team));
@@ -126,25 +130,20 @@ CSMultiplayerRules::PlayerPreFrame(base_player pl)
 void
 CSMultiplayerRules::FrameStart(void)
 {
-	if ((g_cs_alive_t + g_cs_alive_ct) == 0) {
-		int iInGamePlayers = 0;
-		for (entity eFind = world; (eFind = find(eFind, ::classname, "player"));) {
-			iInGamePlayers++;
-		}
-		
-		if ((iInGamePlayers > 0) && (g_cs_gamestate != GAME_COMMENCING && g_cs_gamestate != GAME_END)) {
-			TimerBegin(2, GAME_COMMENCING);
-		} else if (iInGamePlayers == 0) {
-			g_cs_gamestate = GAME_INACTIVE;
-			g_cs_gametime = 0;
-			g_cs_roundswon_t = 0;
-			g_cs_roundswon_ct = 0;
-			g_cs_roundsplayed = 0;
-		} else {
-			TimerUpdate(); // Timer that happens once players have started joining
-		}
+	int iInGamePlayers;
+
+	iInGamePlayers = g_cs_total_t + g_cs_total_ct;
+
+	if ((iInGamePlayers > 0) && (g_cs_gamestate == GAME_INACTIVE)) {
+		TimerBegin(2, GAME_COMMENCING);
+	} else if (iInGamePlayers == 0) {
+		g_cs_gamestate = GAME_INACTIVE;
+		g_cs_gametime = 0;
+		g_cs_roundswon_t = 0;
+		g_cs_roundswon_ct = 0;
+		g_cs_roundsplayed = 0;
 	} else {
-		TimerUpdate(); // Normal gameplay timer
+		TimerUpdate(); // Timer that happens once players have started joining
 	}
 }
 
@@ -339,6 +338,7 @@ CSMultiplayerRules::TimerUpdate(void)
 			} else {
 				TimerBegin(autocvar_mp_roundtime * 60, GAME_ACTIVE); // Unfreeze
 				Radio_StartMessage();
+				CSBot_RoundStart();
 			}
 		}
 	}
@@ -419,8 +419,30 @@ Loop through all ents and handle them
 void
 CSMultiplayerRules::RestartRound(int iWipe)
 {
-	// Spawn/Respawn everyone at their team position and give them $$$
-	for (entity eFind = world; (eFind = find(eFind, ::classname, "player"));) {
+	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_T));) {
+		if (!(eFind.flags & FL_CLIENT))
+			continue;
+
+		player pl = (player)eFind;
+
+		if (pl.health > 0 && iWipe == FALSE) {
+			PlayerRespawn(pl, pl.team);
+		} else {
+			PlayerMakeSpectator(pl);
+			PlayerMakePlayable(pl, pl.charmodel);
+		}
+
+		if (iWipe == FALSE) {
+			Money_GiveTeamReward(pl);
+		} else {
+			pl.money = 0;
+			Money_AddMoney(pl, autocvar_mp_startmoney);
+		}
+	}
+	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_CT));) {
+		if (!(eFind.flags & FL_CLIENT))
+			continue;
+
 		player pl = (player)eFind;
 
 		if (pl.health > 0 && iWipe == FALSE) {
@@ -481,6 +503,7 @@ CSMultiplayerRules::RestartRound(int iWipe)
 			caw.Respawn();
 	}
 
+	CSBot_BuyStart();
 	TimerBegin(autocvar_mp_freezetime, GAME_FREEZE);
 	Money_ResetTeamReward();
 }
@@ -602,17 +625,26 @@ CSMultiplayerRules::CountPlayers(void)
 {
 	g_cs_alive_t = 0;
 	g_cs_alive_ct = 0;
+	g_cs_total_t = 0;
+	g_cs_total_ct = 0;
 
-	for (entity eFind = world; (eFind = find(eFind, ::classname, "player"));) {
-		if (eFind.health > 0) {
-			if (eFind.team == TEAM_T) {
-				g_cs_alive_t++;
-			} else if (eFind.team == TEAM_CT) {
-				g_cs_alive_ct++;
-			} else if (eFind.team == TEAM_VIP) {
-				g_cs_alive_ct++;
-			}
-		}
+	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_T));) {
+		if (!(eFind.flags & FL_CLIENT))
+			continue;
+
+		g_cs_total_t++;
+
+		if (eFind.health > 0)
+			g_cs_alive_t++;
+	}
+	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_CT));) {
+		if (!(eFind.flags & FL_CLIENT))
+			continue;
+
+		g_cs_total_ct++;
+
+		if (eFind.health > 0)
+			g_cs_alive_ct++;
 	}
 }
 
@@ -751,13 +783,14 @@ CSMultiplayerRules::PlayerRespawn(base_player pp, int fTeam)
 	pl.SetModel(pl.model);
 	pl.SetSize(VEC_HULL_MIN, VEC_HULL_MAX);
 
-	pl.view_ofs = VEC_PLAYER_VIEWPOS;
 	pl.velocity = [0,0,0];
 	pl.progress = 0.0f;
 	Weapons_SwitchBest(pl);
 
-	/*Ammo_AutoFill(pl.fSlotPrimary);
-	Ammo_AutoFill(pl.fSlotSecondary);*/
+	if (autocvar_fcs_fillweapons) {
+		Ammo_BuyPrimary(pl, TRUE);
+		Ammo_BuySecondary(pl, TRUE);
+	}
 }
 
 void
@@ -814,6 +847,28 @@ Called whenever need a full-reinit of a player.
 This may be after a player had died or when the game starts for the first time.
 =================
 */
+
+static void
+MakePlayable(entity targ)
+{
+	entity oself = self;
+	self = targ;
+
+	if (clienttype(targ) != CLIENTTYPE_REAL)
+		spawnfunc_csbot();
+	else
+		spawnfunc_player();
+
+	self = oself;
+}
+static void
+MakeSpectator(entity targ)
+{
+	entity oself = self;
+	self = targ;
+	spawnfunc_spectator();
+	self = oself;
+}
 void
 CSMultiplayerRules::PlayerMakePlayable(base_player pp, int chara)
 {
@@ -824,6 +879,7 @@ CSMultiplayerRules::PlayerMakePlayable(base_player pp, int chara)
 		return;
 	}
 
+	MakePlayable(pp);
 	pl.g_items |= ITEM_SUIT;
 	Weapons_AddItem(pl, WEAPON_KNIFE, -1);
 
@@ -858,23 +914,8 @@ Force the player to become an observer.
 void
 CSMultiplayerRules::PlayerMakeSpectator(base_player pl)
 {
-	pl.classname = "dead";
-	pl.health = 0;
-	pl.armor = 0;
-	pl.takedamage = DAMAGE_NO;
-	pl.solid = SOLID_NOT;
-	pl.movetype = MOVETYPE_NOCLIP;
-	pl.flags = FL_CLIENT;
-	pl.weapon = 0;
-	pl.viewzoom = 1.0f;
-	pl.model = 0;
-	setsize (pl, [-16,-16,-16], [16,16,16]);
-	pl.view_ofs = pl.velocity = [0,0,0];
-	forceinfokey(pl, "*spec", "2");
-
-	/* clear the inventory */
-	pl.items = 0x0;
-	pl.activeweapon = 0;
+	PlayerClearWeaponry(pl);
+	MakeSpectator(pl);
 }
 
 /*
@@ -895,8 +936,15 @@ CSMultiplayerRules::PlayerSpawn(base_player pl)
 	Money_AddMoney(pl, autocvar_mp_startmoney);
 
 	/* we don't belong to any team */
-	pl.team = 0;
+	pl.team = TEAM_SPECTATOR;
 	forceinfokey(pl, "*team", "0"); 
+}
+
+void
+CSMultiplayerRules_BotJoin(void)
+{
+	spawnfunc_csbot();
+	CSEv_JoinAuto();
 }
 
 float
@@ -908,7 +956,7 @@ CSMultiplayerRules::ConsoleCommand(base_player pp, string cmd)
 	case "bot_add":
 		entity bot_ent = Bot_AddQuick();
 		if (bot_ent) {
-			bot_ent.think = CSEv_JoinAuto;
+			bot_ent.think = CSMultiplayerRules_BotJoin;
 			bot_ent.nextthink = time;
 		}
 		break;
@@ -976,20 +1024,18 @@ CSEv_JoinTeam_f(float flChar)
 			return;
 		}
 
-		if (flChar < 5) {
-			pl.team = TEAM_T;
-		} else {
-			pl.team = TEAM_CT;
-		}
-
-		rules.PlayerMakeSpectator(pl);
-		pl.classname = "player";
+		//PlayerMakeSpectator(pl);
 		pl.charmodel = (int)flChar;
-		pl.health = 0;
 		forceinfokey(pl, "*dead", "1");
-		forceinfokey(pl, "*team", ftos(pl.team)); 
 		break;
 	}
+
+	if (flChar < 5)
+		pl.team = TEAM_T;
+	else
+		pl.team = TEAM_CT;
+
+	forceinfokey(pl, "*team", ftos(pl.team)); 
 
 	pl.frags = 0;
 	pl.deaths = 0;
@@ -1008,20 +1054,10 @@ CSEv_JoinTeam_f(float flChar)
 void
 CSEv_JoinAuto(void)
 {
-	int ct_count = 0;
-	int t_count = 1;
+	CSMultiplayerRules rules = (CSMultiplayerRules)g_grMode;
+	rules.CountPlayers();
 
-	for (entity eFind = world; (eFind = find(eFind, ::classname, "player"));) {
-		player pl = (player)eFind;
-		if (pl.team == TEAM_T) {
-			t_count++;
-		}
-		if (pl.team == TEAM_CT) {
-			ct_count++;
-		}
-	}
-
-	if (ct_count >= t_count) {
+	if (g_cs_total_ct >= g_cs_total_t) {
 		CSEv_JoinTeam_f(floor(random(1,5)));
 	} else {
 		CSEv_JoinTeam_f(floor(random(5,9)));

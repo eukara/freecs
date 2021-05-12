@@ -294,6 +294,17 @@ w_m3_hud(void)
 #endif
 }
 
+int
+w_m3_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.m3_mag <= 0 && pl.ammo_buckshot <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_m3_hudpic(int selected, vector pos, float a)
 {
@@ -301,7 +312,7 @@ w_m3_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.m3_mag == 0 && pl.ammo_buckshot == 0)
+	if (w_m3_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -340,6 +351,7 @@ weapon_t w_m3 =
 	.id		= ITEM_M3,
 	.slot		= 0,
 	.slot_pos	= 0,
+	.weight		= 20,
 	.allow_drop	= TRUE,
 	.draw		= w_m3_draw,
 	.holster	= __NULL__,
@@ -355,7 +367,8 @@ weapon_t w_m3 =
 	.pmodel		= w_m3_pmodel,
 	.deathmsg	= w_m3_deathmsg,
 	.aimanim	= w_m3_aimanim,
-	.hudpic		= w_m3_hudpic
+	.hudpic		= w_m3_hudpic,
+	.isempty	= w_m3_isempty
 };
 
 #ifdef SERVER

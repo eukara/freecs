@@ -14,6 +14,9 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include "ammo.h"
+#include "bot.h"
+#include "buy.h"
 #include "gamerules.h"
 #include "money.h"
 #include "radio.h"
@@ -32,8 +35,13 @@ var int g_cs_bombplanted;
 var int g_cs_roundswon_ct;
 var int g_cs_roundswon_t;
 var int g_cs_roundsplayed;
+
 var int g_cs_alive_t;
 var int g_cs_alive_ct;
+
+var int g_cs_total_t;
+var int g_cs_total_ct;
+
 var int g_cs_hostagesrescued;
 var int g_cs_hostagestotal;
 var int g_cs_roundslost_ct;

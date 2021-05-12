@@ -296,6 +296,17 @@ w_xm1014_hud(void)
 #endif
 }
 
+int
+w_xm1014_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.xm1014_mag <= 0 && pl.ammo_buckshot <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_xm1014_hudpic(int selected, vector pos, float a)
 {
@@ -303,7 +314,7 @@ w_xm1014_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.xm1014_mag == 0 && pl.ammo_buckshot == 0)
+	if (w_xm1014_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -342,6 +353,7 @@ weapon_t w_xm1014 =
 	.id		= ITEM_XM1014,
 	.slot		= 0,
 	.slot_pos	= 1,
+	.weight		= 20,
 	.allow_drop	= TRUE,
 	.draw		= w_xm1014_draw,
 	.holster	= __NULL__,
@@ -357,7 +369,8 @@ weapon_t w_xm1014 =
 	.pmodel		= w_xm1014_pmodel,
 	.deathmsg	= w_xm1014_deathmsg,
 	.aimanim	= w_xm1014_aimanim,
-	.hudpic		= w_xm1014_hudpic
+	.hudpic		= w_xm1014_hudpic,
+	.isempty	= w_xm1014_isempty
 };
 
 #ifdef SERVER

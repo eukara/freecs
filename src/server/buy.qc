@@ -14,39 +14,6 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/* values courtesy of https://wiki.alliedmods.net/Cs_weapons_information */
-int g_cstrikeWeaponPrice[] =
-{
-	0,	/* WEAPON_NONE */
-	1700,	/* WEAPON_M3 */
-	3000,	/* WEAPON_XM1014 */
-	1500,	/* WEAPON_MP5 */
-	2350,	/* WEAPON_P90 */
-	1700,	/* WEAPON_UMP45 */
-	1400,	/* WEAPON_MAC10 */
-	1250,	/* WEAPON_TMP */
-	2500,	/* WEAPON_AK47 */
-	3500,	/* WEAPON_SG552 */
-	3100,	/* WEAPON_M4A1 */
-	3500,	/* WEAPON_AUG */
-	2750,	/* WEAPON_SCOUT */
-	4750,	/* WEAPON_AWP */
-	5000,	/* WEAPON_G3SG1 */
-	4200,	/* WEAPON_SG550 */
-	5750,	/* WEAPON_PARA */
-	500,	/* WEAPON_USP45 */
-	400,	/* WEAPON_GLOCK18 */
-	650,	/* WEAPON_DEAGLE */
-	600,	/* WEAPON_P228 */
-	800,	/* WEAPON_ELITES */
-	750,	/* WEAPON_FIVESEVEN */
-	0,	/* WEAPON_KNIFE */
-	300,	/* WEAPON_HEGRENADE */
-	200,	/* WEAPON_FLASHBANG */
-	300,	/* WEAPON_SMOKEGRENADE */
-	0	/* WEAPON_C4BOMB */
-};
-
 void
 CSEv_BuyWeapon_f(float fWeapon)
 {
@@ -100,21 +67,17 @@ CSEv_BuyWeapon_f(float fWeapon)
 		Weapons_AddItem(pl, iWeapon, -1);
 		Money_AddMoney(pl, -g_cstrikeWeaponPrice[iWeapon]);
 		Sound_Play(pl, CHAN_ITEM, "buy.weapon");
+
+		if (autocvar_fcs_fillweapons) {
+			if (g_weapons[iWeapon].slot == 0)
+				Ammo_BuyPrimary(pl, TRUE);
+			else if (g_weapons[iWeapon].slot == 1)
+				Ammo_BuySecondary(pl, TRUE);
+		}
 	} else {
 		//centerprint(pl, "You have insufficient funds!");
 	}
-} 
-
-int g_cstrikeUtilPrice[] =
-{
-	650,	/* Kevlar Vest */
-	1000,	/* Kevlar Vest & Helmet */
-	200,	/* Flashbang */
-	300,	/* HE Grenade */
-	300,	/* Smoke Grenade */
-	200,	/* Defuse Kit */
-	1250	/* NightVision Goggles */
-};
+}
 
 void
 CSEv_BuyEquipment_f(float fUtil)
@@ -146,6 +109,11 @@ CSEv_BuyEquipment_f(float fUtil)
 			/* if we already have a helmet, buy just armor */
 			if (pl.g_items & ITEM_HELMET && pl.armor >= 0) {
 				CSEv_BuyEquipment_f(0);
+				return;
+			} else if (!(pl.g_items & ITEM_HELMET) && pl.armor >= 100) { /* only need helmet, so add it */
+				pl.g_items |= ITEM_HELMET;
+				Money_AddMoney(pl, -350);
+				Sound_Play(pl, CHAN_ITEM, "buy.kevlar");
 				return;
 			}
 

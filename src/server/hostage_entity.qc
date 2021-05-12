@@ -165,8 +165,22 @@ hostage_entity::Death(void)
 	WarnAllies();
 
 	if (style != MONSTER_DEAD) {
-		SetFrame(HOSA_DIE_SIMPLE + floor(random(0, 6)));
+		switch (g_dmg_iHitBody) {
+		case BODY_HEAD:
+			SetFrame(HOSA_DIE_HEADSHOT);
+			break;
+		case BODY_STOMACH:
+			SetFrame(HOSA_DIE_GUTSHOT);
+			break;
+		default:
+			SetFrame(HOSA_DIE_SIMPLE + floor(random(0,4)));
+			break;
+		}
 	}
+
+	/* HACK: don't let them gib */
+	health = 0;
+	solid = SOLID_NOT;
 
 	/* now mark our state as 'dead' */
 	CBaseNPC::Death();

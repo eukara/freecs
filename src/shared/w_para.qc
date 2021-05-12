@@ -204,6 +204,17 @@ w_para_hud(void)
 #endif
 }
 
+int
+w_para_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.para_mag <= 0 && pl.ammo_556mmbox <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_para_hudpic(int selected, vector pos, float a)
 {
@@ -211,7 +222,7 @@ w_para_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.para_mag == 0 && pl.ammo_556mmbox == 0)
+	if (w_para_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -250,6 +261,7 @@ weapon_t w_para =
 	.id		= ITEM_PARA,
 	.slot		= 0,
 	.slot_pos	= 15,
+	.weight		= 25,
 	.allow_drop	= TRUE,
 	.draw		= w_para_draw,
 	.holster	= __NULL__,
@@ -265,7 +277,8 @@ weapon_t w_para =
 	.pmodel		= w_para_pmodel,
 	.deathmsg	= w_para_deathmsg,
 	.aimanim	= w_para_aimanim,
-	.hudpic		= w_para_hudpic
+	.hudpic		= w_para_hudpic,
+	.isempty	= w_para_isempty
 };
 
 #ifdef SERVER

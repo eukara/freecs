@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 Marco Hladik <marco@icculus.org>
+ * Copyright (c) 2016-2021 Marco Hladik <marco@icculus.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -198,6 +198,7 @@ C4Bomb_Plant(base_player planter)
 	bomb.SendFlags = -1;
 
 	Radio_BroadcastMessage(RADIO_BOMBPL);
+	CSBot_BombPlantedNotify();
 	g_cs_bombplanted = TRUE;
 }
 #endif

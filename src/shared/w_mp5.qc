@@ -208,6 +208,17 @@ w_mp5_hud(void)
 #endif
 }
 
+int
+w_mp5_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.mp5_mag <= 0 && pl.ammo_9mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_mp5_hudpic(int selected, vector pos, float a)
 {
@@ -215,7 +226,7 @@ w_mp5_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.mp5_mag == 0 && pl.ammo_9mm == 0)
+	if (w_mp5_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -254,6 +265,7 @@ weapon_t w_mp5 =
 	.id		= ITEM_MP5,
 	.slot		= 0,
 	.slot_pos	= 2,
+	.weight		= 25,
 	.allow_drop	= TRUE,
 	.draw		= w_mp5_draw,
 	.holster	= __NULL__,
@@ -269,7 +281,8 @@ weapon_t w_mp5 =
 	.pmodel		= w_mp5_pmodel,
 	.deathmsg	= w_mp5_deathmsg,
 	.aimanim	= w_mp5_aimanim,
-	.hudpic		= w_mp5_hudpic
+	.hudpic		= w_mp5_hudpic,
+	.isempty	= w_mp5_isempty
 };
 
 #ifdef SERVER

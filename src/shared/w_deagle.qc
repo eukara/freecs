@@ -246,6 +246,17 @@ w_deagle_hud(void)
 #endif
 }
 
+int
+w_deagle_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.deagle_mag <= 0 && pl.ammo_50ae <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_deagle_hudpic(int selected, vector pos, float a)
 {
@@ -253,7 +264,7 @@ w_deagle_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.deagle_mag == 0 && pl.ammo_50ae == 0)
+	if (w_deagle_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -292,6 +303,7 @@ weapon_t w_deagle =
 	.id		= ITEM_DEAGLE,
 	.slot		= 1,
 	.slot_pos	= 2,
+	.weight		= 7,
 	.allow_drop	= TRUE,
 	.draw		= w_deagle_draw,
 	.holster	= __NULL__,
@@ -307,7 +319,8 @@ weapon_t w_deagle =
 	.pmodel		= w_deagle_pmodel,
 	.deathmsg	= w_deagle_deathmsg,
 	.aimanim	= w_deagle_aimanim,
-	.hudpic		= w_deagle_hudpic
+	.hudpic		= w_deagle_hudpic,
+	.isempty	= w_deagle_isempty
 };
 
 #ifdef SERVER

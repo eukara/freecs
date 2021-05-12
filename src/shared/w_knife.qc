@@ -183,6 +183,12 @@ w_knife_aimanim(void)
 	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_KNIFE : ANIM_AIM_KNIFE;
 }
 
+int
+w_knife_isempty(void)
+{
+	return 0;
+}
+
 void
 w_knife_hudpic(int selected, vector pos, float a)
 {
@@ -234,7 +240,8 @@ weapon_t w_knife =
 	.pmodel		= w_knife_pmodel,
 	.deathmsg	= w_knife_deathmsg,
 	.aimanim	= w_knife_aimanim,
-	.hudpic		= w_knife_hudpic
+	.hudpic		= w_knife_hudpic,
+	.isempty	= w_knife_isempty
 };
 
 #ifdef SERVER

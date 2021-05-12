@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 Marco Hladik <marco@icculus.org>
+ * Copyright (c) 2016-2021 Marco Hladik <marco@icculus.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -122,9 +122,11 @@ Animation_PlayerUpdate(player pl)
 void
 Animation_PlayerTop(player pl, float topanim, float timer)
 {
+#if 0
 	pl.anim_top = topanim;
 	pl.anim_top_time = 0.0f;
 	pl.anim_top_delay = timer;
+#endif
 }
 
 void

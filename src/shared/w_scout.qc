@@ -251,6 +251,17 @@ w_scout_hud(void)
 #endif
 }
 
+int
+w_scout_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.scout_mag <= 0 && pl.ammo_762mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_scout_hudpic(int selected, vector pos, float a)
 {
@@ -258,7 +269,7 @@ w_scout_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.scout_mag == 0 && pl.ammo_762mm == 0)
+	if (w_scout_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -297,6 +308,7 @@ weapon_t w_scout =
 	.id		= ITEM_SCOUT,
 	.slot		= 0,
 	.slot_pos	= 11,
+	.weight		= 30,
 	.allow_drop	= TRUE,
 	.draw		= w_scout_draw,
 	.holster	= __NULL__,
@@ -312,7 +324,8 @@ weapon_t w_scout =
 	.pmodel		= w_scout_pmodel,
 	.deathmsg	= w_scout_deathmsg,
 	.aimanim	= w_scout_aimanim,
-	.hudpic		= w_scout_hudpic
+	.hudpic		= w_scout_hudpic,
+	.isempty	= w_scout_isempty
 };
 
 #ifdef SERVER

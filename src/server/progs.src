@@ -38,6 +38,7 @@ item_suit.qc
 ../../../valve/src/server/items.qc
 
 ../../../src/botlib/include.src
+bot.qc
 
 game_money.qc
 gamerules.qc
@@ -50,7 +51,7 @@ ammo.qc
 buy.qc
 server.qc
 ../../../base/src/server/damage.qc
-../../../valve/src/server/rules.qc
+rules.qc
 ../../../valve/src/server/flashlight.qc
 ../../../base/src/server/modelevent.qc
 

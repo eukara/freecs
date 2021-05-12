@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 Marco Hladik <marco@icculus.org>
+ * Copyright (c) 2016-2021 Marco Hladik <marco@icculus.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -12,25 +12,8 @@
  * WHATSOEVER RESULTING FROM LOSS OF MIND, USE, DATA OR PROFITS, WHETHER
  * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- */
+ */ 
 
-int
-ClientGame_EntityUpdate(float id, float new)
-{
-	switch (id) {
-	case ENT_C4BOMB:
-		w_c4bomb_parse();
-		break;
-	default:
-		return (0);
-	}
-
-	return (1);
-}
-
-void
-ClientGame_EntityRemove(void)
-{
-	if (self.classname == "player")
-		Player_DestroyWeaponModel((base_player) self);
-}
+void CSBot_BombPlantedNotify(void);
+void CSBot_HostageRescueNotify(void);
+void CSBot_RoundStart(void);

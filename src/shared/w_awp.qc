@@ -288,6 +288,17 @@ w_awp_hud(void)
 #endif
 }
 
+int
+w_awp_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.awp_mag <= 0 && pl.ammo_338mag <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_awp_hudpic(int selected, vector pos, float a)
 {
@@ -295,7 +306,7 @@ w_awp_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.awp_mag == 0 && pl.ammo_338mag == 0)
+	if (w_awp_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -334,6 +345,7 @@ weapon_t w_awp =
 	.id		= ITEM_AWP,
 	.slot		= 0,
 	.slot_pos	= 12,
+	.weight		= 30,
 	.allow_drop	= TRUE,
 	.draw		= w_awp_draw,
 	.holster	= __NULL__,
@@ -349,7 +361,8 @@ weapon_t w_awp =
 	.pmodel		= w_awp_pmodel,
 	.deathmsg	= w_awp_deathmsg,
 	.aimanim	= w_awp_aimanim,
-	.hudpic		= w_awp_hudpic
+	.hudpic		= w_awp_hudpic,
+	.isempty	= w_awp_isempty
 };
 
 #ifdef SERVER

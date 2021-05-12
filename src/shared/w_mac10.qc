@@ -210,6 +210,17 @@ w_mac10_hud(void)
 #endif
 }
 
+int
+w_mac10_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.mac10_mag <= 0 && pl.ammo_45acp <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_mac10_hudpic(int selected, vector pos, float a)
 {
@@ -217,7 +228,7 @@ w_mac10_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.mac10_mag == 0 && pl.ammo_45acp == 0)
+	if (w_mac10_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -256,6 +267,7 @@ weapon_t w_mac10 =
 	.id		= ITEM_MAC10,
 	.slot		= 0,
 	.slot_pos	= 5,
+	.weight		= 25,
 	.allow_drop	= TRUE,
 	.draw		= w_mac10_draw,
 	.holster	= __NULL__,
@@ -271,7 +283,8 @@ weapon_t w_mac10 =
 	.pmodel		= w_mac10_pmodel,
 	.deathmsg	= w_mac10_deathmsg,
 	.aimanim	= w_mac10_aimanim,
-	.hudpic		= w_mac10_hudpic
+	.hudpic		= w_mac10_hudpic,
+	.isempty	= w_mac10_isempty
 };
 
 #ifdef SERVER

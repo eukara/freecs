@@ -228,6 +228,17 @@ w_flashbang_hud(void)
 #endif
 }
 
+int
+w_flashbang_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.ammo_fbgrenade <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_flashbang_hudpic(int selected, vector pos, float a)
 {
@@ -283,7 +294,8 @@ weapon_t w_flashbang =
 	.pmodel		= w_flashbang_pmodel,
 	.deathmsg	= w_flashbang_deathmsg,
 	.aimanim	= w_flashbang_aimanim,
-	.hudpic		= w_flashbang_hudpic
+	.hudpic		= w_flashbang_hudpic,
+	.isempty	= w_flashbang_isempty
 };
 
 #ifdef SERVER

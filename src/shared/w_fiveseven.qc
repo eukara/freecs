@@ -215,6 +215,17 @@ w_fiveseven_hud(void)
 #endif
 }
 
+int
+w_fiveseven_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.fiveseven_mag <= 0 && pl.ammo_57mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_fiveseven_hudpic(int selected, vector pos, float a)
 {
@@ -222,7 +233,7 @@ w_fiveseven_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.fiveseven_mag == 0 && pl.ammo_57mm == 0)
+	if (w_fiveseven_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -261,6 +272,7 @@ weapon_t w_fiveseven =
 	.id		= ITEM_FIVESEVEN,
 	.slot		= 1,
 	.slot_pos	= 5,
+	.weight		= 5,
 	.allow_drop	= TRUE,
 	.draw		= w_fiveseven_draw,
 	.holster	= __NULL__,
@@ -276,7 +288,8 @@ weapon_t w_fiveseven =
 	.pmodel		= w_fiveseven_pmodel,
 	.deathmsg	= w_fiveseven_deathmsg,
 	.aimanim	= w_fiveseven_aimanim,
-	.hudpic		= w_fiveseven_hudpic
+	.hudpic		= w_fiveseven_hudpic,
+	.isempty	= w_fiveseven_isempty
 };
 
 #ifdef SERVER

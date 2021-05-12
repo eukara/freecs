@@ -286,6 +286,17 @@ w_usp45_hud(void)
 #endif
 }
 
+int
+w_usp45_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.usp45_mag <= 0 && pl.ammo_45acp <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_usp45_hudpic(int selected, vector pos, float a)
 {
@@ -293,7 +304,7 @@ w_usp45_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.usp45_mag == 0 && pl.ammo_45acp == 0)
+	if (w_usp45_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -332,6 +343,7 @@ weapon_t w_usp45 =
 	.id		= ITEM_USP45,
 	.slot		= 1,
 	.slot_pos	= 0,
+	.weight		= 5,
 	.allow_drop	= TRUE,
 	.draw		= w_usp45_draw,
 	.holster	= __NULL__,
@@ -347,7 +359,8 @@ weapon_t w_usp45 =
 	.pmodel		= w_usp45_pmodel,
 	.deathmsg	= w_usp45_deathmsg,
 	.aimanim	= w_usp45_aimanim,
-	.hudpic		= w_usp45_hudpic
+	.hudpic		= w_usp45_hudpic,
+	.isempty	= w_usp45_isempty
 };
 
 #ifdef SERVER

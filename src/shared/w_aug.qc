@@ -237,6 +237,17 @@ w_aug_hud(void)
 #endif
 }
 
+int
+w_aug_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.aug_mag <= 0 && pl.ammo_762mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_aug_hudpic(int selected, vector pos, float a)
 {
@@ -244,7 +255,7 @@ w_aug_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.aug_mag == 0 && pl.ammo_762mm == 0)
+	if (w_aug_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -283,6 +294,7 @@ weapon_t w_aug =
 	.id		= ITEM_AUG,
 	.slot		= 0,
 	.slot_pos	= 10,
+	.weight		= 25,
 	.allow_drop	= TRUE,
 	.draw		= w_aug_draw,
 	.holster	= __NULL__,
@@ -298,7 +310,8 @@ weapon_t w_aug =
 	.pmodel		= w_aug_pmodel,
 	.deathmsg	= w_aug_deathmsg,
 	.aimanim	= w_aug_aimanim,
-	.hudpic		= w_aug_hudpic
+	.hudpic		= w_aug_hudpic,
+	.isempty	= w_aug_isempty
 };
 
 #ifdef SERVER

@@ -230,6 +230,17 @@ w_hegrenade_hud(void)
 #endif
 }
 
+int
+w_hegrenade_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.ammo_hegrenade <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_hegrenade_hudpic(int selected, vector pos, float a)
 {
@@ -285,7 +296,8 @@ weapon_t w_hegrenade =
 	.pmodel		= w_hegrenade_pmodel,
 	.deathmsg	= w_hegrenade_deathmsg,
 	.aimanim	= w_hegrenade_aimanim,
-	.hudpic		= w_hegrenade_hudpic
+	.hudpic		= w_hegrenade_hudpic,
+	.isempty	= w_hegrenade_isempty
 };
 
 #ifdef SERVER

@@ -227,6 +227,17 @@ w_g3sg1_hud(void)
 #endif
 }
 
+int
+w_g3sg1_isempty(void)
+{
+	player pl = (player)self;
+
+	if (pl.g3sg1_mag <= 0 && pl.ammo_762mm <= 0)
+		return 1;
+
+	return 0;
+}
+
 void
 w_g3sg1_hudpic(int selected, vector pos, float a)
 {
@@ -234,7 +245,7 @@ w_g3sg1_hudpic(int selected, vector pos, float a)
 	player pl = (player)self;
 	vector hud_col;
 
-	if (pl.g3sg1_mag == 0 && pl.ammo_762mm == 0)
+	if (w_g3sg1_isempty())
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -273,6 +284,7 @@ weapon_t w_g3sg1 =
 	.id		= ITEM_G3SG1,
 	.slot		= 0,
 	.slot_pos	= 13,
+	.weight		= 25,
 	.allow_drop	= TRUE,
 	.draw		= w_g3sg1_draw,
 	.holster	= __NULL__,
@@ -288,7 +300,8 @@ weapon_t w_g3sg1 =
 	.pmodel		= w_g3sg1_pmodel,
 	.deathmsg	= w_g3sg1_deathmsg,
 	.aimanim	= w_g3sg1_aimanim,
-	.hudpic		= w_g3sg1_hudpic
+	.hudpic		= w_g3sg1_hudpic,
+	.isempty	= w_g3sg1_isempty
 };
 
 #ifdef SERVER
