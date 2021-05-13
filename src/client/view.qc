@@ -50,8 +50,8 @@ View_UpdateWeapon(entity vm, entity mflash)
 
 	player pl = (player)pSeat->m_ePlayer;
 	if (getplayerkeyfloat(pl.entnum-1, "*team") == TEAM_CT) {
-		setcustomskin(pSeat->m_eViewModel, "", "geomset 0 2\n");
+		setcustomskin(pSeat->m_eViewModel, "", "geomset 0 2\ngeomset 1 1\n");
 	} else {
-		setcustomskin(pSeat->m_eViewModel, "", "geomset 0 1\n");
+		setcustomskin(pSeat->m_eViewModel, "", "geomset 0 1\ngeomset 1 2\n");
 	}
 }
