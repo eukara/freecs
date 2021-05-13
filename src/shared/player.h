@@ -519,7 +519,6 @@ player::SendEntity(entity ePEnt, float fChanged)
 		fChanged &= ~PLAYER_ITEMS;
 		fChanged &= ~PLAYER_HEALTH;
 		fChanged &= ~PLAYER_ARMOR;
-		fChanged &= ~PLAYER_VIEWOFS;
 		fChanged &= ~PLAYER_AMMO1;
 		fChanged &= ~PLAYER_AMMO2;
 		fChanged &= ~PLAYER_AMMO3;

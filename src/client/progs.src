@@ -28,7 +28,7 @@ init.qc
 entities.qc
 cmds.qc
 game_event.qc
-../../../valve/src/client/view.qc
+view.qc
 crosshair.qc
 ../../../valve/src/client/obituary.qc
 hud.qc

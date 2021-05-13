@@ -721,6 +721,14 @@ HUD_DrawSpectator(void)
 	vecPos[1] = g_hudres[1]-21;
 	drawstring(vecPos, strText, [12,12], SPEC_FG_COL, 1.0f, DRAWFLAG_NORMAL);
 
+	if (spec.spec_mode == SPECMODE_FIRSTPERSON) {
+		entity oself = self;
+		self = findfloat(world, ::entnum, spec.spec_ent);
+		if (self)
+			Cstrike_DrawCrosshair();
+		self = oself;
+	}
+
 	/* money */
 	strText = sprintf("$ %i", getstati(STAT_MONEY));
 	flSep = stringwidth(strText, TRUE, [12,12]);

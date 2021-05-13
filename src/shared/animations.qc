@@ -103,12 +103,14 @@ Animation_PlayerUpdate(player pl)
 		pl.frame1time = 10.0f;
 	}
 
+#if 0
 	makevectors([0, pl.angles[1], 0]);
 	float fCorrect = dotproduct(pl.velocity, v_right) * 0.25f;
 	
 	pl.subblendfrac = -fCorrect * 0.05f;
 	pl.subblend2frac *= -0.1f;
 	pl.angles[1] -= fCorrect;
+#endif
 
 #ifdef SERVER
 	pl.basesubblendfrac = 
