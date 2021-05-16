@@ -29,6 +29,12 @@
 #define PHY_VIEWPOS [0,0,18]
 #define PHY_VIEWPOS_CROUCHED [0,0,12]
 
+#define PHY_HULL_MIN [-16,-16,-36]
+#define PHY_HULL_MAX [16,16,36]
+#define PHY_HULL_CROUCHED_MIN [-16,-16,-18]
+#define PHY_HULL_CROUCHED_MAX [16,16,18]
+
+
 .float waterlevel;
 .float watertype;
 
@@ -138,7 +144,7 @@ GamePMove_Fall(player target, float impactspeed)
 	if (impactspeed > 580) {
 #ifdef SERVER
 		float fFallDamage = (impactspeed - 580) * (100 / (1024 - 580)) * 0.75f;
-		Damage_Apply(target, world, fFallDamage, 0, DMG_FALL);
+		Damage_Apply(target, world, fFallDamage, 0, DMG_FALL | DMG_SKIP_ARMOR);
 
 		if (random() < 0.5)
 			sound(target, CHAN_AUTO, "player/pl_pain2.wav", 1.0, ATTN_NORM);

@@ -48,7 +48,6 @@ View_UpdateWeapon(entity vm, entity mflash)
 	mflash.skeletonindex = skel_create(vm.modelindex);
 	pSeat->m_iVMBones = skel_get_numbones(mflash.skeletonindex) + 1;
 
-	player pl = (player)pSeat->m_ePlayer;
 	if (getplayerkeyfloat(pl.entnum-1, "*team") == TEAM_CT) {
 		setcustomskin(pSeat->m_eViewModel, "", "geomset 0 2\ngeomset 1 1\n");
 	} else {
