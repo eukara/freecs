@@ -97,6 +97,10 @@ class player:base_player
 	PREDICTED_FLOAT(anim_bottom); 
 	PREDICTED_FLOAT(anim_bottom_time);
 
+	virtual float(void) Physics_MaxSpeed;
+	virtual void(float) Physics_Fall;
+	virtual void(void) Physics_Jump;
+
 #ifdef CLIENT
 	/* External model */
 	entity p_model;
