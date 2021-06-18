@@ -1,9 +1,13 @@
 # FreeCS
+[As seen on phoronix.com](https://phoronix.com/scan.php?page=news_item&px=FreeCS-Open-Counter-Strike)
+
 Clean-room reimplementation of Counter-Strike 1.5 (mod-version).
 
 Aiming for a stable reimagining of the original mod in QuakeC.
 Not aiming for accuracy, but for a smooth, exploit and bug-free
 experience over the Internet.
+
+Done in my freetime for countless reasons, but most important to me: to learn everything there is to know about one of my favorite games.
 
 This is all 100% new, original code written by good old trial and error.
 Differences exist and features are slowly being implemented one by one.
