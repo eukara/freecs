@@ -19,7 +19,8 @@ ClientGame_ConsoleCommand(void)
 {
 	switch(argv(0)) {
 	case "chooseteam":
-		Textmenu_Toggle("TEAM_SELECT");
+		if (serverkeyfloat("sv_playerslots") > 1)
+			Textmenu_Toggle("TEAM_SELECT");
 		break;
 	case "buy":
 		Textmenu_Toggle("BUY");
