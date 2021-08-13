@@ -987,8 +987,16 @@ Event Handling, called by the Client codebase via 'sendevent'
 void
 CSEv_JoinTeam_f(float flChar)
 {
-	CSMultiplayerRules rules = (CSMultiplayerRules)g_grMode;
-	player pl = (player)self;
+	CSMultiplayerRules rules;
+	player pl;
+
+	/* matches Game_InitRules() */
+	if (cvar("sv_playerslots") == 1 || cvar("coop") == 1) {
+		return;
+	}
+
+	rules = (CSMultiplayerRules)g_grMode;
+	pl = (player)self;
 
 	if (pl.team == TEAM_VIP) {
 		centerprint(pl, "You are the VIP!\nYou cannot switch roles now.\n");
@@ -1054,7 +1062,14 @@ CSEv_JoinTeam_f(float flChar)
 void
 CSEv_JoinAuto(void)
 {
-	CSMultiplayerRules rules = (CSMultiplayerRules)g_grMode;
+	CSMultiplayerRules rules;
+
+	/* matches Game_InitRules() */
+	if (cvar("sv_playerslots") == 1 || cvar("coop") == 1) {
+		return;
+	}
+
+	rules = (CSMultiplayerRules)g_grMode;
 	rules.CountPlayers();
 
 	if (g_cs_total_ct >= g_cs_total_t) {
