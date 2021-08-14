@@ -14,27 +14,6 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#define PMOVE_STEPHEIGHT 18
-#define PMOVE_AIRSTEPHEIGHT 18
-#define PMOVE_FRICTION 4
-#define PMOVE_EDGEFRICTION 1
-#define PMOVE_STOPSPEED 75
-#define PMOVE_GRAVITY 800
-#define PMOVE_AIRACCELERATE 10
-#define PMOVE_WATERACCELERATE 8
-#define PMOVE_ACCELERATE 4
-#define PMOVE_MAXSPEED 250
-
-/* Counter-Strike players are hunched over a little bit */
-#define PHY_VIEWPOS [0,0,18]
-#define PHY_VIEWPOS_CROUCHED [0,0,12]
-
-#define PHY_HULL_MIN [-16,-16,-36]
-#define PHY_HULL_MAX [16,16,36]
-#define PHY_HULL_CROUCHED_MIN [-16,-16,-18]
-#define PHY_HULL_CROUCHED_MAX [16,16,18]
-
-
 .float waterlevel;
 .float watertype;
 
