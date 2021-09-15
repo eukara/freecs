@@ -41,7 +41,6 @@ enumflags
 	PLAYER_CSSHOTTIME
 };
 
-noref int input_sequence;
 class player:base_player
 {
 	int ingame;
