@@ -136,7 +136,7 @@ armoury_entity::touch(void)
 void
 armoury_entity::Respawn(void)
 {
-	SetModel(m_oldModel);
+	SetModel(GetSpawnModel());
 	setsize(this, [-16,-16,0], [16,16,16]);
 	solid = SOLID_TRIGGER;
 	m_iLeft = m_iCount;

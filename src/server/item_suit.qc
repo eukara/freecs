@@ -55,8 +55,8 @@ item_suit::Respawn(void)
 	SetSolid(SOLID_TRIGGER);
 	SetMovetype(MOVETYPE_TOSS);
 	SetSize(VEC_HULL_MIN, VEC_HULL_MAX);
-	SetOrigin(m_oldOrigin);
-	SetModel(m_oldModel);
+	SetOrigin(GetSpawnOrigin());
+	SetModel(GetSpawnModel());
 
 	think = __NULL__;
 	nextthink = -1;
