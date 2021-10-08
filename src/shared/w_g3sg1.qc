@@ -160,10 +160,13 @@ w_g3sg1_secondary(void)
 	/* Simple toggle of fovs */
 	if (pl.viewzoom == 1.0f) {
 		pl.viewzoom = 0.45f;
+		Weapons_DisableModel();
 	} else if (pl.viewzoom == 0.45f) {
 		pl.viewzoom = 0.1f;
+		Weapons_DisableModel();
 	} else {
 		pl.viewzoom = 1.0f;
+		Weapons_EnableModel();
 	}
 	pl.w_attack_next = 0.5f;
 }

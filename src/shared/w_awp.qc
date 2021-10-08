@@ -158,15 +158,19 @@ w_awp_release(void)
 
 	if (pl.w_idle_next > 0.0f) {
 		pl.viewzoom = 1.0f;
+		Weapons_EnableModel();
 		return;
 	}
 
 	if (pl.mode_temp == 1) {
 		pl.viewzoom = 0.45f;
+		Weapons_DisableModel();
 	} else if (pl.mode_temp == 2) {
 		pl.viewzoom = 0.1f;
+		Weapons_DisableModel();
 	} else {
 		pl.viewzoom = 1.0f;
+		Weapons_EnableModel();
 	}
 }
 
