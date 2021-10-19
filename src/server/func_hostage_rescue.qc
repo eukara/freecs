@@ -28,7 +28,7 @@ If neither a func_hostage_rescue or a info_hostage_rescue is placed,
 zones will be placed in Counter-Terrorist player spawn nodes automatically.
 */
 
-class func_hostage_rescue:CBaseTrigger
+class func_hostage_rescue:NSBrushTrigger
 {
 	void(void) func_hostage_rescue;
 
@@ -81,6 +81,6 @@ func_hostage_rescue::Respawn(void)
 void
 func_hostage_rescue::func_hostage_rescue(void)
 {
-	CBaseTrigger::CBaseTrigger();
+	NSBrushTrigger::NSBrushTrigger();
 	InitBrushTrigger();
 }

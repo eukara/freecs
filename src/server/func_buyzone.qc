@@ -40,7 +40,7 @@ Choices for 'team' include:
     2 = Counter-Terrorist
 */
 
-class func_buyzone:CBaseTrigger
+class func_buyzone:NSBrushTrigger
 {
 	void(void) func_buyzone;
 
@@ -68,6 +68,6 @@ func_buyzone::Respawn(void)
 void
 func_buyzone::func_buyzone(void)
 {
-	CBaseTrigger::CBaseTrigger();
+	NSBrushTrigger::NSBrushTrigger();
 	InitBrushTrigger();
 }

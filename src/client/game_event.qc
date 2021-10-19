@@ -114,9 +114,6 @@ switch (fHeader) {
 
 		CSQC_Parse_Print(sprintf("^xF80[TEAM] ^7%s^7^xF80: %s", strName2, sMessage2), PRINT_CHAT);
 		break;
-	case EV_CHAT_VOX:
-		Vox_Play(readstring());
-		break;
 	case EV_VIEWMODEL:
 		View_PlayAnimation(readbyte());
 		break;

@@ -27,7 +27,7 @@ Used in the bomb defusal mode (de_* maps).
 Once the bomb explodes inside this volume, it'll trigger its targets.
 */
 
-class func_bomb_target:CBaseTrigger
+class func_bomb_target:NSBrushTrigger
 {
 	void(void) func_bomb_target;
 

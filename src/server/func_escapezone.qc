@@ -26,7 +26,7 @@ Terrorist escape zone.
 Used in the Escape mode (es_* maps).
 */
 
-class func_escapezone:CBaseTrigger
+class func_escapezone:NSBrushTrigger
 {
 	virtual void(void) Respawn;
 }; 

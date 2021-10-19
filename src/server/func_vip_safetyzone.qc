@@ -26,7 +26,7 @@ VIP safety zone.
 Used in the assassination mode (as_* maps).
 */
 
-class func_vip_safetyzone:CBaseTrigger
+class func_vip_safetyzone:NSBrushTrigger
 {
 	virtual void(void) Respawn;
 }; 
