@@ -20,6 +20,7 @@ defs.h
 
 radar.qc
 nightvision.qc
+../../../valve/src/client/damage.qc
 draw.qc
 textmenu.qc
 init.qc

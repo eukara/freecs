@@ -144,6 +144,7 @@ ClientGame_RendererRestart(string rstr)
 	MUZZLE_WEIRD = (int)getmodelindex("sprites/muzzleflash3.spr");
 
 	Obituary_Precache();
+	Damage_Precache();
 
 	FX_Blood_Init();
 	FX_BreakModel_Init();
