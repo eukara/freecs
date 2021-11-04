@@ -746,7 +746,7 @@ HUD_DrawSpectator(void)
 	drawfill([flSep,1], [4,30], SPEC_SEP_COL, 1.0f, DRAWFLAG_NORMAL);
 
 	/* team scores */
-	drawfont = FONT_CON;
+	drawfont = Font_GetID(FONT_CON);
 	strText = sprintf("Terrorist Forces: %s", serverkey("teamscore_1"));
 	vecPos[0] = flSep - stringwidth(strText, TRUE, [12,12]) - 2;
 	vecPos[1] = g_hudmins[1] + 3;
