@@ -861,14 +861,7 @@ MakePlayable(entity targ)
 
 	self = oself;
 }
-static void
-MakeSpectator(entity targ)
-{
-	entity oself = self;
-	self = targ;
-	spawnfunc_spectator();
-	self = oself;
-}
+
 void
 CSMultiplayerRules::PlayerMakePlayable(base_player pp, int chara)
 {
@@ -912,10 +905,11 @@ Force the player to become an observer.
 =================
 */
 void
-CSMultiplayerRules::PlayerMakeSpectator(base_player pl)
+CSMultiplayerRules::PlayerMakeSpectator(base_player pp)
 {
+	player pl = (player)pp;
+	pl.MakeTempSpectator();
 	PlayerClearWeaponry(pl);
-	MakeSpectator(pl);
 }
 
 /*
