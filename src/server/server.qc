@@ -53,6 +53,7 @@ Game_Worldspawn(void)
 	Sound_Precache("weapon.pickup");
 
 	Weapons_Init();
+	FX_Corpse_Init();
 
 	clientstat(STAT_MONEY, EV_INTEGER, player::money);
 	clientstat(STAT_PROGRESS, EV_FLOAT, player::progress);

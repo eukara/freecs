@@ -12,6 +12,7 @@ item_c4bomb.h
 ../../../valve/src/shared/fx_explosion.qc
 ../../../valve/src/shared/fx_gibhuman.qc
 ../../../base/src/shared/fx_spark.qc
+../../../base/src/shared/fx_corpse.qc
 fx_impact.qc
 fx_flashbang.qc
 fx_smokenade.qc

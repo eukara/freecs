@@ -34,6 +34,11 @@ CSMultiplayerRules::PlayerDisconnect(base_player pl)
 void
 CSMultiplayerRules::PlayerDeath(base_player pl)
 {
+	player targ = (player)g_dmg_eTarget;
+	player attk = (player)g_dmg_eAttacker;
+
+	FX_Corpse_Spawn(targ, ANIM_DEATH1);
+
 	/* obituary networking */
 	WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
 	WriteByte(MSG_MULTICAST, EV_OBITUARY);
@@ -42,7 +47,7 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 	else
 		WriteString(MSG_MULTICAST, g_dmg_eAttacker.classname);
 
-	WriteString(MSG_MULTICAST, strcat(HUD_GetChatColorHEX(pl.team), pl.netname));
+	WriteString(MSG_MULTICAST, strcat(HUD_GetChatColorHEX(targ.team), targ.netname));
 
 	WriteByte(MSG_MULTICAST, g_dmg_iWeapon);
 	WriteByte(MSG_MULTICAST, 0);
@@ -52,8 +57,8 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 	Plugin_PlayerObituary(g_dmg_eAttacker, g_dmg_eTarget, g_dmg_iWeapon, g_dmg_iHitBody, g_dmg_iDamage);
 
 	/* death-counter */
-	pl.deaths++;
-	forceinfokey(pl, "*deaths", ftos(pl.deaths));
+	targ.deaths++;
+	forceinfokey(targ, "*deaths", ftos(targ.deaths));
 
 	/* update score-counter */
 	if (g_dmg_eTarget.flags & FL_CLIENT || g_dmg_eTarget.flags & FL_MONSTER)
@@ -64,54 +69,41 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 			g_dmg_eAttacker.frags++;
 	}
 
-	Weapon_DropCurrentWeapon(pl);
+	Weapon_DropCurrentWeapon(targ);
 
 	/* if we're the bomb carrier, make sure we drop the bomb. */
-	if (pl.g_items & ITEM_C4BOMB) {
-		pl.activeweapon = WEAPON_C4BOMB;
-		Weapon_DropCurrentWeapon(pl);
+	if (targ.g_items & ITEM_C4BOMB) {
+		targ.activeweapon = WEAPON_C4BOMB;
+		Weapon_DropCurrentWeapon(targ);
 	}
 
 	/* clear all ammo and inventory... */
-	PlayerClearWeaponry(pl);
-
-	pl.movetype = MOVETYPE_NONE;
-	pl.solid = SOLID_NOT;
-	pl.takedamage = DAMAGE_NO;
-	pl.gflags &= ~GF_FLASHLIGHT;
-	pl.armor = 0;
-	pl.health = 0;
-
-	entity corpse = spawn();
-	setorigin(corpse, pl.origin + [0,0,32]);
-	setmodel(corpse, pl.model);
-	setsize(corpse, VEC_HULL_MIN, VEC_HULL_MAX);
-	corpse.movetype = MOVETYPE_TOSS;
-	corpse.solid = SOLID_TRIGGER;
-	corpse.modelindex = pl.modelindex;
-	corpse.frame = ANIM_DEATH1;
-	corpse.angles = pl.angles;
-	corpse.velocity = pl.velocity;
-	corpse.classname = "remove_me";
+	PlayerClearWeaponry(targ);
+	targ.movetype = MOVETYPE_NONE;
+	targ.solid = SOLID_NOT;
+	targ.takedamage = DAMAGE_NO;
+	targ.gflags &= ~GF_FLASHLIGHT;
+	targ.armor = 0;
+	targ.health = 0;
 
 	/* gamerule stuff */
 	static void GoSpec(void) {
 		spawnfunc_spectator();
 	}
-	pl.think = GoSpec;
-	pl.nextthink = time;
-	pl.classname = "player";
-	forceinfokey(pl, "*dead", "1"); 
-	forceinfokey(pl, "*team", ftos(pl.team));
+	targ.think = GoSpec;
+	targ.nextthink = time;
+	targ.classname = "player";
+	forceinfokey(targ, "*dead", "1"); 
+	forceinfokey(targ, "*team", ftos(targ.team));
 	CountPlayers();
 
 	/* In Assassination, all Terrorists receive a $2500
 	 *  reward if they won by killing the VIP. */
-	if (self.team == TEAM_VIP) {
+	if (targ.team == TEAM_VIP) {
 		RoundOver(TEAM_T, 2500, FALSE);
 		return;
 	}
-	DeathCheck(pl);
+	DeathCheck(targ);
 }
 
 void
@@ -651,6 +643,11 @@ CSMultiplayerRules::CountPlayers(void)
 void
 CSMultiplayerRules::DeathCheck(base_player pl)
 {
+	/* hack so that we can kill rounds */
+	if ((g_cs_alive_t == 0) || (g_cs_alive_ct == 0)) {
+		g_cs_gamestate = GAME_ACTIVE;
+	}
+
 	if ((g_cs_alive_t == 0) && (g_cs_alive_ct == 0)) {
 		if (g_cs_bombplanted == TRUE) {
 			RoundOver(TEAM_T, 3600, FALSE);

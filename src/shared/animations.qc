@@ -112,13 +112,8 @@ Animation_PlayerUpdate(player pl)
 	pl.angles[1] -= fCorrect;
 #endif
 
-#ifdef SERVER
 	pl.basesubblendfrac = 
 	pl.basesubblend2frac = pl.v_angle[0] / 90;
-#else
-	pl.basesubblendfrac = 
-	pl.basesubblend2frac = pl.pitch / 90;
-#endif
 }
 
 void
