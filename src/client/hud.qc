@@ -55,6 +55,7 @@ HUD_Init(void)
 	g_hud15_spr = spriteframe("sprites/640hud15.spr", 0, 0.0f);
 	g_hud16_spr = spriteframe("sprites/640hud16.spr", 0, 0.0f);
 	HUD_AmmoNotify_Init();
+	HUD_DamageNotify_Init();
 
 	precache_model("sprites/bottom.spr");
 	precache_model("sprites/bottom_left.spr");
@@ -683,6 +684,7 @@ HUD_Draw(void)
 	Radar_Draw();
 	HUD_DrawNotify();
 	HUD_DrawHealth();
+	HUD_DamageNotify_Draw();
 	HUD_DrawArmor();
 	HUD_DrawZones();
 	HUD_DrawProgress();
