@@ -103,27 +103,36 @@ Animation_PlayerUpdate(player pl)
 		pl.frame1time = 10.0f;
 	}
 
-#if 0
-	makevectors([0, pl.angles[1], 0]);
-	float fCorrect = dotproduct(pl.velocity, v_right) * 0.25f;
-	
-	pl.subblendfrac = -fCorrect * 0.05f;
-	pl.subblend2frac *= -0.1f;
-	pl.angles[1] -= fCorrect;
-#endif
+	/* only test against non-vertical velocity, or else we'll spin */
+	vector hvel = pl.velocity;
+	hvel[2] = 0;
 
-	pl.basesubblendfrac = 
-	pl.basesubblend2frac = pl.v_angle[0] / 90;
+	/* get the movement direction */
+	makevectors([0, pl.v_angle[1], 0]);
+	float fCorrect = dotproduct(hvel, v_right) * 0.25f;
+
+	/* twist torso according to movement direction */
+	pl.subblendfrac = -fCorrect * 0.05f;
+
+	/* correct angles so we're facing forward */
+	pl.angles[1] = pl.v_angle[1] - fCorrect;
+
+	/* pitch torso up/down */
+	pl.subblend2frac = pl.v_angle[0] / 90;
+
+
+	//pl.basesubblendfrac = 
+	pl.angles[0] = pl.angles[2] = 0;
+
+	//pl.subblend2frac = sin(cltime);
 }
 
 void
 Animation_PlayerTop(player pl, float topanim, float timer)
 {
-#if 0
 	pl.anim_top = topanim;
 	pl.anim_top_time = 0.0f;
 	pl.anim_top_delay = timer;
-#endif
 }
 
 void
