@@ -14,7 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-void
+int
 ClientGame_EventParse(float fHeader)
 {
 switch (fHeader) {
@@ -132,5 +132,8 @@ switch (fHeader) {
 	case EV_RADIOMSG2:
 		Radio_PlayPlayerMessage(readbyte(), readbyte());
 		break;
+	default:
+		return (0);
 	}
+	return (1);
 }

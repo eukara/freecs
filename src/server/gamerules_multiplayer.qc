@@ -19,7 +19,7 @@ CSMultiplayerRules::MaxItemPerSlot(int slot)
 {
 	/* grenades */
 	if (slot == 3) {
-		return 3;
+		return (3);
 	}
 	return (1);
 }
@@ -79,12 +79,8 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 
 	/* clear all ammo and inventory... */
 	PlayerClearWeaponry(targ);
-	targ.movetype = MOVETYPE_NONE;
-	targ.solid = SOLID_NOT;
-	targ.takedamage = DAMAGE_NO;
+	targ.Death();
 	targ.gflags &= ~GF_FLASHLIGHT;
-	targ.armor = 0;
-	targ.health = 0;
 
 	/* gamerule stuff */
 	static void GoSpec(void) {
