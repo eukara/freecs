@@ -46,3 +46,13 @@ HUD_GetChatColorHEX(float fTeam)
 		return "^xCCC";
 	}
 }
+
+enum
+{
+	GAME_INACTIVE,
+	GAME_COMMENCING,
+	GAME_FREEZE,
+	GAME_ACTIVE,
+	GAME_END, 
+	GAME_OVER
+};

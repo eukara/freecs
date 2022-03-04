@@ -107,12 +107,6 @@ CSMultiplayerRules::PlayerPreFrame(base_player pl)
 {
 	player pp = (player)pl;
 
-	if (pl.health <= 0)
-		return;
-
-	if (g_cs_gamestate == GAME_FREEZE || pp.progress > 0.0f) {
-		pl.flags |= FL_FROZEN;
-	}
 }
 
 void
@@ -237,6 +231,17 @@ CSMultiplayerRules::TimerBegin(float tleft, int mode)
 		g_cs_gamestate = GAME_FREEZE;
 	} else if (mode == GAME_ACTIVE) {
 		g_cs_gamestate = GAME_ACTIVE;
+		CountPlayers();
+
+		/* if no players are present in the chosen team, force restart round */
+		if ((g_cs_alive_t == 0)) {
+			RoundOver(TEAM_CT, 3600, FALSE);
+			return;
+		} else if (g_cs_alive_ct == 0) {
+			RoundOver(TEAM_T, 3600, FALSE);
+			return;
+		}
+	
 	} else if (mode == GAME_END) {
 		g_cs_gamestate = GAME_END;
 	} else if (mode == GAME_COMMENCING) {
@@ -506,7 +511,7 @@ This happens whenever an objective is complete or time is up
 void
 CSMultiplayerRules::RoundOver(int iTeamWon, int iMoneyReward, int fSilent)
 {
-	if (g_cs_gamestate != GAME_ACTIVE) {
+	if (g_cs_gamestate != GAME_ACTIVE && g_cs_gamestate != GAME_FREEZE) {
 		return;
 	}
 
@@ -640,8 +645,17 @@ void
 CSMultiplayerRules::DeathCheck(base_player pl)
 {
 	/* hack so that we can kill rounds */
-	if ((g_cs_alive_t == 0) || (g_cs_alive_ct == 0)) {
+	if ((g_cs_alive_t == 0) && (g_cs_alive_ct == 0)) {
 		g_cs_gamestate = GAME_ACTIVE;
+	}
+
+	switch (g_cs_gamestate) {
+	case GAME_INACTIVE:
+	case GAME_COMMENCING:
+	case GAME_END:
+	case GAME_OVER:
+		return;
+		break;
 	}
 
 	if ((g_cs_alive_t == 0) && (g_cs_alive_ct == 0)) {
@@ -659,6 +673,7 @@ CSMultiplayerRules::DeathCheck(base_player pl)
 		} else {
 			return;
 		}
+
 		if (g_cs_bombzones > 0) {
 			/* In Bomb Defusal, the winning team receives $3250
 			 * if they won by eliminating the enemy team. */

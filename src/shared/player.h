@@ -100,6 +100,8 @@ class player:base_player
 	virtual void(float) Physics_Fall;
 	virtual void(void) Physics_Jump;
 
+	virtual void(void) Physics_InputPostMove;
+
 #ifdef CLIENT
 	/* External model */
 	entity p_model;
@@ -118,6 +120,7 @@ class player:base_player
 	virtual void(float, float) ReceiveEntity;
 	virtual void(void) PredictPreFrame;
 	virtual void(void) PredictPostFrame;
+	virtual void(void) ClientRemove;
 #else
 	virtual void(void) EvaluateEntity;
 	virtual float(entity, float) SendEntity;
@@ -128,8 +131,27 @@ class player:base_player
 #endif
 };
 
+void
+player::Physics_InputPostMove(void)
+{
+	super::Physics_InputPostMove();
+
+#ifdef SERVER
+	if (g_cs_gamestate == GAME_FREEZE) {
+#else
+	if (getstati(STAT_GAMESTATE) == GAME_FREEZE) {
+#endif
+		flags |= FL_FROZEN;
+	}
+}
+
 
 #ifdef CLIENT
+void
+player::ClientRemove(void)
+{
+	remove(p_model);
+}
 void Weapons_AmmoUpdate(entity);
 void HUD_AmmoNotify_Check(player pl);
 /*
@@ -496,13 +518,6 @@ player::EvaluateEntity(void)
 	SAVE_STATE(anim_top_delay);
 	SAVE_STATE(anim_bottom); 
 	SAVE_STATE(anim_bottom_time);
-
-	if (g_cs_gamestate != GAME_FREEZE) {
-		if (progress <= 0.0f) {
-			flags &= ~FL_FROZEN;
-			SendFlags |= PLAYER_FLAGS;
-		}
-	} 
 }
 
 /*

@@ -139,6 +139,7 @@ w_c4bomb_primary(void)
 	}
 
 	pl.flags |= FL_FROZEN;
+	input_movevalues = [0,0,0];
 
 	switch (pl.mode_temp) {
 	case C4S_NONE:

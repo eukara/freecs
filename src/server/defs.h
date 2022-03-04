@@ -77,13 +77,3 @@ var int autocvar_fcs_maxmoney = 16000;
 var int autocvar_fcs_fillweapons = FALSE; /* This will automatically get ammo for the weapon you buy */
 var int autocvar_fcs_fix_bombtimer = TRUE; /* If true, the bomb-timer will dictate the round-end */
 var int autocvar_fcs_bombaltthrow = TRUE; /* Randomize the bomb-throw every time ever so slightly */
-
-enum
-{
-	GAME_INACTIVE,
-	GAME_COMMENCING,
-	GAME_FREEZE,
-	GAME_ACTIVE,
-	GAME_END, 
-	GAME_OVER
-};

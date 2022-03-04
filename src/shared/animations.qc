@@ -67,7 +67,7 @@ depending on what the player is doing
 void
 Animation_PlayerUpdate(player pl)
 {
-	pl.basebone = 39;
+	pl.basebone = gettagindex(self, "-- R shoulder outside");
 
 	if (pl.anim_top_delay <= 0.0f) {
 		pl.anim_top = Weapons_GetAim(pl.activeweapon);
