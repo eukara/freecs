@@ -366,6 +366,7 @@ weapon_t w_awp =
 	.deathmsg	= w_awp_deathmsg,
 	.aimanim	= w_awp_aimanim,
 	.hudpic		= w_awp_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_awp_isempty
 };
 

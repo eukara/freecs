@@ -329,6 +329,7 @@ weapon_t w_scout =
 	.deathmsg	= w_scout_deathmsg,
 	.aimanim	= w_scout_aimanim,
 	.hudpic		= w_scout_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_scout_isempty
 };
 

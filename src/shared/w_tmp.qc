@@ -282,6 +282,7 @@ weapon_t w_tmp =
 	.deathmsg	= w_tmp_deathmsg,
 	.aimanim	= w_tmp_aimanim,
 	.hudpic		= w_tmp_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_tmp_isempty
 };
 

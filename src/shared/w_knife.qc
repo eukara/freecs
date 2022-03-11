@@ -241,6 +241,7 @@ weapon_t w_knife =
 	.deathmsg	= w_knife_deathmsg,
 	.aimanim	= w_knife_aimanim,
 	.hudpic		= w_knife_hudpic,
+	.type		= csweapon_melee_type,
 	.isempty	= w_knife_isempty
 };
 

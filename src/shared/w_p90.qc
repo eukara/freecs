@@ -282,6 +282,7 @@ weapon_t w_p90 =
 	.deathmsg	= w_p90_deathmsg,
 	.aimanim	= w_p90_aimanim,
 	.hudpic		= w_p90_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_p90_isempty
 };
 

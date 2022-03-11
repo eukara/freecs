@@ -290,6 +290,7 @@ weapon_t w_p228 =
 	.deathmsg	= w_p228_deathmsg,
 	.aimanim	= w_p228_aimanim,
 	.hudpic		= w_p228_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_p228_isempty
 };
 

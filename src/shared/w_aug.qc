@@ -311,6 +311,7 @@ weapon_t w_aug =
 	.deathmsg	= w_aug_deathmsg,
 	.aimanim	= w_aug_aimanim,
 	.hudpic		= w_aug_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_aug_isempty
 };
 

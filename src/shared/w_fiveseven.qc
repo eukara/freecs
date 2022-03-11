@@ -289,6 +289,7 @@ weapon_t w_fiveseven =
 	.deathmsg	= w_fiveseven_deathmsg,
 	.aimanim	= w_fiveseven_aimanim,
 	.hudpic		= w_fiveseven_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_fiveseven_isempty
 };
 

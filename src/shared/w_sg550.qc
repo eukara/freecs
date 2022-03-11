@@ -305,6 +305,7 @@ weapon_t w_sg550 =
 	.deathmsg	= w_sg550_deathmsg,
 	.aimanim	= w_sg550_aimanim,
 	.hudpic		= w_sg550_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_sg550_isempty
 };
 

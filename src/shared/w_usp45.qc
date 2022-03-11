@@ -360,6 +360,7 @@ weapon_t w_usp45 =
 	.deathmsg	= w_usp45_deathmsg,
 	.aimanim	= w_usp45_aimanim,
 	.hudpic		= w_usp45_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_usp45_isempty
 };
 

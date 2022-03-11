@@ -370,6 +370,7 @@ weapon_t w_xm1014 =
 	.deathmsg	= w_xm1014_deathmsg,
 	.aimanim	= w_xm1014_aimanim,
 	.hudpic		= w_xm1014_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_xm1014_isempty
 };
 

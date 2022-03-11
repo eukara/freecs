@@ -969,6 +969,12 @@ CSMultiplayerRules::ConsoleCommand(base_player pp, string cmd)
 	return (1);
 }
 
+float
+CSMultiplayerRules::IsTeamPlay(void)
+{
+	return TRUE;
+}
+
 void
 CSMultiplayerRules::CSMultiplayerRules(void)
 {

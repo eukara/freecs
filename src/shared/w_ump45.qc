@@ -282,6 +282,7 @@ weapon_t w_ump45 =
 	.deathmsg	= w_ump45_deathmsg,
 	.aimanim	= w_ump45_aimanim,
 	.hudpic		= w_ump45_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_ump45_isempty
 };
 

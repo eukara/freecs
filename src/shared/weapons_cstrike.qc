@@ -28,6 +28,18 @@
  * to other weapons.
 */
 
+weapontype_t
+csweapon_ranged_type(void)
+{
+	return WPNTYPE_RANGED;
+}
+
+weapontype_t
+csweapon_melee_type(void)
+{
+	return WPNTYPE_CLOSE;
+}
+
 /* called whenever a cstrike gun fires a successful shot */
 void
 Cstrike_ShotMultiplierAdd(player pl, int shots)

@@ -284,6 +284,7 @@ weapon_t w_mac10 =
 	.deathmsg	= w_mac10_deathmsg,
 	.aimanim	= w_mac10_aimanim,
 	.hudpic		= w_mac10_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_mac10_isempty
 };
 

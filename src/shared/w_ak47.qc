@@ -321,6 +321,7 @@ weapon_t w_ak47 =
 	.deathmsg	= w_ak47_deathmsg,
 	.aimanim	= w_ak47_aimanim,
 	.hudpic		= w_ak47_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_ak47_isempty
 };
 

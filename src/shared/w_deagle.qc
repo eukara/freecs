@@ -320,6 +320,7 @@ weapon_t w_deagle =
 	.deathmsg	= w_deagle_deathmsg,
 	.aimanim	= w_deagle_aimanim,
 	.hudpic		= w_deagle_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_deagle_isempty
 };
 

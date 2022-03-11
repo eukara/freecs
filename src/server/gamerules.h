@@ -70,6 +70,7 @@ class CSMultiplayerRules:CSGameRules
 	virtual void(void) CountPlayers;
 	virtual void(void) SwitchTeams;
 	virtual void(void) TimeOut;
+	virtual float(void) IsTeamPlay;
 
 	virtual void(base_player) PlayerClearWeaponry;
 	virtual void(base_player, int) PlayerMakePlayable;

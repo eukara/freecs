@@ -356,6 +356,7 @@ weapon_t w_glock18 =
 	.deathmsg	= w_glock18_deathmsg,
 	.aimanim	= w_glock18_aimanim,
 	.hudpic		= w_glock18_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_glock18_isempty
 };
 

@@ -278,6 +278,7 @@ weapon_t w_para =
 	.deathmsg	= w_para_deathmsg,
 	.aimanim	= w_para_aimanim,
 	.hudpic		= w_para_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_para_isempty
 };
 

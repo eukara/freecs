@@ -390,6 +390,7 @@ weapon_t w_elites =
 	.deathmsg	= w_elites_deathmsg,
 	.aimanim	= w_elites_aimanim,
 	.hudpic		= w_elites_hudpic,
+	.type		= csweapon_ranged_type,
 	.isempty	= w_elites_isempty
 };
 
