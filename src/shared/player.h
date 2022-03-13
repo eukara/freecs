@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2021 Marco Hladik <marco@icculus.org>
+ * Copyright (c) 2016-2021 Marco Cawthorne <marco@icculus.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -103,12 +103,7 @@ class player:base_player
 	virtual void(void) Physics_InputPostMove;
 
 #ifdef CLIENT
-	/* External model */
-	entity p_model;
 	int playertype;
-	int p_hand_bone;
-	int p_model_bone;
-	float lastweapon;
 
 	int cs_cross_mindist;
 	int cs_cross_deltadist;
@@ -120,7 +115,6 @@ class player:base_player
 	virtual void(float, float) ReceiveEntity;
 	virtual void(void) PredictPreFrame;
 	virtual void(void) PredictPostFrame;
-	virtual void(void) ClientRemove;
 #else
 	virtual void(void) EvaluateEntity;
 	virtual float(entity, float) SendEntity;
@@ -147,11 +141,6 @@ player::Physics_InputPostMove(void)
 
 
 #ifdef CLIENT
-void
-player::ClientRemove(void)
-{
-	remove(p_model);
-}
 void Weapons_AmmoUpdate(entity);
 void HUD_AmmoNotify_Check(player pl);
 /*
