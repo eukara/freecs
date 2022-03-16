@@ -107,10 +107,9 @@ w_awp_deathmsg(void)
 }
 
 int
-w_awp_pickup(int new, int startammo)
+w_awp_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -129,11 +128,10 @@ w_awp_pickup(int new, int startammo)
 }
 
 void
-w_awp_draw(void)
+w_awp_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_awp.mdl");
-	Weapons_ViewAnimation(AWP_DRAW);
+	Weapons_ViewAnimation(pl, AWP_DRAW);
 	pl.mode_temp = 0;
 
 #ifdef CLIENT
@@ -143,16 +141,15 @@ w_awp_draw(void)
 }
 
 void
-w_awp_release(void)
+w_awp_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.awp_mag == 0 && pl.ammo_338mag > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 
@@ -175,9 +172,8 @@ w_awp_release(void)
 }
 
 void
-w_awp_secondary(void)
+w_awp_secondary(player pl)
 {
-	player pl = (player)self;
 	if (pl.w_attack_next) {
 		return;
 	}
@@ -197,16 +193,15 @@ w_awp_secondary(void)
 
 	pl.w_attack_next = 0.3f;
 	pl.w_idle_next = 0.0f;
-	w_awp_release();
+	w_awp_release(pl);
 }
 
 void
-w_awp_primary(void)
+w_awp_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
-		w_awp_release();
+		w_awp_release(pl);
 		return;
 	}
 	if (!pl.awp_mag) {
@@ -220,13 +215,13 @@ w_awp_primary(void)
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(AWP_SHOOT1);
+		Weapons_ViewAnimation(pl, AWP_SHOOT1);
 		break;
 	case 1:
-		Weapons_ViewAnimation(AWP_SHOOT2);
+		Weapons_ViewAnimation(pl, AWP_SHOOT2);
 		break;
 	default:
-		Weapons_ViewAnimation(AWP_SHOOT3);
+		Weapons_ViewAnimation(pl, AWP_SHOOT3);
 		break;
 	}
 
@@ -250,9 +245,8 @@ w_awp_primary(void)
 }
 
 void
-w_awp_reload(void)
+w_awp_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -261,7 +255,7 @@ w_awp_reload(void)
 	if (!pl.ammo_338mag)
 		return;
 
-	Weapons_ViewAnimation(AWP_RELOAD);
+	Weapons_ViewAnimation(pl, AWP_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::awp_mag, player::ammo_338mag, 10);
@@ -272,16 +266,15 @@ w_awp_reload(void)
 }
 
 float
-w_awp_aimanim(void)
+w_awp_aimanim(player pl)
 {
-	return w_ak47_aimanim();
+	return w_ak47_aimanim(pl);
 }
 
 void
-w_awp_hud(void)
+w_awp_hud(player pl)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	if (pl.viewzoom < 1.0f) {
 		Cstrike_DrawScope();
 	}
@@ -293,9 +286,8 @@ w_awp_hud(void)
 }
 
 int
-w_awp_isempty(void)
+w_awp_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.awp_mag <= 0 && pl.ammo_338mag <= 0)
 		return 1;
@@ -304,13 +296,12 @@ w_awp_isempty(void)
 }
 
 void
-w_awp_hudpic(int selected, vector pos, float a)
+w_awp_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_awp_isempty())
+	if (w_awp_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -357,7 +348,7 @@ weapon_t w_awp =
 	.secondary	= w_awp_secondary,
 	.reload		= w_awp_reload,
 	.release	= w_awp_release,
-	.crosshair	= w_awp_hud,
+	.postdraw	= w_awp_hud,
 	.precache	= w_awp_precache,
 	.pickup		= w_awp_pickup,
 	.updateammo	= w_awp_updateammo,

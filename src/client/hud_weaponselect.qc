@@ -204,13 +204,13 @@ HUD_DrawWeaponSelect(void)
 				slot_selected = TRUE;
 				if (x == wantpos) {
 					// Selected Sprite
-					Weapons_HUDPic(pSeat->m_iHUDWeaponSelected, 1, vecPos, 1.0f);
+					Weapons_HUDPic(pl, pSeat->m_iHUDWeaponSelected, 1, vecPos, 1.0f);
 					drawsubpic(vecPos, [170,45], g_hud3_spr, 
 								[0,180/256], [170/256,45/256], g_hud_color, 1, DRAWFLAG_ADDITIVE);
 					vecPos[1] += 50;
 				} else if ((b=HUD_InSlotPos(i, x)) != -1) {
 					// Unselected Sprite
-					Weapons_HUDPic(b, 0, vecPos, 1.0f);
+					Weapons_HUDPic(pl, b, 0, vecPos, 1.0f);
 					vecPos[1] += 50;
 				}
 			} else if (HUD_InSlotPos(i, x) != -1) {

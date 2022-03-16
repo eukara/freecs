@@ -83,10 +83,9 @@ w_m4a1_deathmsg(void)
 }
 
 int
-w_m4a1_pickup(int new, int startammo)
+w_m4a1_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -105,16 +104,15 @@ w_m4a1_pickup(int new, int startammo)
 }
 
 void
-w_m4a1_draw(void)
+w_m4a1_draw(player pl)
 {
-	player pl = (player)self;
 	
 	Weapons_SetModel("models/v_m4a1.mdl");
 	
 	if (pl.mode_m4a1 == 1) {
-		Weapons_ViewAnimation(M4A1_DRAW);
+		Weapons_ViewAnimation(pl, M4A1_DRAW);
 	} else {
-		Weapons_ViewAnimation(M4A1_DRAWUNSIL);
+		Weapons_ViewAnimation(pl, M4A1_DRAWUNSIL);
 	}
 
 #ifdef CLIENT
@@ -124,9 +122,8 @@ w_m4a1_draw(void)
 }
 
 void
-w_m4a1_primary(void)
+w_m4a1_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
 		return;
@@ -143,25 +140,25 @@ w_m4a1_primary(void)
 	if (pl.mode_m4a1 == 1) {
 		switch (r) {
 		case 0:
-			Weapons_ViewAnimation(M4A1_SHOOT1);
+			Weapons_ViewAnimation(pl, M4A1_SHOOT1);
 			break;
 		case 1:
-			Weapons_ViewAnimation(M4A1_SHOOT2);
+			Weapons_ViewAnimation(pl, M4A1_SHOOT2);
 			break;
 		default:
-			Weapons_ViewAnimation(M4A1_SHOOT3);
+			Weapons_ViewAnimation(pl, M4A1_SHOOT3);
 			break;
 		}
 	} else {
 		switch (r) {
 		case 0:
-			Weapons_ViewAnimation(M4A1_SHOOT1UNSIL);
+			Weapons_ViewAnimation(pl, M4A1_SHOOT1UNSIL);
 			break;
 		case 1:
-			Weapons_ViewAnimation(M4A1_SHOOT2UNSIL);
+			Weapons_ViewAnimation(pl, M4A1_SHOOT2UNSIL);
 			break;
 		default:
-			Weapons_ViewAnimation(M4A1_SHOOT3UNSIL);
+			Weapons_ViewAnimation(pl, M4A1_SHOOT3UNSIL);
 			break;
 		}
 	}
@@ -196,9 +193,8 @@ w_m4a1_primary(void)
 }
 
 void
-w_m4a1_secondary(void)
+w_m4a1_secondary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0) {
 		return;
@@ -209,9 +205,9 @@ w_m4a1_secondary(void)
 
 	/* play the animation */
 	if (pl.mode_m4a1) {
-		Weapons_ViewAnimation(M4A1_ADDSIL);
+		Weapons_ViewAnimation(pl, M4A1_ADDSIL);
 	} else {
-		Weapons_ViewAnimation(M4A1_DETACHSIL);
+		Weapons_ViewAnimation(pl, M4A1_DETACHSIL);
 	}
 
 	pl.w_attack_next = 2.0f;
@@ -219,9 +215,8 @@ w_m4a1_secondary(void)
 }
 
 void
-w_m4a1_reload(void)
+w_m4a1_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -231,9 +226,9 @@ w_m4a1_reload(void)
 		return;
 
 	if (pl.mode_m4a1 == 1)
-		Weapons_ViewAnimation(M4A1_RELOAD);
+		Weapons_ViewAnimation(pl, M4A1_RELOAD);
 	else
-		Weapons_ViewAnimation(M4A1_RELOADUNSIL);
+		Weapons_ViewAnimation(pl, M4A1_RELOADUNSIL);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::m4a1_mag, player::ammo_556mm, 30);
@@ -244,13 +239,13 @@ w_m4a1_reload(void)
 }
 
 float
-w_m4a1_aimanim(void)
+w_m4a1_aimanim(player pl)
 {
-	return w_ak47_aimanim();
+	return w_ak47_aimanim(pl);
 }
 
 void
-w_m4a1_hud(void)
+w_m4a1_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -262,16 +257,15 @@ w_m4a1_hud(void)
 }
 
 void
-w_m4a1_release(void)
+w_m4a1_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.m4a1_mag == 0 && pl.ammo_556mm > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 
@@ -280,17 +274,16 @@ w_m4a1_release(void)
 	}
 
 	if (pl.mode_m4a1) {
-		Weapons_ViewAnimation(M4A1_IDLE);
+		Weapons_ViewAnimation(pl, M4A1_IDLE);
 	} else {
-		Weapons_ViewAnimation(M4A1_IDLEUNSIL);
+		Weapons_ViewAnimation(pl, M4A1_IDLEUNSIL);
 	}
 	pl.w_idle_next = 5.0f;
 }
 
 int
-w_m4a1_isempty(void)
+w_m4a1_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.m4a1_mag <= 0 && pl.ammo_556mm <= 0)
 		return 1;
@@ -299,13 +292,12 @@ w_m4a1_isempty(void)
 }
 
 void
-w_m4a1_hudpic(int selected, vector pos, float a)
+w_m4a1_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_m4a1_isempty())
+	if (w_m4a1_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -352,7 +344,7 @@ weapon_t w_m4a1 =
 	.secondary	= w_m4a1_secondary,
 	.reload		= w_m4a1_reload,
 	.release	= w_m4a1_release,
-	.crosshair	= w_m4a1_hud,
+	.postdraw	= w_m4a1_hud,
 	.precache	= w_m4a1_precache,
 	.pickup		= w_m4a1_pickup,
 	.updateammo	= w_m4a1_updateammo,

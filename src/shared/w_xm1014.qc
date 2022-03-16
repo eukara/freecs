@@ -116,10 +116,9 @@ w_xm1014_deathmsg(void)
 }
 
 int
-w_xm1014_pickup(int new, int startammo)
+w_xm1014_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -138,11 +137,10 @@ w_xm1014_pickup(int new, int startammo)
 }
 
 void
-w_xm1014_draw(void)
+w_xm1014_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_xm1014.mdl");
-	Weapons_ViewAnimation(XM1014_DRAW);
+	Weapons_ViewAnimation(pl, XM1014_DRAW);
 	pl.mode_temp = 0;
 
 #ifdef CLIENT
@@ -152,31 +150,30 @@ w_xm1014_draw(void)
 }
 
 
-void w_xm1014_release(void);
+void w_xm1014_release(player pl);
 
 void
-w_xm1014_primary(void)
+w_xm1014_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
-		w_xm1014_release();
+		w_xm1014_release(pl);
 		return;
 	}
 
 	/* interrupt reloading if no longer empty */
 	if (pl.mode_temp == XM1014S_RELOAD && pl.xm1014_mag >= 1) {
 		pl.mode_temp = XM1014S_RELOAD_END;
-		w_xm1014_release();
+		w_xm1014_release(pl);
 		return;
 	} else if (pl.mode_temp > XM1014S_IDLE) {
-		w_xm1014_release();
+		w_xm1014_release(pl);
 		return;
 	}
 
 	/* Ammo check */
 	if (pl.xm1014_mag <= 0) {
-		w_xm1014_release();
+		w_xm1014_release(pl);
 		return;
 	}
 
@@ -185,10 +182,10 @@ w_xm1014_primary(void)
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(XM1014_SHOOT1);
+		Weapons_ViewAnimation(pl, XM1014_SHOOT1);
 		break;
 	default:
-		Weapons_ViewAnimation(XM1014_SHOOT2);
+		Weapons_ViewAnimation(pl, XM1014_SHOOT2);
 		break;
 	}
 
@@ -218,9 +215,8 @@ w_xm1014_primary(void)
 }
 
 void
-w_xm1014_reload(void)
+w_xm1014_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.xm1014_mag >= 7) {
 		return;
@@ -237,16 +233,15 @@ w_xm1014_reload(void)
 }
 
 void
-w_xm1014_release(void)
+w_xm1014_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.mode_temp == XM1014S_IDLE && pl.xm1014_mag == 0 && pl.ammo_buckshot > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 
@@ -255,11 +250,11 @@ w_xm1014_release(void)
 	}
 
 	if (pl.mode_temp == XM1014S_RELOAD_START) {
-		Weapons_ViewAnimation(XM1014_RELOAD_START);
+		Weapons_ViewAnimation(pl, XM1014_RELOAD_START);
 		pl.mode_temp = XM1014S_RELOAD;
 		pl.w_idle_next = 0.65f;
 	} else if (pl.mode_temp == XM1014S_RELOAD) {
-		Weapons_ViewAnimation(XM1014_INSERT);
+		Weapons_ViewAnimation(pl, XM1014_INSERT);
 		pl.xm1014_mag++;
 		pl.ammo_buckshot--;
 		w_xm1014_updateammo(pl);
@@ -271,7 +266,7 @@ w_xm1014_release(void)
 		}
 		pl.w_idle_next = 0.5f;
 	} else if (pl.mode_temp == XM1014S_RELOAD_END) {
-		Weapons_ViewAnimation(XM1014_RELOAD_END);
+		Weapons_ViewAnimation(pl, XM1014_RELOAD_END);
 		pl.mode_temp = XM1014S_IDLE;
 		pl.w_idle_next = 10.0f;
 		pl.w_attack_next = 0.5f;
@@ -279,13 +274,13 @@ w_xm1014_release(void)
 }
 
 float
-w_xm1014_aimanim(void)
+w_xm1014_aimanim(player pl)
 {
-	return w_ak47_aimanim();
+	return w_ak47_aimanim(pl);
 }
 
 void
-w_xm1014_hud(void)
+w_xm1014_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -297,9 +292,8 @@ w_xm1014_hud(void)
 }
 
 int
-w_xm1014_isempty(void)
+w_xm1014_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.xm1014_mag <= 0 && pl.ammo_buckshot <= 0)
 		return 1;
@@ -308,13 +302,12 @@ w_xm1014_isempty(void)
 }
 
 void
-w_xm1014_hudpic(int selected, vector pos, float a)
+w_xm1014_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_xm1014_isempty())
+	if (w_xm1014_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -361,7 +354,7 @@ weapon_t w_xm1014 =
 	.secondary	= __NULL__,
 	.reload		= w_xm1014_reload,
 	.release	= w_xm1014_release,
-	.crosshair	= w_xm1014_hud,
+	.postdraw	= w_xm1014_hud,
 	.precache	= w_xm1014_precache,
 	.pickup		= w_xm1014_pickup,
 	.updateammo	= w_xm1014_updateammo,

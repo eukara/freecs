@@ -73,10 +73,9 @@ w_sg552_deathmsg(void)
 }
 
 int
-w_sg552_pickup(int new, int startammo)
+w_sg552_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -95,11 +94,10 @@ w_sg552_pickup(int new, int startammo)
 }
 
 void
-w_sg552_draw(void)
+w_sg552_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_sg552.mdl");
-	Weapons_ViewAnimation(SG552_DRAW);
+	Weapons_ViewAnimation(pl, SG552_DRAW);
 
 #ifdef CLIENT
 	pl.cs_cross_mindist = 5;
@@ -108,9 +106,8 @@ w_sg552_draw(void)
 }
 
 void
-w_sg552_primary(void)
+w_sg552_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -124,13 +121,13 @@ w_sg552_primary(void)
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(SG552_SHOOT1);
+		Weapons_ViewAnimation(pl, SG552_SHOOT1);
 		break;
 	case 1:
-		Weapons_ViewAnimation(SG552_SHOOT2);
+		Weapons_ViewAnimation(pl, SG552_SHOOT2);
 		break;
 	default:
-		Weapons_ViewAnimation(SG552_SHOOT3);
+		Weapons_ViewAnimation(pl, SG552_SHOOT3);
 		break;
 	}
 
@@ -157,9 +154,8 @@ w_sg552_primary(void)
 }
 
 void
-w_sg552_secondary(void)
+w_sg552_secondary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next)
 		return;
@@ -174,9 +170,8 @@ w_sg552_secondary(void)
 }
 
 void
-w_sg552_reload(void)
+w_sg552_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -185,7 +180,7 @@ w_sg552_reload(void)
 	if (!pl.ammo_556mm)
 		return;
 
-	Weapons_ViewAnimation(SG552_RELOAD);
+	Weapons_ViewAnimation(pl, SG552_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::sg552_mag, player::ammo_556mm, 30);
@@ -197,31 +192,29 @@ w_sg552_reload(void)
 }
 
 void
-w_sg552_release(void)
+w_sg552_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.sg552_mag == 0 && pl.ammo_556mm > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_sg552_aimanim(void)
+w_sg552_aimanim(player pl)
 {
-	return w_ak47_aimanim();
+	return w_ak47_aimanim(pl);
 }
 
 void
-w_sg552_hud(void)
+w_sg552_hud(player pl)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	if (pl.viewzoom == 1.0f) {
 		Cstrike_DrawCrosshair();
 	} else {
@@ -235,9 +228,8 @@ w_sg552_hud(void)
 }
 
 int
-w_sg552_isempty(void)
+w_sg552_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.sg552_mag <= 0 && pl.ammo_556mm <= 0)
 		return 1;
@@ -246,13 +238,12 @@ w_sg552_isempty(void)
 }
 
 void
-w_sg552_hudpic(int selected, vector pos, float a)
+w_sg552_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_sg552_isempty())
+	if (w_sg552_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -299,7 +290,7 @@ weapon_t w_sg552 =
 	.secondary	= w_sg552_secondary,
 	.reload		= w_sg552_reload,
 	.release	= w_sg552_release,
-	.crosshair	= w_sg552_hud,
+	.postdraw	= w_sg552_hud,
 	.precache	= w_sg552_precache,
 	.pickup		= w_sg552_pickup,
 	.updateammo	= w_sg552_updateammo,

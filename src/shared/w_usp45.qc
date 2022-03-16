@@ -86,10 +86,9 @@ w_usp45_deathmsg(void)
 }
 
 int
-w_usp45_pickup(int new, int startammo)
+w_usp45_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -108,15 +107,14 @@ w_usp45_pickup(int new, int startammo)
 }
 
 void
-w_usp45_draw(void)
+w_usp45_draw(player pl)
 {
-	player pl = (player)self;
 	
 	Weapons_SetModel("models/v_usp.mdl");
 	if (pl.mode_usp45 == 1) {
-		Weapons_ViewAnimation(USP45_DRAW);
+		Weapons_ViewAnimation(pl, USP45_DRAW);
 	} else {
-		Weapons_ViewAnimation(USP45_DRAWUNSIL);
+		Weapons_ViewAnimation(pl, USP45_DRAWUNSIL);
 	}
 
 #ifdef CLIENT
@@ -126,9 +124,8 @@ w_usp45_draw(void)
 }
 
 void
-w_usp45_primary(void)
+w_usp45_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -145,33 +142,33 @@ w_usp45_primary(void)
 	int r = (float)input_sequence % 3;
 	if (pl.mode_usp45 == 1) {
 		if (pl.usp45_mag <= 0) {
-			Weapons_ViewAnimation(USP45_SHOOTLAST);
+			Weapons_ViewAnimation(pl, USP45_SHOOTLAST);
 		} else {
 			switch (r) {
 			case 0:
-				Weapons_ViewAnimation(USP45_SHOOT1);
+				Weapons_ViewAnimation(pl, USP45_SHOOT1);
 				break;
 			case 1:
-				Weapons_ViewAnimation(USP45_SHOOT2);
+				Weapons_ViewAnimation(pl, USP45_SHOOT2);
 				break;
 			default:
-				Weapons_ViewAnimation(USP45_SHOOT3);
+				Weapons_ViewAnimation(pl, USP45_SHOOT3);
 				break;
 			}
 		}
 	} else {
 		if (pl.usp45_mag <= 0) {
-			Weapons_ViewAnimation(USP45_SHOOTLASTUNSIL);
+			Weapons_ViewAnimation(pl, USP45_SHOOTLASTUNSIL);
 		} else {
 			switch (r) {
 			case 0:
-				Weapons_ViewAnimation(USP45_SHOOT1UNSIL);
+				Weapons_ViewAnimation(pl, USP45_SHOOT1UNSIL);
 				break;
 			case 1:
-				Weapons_ViewAnimation(USP45_SHOOT2UNSIL);
+				Weapons_ViewAnimation(pl, USP45_SHOOT2UNSIL);
 				break;
 			default:
-				Weapons_ViewAnimation(USP45_SHOOT3UNSIL);
+				Weapons_ViewAnimation(pl, USP45_SHOOT3UNSIL);
 				break;
 			}
 		}
@@ -209,9 +206,8 @@ w_usp45_primary(void)
 }
 
 void
-w_usp45_secondary(void)
+w_usp45_secondary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0)
 		return;
@@ -221,18 +217,17 @@ w_usp45_secondary(void)
 
 	/* play the animation */
 	if (pl.mode_usp45)
-		Weapons_ViewAnimation(USP45_ADDSIL);
+		Weapons_ViewAnimation(pl, USP45_ADDSIL);
 	else
-		Weapons_ViewAnimation(USP45_DETACHSIL);
+		Weapons_ViewAnimation(pl, USP45_DETACHSIL);
 
 	pl.w_attack_next = 3.1f;
 	pl.w_idle_next = pl.w_attack_next;
 }
 
 void
-w_usp45_reload(void)
+w_usp45_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -242,9 +237,9 @@ w_usp45_reload(void)
 		return;
 
 	if (pl.mode_usp45 == 1)
-		Weapons_ViewAnimation(USP45_RELOAD);
+		Weapons_ViewAnimation(pl, USP45_RELOAD);
 	else
-		Weapons_ViewAnimation(USP45_RELOADUNSIL);
+		Weapons_ViewAnimation(pl, USP45_RELOADUNSIL);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::usp45_mag, player::ammo_45acp, 12);
@@ -254,28 +249,27 @@ w_usp45_reload(void)
 }
 
 void
-w_usp45_release(void)
+w_usp45_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.usp45_mag == 0 && pl.ammo_45acp > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_usp45_aimanim(void)
+w_usp45_aimanim(player pl)
 {
-	return w_deagle_aimanim();
+	return w_deagle_aimanim(pl);
 }
 
 void
-w_usp45_hud(void)
+w_usp45_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -287,9 +281,8 @@ w_usp45_hud(void)
 }
 
 int
-w_usp45_isempty(void)
+w_usp45_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.usp45_mag <= 0 && pl.ammo_45acp <= 0)
 		return 1;
@@ -298,13 +291,12 @@ w_usp45_isempty(void)
 }
 
 void
-w_usp45_hudpic(int selected, vector pos, float a)
+w_usp45_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_usp45_isempty())
+	if (w_usp45_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -351,7 +343,7 @@ weapon_t w_usp45 =
 	.secondary	= w_usp45_secondary,
 	.reload		= w_usp45_reload,
 	.release	= w_usp45_release,
-	.crosshair	= w_usp45_hud,
+	.postdraw	= w_usp45_hud,
 	.precache	= w_usp45_precache,
 	.pickup		= w_usp45_pickup,
 	.updateammo	= w_usp45_updateammo,

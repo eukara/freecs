@@ -73,10 +73,9 @@ w_mac10_deathmsg(void)
 }
 
 int
-w_mac10_pickup(int new, int startammo)
+w_mac10_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -95,11 +94,10 @@ w_mac10_pickup(int new, int startammo)
 }
 
 void
-w_mac10_draw(void)
+w_mac10_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_mac10.mdl");
-	Weapons_ViewAnimation(MAC10_DRAW);
+	Weapons_ViewAnimation(pl, MAC10_DRAW);
 
 #ifdef CLIENT
 	pl.cs_cross_mindist = 9;
@@ -108,9 +106,8 @@ w_mac10_draw(void)
 }
 
 void
-w_mac10_primary(void)
+w_mac10_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
 		return;
@@ -126,13 +123,13 @@ w_mac10_primary(void)
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(MAC10_SHOOT1);
+		Weapons_ViewAnimation(pl, MAC10_SHOOT1);
 		break;
 	case 1:
-		Weapons_ViewAnimation(MAC10_SHOOT2);
+		Weapons_ViewAnimation(pl, MAC10_SHOOT2);
 		break;
 	default:
-		Weapons_ViewAnimation(MAC10_SHOOT3);
+		Weapons_ViewAnimation(pl, MAC10_SHOOT3);
 		break;
 	}
 
@@ -155,9 +152,8 @@ w_mac10_primary(void)
 }
 
 void
-w_mac10_reload(void)
+w_mac10_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -166,7 +162,7 @@ w_mac10_reload(void)
 	if (!pl.ammo_45acp)
 		return;
 
-	Weapons_ViewAnimation(MAC10_RELOAD);
+	Weapons_ViewAnimation(pl, MAC10_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::mac10_mag, player::ammo_45acp, 30);
@@ -178,28 +174,27 @@ w_mac10_reload(void)
 }
 
 void
-w_mac10_release(void)
+w_mac10_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.mac10_mag == 0 && pl.ammo_45acp > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_mac10_aimanim(void)
+w_mac10_aimanim(player pl)
 {
-	return w_deagle_aimanim();
+	return w_deagle_aimanim(pl);
 }
 
 void
-w_mac10_hud(void)
+w_mac10_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -211,9 +206,8 @@ w_mac10_hud(void)
 }
 
 int
-w_mac10_isempty(void)
+w_mac10_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.mac10_mag <= 0 && pl.ammo_45acp <= 0)
 		return 1;
@@ -222,13 +216,12 @@ w_mac10_isempty(void)
 }
 
 void
-w_mac10_hudpic(int selected, vector pos, float a)
+w_mac10_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_mac10_isempty())
+	if (w_mac10_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -275,7 +268,7 @@ weapon_t w_mac10 =
 	.secondary	= __NULL__,
 	.reload		= w_mac10_reload,
 	.release	= w_mac10_release,
-	.crosshair	= w_mac10_hud,
+	.postdraw	= w_mac10_hud,
 	.precache	= w_mac10_precache,
 	.pickup		= w_mac10_pickup,
 	.updateammo	= w_mac10_updateammo,

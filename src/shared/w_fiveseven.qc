@@ -73,10 +73,9 @@ w_fiveseven_deathmsg(void)
 }
 
 int
-w_fiveseven_pickup(int new, int startammo)
+w_fiveseven_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -95,11 +94,10 @@ w_fiveseven_pickup(int new, int startammo)
 }
 
 void
-w_fiveseven_draw(void)
+w_fiveseven_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_fiveseven.mdl");
-	Weapons_ViewAnimation(FIVESEVEN_DRAW);
+	Weapons_ViewAnimation(pl, FIVESEVEN_DRAW);
 
 #ifdef CLIENT
 	pl.cs_cross_mindist = 8;
@@ -108,9 +106,8 @@ w_fiveseven_draw(void)
 }
 
 void
-w_fiveseven_primary(void)
+w_fiveseven_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
 		return;
@@ -128,15 +125,15 @@ w_fiveseven_primary(void)
 	pl.fiveseven_mag--;
 
 	if (pl.fiveseven_mag <= 0) {
-		Weapons_ViewAnimation(FIVESEVEN_SHOOT_EMPTY);
+		Weapons_ViewAnimation(pl, FIVESEVEN_SHOOT_EMPTY);
 	} else {
 		int r = (float)input_sequence % 2;
 		switch (r) {
 		case 0:
-			Weapons_ViewAnimation(FIVESEVEN_SHOOT1);
+			Weapons_ViewAnimation(pl, FIVESEVEN_SHOOT1);
 			break;
 		default:
-			Weapons_ViewAnimation(FIVESEVEN_SHOOT2);
+			Weapons_ViewAnimation(pl, FIVESEVEN_SHOOT2);
 			break;
 		}
 	}
@@ -161,9 +158,8 @@ w_fiveseven_primary(void)
 }
 
 void
-w_fiveseven_reload(void)
+w_fiveseven_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -172,7 +168,7 @@ w_fiveseven_reload(void)
 	if (!pl.ammo_57mm)
 		return;
 
-	Weapons_ViewAnimation(FIVESEVEN_RELOAD);
+	Weapons_ViewAnimation(pl, FIVESEVEN_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::fiveseven_mag, player::ammo_57mm, 20);
@@ -183,28 +179,27 @@ w_fiveseven_reload(void)
 }
 
 void
-w_fiveseven_release(void)
+w_fiveseven_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.fiveseven_mag == 0 && pl.ammo_57mm > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_fiveseven_aimanim(void)
+w_fiveseven_aimanim(player pl)
 {
 	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_ONEHAND : ANIM_AIM_ONEHAND;
 }
 
 void
-w_fiveseven_hud(void)
+w_fiveseven_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -216,9 +211,8 @@ w_fiveseven_hud(void)
 }
 
 int
-w_fiveseven_isempty(void)
+w_fiveseven_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.fiveseven_mag <= 0 && pl.ammo_57mm <= 0)
 		return 1;
@@ -227,13 +221,12 @@ w_fiveseven_isempty(void)
 }
 
 void
-w_fiveseven_hudpic(int selected, vector pos, float a)
+w_fiveseven_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_fiveseven_isempty())
+	if (w_fiveseven_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -280,7 +273,7 @@ weapon_t w_fiveseven =
 	.secondary	= __NULL__,
 	.reload		= w_fiveseven_reload,
 	.release	= w_fiveseven_release,
-	.crosshair	= w_fiveseven_hud,
+	.postdraw	= w_fiveseven_hud,
 	.precache	= w_fiveseven_precache,
 	.pickup		= w_fiveseven_pickup,
 	.updateammo	= w_fiveseven_updateammo,

@@ -77,16 +77,15 @@ w_knife_deathmsg(void)
 }
 
 void
-w_knife_draw(void)
+w_knife_draw(player pl)
 {
 	Weapons_SetModel("models/v_knife.mdl");
-	Weapons_ViewAnimation(KNIFE_DRAW);
+	Weapons_ViewAnimation(pl, KNIFE_DRAW);
 }
 
 void
-w_knife_primary(void)
+w_knife_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
 		return;
@@ -96,10 +95,10 @@ w_knife_primary(void)
 	int r = (float)input_sequence % 2;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(KNIFE_SLASH1);
+		Weapons_ViewAnimation(pl, KNIFE_SLASH1);
 		break;
 	default:
-		Weapons_ViewAnimation(KNIFE_SLASH2);
+		Weapons_ViewAnimation(pl, KNIFE_SLASH2);
 		break;
 	}
 
@@ -110,7 +109,7 @@ w_knife_primary(void)
 
 #ifdef SERVER
 	vector src;
-	Weapons_MakeVectors();
+	Weapons_MakeVectors(pl);
 	src = pl.origin + pl.view_ofs;
 	traceline(src, src + (v_forward * 32), FALSE, pl);
 
@@ -134,9 +133,8 @@ w_knife_primary(void)
 }
 
 void
-w_knife_secondary(void)
+w_knife_secondary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
 		return;
@@ -144,7 +142,7 @@ w_knife_secondary(void)
 	pl.w_attack_next = 1.2f;
 
 
-	Weapons_ViewAnimation(KNIFE_STAB);
+	Weapons_ViewAnimation(pl, KNIFE_STAB);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_KNIFE, 1.33f);
@@ -153,7 +151,7 @@ w_knife_secondary(void)
 
 #ifdef SERVER
 	vector src;
-	Weapons_MakeVectors();
+	Weapons_MakeVectors(pl);
 	src = pl.origin + pl.view_ofs;
 	traceline(src, src + (v_forward * 32), FALSE, pl);
 
@@ -178,19 +176,19 @@ w_knife_secondary(void)
 }
 
 float
-w_knife_aimanim(void)
+w_knife_aimanim(player pl)
 {
 	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_KNIFE : ANIM_AIM_KNIFE;
 }
 
 int
-w_knife_isempty(void)
+w_knife_isempty(player pl)
 {
 	return 0;
 }
 
 void
-w_knife_hudpic(int selected, vector pos, float a)
+w_knife_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
 	if (selected) {
@@ -232,7 +230,7 @@ weapon_t w_knife =
 	.secondary	= w_knife_secondary,
 	.reload		= __NULL__,
 	.release	= __NULL__,
-	.crosshair	= __NULL__,
+	.postdraw	= __NULL__,
 	.precache	= w_knife_precache,
 	.pickup		= __NULL__,
 	.updateammo	= w_knife_updateammo,

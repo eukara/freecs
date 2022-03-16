@@ -56,10 +56,9 @@ w_smokegrenade_updateammo(player pl)
 }
 
 int
-w_smokegrenade_pickup(int new, int startammo)
+w_smokegrenade_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (pl.ammo_smokegrenade < AMMO_MAX_SMOKE) {
 		pl.ammo_smokegrenade = bound(0, pl.ammo_smokegrenade + 1, AMMO_MAX_SMOKE);
@@ -89,17 +88,16 @@ w_smokegrenade_deathmsg(void)
 }
 
 void
-w_smokegrenade_draw(void)
+w_smokegrenade_draw(player pl)
 {
 	Weapons_SetModel("models/v_smokegrenade.mdl");
-	Weapons_ViewAnimation(SMOKEGRENADE_DRAW);
-	player pl = (player)self;
+	Weapons_ViewAnimation(pl, SMOKEGRENADE_DRAW);
 	pl.mode_temp = 0;
 }
 
 #ifdef SERVER
 void
-w_smokegrenade_throw(void)
+w_smokegrenade_throw(player pl)
 {
 	static void smokegrenade_explode(void)
 	{
@@ -118,7 +116,6 @@ w_smokegrenade_throw(void)
 		self.frame = 0;
 	}
 
-	player pl = (player)self;
 	vector vPLAngle = pl.v_angle;
 	if (vPLAngle[0] < 0) {
 		vPLAngle[0] = -10 + vPLAngle[0] * ((90 - 10) / 90.0);
@@ -152,9 +149,8 @@ w_smokegrenade_throw(void)
 #endif
 
 void
-w_smokegrenade_primary(void)
+w_smokegrenade_primary(player pl)
 {
-	player pl = (player)self;
 	if (pl.w_attack_next > 0.0) {
 		return;
 	}
@@ -169,16 +165,15 @@ w_smokegrenade_primary(void)
 		return;
 	}
 
-	Weapons_ViewAnimation(SMOKEGRENADE_PULLPIN);
+	Weapons_ViewAnimation(pl, SMOKEGRENADE_PULLPIN);
 	pl.mode_temp = 1;
 	pl.w_attack_next = 0.975f;
 	pl.w_idle_next = pl.w_attack_next;
 }
 
 void
-w_smokegrenade_release(void)
+w_smokegrenade_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 	
@@ -189,16 +184,16 @@ w_smokegrenade_release(void)
 	if (pl.mode_temp == 1) {
 		pl.ammo_smokegrenade--;
 #ifdef CLIENT
-		Weapons_ViewAnimation(SMOKEGRENADE_THROW);
+		Weapons_ViewAnimation(pl, SMOKEGRENADE_THROW);
 #else
-		w_smokegrenade_throw();
+		w_smokegrenade_throw(pl);
 #endif
 		pl.mode_temp = 2;
 		pl.w_attack_next = 1.0f;
 		pl.w_idle_next = 0.5f;
 	} else if (pl.mode_temp == 2) {
 #ifdef CLIENT
-		Weapons_ViewAnimation(SMOKEGRENADE_DRAW);
+		Weapons_ViewAnimation(pl, SMOKEGRENADE_DRAW);
 #else
 		if (!pl.ammo_smokegrenade) {
 			Weapons_RemoveItem(pl, WEAPON_SMOKEGRENADE);
@@ -211,13 +206,13 @@ w_smokegrenade_release(void)
 }
 
 float
-w_smokegrenade_aimanim(void)
+w_smokegrenade_aimanim(player pl)
 {
-	return w_flashbang_aimanim();
+	return w_flashbang_aimanim(pl);
 }
 
 void
-w_smokegrenade_hud(void)
+w_smokegrenade_hud(player pl)
 {
 #ifdef CLIENT
 	HUD_DrawAmmo2();
@@ -227,9 +222,8 @@ w_smokegrenade_hud(void)
 }
 
 int
-w_smokegrenade_isempty(void)
+w_smokegrenade_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.ammo_smokegrenade <= 0)
 		return 1;
@@ -238,10 +232,9 @@ w_smokegrenade_isempty(void)
 }
 
 void
-w_smokegrenade_hudpic(int selected, vector pos, float a)
+w_smokegrenade_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 
 	HUD_DrawAmmoBar(pos, pl.ammo_smokegrenade, AMMO_MAX_SMOKE, a);
 
@@ -284,7 +277,7 @@ weapon_t w_smokegrenade =
 	.secondary	= __NULL__,
 	.reload		= __NULL__,
 	.release	= w_smokegrenade_release,
-	.crosshair	= w_smokegrenade_hud,
+	.postdraw	= w_smokegrenade_hud,
 	.precache	= w_smokegrenade_precache,
 	.pickup		= w_smokegrenade_pickup,
 	.updateammo	= w_smokegrenade_updateammo,

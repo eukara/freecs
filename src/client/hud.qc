@@ -632,6 +632,7 @@ HUD_DrawProgress(void)
 void
 HUD_DrawNotify(void)
 {
+	player pl = (player)pSeat->m_ePlayer;
 	vector pos;
 	float a;
 
@@ -645,7 +646,7 @@ HUD_DrawNotify(void)
 	}
 
 	a = bound(0.0, pSeatLocal->m_flPickupAlpha, 1.0);
-	Weapons_HUDPic(pSeatLocal->m_iPickupWeapon, 1, pos, a);
+	Weapons_HUDPic(pl, pSeatLocal->m_iPickupWeapon, 1, pos, a);
 	pos[0] += 148;
 	pos[1] -= 32;
 	HUD_AmmoNotify_Draw(pos);
@@ -668,7 +669,7 @@ HUD_Draw(void)
 	g_hud_color = autocvar_con_color * (1 / 255);
 
 	/* little point in not drawing these, even if you don't have a suit */
-	Weapons_DrawCrosshair();
+	Weapons_DrawCrosshair(pl);
 	HUD_DrawWeaponSelect();
 	Obituary_Draw();
 

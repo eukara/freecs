@@ -73,10 +73,9 @@ w_mp5_deathmsg(void)
 }
 
 int
-w_mp5_pickup(int new, int startammo)
+w_mp5_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -95,11 +94,10 @@ w_mp5_pickup(int new, int startammo)
 }
 
 void
-w_mp5_draw(void)
+w_mp5_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_mp5.mdl");
-	Weapons_ViewAnimation(MP5_DRAW);
+	Weapons_ViewAnimation(pl, MP5_DRAW);
 
 #ifdef CLIENT
 	pl.cs_cross_mindist = 5;
@@ -108,9 +106,8 @@ w_mp5_draw(void)
 }
 
 void
-w_mp5_primary(void)
+w_mp5_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -124,13 +121,13 @@ w_mp5_primary(void)
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(MP5_SHOOT1);
+		Weapons_ViewAnimation(pl, MP5_SHOOT1);
 		break;
 	case 1:
-		Weapons_ViewAnimation(MP5_SHOOT2);
+		Weapons_ViewAnimation(pl, MP5_SHOOT2);
 		break;
 	default:
-		Weapons_ViewAnimation(MP5_SHOOT3);
+		Weapons_ViewAnimation(pl, MP5_SHOOT3);
 		break;
 	}
 
@@ -153,9 +150,8 @@ w_mp5_primary(void)
 }
 
 void
-w_mp5_reload(void)
+w_mp5_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -164,7 +160,7 @@ w_mp5_reload(void)
 	if (!pl.ammo_9mm)
 		return;
 
-	Weapons_ViewAnimation(MP5_RELOAD);
+	Weapons_ViewAnimation(pl, MP5_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::mp5_mag, player::ammo_9mm, 30);
@@ -176,28 +172,27 @@ w_mp5_reload(void)
 }
 
 void
-w_mp5_release(void)
+w_mp5_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.mp5_mag == 0 && pl.ammo_9mm > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_mp5_aimanim(void)
+w_mp5_aimanim(player pl)
 {
-	return w_ak47_aimanim();
+	return w_ak47_aimanim(pl);
 }
 
 void
-w_mp5_hud(void)
+w_mp5_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -209,9 +204,8 @@ w_mp5_hud(void)
 }
 
 int
-w_mp5_isempty(void)
+w_mp5_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.mp5_mag <= 0 && pl.ammo_9mm <= 0)
 		return 1;
@@ -220,13 +214,12 @@ w_mp5_isempty(void)
 }
 
 void
-w_mp5_hudpic(int selected, vector pos, float a)
+w_mp5_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_mp5_isempty())
+	if (w_mp5_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -273,7 +266,7 @@ weapon_t w_mp5 =
 	.secondary	= __NULL__,
 	.reload		= w_mp5_reload,
 	.release	= w_mp5_release,
-	.crosshair	= w_mp5_hud,
+	.postdraw	= w_mp5_hud,
 	.precache	= w_mp5_precache,
 	.pickup		= w_mp5_pickup,
 	.updateammo	= w_mp5_updateammo,

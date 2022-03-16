@@ -73,10 +73,9 @@ w_ump45_deathmsg(void)
 }
 
 int
-w_ump45_pickup(int new, int startammo)
+w_ump45_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -95,11 +94,10 @@ w_ump45_pickup(int new, int startammo)
 }
 
 void
-w_ump45_draw(void)
+w_ump45_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_ump45.mdl");
-	Weapons_ViewAnimation(UMP45_DRAW);
+	Weapons_ViewAnimation(pl, UMP45_DRAW);
 
 #ifdef CLIENT
 	pl.cs_cross_mindist = 6;
@@ -108,9 +106,8 @@ w_ump45_draw(void)
 }
 
 void
-w_ump45_primary(void)
+w_ump45_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -124,13 +121,13 @@ w_ump45_primary(void)
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(UMP45_SHOOT1);
+		Weapons_ViewAnimation(pl, UMP45_SHOOT1);
 		break;
 	case 1:
-		Weapons_ViewAnimation(UMP45_SHOOT2);
+		Weapons_ViewAnimation(pl, UMP45_SHOOT2);
 		break;
 	default:
-		Weapons_ViewAnimation(UMP45_SHOOT3);
+		Weapons_ViewAnimation(pl, UMP45_SHOOT3);
 		break;
 	}
 
@@ -153,9 +150,8 @@ w_ump45_primary(void)
 }
 
 void
-w_ump45_reload(void)
+w_ump45_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -164,7 +160,7 @@ w_ump45_reload(void)
 	if (!pl.ammo_45acp)
 		return;
 
-	Weapons_ViewAnimation(UMP45_RELOAD);
+	Weapons_ViewAnimation(pl, UMP45_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::ump45_mag, player::ammo_45acp, 25);
@@ -176,28 +172,27 @@ w_ump45_reload(void)
 }
 
 void
-w_ump45_release(void)
+w_ump45_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.ump45_mag == 0 && pl.ammo_45acp > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_ump45_aimanim(void)
+w_ump45_aimanim(player pl)
 {
-	return w_ak47_aimanim();
+	return w_ak47_aimanim(pl);
 }
 
 void
-w_ump45_hud(void)
+w_ump45_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -209,9 +204,8 @@ w_ump45_hud(void)
 }
 
 int
-w_ump45_isempty(void)
+w_ump45_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.ump45_mag <= 0 && pl.ammo_45acp <= 0)
 		return 1;
@@ -220,13 +214,12 @@ w_ump45_isempty(void)
 }
 
 void
-w_ump45_hudpic(int selected, vector pos, float a)
+w_ump45_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_ump45_isempty())
+	if (w_ump45_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -273,7 +266,7 @@ weapon_t w_ump45 =
 	.secondary	= __NULL__,
 	.reload		= w_ump45_reload,
 	.release	= w_ump45_release,
-	.crosshair	= w_ump45_hud,
+	.postdraw	= w_ump45_hud,
 	.precache	= w_ump45_precache,
 	.pickup		= w_ump45_pickup,
 	.updateammo	= w_ump45_updateammo,

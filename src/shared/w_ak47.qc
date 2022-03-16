@@ -108,10 +108,9 @@ w_ak47_deathmsg(void)
 }
 
 int
-w_ak47_pickup(int new, int startammo)
+w_ak47_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -130,11 +129,10 @@ w_ak47_pickup(int new, int startammo)
 }
 
 void
-w_ak47_draw(void)
+w_ak47_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_ak47.mdl");
-	Weapons_ViewAnimation(AK47_DRAW);
+	Weapons_ViewAnimation(pl, AK47_DRAW);
 
 #ifdef CLIENT
 	pl.cs_cross_mindist = 4;
@@ -143,9 +141,8 @@ w_ak47_draw(void)
 }
 
 void
-w_ak47_primary(void)
+w_ak47_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0) {
 		return;
@@ -161,13 +158,13 @@ w_ak47_primary(void)
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(AK47_SHOOT1);
+		Weapons_ViewAnimation(pl, AK47_SHOOT1);
 		break;
 	case 1:
-		Weapons_ViewAnimation(AK47_SHOOT2);
+		Weapons_ViewAnimation(pl, AK47_SHOOT2);
 		break;
 	default:
-		Weapons_ViewAnimation(AK47_SHOOT3);
+		Weapons_ViewAnimation(pl, AK47_SHOOT3);
 		break;
 	}
 
@@ -190,9 +187,8 @@ w_ak47_primary(void)
 }
 
 void
-w_ak47_reload(void)
+w_ak47_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
 		return;
@@ -204,7 +200,7 @@ w_ak47_reload(void)
 		return;
 	}
 
-	Weapons_ViewAnimation(AK47_RELOAD);
+	Weapons_ViewAnimation(pl, AK47_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::ak47_mag, player::ammo_762mm, 30);
@@ -215,28 +211,27 @@ w_ak47_reload(void)
 }
 
 void
-w_ak47_release(void)
+w_ak47_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.ak47_mag == 0 && pl.ammo_762mm > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_ak47_aimanim(void)
+w_ak47_aimanim(player pl)
 {
 	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_AK47 : ANIM_AIM_AK47;
 }
 
 void
-w_ak47_hud(void)
+w_ak47_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -248,9 +243,8 @@ w_ak47_hud(void)
 }
 
 int
-w_ak47_isempty(void)
+w_ak47_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.ak47_mag <= 0 && pl.ammo_762mm <= 0)
 		return 1;
@@ -259,13 +253,12 @@ w_ak47_isempty(void)
 }
 
 void
-w_ak47_hudpic(int selected, vector pos, float a)
+w_ak47_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_ak47_isempty())
+	if (w_ak47_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -312,7 +305,7 @@ weapon_t w_ak47 =
 	.secondary	= __NULL__,
 	.reload		= w_ak47_reload,
 	.release	= w_ak47_release,
-	.crosshair	= w_ak47_hud,
+	.postdraw	= w_ak47_hud,
 	.precache	= w_ak47_precache,
 	.pickup		= w_ak47_pickup,
 	.updateammo	= w_ak47_updateammo,

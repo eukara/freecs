@@ -95,18 +95,16 @@ w_c4bomb_deathmsg(void)
 }
 
 void
-w_c4bomb_draw(void)
+w_c4bomb_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_c4.mdl");
-	Weapons_ViewAnimation(C4_DRAW);
+	Weapons_ViewAnimation(pl, C4_DRAW);
 	pl.mode_temp = 0;
 }
 
 void
-w_c4bomb_release(void)
+w_c4bomb_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 	
@@ -123,16 +121,15 @@ w_c4bomb_release(void)
 
 	/* reset animation */
 	if (pl.mode_temp != C4S_NONE) {
-		Weapons_ViewAnimation(C4_IDLE);
+		Weapons_ViewAnimation(pl, C4_IDLE);
 	}
 	pl.mode_temp = C4S_NONE;
 	pl.w_idle_next = 0.0f;
 }
 
 void
-w_c4bomb_primary(void)
+w_c4bomb_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (!(pl.gflags & GF_BOMBZONE)) {
 		return;
@@ -144,18 +141,18 @@ w_c4bomb_primary(void)
 	switch (pl.mode_temp) {
 	case C4S_NONE:
 			pl.mode_temp = C4S_ENTERINGCODE;
-			Weapons_ViewAnimation(C4_ENTERCODE);
+			Weapons_ViewAnimation(pl, C4_ENTERCODE);
 			pl.w_idle_next = 3.0f;
 			break;
 	case C4S_ENTERINGCODE:
 			if (pl.w_idle_next <= 0.0f) {
 				pl.mode_temp = C4S_DROPPING;
-				Weapons_ViewAnimation(C4_DROP);
+				Weapons_ViewAnimation(pl, C4_DROP);
 				pl.w_idle_next = 1.0f;
 			}
 			break;
 	case C4S_DROPPING:
-			w_c4bomb_release();
+			w_c4bomb_release(pl);
 			return;
 			break;
 	default:
@@ -166,13 +163,13 @@ w_c4bomb_primary(void)
 }
 
 float
-w_c4bomb_aimanim(void)
+w_c4bomb_aimanim(player pl)
 {
 	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_C4 : ANIM_AIM_C4;
 }
 
 void
-w_c4bomb_hud(void)
+w_c4bomb_hud(player pl)
 {
 #ifdef CLIENT
 	HUD_DrawAmmo2();
@@ -182,10 +179,9 @@ w_c4bomb_hud(void)
 }
 
 int
-w_c4bomb_pickup(int new, int startammo)
+w_c4bomb_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (pl.team != TEAM_T)
 		return (0);
@@ -194,7 +190,7 @@ w_c4bomb_pickup(int new, int startammo)
 }
 
 void
-w_c4bomb_hudpic(int selected, vector pos, float a)
+w_c4bomb_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
 	if (selected) {
@@ -236,7 +232,7 @@ weapon_t w_c4bomb =
 	.secondary	= __NULL__,
 	.reload		= __NULL__,
 	.release	= w_c4bomb_release,
-	.crosshair	= w_c4bomb_hud,
+	.postdraw	= w_c4bomb_hud,
 	.precache	= w_c4bomb_precache,
 	.pickup		= w_c4bomb_pickup,
 	.updateammo	= w_c4bomb_updateammo,

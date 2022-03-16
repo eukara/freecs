@@ -56,10 +56,9 @@ w_hegrenade_updateammo(player pl)
 }
 
 int
-w_hegrenade_pickup(int new, int startammo)
+w_hegrenade_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (pl.ammo_hegrenade < AMMO_MAX_HENADE) {
 		pl.ammo_hegrenade = bound(0, pl.ammo_hegrenade + 1, AMMO_MAX_HENADE);
@@ -89,17 +88,16 @@ w_hegrenade_deathmsg(void)
 }
 
 void
-w_hegrenade_draw(void)
+w_hegrenade_draw(player pl)
 {
 	Weapons_SetModel("models/v_hegrenade.mdl");
-	Weapons_ViewAnimation(HEGRENADE_DRAW);
-	player pl = (player)self;
+	Weapons_ViewAnimation(pl, HEGRENADE_DRAW);
 	pl.mode_temp = 0;
 }
 
 #ifdef SERVER
 void
-w_hegrenade_throw(void)
+w_hegrenade_throw(player pl)
 {
 	static void hegrenade_explode(void)
 	{
@@ -120,7 +118,6 @@ w_hegrenade_throw(void)
 		self.frame = 0;
 	}
 
-	player pl = (player)self;
 	vector vPLAngle = pl.v_angle;
 	if (vPLAngle[0] < 0) {
 		vPLAngle[0] = -10 + vPLAngle[0] * ((90 - 10) / 90.0);
@@ -154,9 +151,8 @@ w_hegrenade_throw(void)
 #endif
 
 void
-w_hegrenade_primary(void)
+w_hegrenade_primary(player pl)
 {
-	player pl = (player)self;
 	if (pl.w_attack_next > 0.0) {
 		return;
 	}
@@ -171,7 +167,7 @@ w_hegrenade_primary(void)
 		return;
 	}
 
-	Weapons_ViewAnimation(HEGRENADE_PULLPIN);
+	Weapons_ViewAnimation(pl, HEGRENADE_PULLPIN);
 
 	pl.mode_temp = 1;
 	pl.w_attack_next = 0.975f;
@@ -179,9 +175,8 @@ w_hegrenade_primary(void)
 }
 
 void
-w_hegrenade_release(void)
+w_hegrenade_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 	
@@ -192,16 +187,16 @@ w_hegrenade_release(void)
 	if (pl.mode_temp == 1) {
 		pl.ammo_hegrenade--;
 #ifdef CLIENT
-		Weapons_ViewAnimation(HEGRENADE_THROW);
+		Weapons_ViewAnimation(pl, HEGRENADE_THROW);
 #else
-		w_hegrenade_throw();
+		w_hegrenade_throw(pl);
 #endif
 		pl.mode_temp = 2;
 		pl.w_attack_next = 1.0f;
 		pl.w_idle_next = 0.5f;
 	} else if (pl.mode_temp == 2) {
 #ifdef CLIENT
-		Weapons_ViewAnimation(HEGRENADE_DRAW);
+		Weapons_ViewAnimation(pl, HEGRENADE_DRAW);
 #else
 		if (!pl.ammo_hegrenade) {
 			Weapons_RemoveItem(pl, WEAPON_HEGRENADE);
@@ -214,13 +209,13 @@ w_hegrenade_release(void)
 }
 
 float
-w_hegrenade_aimanim(void)
+w_hegrenade_aimanim(player pl)
 {
-	return w_flashbang_aimanim();
+	return w_flashbang_aimanim(pl);
 }
 
 void
-w_hegrenade_hud(void)
+w_hegrenade_hud(player pl)
 {
 #ifdef CLIENT
 
@@ -231,9 +226,8 @@ w_hegrenade_hud(void)
 }
 
 int
-w_hegrenade_isempty(void)
+w_hegrenade_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.ammo_hegrenade <= 0)
 		return 1;
@@ -242,10 +236,9 @@ w_hegrenade_isempty(void)
 }
 
 void
-w_hegrenade_hudpic(int selected, vector pos, float a)
+w_hegrenade_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 
 	HUD_DrawAmmoBar(pos, pl.ammo_hegrenade, AMMO_MAX_HENADE, a);
 
@@ -288,7 +281,7 @@ weapon_t w_hegrenade =
 	.secondary	= __NULL__,
 	.reload		= __NULL__,
 	.release	= w_hegrenade_release,
-	.crosshair	= w_hegrenade_hud,
+	.postdraw	= w_hegrenade_hud,
 	.precache	= w_hegrenade_precache,
 	.pickup		= w_hegrenade_pickup,
 	.updateammo	= w_hegrenade_updateammo,

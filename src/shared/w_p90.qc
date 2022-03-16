@@ -73,10 +73,9 @@ w_p90_deathmsg(void)
 }
 
 int
-w_p90_pickup(int new, int startammo)
+w_p90_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -95,11 +94,10 @@ w_p90_pickup(int new, int startammo)
 }
 
 void
-w_p90_draw(void)
+w_p90_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_p90.mdl");
-	Weapons_ViewAnimation(P90_DRAW);
+	Weapons_ViewAnimation(pl, P90_DRAW);
 
 #ifdef CLIENT
 	pl.cs_cross_mindist = 7;
@@ -108,9 +106,8 @@ w_p90_draw(void)
 }
 
 void
-w_p90_primary(void)
+w_p90_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -124,13 +121,13 @@ w_p90_primary(void)
 	int r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(P90_SHOOT1);
+		Weapons_ViewAnimation(pl, P90_SHOOT1);
 		break;
 	case 1:
-		Weapons_ViewAnimation(P90_SHOOT2);
+		Weapons_ViewAnimation(pl, P90_SHOOT2);
 		break;
 	default:
-		Weapons_ViewAnimation(P90_SHOOT3);
+		Weapons_ViewAnimation(pl, P90_SHOOT3);
 		break;
 	}
 
@@ -153,9 +150,8 @@ w_p90_primary(void)
 }
 
 void
-w_p90_reload(void)
+w_p90_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -164,7 +160,7 @@ w_p90_reload(void)
 	if (!pl.ammo_57mm)
 		return;
 
-	Weapons_ViewAnimation(P90_RELOAD);
+	Weapons_ViewAnimation(pl, P90_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::p90_mag, player::ammo_57mm, 50);
@@ -176,28 +172,27 @@ w_p90_reload(void)
 }
 
 void
-w_p90_release(void)
+w_p90_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.p90_mag == 0 && pl.ammo_57mm > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_p90_aimanim(void)
+w_p90_aimanim(player pl)
 {
-	return w_ak47_aimanim();
+	return w_ak47_aimanim(pl);
 }
 
 void
-w_p90_hud(void)
+w_p90_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -209,9 +204,8 @@ w_p90_hud(void)
 }
 
 int
-w_p90_isempty(void)
+w_p90_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.p90_mag <= 0 && pl.ammo_57mm <= 0)
 		return 1;
@@ -220,13 +214,12 @@ w_p90_isempty(void)
 }
 
 void
-w_p90_hudpic(int selected, vector pos, float a)
+w_p90_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_p90_isempty())
+	if (w_p90_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -273,7 +266,7 @@ weapon_t w_p90 =
 	.secondary	= __NULL__,
 	.reload		= w_p90_reload,
 	.release	= w_p90_release,
-	.crosshair	= w_p90_hud,
+	.postdraw	= w_p90_hud,
 	.precache	= w_p90_precache,
 	.pickup		= w_p90_pickup,
 	.updateammo	= w_p90_updateammo,

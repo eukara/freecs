@@ -77,14 +77,14 @@ Player_UseUp(void)
 	}
 }
 
-void Weapons_Draw(void);
+void Weapons_Draw(player);
 
 void
 CSEv_PlayerSwitchWeapon_i(int w)
 {
 	player pl = (player)self;
 	pl.activeweapon = w;
-	Weapons_Draw();
+	Weapons_Draw(pl);
 }
 
 void

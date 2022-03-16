@@ -56,10 +56,9 @@ w_flashbang_updateammo(player pl)
 }
 
 int
-w_flashbang_pickup(int new, int startammo)
+w_flashbang_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (pl.ammo_fbgrenade < AMMO_MAX_FLASHBANG) {
 		pl.ammo_fbgrenade = bound(0, pl.ammo_fbgrenade + 1, AMMO_MAX_FLASHBANG);
@@ -89,17 +88,16 @@ w_flashbang_deathmsg(void)
 }
 
 void
-w_flashbang_draw(void)
+w_flashbang_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_flashbang.mdl");
-	Weapons_ViewAnimation(FLASHBANG_DRAW);
+	Weapons_ViewAnimation(pl, FLASHBANG_DRAW);
 	pl.mode_temp = 0;
 }
 
 #ifdef SERVER
 void
-w_flashbang_throw(void)
+w_flashbang_throw(player pl)
 {
 	static void flashbang_explode(void)
 	{
@@ -118,7 +116,6 @@ w_flashbang_throw(void)
 		self.frame = 0;
 	}
 
-	player pl = (player)self;
 	vector vPLAngle = pl.v_angle;
 	if (vPLAngle[0] < 0) {
 		vPLAngle[0] = -10 + vPLAngle[0] * ((90 - 10) / 90.0);
@@ -152,9 +149,8 @@ w_flashbang_throw(void)
 #endif
 
 void
-w_flashbang_primary(void)
+w_flashbang_primary(player pl)
 {
-	player pl = (player)self;
 	if (pl.w_attack_next > 0.0) {
 		return;
 	}
@@ -169,7 +165,7 @@ w_flashbang_primary(void)
 		return;
 	}
 
-	Weapons_ViewAnimation(FLASHBANG_PULLPIN);
+	Weapons_ViewAnimation(pl, FLASHBANG_PULLPIN);
 
 	pl.mode_temp = 1;
 	pl.w_attack_next = 0.975f;
@@ -177,10 +173,8 @@ w_flashbang_primary(void)
 }
 
 void
-w_flashbang_release(void)
+w_flashbang_release(player pl)
 {
-	player pl = (player)self;
-
 	w_cstrike_weaponrelease();
 	
 	if (pl.w_idle_next > 0.0) {
@@ -190,16 +184,16 @@ w_flashbang_release(void)
 	if (pl.mode_temp == 1) {
 		pl.ammo_fbgrenade--;
 #ifdef CLIENT
-		Weapons_ViewAnimation(FLASHBANG_THROW);
+		Weapons_ViewAnimation(pl, FLASHBANG_THROW);
 #else
-		w_flashbang_throw();
+		w_flashbang_throw(pl);
 #endif
 		pl.mode_temp = 2;
 		pl.w_attack_next = 1.0f;
 		pl.w_idle_next = 0.5f;
 	} else if (pl.mode_temp == 2) {
 #ifdef CLIENT
-		Weapons_ViewAnimation(FLASHBANG_DRAW);
+		Weapons_ViewAnimation(pl, FLASHBANG_DRAW);
 #else
 		if (!pl.ammo_fbgrenade) {
 			Weapons_RemoveItem(pl, WEAPON_FLASHBANG);
@@ -212,13 +206,13 @@ w_flashbang_release(void)
 }
 
 float
-w_flashbang_aimanim(void)
+w_flashbang_aimanim(player pl)
 {
 	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_GRENADE : ANIM_AIM_GRENADE;
 }
 
 void
-w_flashbang_hud(void)
+w_flashbang_hud(player pl)
 {
 #ifdef CLIENT
 
@@ -229,9 +223,8 @@ w_flashbang_hud(void)
 }
 
 int
-w_flashbang_isempty(void)
+w_flashbang_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.ammo_fbgrenade <= 0)
 		return 1;
@@ -240,10 +233,9 @@ w_flashbang_isempty(void)
 }
 
 void
-w_flashbang_hudpic(int selected, vector pos, float a)
+w_flashbang_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 
 	HUD_DrawAmmoBar(pos, pl.ammo_fbgrenade, AMMO_MAX_FLASHBANG, a);
 
@@ -286,7 +278,7 @@ weapon_t w_flashbang =
 	.secondary	= __NULL__,
 	.reload		= __NULL__,
 	.release	= w_flashbang_release,
-	.crosshair	= w_flashbang_hud,
+	.postdraw	= w_flashbang_hud,
 	.precache	= w_flashbang_precache,
 	.pickup		= w_flashbang_pickup,
 	.updateammo	= w_flashbang_updateammo,

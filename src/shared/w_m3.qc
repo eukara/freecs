@@ -117,10 +117,9 @@ w_m3_deathmsg(void)
 }
 
 int
-w_m3_pickup(int new, int startammo)
+w_m3_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -139,11 +138,10 @@ w_m3_pickup(int new, int startammo)
 }
 
 void
-w_m3_draw(void)
+w_m3_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_m3.mdl");
-	Weapons_ViewAnimation(M3_DRAW);
+	Weapons_ViewAnimation(pl, M3_DRAW);
 	pl.mode_temp = 0;
 
 #ifdef CLIENT
@@ -152,31 +150,30 @@ w_m3_draw(void)
 #endif
 }
 
-void w_m3_release(void);
+void w_m3_release(player pl);
 
 void
-w_m3_primary(void)
+w_m3_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
-		w_m3_release();
+		w_m3_release(pl);
 		return;
 	}
 
 	/* interrupt reloading if no longer empty */
 	if (pl.mode_temp == M3S_RELOAD && pl.m3_mag >= 1) {
 		pl.mode_temp = M3S_RELOAD_END;
-		w_m3_release();
+		w_m3_release(pl);
 		return;
 	} else if (pl.mode_temp > M3S_IDLE) {
-		w_m3_release();
+		w_m3_release(pl);
 		return;
 	}
 
 	/* Ammo check */
 	if (pl.m3_mag <= 0) {
-		w_m3_release();
+		w_m3_release(pl);
 		return;
 	}
 
@@ -185,10 +182,10 @@ w_m3_primary(void)
 	int r = (float)input_sequence % 2;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(M3_SHOOT1);
+		Weapons_ViewAnimation(pl, M3_SHOOT1);
 		break;
 	default:
-		Weapons_ViewAnimation(M3_SHOOT2);
+		Weapons_ViewAnimation(pl, M3_SHOOT2);
 		break;
 	}
 
@@ -219,9 +216,8 @@ w_m3_primary(void)
 }
 
 void
-w_m3_reload(void)
+w_m3_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.m3_mag >= 8) {
 		return;
@@ -238,16 +234,15 @@ w_m3_reload(void)
 }
 
 void
-w_m3_release(void)
+w_m3_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.mode_temp == M3S_IDLE && pl.m3_mag == 0 && pl.ammo_buckshot > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 
@@ -256,11 +251,11 @@ w_m3_release(void)
 	}
 
 	if (pl.mode_temp == M3S_RELOAD_START) {
-		Weapons_ViewAnimation(M3_RELOAD_START);
+		Weapons_ViewAnimation(pl, M3_RELOAD_START);
 		pl.mode_temp = M3S_RELOAD;
 		pl.w_idle_next = 0.65f;
 	} else if (pl.mode_temp == M3S_RELOAD) {
-		Weapons_ViewAnimation(M3_INSERT);
+		Weapons_ViewAnimation(pl, M3_INSERT);
 		pl.m3_mag++;
 		pl.ammo_buckshot--;
 		w_m3_updateammo(pl);
@@ -269,7 +264,7 @@ w_m3_release(void)
 		}
 		pl.w_idle_next = 0.5f;	
 	} else if (pl.mode_temp == M3S_RELOAD_END) {
-		Weapons_ViewAnimation(M3_RELOAD_END);
+		Weapons_ViewAnimation(pl, M3_RELOAD_END);
 		pl.mode_temp = M3S_IDLE;
 		pl.w_idle_next = 10.0f;
 		pl.w_attack_next = 0.5f;
@@ -277,13 +272,13 @@ w_m3_release(void)
 }
 
 float
-w_m3_aimanim(void)
+w_m3_aimanim(player pl)
 {
-	return w_ak47_aimanim();
+	return w_ak47_aimanim(pl);
 }
 
 void
-w_m3_hud(void)
+w_m3_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -295,9 +290,8 @@ w_m3_hud(void)
 }
 
 int
-w_m3_isempty(void)
+w_m3_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.m3_mag <= 0 && pl.ammo_buckshot <= 0)
 		return 1;
@@ -306,13 +300,12 @@ w_m3_isempty(void)
 }
 
 void
-w_m3_hudpic(int selected, vector pos, float a)
+w_m3_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_m3_isempty())
+	if (w_m3_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -359,7 +352,7 @@ weapon_t w_m3 =
 	.secondary	= __NULL__,
 	.reload		= w_m3_reload,
 	.release	= w_m3_release,
-	.crosshair	= w_m3_hud,
+	.postdraw	= w_m3_hud,
 	.precache	= w_m3_precache,
 	.pickup		= w_m3_pickup,
 	.updateammo	= w_m3_updateammo,

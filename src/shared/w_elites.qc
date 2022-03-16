@@ -128,10 +128,9 @@ w_elites_deathmsg(void)
 }
 
 int
-w_elites_pickup(int new, int startammo)
+w_elites_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -150,11 +149,10 @@ w_elites_pickup(int new, int startammo)
 }
 
 void
-w_elites_draw(void)
+w_elites_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_elite.mdl");
-	Weapons_ViewAnimation(ELITES_DRAW);
+	Weapons_ViewAnimation(pl, ELITES_DRAW);
 	pl.mode_temp = 0;
 
 #ifdef CLIENT
@@ -164,9 +162,8 @@ w_elites_draw(void)
 }
 
 void
-w_elites_primary(void)
+w_elites_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
 		return;
@@ -187,45 +184,45 @@ w_elites_primary(void)
 	int r = (float)input_sequence % 5;
 	if (pl.mode_temp) {
 		if (pl.elites_mag <= 0) {
-			Weapons_ViewAnimation(ELITES_SHOOT_LEFTLAST);
+			Weapons_ViewAnimation(pl, ELITES_SHOOT_LEFTLAST);
 		} else {
 			switch (r) {
 			case 0:
-				Weapons_ViewAnimation(ELITES_SHOOT_LEFT1);
+				Weapons_ViewAnimation(pl, ELITES_SHOOT_LEFT1);
 				break;
 			case 1:
-				Weapons_ViewAnimation(ELITES_SHOOT_LEFT2);
+				Weapons_ViewAnimation(pl, ELITES_SHOOT_LEFT2);
 				break;
 			case 2:
-				Weapons_ViewAnimation(ELITES_SHOOT_LEFT3);
+				Weapons_ViewAnimation(pl, ELITES_SHOOT_LEFT3);
 				break;
 			case 3:
-				Weapons_ViewAnimation(ELITES_SHOOT_LEFT4);
+				Weapons_ViewAnimation(pl, ELITES_SHOOT_LEFT4);
 				break;
 			default:
-				Weapons_ViewAnimation(ELITES_SHOOT_LEFT1);
+				Weapons_ViewAnimation(pl, ELITES_SHOOT_LEFT1);
 				break;
 			}
 		}
 	} else {
 		if (pl.elites_mag <= 0) {
-			Weapons_ViewAnimation(ELITES_SHOOT_RIGHTLAST);
+			Weapons_ViewAnimation(pl, ELITES_SHOOT_RIGHTLAST);
 		} else {
 			switch (r) {
 			case 0:
-				Weapons_ViewAnimation(ELITES_SHOOT_RIGHT1);
+				Weapons_ViewAnimation(pl, ELITES_SHOOT_RIGHT1);
 				break;
 			case 1:
-				Weapons_ViewAnimation(ELITES_SHOOT_RIGHT2);
+				Weapons_ViewAnimation(pl, ELITES_SHOOT_RIGHT2);
 				break;
 			case 2:
-				Weapons_ViewAnimation(ELITES_SHOOT_RIGHT3);
+				Weapons_ViewAnimation(pl, ELITES_SHOOT_RIGHT3);
 				break;
 			case 3:
-				Weapons_ViewAnimation(ELITES_SHOOT_RIGHT4);
+				Weapons_ViewAnimation(pl, ELITES_SHOOT_RIGHT4);
 				break;
 			default:
-				Weapons_ViewAnimation(ELITES_SHOOT_RIGHT1);
+				Weapons_ViewAnimation(pl, ELITES_SHOOT_RIGHT1);
 				break;
 			}
 		}
@@ -262,9 +259,8 @@ w_elites_primary(void)
 }
 
 void
-w_elites_reload(void)
+w_elites_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -273,7 +269,7 @@ w_elites_reload(void)
 	if (!pl.ammo_9mm)
 		return;
 
-	Weapons_ViewAnimation(ELITES_RELOAD);
+	Weapons_ViewAnimation(pl, ELITES_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::elites_mag, player::ammo_9mm, 30);
@@ -284,28 +280,27 @@ w_elites_reload(void)
 }
 
 void
-w_elites_release(void)
+w_elites_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.elites_mag == 0 && pl.ammo_9mm > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_elites_aimanim(void)
+w_elites_aimanim(player pl)
 {
 	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_DUALPISTOLS : ANIM_AIM_DUALPISTOLS;
 }
 
 void
-w_elites_hud(void)
+w_elites_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -317,9 +312,8 @@ w_elites_hud(void)
 }
 
 int
-w_elites_isempty(void)
+w_elites_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.elites_mag <= 0 && pl.ammo_9mm <= 0)
 		return 1;
@@ -328,13 +322,12 @@ w_elites_isempty(void)
 }
 
 void
-w_elites_hudpic(int selected, vector pos, float a)
+w_elites_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_elites_isempty())
+	if (w_elites_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -381,7 +374,7 @@ weapon_t w_elites =
 	.secondary	= __NULL__,
 	.reload		= w_elites_reload,
 	.release	= w_elites_release,
-	.crosshair	= w_elites_hud,
+	.postdraw	= w_elites_hud,
 	.precache	= w_elites_precache,
 	.pickup		= w_elites_pickup,
 	.updateammo	= w_elites_updateammo,

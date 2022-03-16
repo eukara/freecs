@@ -74,10 +74,9 @@ w_p228_deathmsg(void)
 }
 
 int
-w_p228_pickup(int new, int startammo)
+w_p228_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -96,11 +95,10 @@ w_p228_pickup(int new, int startammo)
 }
 
 void
-w_p228_draw(void)
+w_p228_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_p228.mdl");
-	Weapons_ViewAnimation(P228_DRAW);
+	Weapons_ViewAnimation(pl, P228_DRAW);
 
 #ifdef CLIENT
 	pl.cs_cross_mindist = 8;
@@ -109,9 +107,8 @@ w_p228_draw(void)
 }
 
 void
-w_p228_primary(void)
+w_p228_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -125,18 +122,18 @@ w_p228_primary(void)
 	pl.p228_mag--;
 
 	if (pl.p228_mag <= 0) {
-		Weapons_ViewAnimation(P228_SHOOT_EMPTY);
+		Weapons_ViewAnimation(pl, P228_SHOOT_EMPTY);
 	} else {
 		int r = (float)input_sequence % 3;
 		switch (r) {
 		case 0:
-			Weapons_ViewAnimation(P228_SHOOT1);
+			Weapons_ViewAnimation(pl, P228_SHOOT1);
 			break;
 		case 1:
-			Weapons_ViewAnimation(P228_SHOOT2);
+			Weapons_ViewAnimation(pl, P228_SHOOT2);
 			break;
 		default:
-			Weapons_ViewAnimation(P228_SHOOT3);
+			Weapons_ViewAnimation(pl, P228_SHOOT3);
 			break;
 		}
 	}
@@ -161,9 +158,8 @@ w_p228_primary(void)
 }
 
 void
-w_p228_reload(void)
+w_p228_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -172,7 +168,7 @@ w_p228_reload(void)
 	if (!pl.ammo_357sig)
 		return;
 
-	Weapons_ViewAnimation(P228_RELOAD);
+	Weapons_ViewAnimation(pl, P228_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::p228_mag, player::ammo_357sig, 13);
@@ -184,28 +180,27 @@ w_p228_reload(void)
 }
 
 void
-w_p228_release(void)
+w_p228_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.p228_mag == 0 && pl.ammo_357sig > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_p228_aimanim(void)
+w_p228_aimanim(player pl)
 {
-	return w_deagle_aimanim();
+	return w_deagle_aimanim(pl);
 }
 
 void
-w_p228_hud(void)
+w_p228_hud(player pl)
 {
 #ifdef CLIENT
 	Cstrike_DrawCrosshair();
@@ -217,9 +212,8 @@ w_p228_hud(void)
 }
 
 int
-w_p228_isempty(void)
+w_p228_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.p228_mag <= 0 && pl.ammo_357sig <= 0)
 		return 1;
@@ -228,13 +222,12 @@ w_p228_isempty(void)
 }
 
 void
-w_p228_hudpic(int selected, vector pos, float a)
+w_p228_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_p228_isempty())
+	if (w_p228_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -281,7 +274,7 @@ weapon_t w_p228 =
 	.secondary	= __NULL__,
 	.reload		= w_p228_reload,
 	.release	= w_p228_release,
-	.crosshair	= w_p228_hud,
+	.postdraw	= w_p228_hud,
 	.precache	= w_p228_precache,
 	.pickup		= w_p228_pickup,
 	.updateammo	= w_p228_updateammo,

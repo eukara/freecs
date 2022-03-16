@@ -72,10 +72,9 @@ w_scout_deathmsg(void)
 }
 
 int
-w_scout_pickup(int new, int startammo)
+w_scout_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -94,11 +93,10 @@ w_scout_pickup(int new, int startammo)
 }
 
 void
-w_scout_draw(void)
+w_scout_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_scout.mdl");
-	Weapons_ViewAnimation(SCOUT_DRAW);
+	Weapons_ViewAnimation(pl, SCOUT_DRAW);
 	pl.mode_temp = 0;
 
 #ifdef CLIENT
@@ -109,16 +107,15 @@ w_scout_draw(void)
 
 
 void
-w_scout_release(void)
+w_scout_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.scout_mag == 0 && pl.ammo_762mm > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 
@@ -141,9 +138,8 @@ w_scout_release(void)
 }
 
 void
-w_scout_secondary(void)
+w_scout_secondary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next)
 		return;
@@ -162,16 +158,15 @@ w_scout_secondary(void)
 
 	pl.w_attack_next = 0.3f;
 	pl.w_idle_next = 0.0f;
-	w_scout_release();
+	w_scout_release(pl);
 }
 
 void
-w_scout_primary(void)
+w_scout_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
-		w_scout_release();
+		w_scout_release(pl);
 		return;
 	}
 	if (!pl.scout_mag) {
@@ -185,10 +180,10 @@ w_scout_primary(void)
 	int r = (float)input_sequence % 2;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(SCOUT_SHOOT1);
+		Weapons_ViewAnimation(pl, SCOUT_SHOOT1);
 		break;
 	default:
-		Weapons_ViewAnimation(SCOUT_SHOOT2);
+		Weapons_ViewAnimation(pl, SCOUT_SHOOT2);
 		break;
 	}
 
@@ -212,9 +207,8 @@ w_scout_primary(void)
 }
 
 void
-w_scout_reload(void)
+w_scout_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -223,7 +217,7 @@ w_scout_reload(void)
 	if (!pl.ammo_762mm)
 		return;
 
-	Weapons_ViewAnimation(SCOUT_RELOAD);
+	Weapons_ViewAnimation(pl, SCOUT_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::scout_mag, player::ammo_762mm, 10);
@@ -235,16 +229,15 @@ w_scout_reload(void)
 }
 
 float
-w_scout_aimanim(void)
+w_scout_aimanim(player pl)
 {
-	return w_ak47_aimanim();
+	return w_ak47_aimanim(pl);
 }
 
 void
-w_scout_hud(void)
+w_scout_hud(player pl)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	if (pl.viewzoom < 1.0f) {
 		Cstrike_DrawScope();
 	}
@@ -256,9 +249,8 @@ w_scout_hud(void)
 }
 
 int
-w_scout_isempty(void)
+w_scout_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.scout_mag <= 0 && pl.ammo_762mm <= 0)
 		return 1;
@@ -267,13 +259,12 @@ w_scout_isempty(void)
 }
 
 void
-w_scout_hudpic(int selected, vector pos, float a)
+w_scout_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_scout_isempty())
+	if (w_scout_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -320,7 +311,7 @@ weapon_t w_scout =
 	.secondary	= w_scout_secondary,
 	.reload		= w_scout_reload,
 	.release	= w_scout_release,
-	.crosshair	= w_scout_hud,
+	.postdraw	= w_scout_hud,
 	.precache	= w_scout_precache,
 	.pickup		= w_scout_pickup,
 	.updateammo	= w_scout_updateammo,

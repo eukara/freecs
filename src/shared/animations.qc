@@ -70,7 +70,7 @@ Animation_PlayerUpdate(player pl)
 	pl.basebone = gettagindex(self, "-- R shoulder outside");
 
 	if (pl.anim_top_delay <= 0.0f) {
-		pl.anim_top = Weapons_GetAim(pl.activeweapon);
+		pl.anim_top = Weapons_GetAim(pl, pl.activeweapon);
 	}
 
 	if (vlen(pl.velocity) == 0) {
@@ -130,9 +130,11 @@ Animation_PlayerUpdate(player pl)
 void
 Animation_PlayerTop(player pl, float topanim, float timer)
 {
+#if 0
 	pl.anim_top = topanim;
 	pl.anim_top_time = 0.0f;
 	pl.anim_top_delay = timer;
+#endif
 }
 
 void

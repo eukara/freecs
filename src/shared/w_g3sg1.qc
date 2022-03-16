@@ -72,10 +72,9 @@ w_g3sg1_deathmsg(void)
 }
 
 int
-w_g3sg1_pickup(int new, int startammo)
+w_g3sg1_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-	player pl = (player)self;
 
 	if (new) {
 		if (startammo == -1)
@@ -94,11 +93,10 @@ w_g3sg1_pickup(int new, int startammo)
 }
 
 void
-w_g3sg1_draw(void)
+w_g3sg1_draw(player pl)
 {
-	player pl = (player)self;
 	Weapons_SetModel("models/v_g3sg1.mdl");
-	Weapons_ViewAnimation(G3SG1_DRAW);
+	Weapons_ViewAnimation(pl, G3SG1_DRAW);
 
 #ifdef CLIENT
 	pl.cs_cross_mindist = 6;
@@ -107,9 +105,8 @@ w_g3sg1_draw(void)
 }
 
 void
-w_g3sg1_primary(void)
+w_g3sg1_primary(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0) {
 		return;
@@ -125,10 +122,10 @@ w_g3sg1_primary(void)
 	int r = (float)input_sequence % 2;
 	switch (r) {
 	case 0:
-		Weapons_ViewAnimation(SCOUT_SHOOT1);
+		Weapons_ViewAnimation(pl, SCOUT_SHOOT1);
 		break;
 	default:
-		Weapons_ViewAnimation(SCOUT_SHOOT2);
+		Weapons_ViewAnimation(pl, SCOUT_SHOOT2);
 		break;
 	}
 
@@ -151,9 +148,8 @@ w_g3sg1_primary(void)
 }
 
 void
-w_g3sg1_secondary(void)
+w_g3sg1_secondary(player pl)
 {
-	player pl = (player)self;
 	if (pl.w_attack_next) {
 		return;
 	}
@@ -172,9 +168,8 @@ w_g3sg1_secondary(void)
 }
 
 void
-w_g3sg1_reload(void)
+w_g3sg1_reload(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -183,7 +178,7 @@ w_g3sg1_reload(void)
 	if (!pl.ammo_762mm)
 		return;
 
-	Weapons_ViewAnimation(G3SG1_RELOAD);
+	Weapons_ViewAnimation(pl, G3SG1_RELOAD);
 
 #ifdef SERVER
 	Weapons_ReloadWeapon(pl, player::g3sg1_mag, player::ammo_762mm, 20);
@@ -195,31 +190,29 @@ w_g3sg1_reload(void)
 }
 
 void
-w_g3sg1_release(void)
+w_g3sg1_release(player pl)
 {
-	player pl = (player)self;
 
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
 	if (pl.w_attack_next <= 0.0)
 	if (pl.g3sg1_mag == 0 && pl.ammo_762mm > 0) {
-		Weapons_Reload();
+		Weapons_Reload(pl);
 		return;
 	}
 }
 
 float
-w_g3sg1_aimanim(void)
+w_g3sg1_aimanim(player pl)
 {
-	return w_ak47_aimanim();
+	return w_ak47_aimanim(pl);
 }
 
 void
-w_g3sg1_hud(void)
+w_g3sg1_hud(player pl)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	if (pl.viewzoom < 1.0f) {
 		Cstrike_DrawScope();
 	}
@@ -231,9 +224,8 @@ w_g3sg1_hud(void)
 }
 
 int
-w_g3sg1_isempty(void)
+w_g3sg1_isempty(player pl)
 {
-	player pl = (player)self;
 
 	if (pl.g3sg1_mag <= 0 && pl.ammo_762mm <= 0)
 		return 1;
@@ -242,13 +234,12 @@ w_g3sg1_isempty(void)
 }
 
 void
-w_g3sg1_hudpic(int selected, vector pos, float a)
+w_g3sg1_hudpic(player pl, int selected, vector pos, float a)
 {
 #ifdef CLIENT
-	player pl = (player)self;
 	vector hud_col;
 
-	if (w_g3sg1_isempty())
+	if (w_g3sg1_isempty(pl))
 		hud_col = [1,0,0];
 	else
 		hud_col = g_hud_color;
@@ -295,7 +286,7 @@ weapon_t w_g3sg1 =
 	.secondary	= w_g3sg1_secondary,
 	.reload		= w_g3sg1_reload,
 	.release	= w_g3sg1_release,
-	.crosshair	= w_g3sg1_hud,
+	.postdraw	= w_g3sg1_hud,
 	.precache	= w_g3sg1_precache,
 	.pickup		= w_g3sg1_pickup,
 	.updateammo	= w_g3sg1_updateammo,

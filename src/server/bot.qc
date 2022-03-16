@@ -222,7 +222,7 @@ CSBot_BuyStart_Shop(void)
 	for (int i = 0; i < g_weapons.length; i++)
 		if (pl.g_items & g_weapons[i].id) {
 			pl.activeweapon = i;
-			Weapons_Draw();
+			Weapons_Draw(pl);
 			return;
 		}
 
