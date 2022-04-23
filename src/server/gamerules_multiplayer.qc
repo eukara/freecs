@@ -112,13 +112,9 @@ CSMultiplayerRules::PlayerPreFrame(base_player pl)
 void
 CSMultiplayerRules::FrameStart(void)
 {
-	int iInGamePlayers;
-
-	iInGamePlayers = g_cs_total_t + g_cs_total_ct;
-
-	if ((iInGamePlayers > 0) && (g_cs_gamestate == GAME_INACTIVE)) {
+	if ((g_total_players > 0) && (g_cs_gamestate == GAME_INACTIVE)) {
 		TimerBegin(2, GAME_COMMENCING);
-	} else if (iInGamePlayers == 0) {
+	} else if (g_total_players == 0) {
 		g_cs_gamestate = GAME_INACTIVE;
 		g_cs_gametime = 0;
 		g_cs_roundswon_t = 0;
@@ -227,11 +223,16 @@ CSMultiplayerRules::InitPostEnts(void)
 void
 CSMultiplayerRules::TimerBegin(float tleft, int mode)
 {
+	g_cs_gametime = tleft;
+
 	if (mode == GAME_FREEZE) {
 		g_cs_gamestate = GAME_FREEZE;
 	} else if (mode == GAME_ACTIVE) {
 		g_cs_gamestate = GAME_ACTIVE;
 		CountPlayers();
+
+		if (g_total_players < 2)
+			return;
 
 		/* if no players are present in the chosen team, force restart round */
 		if ((g_cs_alive_t == 0)) {
@@ -249,20 +250,16 @@ CSMultiplayerRules::TimerBegin(float tleft, int mode)
 	} else if (mode == GAME_OVER) {
 		g_cs_gamestate = GAME_OVER;
 	}
-
-	g_cs_gametime = tleft;
 }
 
 void
 CSMultiplayerRules::TimerUpdate(void)
 {
-	if (cvar("sv_playerslots") == 1) {
-		g_cs_gametime = -1;
-		return;
-	}
-
+	/* if we've got hostages in the map... */
 	if (g_cs_hostagestotal > 0) {
+		/* and they're all rescued.... */
 		if (g_cs_hostagesrescued >= g_cs_hostagestotal) {
+			/* CTs win! */
 			RoundOver(TEAM_CT, 0, FALSE);
 			return;
 		}
@@ -281,23 +278,21 @@ CSMultiplayerRules::TimerUpdate(void)
 	// Okay, this means that timelimit is not the only deciding factor
 	if (autocvar_mp_winlimit > 0 && g_cs_gamestate != GAME_OVER) {
 		// It really doesn't matter who won. Do some logging perhaps?
-		if (g_cs_roundswon_ct == autocvar_mp_winlimit) {
-			IntermissionStart();
-		} else if (g_cs_roundswon_t == autocvar_mp_winlimit) {
+		if (g_cs_roundswon_ct == autocvar_mp_winlimit ||
+			g_cs_roundswon_t == autocvar_mp_winlimit) {
 			IntermissionStart();
 		}
 	}
 
+	/* INACTIVE means no one is registered as a player */
 	if (g_cs_gamestate == GAME_INACTIVE) {
 		return;
 	}
 
-	if (g_cs_gametime > 0) {
-		g_cs_gametime -= frametime;
-	} else {
-		g_cs_gametime = 0;
-	}
+	/* our continously running down timer */
+	g_cs_gametime = bound(0, g_cs_gametime - frametime, g_cs_gametime);
 
+	/* if the round is over or the game is done with... */
 	if (g_cs_gamestate == GAME_COMMENCING || g_cs_gamestate == GAME_END) {
 		if (g_cs_gametime <= 0) {
 			if (g_cs_roundswon_t == 0 && g_cs_roundswon_ct == 0) {
@@ -639,6 +634,9 @@ CSMultiplayerRules::CountPlayers(void)
 		if (eFind.health > 0)
 			g_cs_alive_ct++;
 	}
+
+
+	g_total_players = g_cs_total_t + g_cs_total_ct;
 }
 
 void

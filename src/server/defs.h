@@ -42,6 +42,8 @@ var int g_cs_alive_ct;
 var int g_cs_total_t;
 var int g_cs_total_ct;
 
+var int g_total_players;
+
 var int g_cs_hostagesrescued;
 var int g_cs_hostagestotal;
 var int g_cs_roundslost_ct;
