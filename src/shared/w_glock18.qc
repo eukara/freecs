@@ -189,7 +189,7 @@ w_glock18_primary(player pl)
 #endif
 
 	pl.gflags |= GF_SEMI_TOGGLED;
-	pl.w_idle_next = pl.w_attack_next;
+	pl.w_idle_next = pl.w_attack_next + 1.0f;
 }
 
 void
@@ -212,7 +212,7 @@ w_glock18_secondary(player pl)
 #endif
 
 	pl.w_attack_next = 0.5f;
-	pl.w_idle_next = pl.w_attack_next;
+	pl.w_idle_next = pl.w_attack_next + 1.0f;
 }
 
 void
@@ -242,13 +242,12 @@ w_glock18_reload(player pl)
 #endif
 
 	pl.w_attack_next = 2.1f;
-	pl.w_idle_next = pl.w_attack_next;
+	pl.w_idle_next = pl.w_attack_next + 1.0f;
 }
 
 void
 w_glock18_release(player pl)
 {
-
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
@@ -256,6 +255,26 @@ w_glock18_release(player pl)
 	if (pl.glock18_mag == 0 && pl.ammo_9mm > 0) {
 		Weapons_Reload(pl);
 		return;
+	}
+
+	if (pl.w_idle_next)
+		return;
+
+	int r = floor(pseudorandom() * 3);
+
+	switch (r) {
+	case 0:
+		Weapons_ViewAnimation(pl, GLOCK_IDLE1);
+		pl.w_idle_next = 2.8125f;
+		break;
+	case 1:
+		Weapons_ViewAnimation(pl, GLOCK_IDLE2);
+		pl.w_idle_next = 2.25f;
+		break;
+	case 2:
+		Weapons_ViewAnimation(pl, GLOCK_IDLE3);
+		pl.w_idle_next = 2.5f;
+		break;
 	}
 }
 
