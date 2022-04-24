@@ -104,15 +104,15 @@ class armoury_entity:CBaseEntity
 	int m_iItem;
 
 	void(void) armoury_entity;
-	virtual void(void) touch;
+	virtual void(entity) Touch;
 	virtual void(void) Respawn;
 	virtual void(string, string) SpawnKey;
 };
 
 void
-armoury_entity::touch(void)
+armoury_entity::Touch(entity eToucher)
 {
-	if (other.classname != "player") {
+	if (eToucher.classname != "player") {
 		return;
 	}
 
@@ -120,12 +120,12 @@ armoury_entity::touch(void)
 	if (m_iItem == 17 || m_iItem == 16)
 		return;
 
-	if (Weapons_AddItem((player)other, m_iItem, -1) == FALSE) {
+	if (Weapons_AddItem((player)eToucher, m_iItem, -1) == FALSE) {
 		return;
 	}
 
-	Logging_Pickup(other, this, __NULL__);
-	sound(other, CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM);
+	Logging_Pickup(eToucher, this, __NULL__);
+	sound(eToucher, CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM);
 
 	m_iLeft--;
 	if (m_iLeft <= 0) {

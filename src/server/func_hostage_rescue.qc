@@ -32,30 +32,30 @@ class func_hostage_rescue:NSBrushTrigger
 {
 	void(void) func_hostage_rescue;
 
-	virtual void(void) touch;
+	virtual void(entity) Touch;
 	virtual void(void) Respawn;
 };
 
 void
-func_hostage_rescue::touch(void)
+func_hostage_rescue::Touch(entity eToucher)
 {
-	if (other.flags & FL_CLIENT) {
-		player pl = (player)other;
+	if (eToucher.flags & FL_CLIENT) {
+		player pl = (player)eToucher;
 		pl.gflags |= GF_RESCUEZONE;
 		return;
 	}
 	
-	if (other.classname != "hostage_entity") {
+	if (eToucher.classname != "hostage_entity") {
 		return;
 	}
 
-	CBaseNPC hosty = (CBaseNPC)other;
+	hostage_entity hosty = (hostage_entity)eToucher;
 
 	if (hosty.solid == SOLID_NOT) {
 		return;
 	}
 
-	if (!((player)hosty.m_eFollowing))
+	if (!(hosty.m_eFollowing))
 		return;
 
 	Radio_BroadcastMessage(RADIO_RESCUED);
@@ -68,8 +68,7 @@ func_hostage_rescue::touch(void)
 	 * bonus for every hostage that was rescued, even if they lose the round. */
 	Money_QueTeamReward(TEAM_CT, 850);
 
-	CBaseEntity targa = (CBaseEntity)other;
-	targa.Hide();
+	hosty.Hide();
 }
 
 void

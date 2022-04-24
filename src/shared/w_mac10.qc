@@ -142,7 +142,8 @@ w_mac10_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
-	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_SetRangeModifier(0.82);
+	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 29, [accuracy,accuracy], WEAPON_MAC10);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mac10.fire");
 #endif

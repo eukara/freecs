@@ -140,7 +140,8 @@ w_p90_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
-	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_SetRangeModifier(0.84);
+	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_P90);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_p90.fire");
 #endif

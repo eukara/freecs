@@ -138,7 +138,8 @@ w_g3sg1_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_rifle_ejectshell, 0.0f);
 #else
-	TraceAttack_SetPenetrationPower(2);
+	TraceAttack_SetRangeModifier(0.98);
+	TraceAttack_SetPenetrationPower(3);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 80, [accuracy,accuracy], WEAPON_G3SG1);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_g3sg1.fire");
 #endif

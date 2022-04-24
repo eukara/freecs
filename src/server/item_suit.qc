@@ -18,14 +18,14 @@ class item_suit:CBaseTrigger
 {
 	void(void) item_suit;
 
-	virtual void(void) touch;
+	virtual void(entity) Touch;
 	virtual void(void) Respawn;
 };
 
 void
-item_suit::touch(void)
+item_suit::Touch(entity eToucher)
 {
-	player pl = (player)other;
+	player pl = (player)eToucher;
 
 	if (pl.classname != "player") {
 		return;
@@ -35,10 +35,10 @@ item_suit::touch(void)
 		return;
 	}
 
-	sound(other, CHAN_ITEM, "items/tr_kevlar.wav", 1, ATTN_NORM);
+	sound(eToucher, CHAN_ITEM, "items/tr_kevlar.wav", 1, ATTN_NORM);
 	pl.g_items |= ITEM_SUIT;
 
-	UseTargets(other, TRIG_TOGGLE, m_flDelay);
+	UseTargets(eToucher, TRIG_TOGGLE, m_flDelay);
 
 	if (cvar("sv_playerslots") == 1) {
 		remove(self);

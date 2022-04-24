@@ -44,15 +44,15 @@ class func_buyzone:NSBrushTrigger
 {
 	void(void) func_buyzone;
 
-	virtual void(void) touch;
+	virtual void(entity) Touch;
 	virtual void(void) Respawn;
 };
 
 void
-func_buyzone::touch(void)
+func_buyzone::Touch(entity eToucher)
 {
-	player pl = (player)other;
-	if (!(other.flags & FL_CLIENT))
+	player pl = (player)eToucher;
+	if (!(eToucher.flags & FL_CLIENT))
 		return;
 
 	if (team == 0 || team == pl.team)

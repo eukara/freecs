@@ -176,7 +176,8 @@ w_deagle_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
-	TraceAttack_SetPenetrationPower(1);
+	TraceAttack_SetRangeModifier(0.81);
+	TraceAttack_SetPenetrationPower(2);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 54, [accuracy,accuracy], WEAPON_DEAGLE);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_deagle.fire");
 #endif

@@ -234,7 +234,8 @@ w_awp_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_sniper_ejectshell, 0.9f);
 #else
-	TraceAttack_SetPenetrationPower(2);
+	TraceAttack_SetRangeModifier(0.99);
+	TraceAttack_SetPenetrationPower(3);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 115, [accuracy,accuracy], WEAPON_AWP);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_awp.fire");

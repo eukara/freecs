@@ -193,7 +193,8 @@ w_m3_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_m3_ejectshell, 0.6f);
 #else
-	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_SetRangeModifier(0.70);
+	TraceAttack_SetPenetrationPower(1);
 
 	if (self.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_SHOTGUN, 0.45f);

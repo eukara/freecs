@@ -196,7 +196,8 @@ w_usp45_primary(player pl)
 	}
 
 	/* actual firing */
-	TraceAttack_SetPenetrationPower(0);
+	TraceAttack_SetRangeModifier(0.79);
+	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_USP45);
 #endif
 

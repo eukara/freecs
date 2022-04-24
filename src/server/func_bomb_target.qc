@@ -32,14 +32,14 @@ class func_bomb_target:NSBrushTrigger
 	void(void) func_bomb_target;
 
 	virtual void(void) Respawn;
-	virtual void(void) touch;
+	virtual void(entity) Touch;
 };
 
 void
-func_bomb_target::touch(void)
+func_bomb_target::Touch(entity eToucher)
 {
-	player pl = (player)other;
-	if (!(other.flags & FL_CLIENT)) {
+	player pl = (player)eToucher;
+	if (!(eToucher.flags & FL_CLIENT)) {
 		return;
 	}
 

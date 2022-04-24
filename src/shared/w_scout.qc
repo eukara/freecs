@@ -197,7 +197,8 @@ w_scout_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_rifle_ejectshell, 0.5f);
 #else
-	TraceAttack_SetPenetrationPower(2);
+	TraceAttack_SetRangeModifier(0.98);
+	TraceAttack_SetPenetrationPower(3);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 75, [accuracy,accuracy], WEAPON_SCOUT);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_scout.fire");
 #endif

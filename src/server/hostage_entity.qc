@@ -131,6 +131,9 @@ hostage_entity::OnPlayerUse(void)
 void
 hostage_entity::Pain(void)
 {
+	if (style == MONSTER_DEAD)
+		return;
+
 	switch (g_dmg_iHitBody) {
 	case BODY_HEAD:
 	case BODY_DEFAULT:
@@ -176,25 +179,24 @@ hostage_entity::Death(void)
 			SetFrame(HOSA_DIE_SIMPLE + floor(random(0,4)));
 			break;
 		}
+
+		if (g_dmg_eAttacker.classname == "player") {
+			if (g_dmg_iDamage >= 100)
+				Money_AddMoney((base_player)g_dmg_eAttacker, -2500);
+			else
+				Money_AddMoney((base_player)g_dmg_eAttacker, -500);
+
+			Radio_BroadcastMessage(RADIO_HOSDOWN);
+		}
 	}
 
 	/* HACK: don't let them gib */
 	health = 0;
-	solid = SOLID_NOT;
 
 	/* now mark our state as 'dead' */
-	CBaseNPC::Death();
-
-	/* penalties */
-	if (g_dmg_eAttacker.classname != "player")
-		return;
-
-	if (g_dmg_iDamage >= 100)
-		Money_AddMoney((base_player)g_dmg_eAttacker, -2500);
-	else
-		Money_AddMoney((base_player)g_dmg_eAttacker, -500);
-
-	Radio_BroadcastMessage(RADIO_HOSDOWN);
+	super::Death();
+	SetSolid(SOLID_NOT);
+	health = 0;
 }
 
 void
