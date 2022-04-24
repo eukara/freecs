@@ -75,7 +75,7 @@ int g_cstrike_armouryitems[19] = {
 	WEAPON_SMOKEGRENADE
 };
 
-string sArmouryModels[19] = {
+string g_cstrike_armourymodels[19] = {
 	"models/w_mp5.mdl",
 	"models/w_tmp.mdl",
 	"models/w_p90.mdl",
@@ -97,11 +97,11 @@ string sArmouryModels[19] = {
 	"models/w_smokegrenade.mdl"
 };
 
-class armoury_entity:CBaseEntity
+class armoury_entity:NSRenderableEntity
 {
 	int m_iCount;
 	int m_iLeft;
-	int m_iItem;
+	int m_iID;
 
 	void(void) armoury_entity;
 	virtual void(entity) Touch;
@@ -112,21 +112,42 @@ class armoury_entity:CBaseEntity
 void
 armoury_entity::Touch(entity eToucher)
 {
+	player pl;
 	if (eToucher.classname != "player") {
 		return;
 	}
 
-	/* temp */
-	if (m_iItem == 17 || m_iItem == 16)
-		return;
+	pl = (player)eToucher;
 
-	if (Weapons_AddItem((player)eToucher, m_iItem, -1) == FALSE) {
-		return;
+	/* armor is separate from weapons */
+	if (m_iID == 17 || m_iID == 16) {
+		bool picked_up = false;
+
+		/* skip if we already got armor */
+		if (pl.armor < 100) {
+			pl.armor = 100;
+			picked_up = true;
+		}
+
+		/* we may need a helmet though */
+		if (!(pl.items & ITEM_HELMET) && m_iID == 17) {
+			eToucher.items |= ITEM_HELMET;
+			picked_up = true;
+		}
+
+		/* if nothing got picked up, cancel out */
+		if (picked_up == false)
+			return;
+
+		sound(pl, CHAN_ITEM, "items/tr_kevlar.wav", 1, ATTN_NORM);
+	} else {
+		if (Weapons_AddItem(pl, g_cstrike_armouryitems[m_iID], -1) == FALSE)
+			return;
+
+		sound(pl, CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM);
 	}
 
-	Logging_Pickup(eToucher, this, __NULL__);
-	sound(eToucher, CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM);
-
+	Logging_Pickup(pl, this, __NULL__);
 	m_iLeft--;
 	if (m_iLeft <= 0) {
 		Hide();
@@ -136,11 +157,11 @@ armoury_entity::Touch(entity eToucher)
 void
 armoury_entity::Respawn(void)
 {
-	SetModel(GetSpawnModel());
-	setsize(this, [-16,-16,0], [16,16,16]);
-	solid = SOLID_TRIGGER;
+	SetModel(g_cstrike_armourymodels[m_iID]);
+	SetSize([-16,-16,0], [16,16,16]);
+	SetSolid(SOLID_TRIGGER);
 	m_iLeft = m_iCount;
-	droptofloor();
+	DropToFloor();
 }
 
 void
@@ -151,16 +172,12 @@ armoury_entity::SpawnKey(string strKey, string strValue)
 		m_iCount = stoi(strValue);
 		break;
 	case "item":
-		int id = stoi(strValue);
+		m_iID = stoi(strValue);
 
-		if (id < 0 || id >= 19) {
-			print(sprintf("^1armoury_entity with invalid item %i. ignoring\n", m_iItem));
-			remove(this);
-			return;
+		if (m_iID < 0 || m_iID >= 19) {
+			print(sprintf("^1armoury_entity with invalid item %i. ignoring\n", m_iID));
+			Destroy();
 		}
-
-		m_iItem = g_cstrike_armouryitems[id];
-		model = sArmouryModels[id];
 		break;
 	default:
 		CBaseEntity::SpawnKey(strKey, strValue);
@@ -176,6 +193,9 @@ armoury_entity::armoury_entity(void)
 		return;
 	}
 
+	precache_sound("items/gunpickup2.wav");
+	precache_sound("items/tr_kevlar.wav");
+	m_iID = 0;
 	m_iCount = 1;
-	CBaseEntity::CBaseEntity();
+	super::NSRenderableEntity();
 }
