@@ -210,7 +210,7 @@ w_glock18_secondary(player pl)
 	}
 #endif
 
-	pl.w_attack_next = 1.0f;
+	pl.w_attack_next = 0.5f;
 	pl.w_idle_next = pl.w_attack_next;
 }
 
