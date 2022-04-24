@@ -147,6 +147,6 @@ player::Physics_Jump(void)
 	} else {
 		/* slow the player down a bit to prevent bhopping like crazy */
 		velocity *= 0.80f;
-		velocity[2] += 200;
+		velocity[2] += 260;
 	}
 }
