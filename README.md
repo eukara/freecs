@@ -67,17 +67,18 @@ Then, in the same directory (Nuclide's) you will clone this repo.
 
 Run 
 > ./build_game.sh valve
+
 First, so we have a usable menu.
 
 then either run Nuclide's `./build_game.sh cstrike` shell script, or issue `make` inside
 ./cstrike/src for whenever you need to recompile FreeCS.
 
-You need to also provide data-files.
+** !! You need to also provide data-files !! **
 
 There's separate scripts inside FreeHL's cloned valve/ directory and FreeCS's cstrike/ directory
 for grabbing/moving the data files from various install media.
 
-The archive.org scripts for Half-Life will download content from the various demo builds of Half-Life, and can use yt-dlp for grabbing the music.
+The archive.org scripts for Half-Life will download content from the various demo builds of Half-Life, and can use yt-dlp for grabbing the music. You should be able to get everything required to play off the Internet.
 
 ## Community
 
