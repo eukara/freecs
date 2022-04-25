@@ -136,8 +136,8 @@ w_para_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_rifle_ejectshell, 0.0f);
 #else
-	TraceAttack_SetRangeModifier(0.97);
-	TraceAttack_SetPenetrationPower(2);
+	TraceAttack_SetRangeModifier(2.125);
+	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 35, [accuracy,accuracy], WEAPON_PARA);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_para.fire");
 #endif

@@ -184,8 +184,8 @@ w_m4a1_primary(player pl)
 		Sound_Play(pl, CHAN_WEAPON, "weapon_m4a1.fire");
 	}
 
-	TraceAttack_SetRangeModifier(0.97);
-	TraceAttack_SetPenetrationPower(2);
+	TraceAttack_SetRangeModifier(2.125);
+	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_M4A1);
 #endif
 

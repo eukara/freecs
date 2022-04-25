@@ -234,8 +234,8 @@ w_awp_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_sniper_ejectshell, 0.9f);
 #else
-	TraceAttack_SetRangeModifier(0.99);
-	TraceAttack_SetPenetrationPower(3);
+	TraceAttack_SetRangeModifier(1.375);
+	TraceAttack_SetPenetrationPower(2); /* however, we can only penetrate one wall if the first one is 5 units thick or higher */
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 115, [accuracy,accuracy], WEAPON_AWP);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_awp.fire");

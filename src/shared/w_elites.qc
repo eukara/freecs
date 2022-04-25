@@ -248,7 +248,7 @@ w_elites_primary(player pl)
 	else
 		View_AddEvent(w_pistol_ejectshell_right, 0.0f);
 #else
-	TraceAttack_SetRangeModifier(0.75);
+	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 45, [accuracy,accuracy], WEAPON_ELITES);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_elites.fire");

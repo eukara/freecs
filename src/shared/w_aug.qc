@@ -143,8 +143,8 @@ w_aug_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_rifle_ejectshell, 0.0f);
 #else
-	TraceAttack_SetRangeModifier(0.96);
-	TraceAttack_SetPenetrationPower(2);
+	TraceAttack_SetRangeModifier(2.125);
+	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 32, [accuracy,accuracy], WEAPON_AUG);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_aug.fire");
 #endif

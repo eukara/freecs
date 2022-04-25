@@ -140,8 +140,8 @@ w_sg552_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_rifle_ejectshell, 0.0f);
 #else
-	TraceAttack_SetRangeModifier(0.955);
-	TraceAttack_SetPenetrationPower(2);
+	TraceAttack_SetRangeModifier(2.125);
+	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33, [accuracy,accuracy], WEAPON_SG552);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_sg552.fire");
 #endif

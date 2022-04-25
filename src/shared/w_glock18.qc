@@ -146,7 +146,7 @@ w_glock18_primary(player pl)
 		float accuracy = Cstrike_CalculateAccuracy(pl, (pl.mode_glock18) ? 175 : 200);
 		pl.glock18_mag--;
 #ifdef SERVER
-		TraceAttack_SetRangeModifier(0.75);
+		TraceAttack_SetRangeModifier(1.25); /* penetrates 9 units, but not 10 */
 		TraceAttack_SetPenetrationPower(1);
 		TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_GLOCK18);
 #endif

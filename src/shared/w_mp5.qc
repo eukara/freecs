@@ -140,7 +140,7 @@ w_mp5_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
-	TraceAttack_SetRangeModifier(0.84);
+	TraceAttack_SetRangeModifier(1.25); /* 9 units but not 10 */
 	TraceAttack_SetPenetrationPower(1);
 	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_MP5);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mp5.fire");
