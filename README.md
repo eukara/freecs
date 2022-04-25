@@ -51,18 +51,33 @@ This is designed for CS 1.5 and the Half-Life CD data files **ONLY**.
 **If you want to play and later version of CS, please do it on Steam.**
 
 ## Building
-Make sure you've cloned the FreeHL repo (external) into the Nuclide-SDK.
+Here's the quick and dirty instructions for those unfamilar:
 
-Clone the repository into the Nuclide-SDK:
+First of all, make sure you've got Nuclide cloned.
 
-> git clone REPOURL cstrike
+> git clone https://github.com/veravisions/nuclide
+
+Then, **inside** of the cloned repo, you'll clone FreeHL.
+
+> git clone https://github.com/eukara/freehl valve
+
+Then, in the same directory (Nuclide's) you will clone this repo.
+
+> git clone https://github.com/eukara/freecs cstrike
+
+Run 
+> ./build_game.sh valve
+First, so we have a usable menu.
 
 then either run Nuclide's `./build_game.sh cstrike` shell script, or issue `make` inside
-./cstrike/src!
+./cstrike/src for whenever you need to recompile FreeCS.
 
-Obviously make sure that Nuclide has fteqw and fteqcc set-up for building.
-But if you want to go about building this yourself, bring some experience with
-the build environment with you.
+You need to also provide data-files.
+
+There's separate scripts inside FreeHL's cloned valve/ directory and FreeCS's cstrike/ directory
+for grabbing/moving the data files from various install media.
+
+The archive.org scripts for Half-Life will download content from the various demo builds of Half-Life, and can use yt-dlp for grabbing the music.
 
 ## Community
 
