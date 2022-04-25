@@ -61,7 +61,7 @@ w_mp5_wmodel(void)
 }
 
 string
-w_mp5_pmodel(void)
+w_mp5_pmodel(player pl)
 {
 	return "models/p_mp5.mdl";
 }

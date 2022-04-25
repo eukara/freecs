@@ -96,7 +96,7 @@ w_ak47_wmodel(void)
 }
 
 string
-w_ak47_pmodel(void)
+w_ak47_pmodel(player pl)
 {
 	return "models/p_ak47.mdl";
 }

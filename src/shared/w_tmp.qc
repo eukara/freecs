@@ -61,7 +61,7 @@ w_tmp_wmodel(void)
 }
 
 string
-w_tmp_pmodel(void)
+w_tmp_pmodel(player pl)
 {
 	return "models/p_tmp.mdl";
 }

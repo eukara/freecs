@@ -83,7 +83,7 @@ w_c4bomb_wmodel(void)
 }
 
 string
-w_c4bomb_pmodel(void)
+w_c4bomb_pmodel(player pl)
 {
 	return "models/p_c4.mdl";
 }

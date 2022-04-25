@@ -29,13 +29,13 @@
 */
 
 weapontype_t
-csweapon_ranged_type(void)
+csweapon_ranged_type(player pl)
 {
 	return WPNTYPE_RANGED;
 }
 
 weapontype_t
-csweapon_melee_type(void)
+csweapon_melee_type(player pl)
 {
 	return WPNTYPE_CLOSE;
 }

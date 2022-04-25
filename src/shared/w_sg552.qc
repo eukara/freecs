@@ -61,7 +61,7 @@ w_sg552_wmodel(void)
 }
 
 string
-w_sg552_pmodel(void)
+w_sg552_pmodel(player pl)
 {
 	return "models/p_sg552.mdl";
 }

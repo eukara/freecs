@@ -71,7 +71,7 @@ w_m4a1_wmodel(void)
 }
 
 string
-w_m4a1_pmodel(void)
+w_m4a1_pmodel(player pl)
 {
 	return "models/p_m4a1.mdl";
 }

@@ -65,7 +65,7 @@ w_knife_wmodel(void)
 }
 
 string
-w_knife_pmodel(void)
+w_knife_pmodel(player pl)
 {
 	return "models/p_knife.mdl";
 }

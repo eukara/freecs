@@ -61,7 +61,7 @@ w_p90_wmodel(void)
 }
 
 string
-w_p90_pmodel(void)
+w_p90_pmodel(player pl)
 {
 	return "models/p_p90.mdl";
 }

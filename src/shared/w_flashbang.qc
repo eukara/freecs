@@ -76,7 +76,7 @@ w_flashbang_wmodel(void)
 }
 
 string
-w_flashbang_pmodel(void)
+w_flashbang_pmodel(player pl)
 {
 	return "models/p_flashbang.mdl";
 }

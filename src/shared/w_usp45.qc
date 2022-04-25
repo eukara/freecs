@@ -74,7 +74,7 @@ w_usp45_wmodel(void)
 }
 
 string
-w_usp45_pmodel(void)
+w_usp45_pmodel(player pl)
 {
 	return "models/p_usp.mdl";
 }
@@ -333,7 +333,7 @@ w_usp45_hudpic(player pl, int selected, vector pos, float a)
 weapon_t w_usp45 =
 {
 	.name		= "usp",
-	.id		= ITEM_USP45,
+	.id			= ITEM_USP45,
 	.slot		= 1,
 	.slot_pos	= 0,
 	.weight		= 5,

@@ -61,7 +61,7 @@ w_mac10_wmodel(void)
 }
 
 string
-w_mac10_pmodel(void)
+w_mac10_pmodel(player pl)
 {
 	return "models/p_mac10.mdl";
 }

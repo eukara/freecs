@@ -62,7 +62,7 @@ w_aug_wmodel(void)
 }
 
 string
-w_aug_pmodel(void)
+w_aug_pmodel(player pl)
 {
 	return "models/p_aug.mdl";
 }

@@ -60,7 +60,7 @@ w_para_wmodel(void)
 }
 
 string
-w_para_pmodel(void)
+w_para_pmodel(player pl)
 {
 	return "models/p_m249.mdl";
 }

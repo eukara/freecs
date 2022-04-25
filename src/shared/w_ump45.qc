@@ -61,7 +61,7 @@ w_ump45_wmodel(void)
 }
 
 string
-w_ump45_pmodel(void)
+w_ump45_pmodel(player pl)
 {
 	return "models/p_ump45.mdl";
 }

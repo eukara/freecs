@@ -94,7 +94,7 @@ w_deagle_wmodel(void)
 }
 
 string
-w_deagle_pmodel(void)
+w_deagle_pmodel(player pl)
 {
 	return "models/p_deagle.mdl";
 }

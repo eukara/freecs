@@ -60,7 +60,7 @@ w_scout_wmodel(void)
 }
 
 string
-w_scout_pmodel(void)
+w_scout_pmodel(player pl)
 {
 	return "models/p_scout.mdl";
 }

@@ -14,69 +14,6 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*
-====================
-UseWorkaround
-====================
-*/
-void
-UseWorkaround(entity eTarget)
-{
-	eActivator = self;
-	entity eOldSelf = self;
-	self = eTarget;
-	self.PlayerUse();
-	self = eOldSelf;
-}
-
-/*
-====================
-Player_UseDown
-====================
-*/
-void
-Player_UseDown(void)
-{
-	if (self.health <= 0) {
-		return;
-	} else if (!(self.flags & FL_USE_RELEASED)) {
-		return;
-	}
-	
-	vector vSource;
-
-	makevectors(self.v_angle);
-	vSource = self.origin + self.view_ofs;
-	traceline (vSource, vSource + (v_forward * 64), MOVE_EVERYTHING, self);
-
-	if (trace_ent.PlayerUse) {
-		self.flags &= ~FL_USE_RELEASED;
-		
-		UseWorkaround(trace_ent);
-
-		/* Some entities want to support Use spamming */
-		if (!(self.flags & FL_USE_RELEASED)) {
-			sound(self, CHAN_ITEM, "common/wpn_select.wav", 0.25, ATTN_IDLE);
-		}
-	} else {
-		sound(self, CHAN_ITEM, "common/wpn_denyselect.wav", 0.25, ATTN_IDLE);
-		self.flags &= ~FL_USE_RELEASED;
-	}
-}
-
-/*
-====================
-Player_UseUp
-====================
-*/
-void
-Player_UseUp(void)
-{
-	if (!(self.flags & FL_USE_RELEASED)) {
-		self.flags |= FL_USE_RELEASED;
-	}
-}
-
 void Weapons_Draw(player);
 
 void

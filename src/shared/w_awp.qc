@@ -95,7 +95,7 @@ w_awp_wmodel(void)
 }
 
 string
-w_awp_pmodel(void)
+w_awp_pmodel(player pl)
 {
 	return "models/p_awp.mdl";
 }

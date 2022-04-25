@@ -116,7 +116,7 @@ w_elites_wmodel(void)
 }
 
 string
-w_elites_pmodel(void)
+w_elites_pmodel(player pl)
 {
 	return "models/p_elites.mdl";
 }

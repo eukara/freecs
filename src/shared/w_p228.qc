@@ -62,7 +62,7 @@ w_p228_wmodel(void)
 }
 
 string
-w_p228_pmodel(void)
+w_p228_pmodel(player pl)
 {
 	return "models/p_p228.mdl";
 }

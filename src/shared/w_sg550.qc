@@ -60,7 +60,7 @@ w_sg550_wmodel(void)
 }
 
 string
-w_sg550_pmodel(void)
+w_sg550_pmodel(player pl)
 {
 	return "models/p_sg550.mdl";
 }

@@ -76,7 +76,7 @@ w_hegrenade_wmodel(void)
 }
 
 string
-w_hegrenade_pmodel(void)
+w_hegrenade_pmodel(player pl)
 {
 	return "models/p_hegrenade.mdl";
 }

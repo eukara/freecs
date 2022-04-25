@@ -61,7 +61,7 @@ w_fiveseven_wmodel(void)
 }
 
 string
-w_fiveseven_pmodel(void)
+w_fiveseven_pmodel(player pl)
 {
 	return "models/p_fiveseven.mdl";
 }

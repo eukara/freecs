@@ -104,7 +104,7 @@ w_xm1014_wmodel(void)
 }
 
 string
-w_xm1014_pmodel(void)
+w_xm1014_pmodel(player pl)
 {
 	return "models/p_xm1014.mdl";
 }

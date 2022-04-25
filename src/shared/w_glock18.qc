@@ -71,7 +71,7 @@ w_glock18_wmodel(void)
 }
 
 string
-w_glock18_pmodel(void)
+w_glock18_pmodel(player pl)
 {
 	return "models/p_glock18.mdl";
 }

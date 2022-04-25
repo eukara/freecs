@@ -76,7 +76,7 @@ w_smokegrenade_wmodel(void)
 }
 
 string
-w_smokegrenade_pmodel(void)
+w_smokegrenade_pmodel(player pl)
 {
 	return "models/p_smokegrenade.mdl";
 }

@@ -105,7 +105,7 @@ w_m3_wmodel(void)
 }
 
 string
-w_m3_pmodel(void)
+w_m3_pmodel(player pl)
 {
 	return "models/p_m3.mdl";
 }

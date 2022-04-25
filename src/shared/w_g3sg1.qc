@@ -60,7 +60,7 @@ w_g3sg1_wmodel(void)
 }
 
 string
-w_g3sg1_pmodel(void)
+w_g3sg1_pmodel(player pl)
 {
 	return "models/p_g3sg1.mdl";
 }
