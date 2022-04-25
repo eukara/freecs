@@ -38,6 +38,44 @@ FX_Impact_Init(void)
 	FX_IMPACT_SMOKE_GREY = particleeffectnum("fx_impact.smoke_grey");
 	FX_IMPACT_SMOKE_BROWN = particleeffectnum("fx_impact.smoke_brown");
 	FX_IMPACT_SPARK = particleeffectnum("fx_impact.spark");
+
+	precache_model("sprites/wall_puff1.spr");
+	precache_model("sprites/wall_puff2.spr");
+	precache_model("sprites/wall_puff3.spr");
+	precache_model("sprites/wall_puff4.spr");
+}
+#endif
+
+#ifdef CLIENT
+void
+Wallpuff_Travel(void)
+{
+	NSEntity sprite = (NSEntity)self;
+	vector newpos;
+
+	sprite.origin = sprite.origin_net;
+	newpos[0] = sprite.origin[0] + (sprite.velocity[0] * clframetime);
+	newpos[1] = sprite.origin[1] + (sprite.velocity[1] * clframetime);
+	newpos[2] = sprite.origin[2] + (sprite.velocity[2] * clframetime);
+	setorigin(sprite, newpos);
+	sprite.origin_net = newpos;
+
+	makevectors(view_angles);
+
+	/* some sine wave effect those puffs have for _some_ reason */
+	/* cursed but it'll do to add some variety */
+	if (num_for_edict(self) & 1)
+		sprite.origin -= (v_right * sin(self.frame1time*2)) * 8;
+	else
+		sprite.origin += (v_right * sin(self.frame1time*2)) * 8;
+
+	/* support for think/nextthink */
+	if (self.think && self.nextthink > 0.0f) {
+		if (self.nextthink < time) {
+			self.nextthink = 0.0f;
+			self.think();
+		}
+	}
 }
 #endif
 
@@ -95,7 +133,42 @@ FX_Impact(impactType_t iType, vector vecPos, vector vNormal)
 		default:
 			pointparticles(FX_IMPACT_SPARK, vecPos, vNormal, 1);
 			pointparticles(FX_IMPACT_BLACKBITS, vecPos, vNormal, 1);
-			pointparticles(FX_IMPACT_SMOKE_GREY, vecPos, vNormal, 1);
+
+			makevectors(getproperty(VF_CL_VIEWANGLES));
+			env_sprite eBlood = spawn(env_sprite);
+			setorigin(eBlood, vecPos + (v_forward * -1));
+			eBlood.origin_net = eBlood.origin;
+
+			int r = floor(random(0, 4));
+
+			switch (r) {
+			case 0:
+				setmodel(eBlood, "sprites/wall_puff1.spr");
+				break;
+			case 1:
+				setmodel(eBlood, "sprites/wall_puff2.spr");
+				break;
+			case 2:
+				setmodel(eBlood, "sprites/wall_puff3.spr");
+				break;
+			case 3:
+				setmodel(eBlood, "sprites/wall_puff4.spr");
+				break;
+			}
+			eBlood.drawmask = MASK_ENGINE;
+			eBlood.maxframe = modelframecount(eBlood.modelindex);
+			eBlood.loops = 0;
+			eBlood.scale = 0.25f;
+			eBlood.m_vecRenderColor = [1,1,1];
+			eBlood.m_iRenderMode = RM_ADDITIVE;
+			eBlood.m_flRenderAmt = 0.25f;
+			eBlood.framerate = 30;
+			eBlood.nextthink = time + 0.05f;
+			makevectors(vectoangles(vNormal));
+			eBlood.velocity = v_forward * 64;
+			eBlood.movetype = MOVETYPE_FLYMISSILE;
+			eBlood.customphysics = Wallpuff_Travel;
+
 			break;
 	}
 
