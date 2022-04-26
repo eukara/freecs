@@ -258,12 +258,18 @@ w_awp_reload(player pl)
 
 	Weapons_ViewAnimation(pl, AWP_RELOAD);
 
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::awp_mag, player::ammo_338mag, 10);
-#endif
-
 	pl.w_attack_next = 2.9f;
 	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::awp_mag, player::ammo_338mag, 10);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 float

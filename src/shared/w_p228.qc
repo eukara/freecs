@@ -171,13 +171,18 @@ w_p228_reload(player pl)
 
 	Weapons_ViewAnimation(pl, P228_RELOAD);
 
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::p228_mag, player::ammo_357sig, 13);
-	Weapons_UpdateAmmo(pl, pl.p228_mag, pl.ammo_357sig, -1);
-#endif
-
 	pl.w_attack_next = 2.7f;
 	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::p228_mag, player::ammo_357sig, 13);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void

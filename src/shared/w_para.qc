@@ -159,13 +159,18 @@ w_para_reload(player pl)
 
 	Weapons_ViewAnimation(pl, PARA_RELOAD);
 
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::para_mag, player::ammo_556mmbox, 100);
-	Weapons_UpdateAmmo(pl, pl.para_mag, pl.ammo_556mmbox, -1);
-#endif
-
 	pl.w_attack_next = 3.0f;
 	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::para_mag, player::ammo_556mmbox, 100);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void

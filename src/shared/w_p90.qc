@@ -163,13 +163,18 @@ w_p90_reload(player pl)
 
 	Weapons_ViewAnimation(pl, P90_RELOAD);
 
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::p90_mag, player::ammo_57mm, 50);
-	Weapons_UpdateAmmo(pl, pl.p90_mag, pl.ammo_57mm, -1);
-#endif
-
 	pl.w_attack_next = 3.3f;
 	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::p90_mag, player::ammo_57mm, 50);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void

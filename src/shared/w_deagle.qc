@@ -202,12 +202,18 @@ w_deagle_reload(player pl)
 	}
 	Weapons_ViewAnimation(pl, DEAGLE_RELOAD);
 
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::deagle_mag, player::ammo_50ae, 7);
-#endif
-
 	pl.w_attack_next = 2.1f;
 	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::deagle_mag, player::ammo_50ae, 7);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void

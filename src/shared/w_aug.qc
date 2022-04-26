@@ -186,13 +186,18 @@ w_aug_reload(player pl)
 		return;
 	}
 	Weapons_ViewAnimation(pl, AUG_RELOAD);
-
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::aug_mag, player::ammo_762mm, 30);
-#endif
-
 	pl.w_attack_next = 3.3f;
 	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::aug_mag, player::ammo_762mm, 30);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void

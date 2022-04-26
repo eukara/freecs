@@ -180,14 +180,18 @@ w_g3sg1_reload(player pl)
 		return;
 
 	Weapons_ViewAnimation(pl, G3SG1_RELOAD);
-
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::g3sg1_mag, player::ammo_762mm, 20);
-	Weapons_UpdateAmmo(pl, pl.g3sg1_mag, pl.ammo_762mm, -1);
-#endif
-
 	pl.w_attack_next = 4.6f;
 	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+	Weapons_ReloadWeapon(pl, player::g3sg1_mag, player::ammo_762mm, 20);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void

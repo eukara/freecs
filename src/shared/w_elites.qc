@@ -272,12 +272,18 @@ w_elites_reload(player pl)
 
 	Weapons_ViewAnimation(pl, ELITES_RELOAD);
 
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::elites_mag, player::ammo_9mm, 30);
-#endif
-
 	pl.w_attack_next = 4.6f;
 	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::elites_mag, player::ammo_9mm, 30);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void

@@ -165,13 +165,18 @@ w_mac10_reload(player pl)
 
 	Weapons_ViewAnimation(pl, MAC10_RELOAD);
 
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::mac10_mag, player::ammo_45acp, 30);
-	Weapons_UpdateAmmo(pl, pl.mac10_mag, pl.ammo_45acp, -1);
-#endif
-
 	pl.w_attack_next = 3.2f;
 	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::mac10_mag, player::ammo_45acp, 30);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void

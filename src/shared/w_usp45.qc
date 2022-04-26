@@ -242,11 +242,18 @@ w_usp45_reload(player pl)
 	else
 		Weapons_ViewAnimation(pl, USP45_RELOADUNSIL);
 
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::usp45_mag, player::ammo_45acp, 12);
-#endif
-
 	pl.w_attack_next = 2.5f;
+	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::usp45_mag, player::ammo_45acp, 12);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void

@@ -163,13 +163,18 @@ w_ump45_reload(player pl)
 
 	Weapons_ViewAnimation(pl, UMP45_RELOAD);
 
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::ump45_mag, player::ammo_45acp, 25);
-	Weapons_UpdateAmmo(pl, pl.ump45_mag, pl.ammo_45acp, -1);
-#endif
-
 	pl.w_attack_next = 3.5f;
 	pl.w_idle_next = pl.w_attack_next;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::ump45_mag, player::ammo_45acp, 25);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void

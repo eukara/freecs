@@ -236,13 +236,18 @@ w_glock18_reload(player pl)
 		break;
 	}
 
-#ifdef SERVER
-	Weapons_ReloadWeapon(pl, player::glock18_mag, player::ammo_9mm, 20);
-	Weapons_UpdateAmmo(pl, pl.glock18_mag, pl.ammo_9mm, -1);
-#endif
-
 	pl.w_attack_next = 2.1f;
 	pl.w_idle_next = pl.w_attack_next + 1.0f;
+
+#ifdef SERVER
+	static void w_weapon_reload_done(void) {
+		player pl = (player)self;
+		Weapons_ReloadWeapon(pl, player::glock18_mag, player::ammo_9mm, 20);
+	}
+
+	pl.think = w_weapon_reload_done;
+	pl.nextthink = time + pl.w_attack_next - 0.1f;
+#endif
 }
 
 void
