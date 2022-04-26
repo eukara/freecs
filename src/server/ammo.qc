@@ -320,7 +320,8 @@ Ammo_AutoFill(player pl)
 		return;
 	}
 
-	/* TODO: */
+	Ammo_BuyPrimary(pl, true);
+	Ammo_BuySecondary(pl, true);
 }
 
 void
