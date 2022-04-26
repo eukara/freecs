@@ -14,15 +14,17 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#define CS_CROSS_COLOR [0,1,0]
-#define CS_CROSS_ALPHA 1.0f
-
 var bool autocvar_cl_dynamiccrosshair = true;
 var float autocvar_cl_crosshair_distance = 4;
 var float autocvar_cl_crosshair_extralength = 0;
 var float autocvar_cl_crosshair_thickness = 1;
+var vector autocvar_cl_crosshair_color = [0,1,0];
+var float autocvar_cl_crosshair_alpha = 1.0f;
+var bool autocvar_cl_crosshair_additive = true;
 
-#define CROSS_THICKNESS autocvar_cl_crosshair_thickness
+#define CS_CROSS_COLOR autocvar_cl_crosshair_color
+#define CS_CROSS_ALPHA autocvar_cl_crosshair_alpha
+#define CS_CROSS_THICKNESS autocvar_cl_crosshair_thickness
 
 void
 Cstrike_DrawCrosshair(void)
@@ -77,21 +79,25 @@ Cstrike_DrawCrosshair(void)
 	hori1[0] -= (cross_dist + line_length);
 	hori2[0] += cross_dist;
 
-	if (CROSS_THICKNESS > 1) {
-		vert1[0] -= rint(CROSS_THICKNESS / 2);
-		vert2[0] -= rint(CROSS_THICKNESS / 2);
-		hori1[1] -= rint(CROSS_THICKNESS / 2);
-		hori2[1] -= rint(CROSS_THICKNESS / 2);
+	if (CS_CROSS_THICKNESS > 1) {
+		vert1[0] -= rint(CS_CROSS_THICKNESS / 2);
+		vert2[0] -= rint(CS_CROSS_THICKNESS / 2);
+		hori1[1] -= rint(CS_CROSS_THICKNESS / 2);
+		hori2[1] -= rint(CS_CROSS_THICKNESS / 2);
 	} else {
 		/* due to the crosshair not perfectly being centered we need to uncrook it */
 		hori2[0] += 1;
 		vert2[1] += 1;
 	}
 
-	drawfill(vert1, [CROSS_THICKNESS, line_length], CS_CROSS_COLOR, CS_CROSS_ALPHA, DRAWFLAG_ADDITIVE);
-	drawfill(vert2, [CROSS_THICKNESS, line_length], CS_CROSS_COLOR, CS_CROSS_ALPHA, DRAWFLAG_ADDITIVE);
-	drawfill(hori1, [line_length, CROSS_THICKNESS], CS_CROSS_COLOR, CS_CROSS_ALPHA, DRAWFLAG_ADDITIVE);
-	drawfill(hori2, [line_length, CROSS_THICKNESS], CS_CROSS_COLOR, CS_CROSS_ALPHA, DRAWFLAG_ADDITIVE);
+	drawfill(vert1, [CS_CROSS_THICKNESS, line_length], CS_CROSS_COLOR, \
+		CS_CROSS_ALPHA, autocvar_cl_crosshair_additive ? DRAWFLAG_ADDITIVE : DRAWFLAG_NORMAL);
+	drawfill(vert2, [CS_CROSS_THICKNESS, line_length], CS_CROSS_COLOR, \
+		CS_CROSS_ALPHA, autocvar_cl_crosshair_additive ? DRAWFLAG_ADDITIVE : DRAWFLAG_NORMAL);
+	drawfill(hori1, [line_length, CS_CROSS_THICKNESS], CS_CROSS_COLOR, \
+		CS_CROSS_ALPHA, autocvar_cl_crosshair_additive ? DRAWFLAG_ADDITIVE : DRAWFLAG_NORMAL);
+	drawfill(hori2, [line_length, CS_CROSS_THICKNESS], CS_CROSS_COLOR, \
+		CS_CROSS_ALPHA, autocvar_cl_crosshair_additive ? DRAWFLAG_ADDITIVE : DRAWFLAG_NORMAL);
 }
 
 /* AUG zoom uses this. so does the spectator cam */
