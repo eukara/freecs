@@ -158,7 +158,7 @@ CSMultiplayerRules::CreateCTBuyzones(void)
 
 	/* count the already existing CT zones. */
 	for (entity e = world; (e = find(e, ::classname, "func_buyzone"));) {
-		if (e.team == TEAM_CT) {
+		if (e.team == 0 || e.team == TEAM_CT) {
 			zones++;
 		}
 	}
@@ -182,7 +182,7 @@ CSMultiplayerRules::CreateTBuyzones(void)
 
 	/* count the already existing T zones. */
 	for (entity e = world; (e = find(e, ::classname, "func_buyzone"));) {
-		if (e.team == TEAM_T) {
+		if (e.team == 0 || e.team == TEAM_T) {
 			zones++;
 		}
 	}
@@ -231,7 +231,7 @@ CSMultiplayerRules::TimerBegin(float tleft, int mode)
 		g_cs_gamestate = GAME_ACTIVE;
 		CountPlayers();
 
-		if (g_total_players < 2)
+		if (g_cs_total_t <= 1 || g_cs_total_ct <= 1)
 			return;
 
 		/* if no players are present in the chosen team, force restart round */
@@ -352,7 +352,7 @@ CSMultiplayerRules::BuyingPossible(base_player pl)
 			return (0);
 		}
 	}
-	
+
 	if (pl.team == TEAM_VIP) {
 		centerprint(pl, "You are the VIP...\nYou can't buy anything!\n");
 		return (0);
