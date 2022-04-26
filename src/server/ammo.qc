@@ -48,61 +48,61 @@ ammoinfo_t cs_ammoinfo[11] = {
 	/* CALIBER_50AE */
 	{
 		.a_size = 7,
-		.a_max = 35,
+		.a_max = AMMO_MAX_50AE,
 		.price = 40
 	},
 	/* CALIBER_762MM */
 	{
 		.a_size = 30,
-		.a_max = 90,
+		.a_max = AMMO_MAX_762MM,
 		.price = 80
 	},
 	/* CALIBER_556MM */
 	{
 		.a_size = 30,
-		.a_max = 90,
+		.a_max = AMMO_MAX_556MM,
 		.price = 60
 	},
 	/* CALIBER_556MMBOX */
 	{
 		.a_size = 30,
-		.a_max = 200,
+		.a_max = AMMO_MAX_556MMBOX,
 		.price = 60
 	},
 	/* CALIBER_338MAG */
 	{
 		.a_size = 10,
-		.a_max = 30,
+		.a_max = AMMO_MAX_338MAG,
 		.price = 125
 	},
 	/* CALIBER_9MM */
 	{
 		.a_size = 30,
-		.a_max = 150,
+		.a_max = AMMO_MAX_9MM,
 		.price = 20
 	},
 	/* CALIBER_BUCKSHOT */
 	{
 		.a_size = 8,
-		.a_max = 32,
+		.a_max = AMMO_MAX_BUCKSHOT,
 		.price = 65
 	},
 	/* CALIBER_45ACP */
 	{
 		.a_size = 12,
-		.a_max = 100,
+		.a_max = AMMO_MAX_45ACP,
 		.price = 25
 	},
 	/* CALIBER_357SIG */
 	{
 		.a_size = 13,
-		.a_max = 52,
+		.a_max = AMMO_MAX_357SIG,
 		.price = 50
 	},
 	/* CALIBER_57MM */
 	{
 		.a_size = 50,
-		.a_max = 100,
+		.a_max = AMMO_MAX_57MM,
 		.price = 50
 	}
 };

@@ -517,13 +517,11 @@ player::SendEntity
 float
 player::SendEntity(entity ePEnt, float fChanged)
 {
-	if (health <= 0 && ePEnt != this) {
+	/* don't broadcast invisible players */
+	if (IsFakeSpectator() && ePEnt != this)
 		return (0);
-	}
-
-	if (clienttype(ePEnt) != CLIENTTYPE_REAL) {
+	if (!GetModelindex() && ePEnt != this)
 		return (0);
-	}
 
 	if (ePEnt != self) {
 		fChanged &= ~PLAYER_ITEMS;

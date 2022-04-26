@@ -130,8 +130,8 @@ armoury_entity::Touch(entity eToucher)
 		}
 
 		/* we may need a helmet though */
-		if (!(pl.items & ITEM_HELMET) && m_iID == 17) {
-			eToucher.items |= ITEM_HELMET;
+		if (!(pl.g_items & ITEM_HELMET) && m_iID == 17) {
+			pl.g_items |= ITEM_HELMET;
 			picked_up = true;
 		}
 
