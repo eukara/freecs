@@ -40,24 +40,32 @@ enum
 	BUY_NEITHER
 };
 
-class info_map_parameters
+class info_map_parameters:NSEntity
 {
 	void(void) info_map_parameters;
+
+	virtual void(string, string) SpawnKey;
 };
 
 void
-info_map_parameters::info_map_parameters(void)
+info_map_parameters::SpawnKey(string strKey, string strValue)
 {
-	for (int i = 1; i < (tokenize(__fullspawndata) - 1); i += 2) {
-		switch (argv(i)) {
-		case "buying":
-			g_cstrike_buying = stoi(argv(i+1));
-			break;
-		case "bombradius":
-			g_cstrike_bombradius = stof(argv(i+1));
-			break;
-		default:
-			break;
-		}
+	switch (strKey) {
+	case "buying":
+		g_cstrike_buying = stoi(strValue);
+		breakpoint();
+		break;
+	case "bombradius":
+		g_cstrike_bombradius = stof(strValue);
+		break;
+	default:
+		super::SpawnKey(strKey, strValue);
+		break;
 	}
+}
+
+void
+info_map_parameters:: info_map_parameters(void)
+{
+	super::NSEntity();
 }

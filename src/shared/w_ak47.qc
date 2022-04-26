@@ -234,7 +234,7 @@ w_ak47_release(player pl)
 float
 w_ak47_aimanim(player pl)
 {
-	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_AK47 : ANIM_AIM_AK47;
+	return pl.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_AK47 : ANIM_AIM_AK47;
 }
 
 void

@@ -189,7 +189,7 @@ w_xm1014_primary(player pl)
 		break;
 	}
 
-	if (self.flags & FL_CROUCHING)
+	if (pl.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_SHOTGUN, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_SHOTGUN, 0.45f);

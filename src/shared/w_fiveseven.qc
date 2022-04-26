@@ -138,7 +138,7 @@ w_fiveseven_primary(player pl)
 		}
 	}
 
-	if (self.flags & FL_CROUCHING)
+	if (pl.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_ONEHAND, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
@@ -202,7 +202,7 @@ w_fiveseven_release(player pl)
 float
 w_fiveseven_aimanim(player pl)
 {
-	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_ONEHAND : ANIM_AIM_ONEHAND;
+	return pl.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_ONEHAND : ANIM_AIM_ONEHAND;
 }
 
 void

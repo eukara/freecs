@@ -112,13 +112,13 @@ w_elites_updateammo(player pl)
 string
 w_elites_wmodel(void)
 {
-	return "models/w_elites.mdl";
+	return "models/w_elite.mdl";
 }
 
 string
 w_elites_pmodel(player pl)
 {
-	return "models/p_elites.mdl";
+	return "models/p_elite.mdl";
 }
 
 string
@@ -228,7 +228,7 @@ w_elites_primary(player pl)
 		}
 	}
 
-	if (self.flags & FL_CROUCHING) {
+	if (pl.flags & FL_CROUCHING) {
 		if (pl.mode_temp)
 			Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT2_DUALPISTOLS, 0.45f);
 		else
@@ -303,7 +303,7 @@ w_elites_release(player pl)
 float
 w_elites_aimanim(player pl)
 {
-	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_DUALPISTOLS : ANIM_AIM_DUALPISTOLS;
+	return pl.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_DUALPISTOLS : ANIM_AIM_DUALPISTOLS;
 }
 
 void

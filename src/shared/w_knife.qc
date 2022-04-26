@@ -102,7 +102,7 @@ w_knife_primary(player pl)
 		break;
 	}
 
-	if (self.flags & FL_CROUCHING)
+	if (pl.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_KNIFE, 1.33f);
 	else
 		Animation_PlayerTop(pl, ANIM_SHOOT_KNIFE, 1.33f);
@@ -144,7 +144,7 @@ w_knife_secondary(player pl)
 
 	Weapons_ViewAnimation(pl, KNIFE_STAB);
 
-	if (self.flags & FL_CROUCHING)
+	if (pl.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_KNIFE, 1.33f);
 	else
 		Animation_PlayerTop(pl, ANIM_SHOOT_KNIFE, 1.33f);
@@ -178,7 +178,7 @@ w_knife_secondary(player pl)
 float
 w_knife_aimanim(player pl)
 {
-	return self.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_KNIFE : ANIM_AIM_KNIFE;
+	return pl.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_KNIFE : ANIM_AIM_KNIFE;
 }
 
 int

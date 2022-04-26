@@ -163,7 +163,7 @@ w_m4a1_primary(player pl)
 		}
 	}
 
-	if (self.flags & FL_CROUCHING)
+	if (pl.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_RIFLE, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
@@ -248,7 +248,7 @@ w_m4a1_reload(player pl)
 float
 w_m4a1_aimanim(player pl)
 {
-	return w_ak47_aimanim(pl);
+	return pl.flags & FL_CROUCHING ? ANIM_CROUCH_AIM_RIFLE : ANIM_AIM_RIFLE;
 }
 
 void

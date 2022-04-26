@@ -138,7 +138,7 @@ w_p228_primary(player pl)
 		}
 	}
 
-	if (self.flags & FL_CROUCHING)
+	if (pl.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_ONEHAND, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);

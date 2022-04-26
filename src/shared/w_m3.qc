@@ -195,7 +195,7 @@ w_m3_primary(player pl)
 #else
 	TraceAttack_SetPenetrationPower(0); /* shotties can't wallbang?! */
 
-	if (self.flags & FL_CROUCHING)
+	if (pl.flags & FL_CROUCHING)
 		Animation_PlayerTop(pl, ANIM_SHOOT_SHOTGUN, 0.45f);
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_SHOTGUN, 0.45f);

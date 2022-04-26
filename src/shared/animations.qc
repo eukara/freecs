@@ -42,7 +42,7 @@ void Animation_Print(string sWow) {
 void
 Animation_TimerUpdate(player pl, float ftime)
 {
-	makevectors([0, pl.angles[1], 0]);
+	makevectors([0, pl.v_angle[1], 0]);
 
 	/* top animation is always just being incremented */
 	pl.anim_top_time += ftime;
@@ -67,7 +67,7 @@ depending on what the player is doing
 void
 Animation_PlayerUpdate(player pl)
 {
-	pl.basebone = gettagindex(self, "-- R shoulder outside");
+	pl.basebone = gettagindex(pl, "-- R shoulder outside");
 
 	if (pl.anim_top_delay <= 0.0f) {
 		pl.anim_top = Weapons_GetAim(pl, pl.activeweapon);
