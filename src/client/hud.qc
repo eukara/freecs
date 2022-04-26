@@ -660,6 +660,42 @@ HUD_WeaponPickupNotify(int w)
 	pSeatLocal->m_flPickupAlpha = 5.0f;
 }
 
+void
+HUD_PlayerNames(void)
+{
+	/* name tag in the bottom left */
+	vector vecSrc = pSeat->m_vecPredictedOrigin;
+	makevectors(view_angles);
+	traceline(vecSrc, vecSrc + (v_forward * 1024), MOVE_NORMAL, pSeat->m_ePlayer);
+
+	if (trace_ent.classname == "player" ) {
+		vector vecTextPos = g_hudmins + [16, g_hudres[1] - 64];
+		float player_num = trace_ent.entnum - 1;
+		float player_team = getplayerkeyfloat(player_num, "*team");
+		float own_team = getplayerkeyfloat(player_localnum, "*team");
+		string strAlliance;
+
+		if ((own_team == TEAM_CT || own_team == TEAM_VIP) && 
+			(player_team == TEAM_VIP || player_team == TEAM_CT)) {
+			strAlliance = "Friend";
+		} else {
+			if (own_team != player_team) {
+				strAlliance = "Enemy";
+			} else {
+				strAlliance = "Friend";
+			}
+		}
+
+		if (player_team == TEAM_T) {
+			Font_DrawText(vecTextPos, sprintf("%s%s: %s", \
+				HUD_GetChatColorHEX (TEAM_T), strAlliance, getplayerkeyvalue(player_num, "name")), FONT_CON);
+		} else if (getplayerkeyfloat(player_num, "*team") == TEAM_CT) {
+			Font_DrawText(vecTextPos, sprintf("%s%s: %s", \
+				HUD_GetChatColorHEX (TEAM_CT), strAlliance, getplayerkeyvalue(player_num, "name")), FONT_CON);
+		}
+	}
+}
+
 /* main entry */
 void
 HUD_Draw(void)
@@ -691,6 +727,8 @@ HUD_Draw(void)
 	HUD_DrawProgress();
 	HUD_DrawFlashlight();
 	Damage_Draw();
+
+	HUD_PlayerNames();
 }
 
 /* specatator main entry */
