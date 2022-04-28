@@ -63,10 +63,17 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 	/* update score-counter */
 	if (g_dmg_eTarget.flags & FL_CLIENT || g_dmg_eTarget.flags & FL_MONSTER)
 	if (g_dmg_eAttacker.flags & FL_CLIENT) {
-		if (g_dmg_eTarget == g_dmg_eAttacker || g_dmg_eTarget.team == g_dmg_eAttacker.team)
+		float vip = (g_dmg_eTarget.team == TEAM_VIP && g_dmg_eAttacker.team == TEAM_CT);
+
+		if (g_dmg_eTarget == g_dmg_eAttacker) {
 			g_dmg_eAttacker.frags--;
-		else
+		} else if (g_dmg_eTarget.team == g_dmg_eAttacker.team || vip) {
+			g_dmg_eAttacker.frags--;
+			Money_AddMoney((base_player)g_dmg_eAttacker, autocvar_fcs_penalty_teamkill);
+		} else {
 			g_dmg_eAttacker.frags++;
+			Money_AddMoney((base_player)g_dmg_eAttacker, autocvar_fcs_reward_kill);
+		}
 	}
 
 	Weapon_DropCurrentWeapon(targ);
@@ -792,11 +799,7 @@ CSMultiplayerRules::PlayerRespawn(base_player pp, int fTeam)
 	pl.velocity = [0,0,0];
 	pl.progress = 0.0f;
 	Weapons_SwitchBest(pl);
-
-	if (autocvar_fcs_fillweapons) {
-		Ammo_BuyPrimary(pl, TRUE);
-		Ammo_BuySecondary(pl, TRUE);
-	}
+	Ammo_AutoFill(pl);
 }
 
 void

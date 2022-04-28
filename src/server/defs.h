@@ -74,6 +74,7 @@ var int autocvar_fcs_nopickups = FALSE; /* Disable weapon items */
 var int autocvar_fcs_reward_kill = 300;
 var int autocvar_fcs_penalty_pain = -150;
 var int autocvar_fcs_penalty_kill = -1500;
+var int autocvar_fcs_penalty_teamkill = -3300;
 var int autocvar_fcs_maxmoney = 16000;
 var int autocvar_fcs_fillweapons = FALSE; /* This will automatically get ammo for the weapon you buy */
 var int autocvar_fcs_fix_bombtimer = TRUE; /* If true, the bomb-timer will dictate the round-end */

@@ -314,8 +314,10 @@ CSEv_AmmoBuyPrimary(void)
 }
 
 void
-Ammo_AutoFill(player pl)
+Ammo_AutoFill(base_player pp)
 {
+	player pl = (player)pp;
+
 	if (autocvar_fcs_fillweapons == FALSE) {
 		return;
 	}
