@@ -96,7 +96,7 @@ We've had people ask in the oddest of places for help, please don't do that.
 ## License
 ISC License
 
-Copyright (c) 2016-2021 Marco Hladik <marco@icculus.org>
+Copyright (c) 2016-2022 Marco Cawthorne <marco@icculus.org>
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
