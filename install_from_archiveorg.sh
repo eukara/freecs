@@ -5,7 +5,7 @@ get_cspack()
 	wget -nc -O $1.pk3 https://archive.org/download/hl-counter-strike/$2.zip
 }
 
-if [ "$1" == "-accumulative" ]; then
+if [ "$1" = "-accumulative" ]; then
 	get_cspack pak00 csbeta_1.0
 	get_cspack pak01 csbeta_1.0_b2premaps
 	get_cspack pak02 csbeta_1.0_to_1.1
