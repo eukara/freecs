@@ -14,7 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-class item_c4:CBaseEntity
+class item_c4:NSRenderableEntity
 {
 #ifdef SERVER
 	entity m_eUser;
@@ -136,7 +136,7 @@ item_c4::Logic(void)
 		Sound_Play(this, CHAN_VOICE, "weapon_c4bomb.explode");
 
 		for (entity e = world; (e = find(e, ::classname, "func_bomb_target"));) {
-			CBaseTrigger trigger = (CBaseTrigger)e;
+			NSEntity trigger = (NSEntity)e;
 			if (trigger.Trigger != __NULL__) {
 				trigger.Trigger(this, TRIG_TOGGLE);
 			}

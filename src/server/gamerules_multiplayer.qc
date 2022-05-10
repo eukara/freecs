@@ -493,7 +493,7 @@ CSMultiplayerRules::RestartRound(int iWipe)
 
 	// Respawn all the entities
 	for (entity a = world; (a = findfloat(a, ::identity, 1));) {
-		CBaseEntity caw = (CBaseEntity)a;
+		NSEntity caw = (NSEntity)a;
 		if (caw.classname != "player")
 			caw.Respawn();
 	}

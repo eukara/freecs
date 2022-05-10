@@ -48,7 +48,7 @@ info_hostage_rescue::touch(void)
 		return;
 	}
 
-	CBaseNPC hosty = (CBaseNPC)other;
+	NSTalkMonster hosty = (NSTalkMonster)other;
 
 	if (hosty.solid == SOLID_NOT) {
 		return;
@@ -68,8 +68,7 @@ info_hostage_rescue::touch(void)
 	 * bonus for every hostage they rescue, even if they lose the round. */
 	Money_QueTeamReward(TEAM_CT, 850);
 
-	CBaseEntity targa = (CBaseEntity)other;
-	targa.Hide();
+	hosty.Hide();
 }
 
 void

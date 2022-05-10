@@ -14,7 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-class item_suit:CBaseTrigger
+class item_suit:NSRenderableEntity
 {
 	void(void) item_suit;
 
@@ -67,6 +67,6 @@ item_suit::item_suit(void)
 {
 	model = "models/w_kevlar.mdl";
 	precache_sound("items/tr_kevlar.wav");
-	CBaseTrigger::CBaseTrigger();
+	NSRenderableEntity::NSRenderableEntity();
 	Respawn();
 }

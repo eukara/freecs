@@ -180,7 +180,7 @@ armoury_entity::SpawnKey(string strKey, string strValue)
 		}
 		break;
 	default:
-		CBaseEntity::SpawnKey(strKey, strValue);
+		super::SpawnKey(strKey, strValue);
 		break;
 	}
 }

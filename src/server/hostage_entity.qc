@@ -76,7 +76,7 @@ enum
 	HOSA_DEADTABLE3
 };
 
-class hostage_entity:CBaseNPC
+class hostage_entity:NSTalkMonster
 {
 	int m_iUsedOnce;
 
@@ -125,7 +125,7 @@ hostage_entity::OnPlayerUse(void)
 		m_iUsedOnce = TRUE;
 	}
 
-	CBaseNPC::OnPlayerUse();
+	NSTalkMonster::OnPlayerUse();
 }
 
 void
@@ -202,7 +202,7 @@ hostage_entity::Death(void)
 void
 hostage_entity::Respawn(void)
 {
-	CBaseNPC::Respawn();
+	NSTalkMonster::Respawn();
 	m_iFlags |= MONSTER_CANFOLLOW;
 	m_iUsedOnce = FALSE;
 	PlayerUse = OnPlayerUse;
@@ -240,6 +240,6 @@ hostage_entity::hostage_entity(void)
 	base_health = 100;
 	base_mins = [-16,-16,0];
 	base_maxs = [16,16,72];
-	CBaseNPC::CBaseNPC();
+	NSTalkMonster::NSTalkMonster();
 	g_cs_hostagestotal++;
 }
