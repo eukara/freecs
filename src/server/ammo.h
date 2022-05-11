@@ -1,3 +1,3 @@
-void Ammo_BuyPrimary(base_player pl, int free); 
-void Ammo_BuySecondary(base_player pl, int free); 
-void Ammo_AutoFill(base_player);
+void Ammo_BuyPrimary(NSClientPlayer pl, int free); 
+void Ammo_BuySecondary(NSClientPlayer pl, int free); 
+void Ammo_AutoFill(NSClientPlayer);

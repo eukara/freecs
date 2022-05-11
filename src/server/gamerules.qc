@@ -17,17 +17,17 @@
 var int autocvar_sv_playerkeepalive = TRUE;
 
 void
-CSGameRules::PlayerDeath(base_player pl)
+CSGameRules::PlayerDeath(NSClientPlayer pl)
 {
 }
 
 void
-CSGameRules::PlayerPain(base_player pl)
+CSGameRules::PlayerPain(NSClientPlayer pl)
 {
 }
 
 int
-CSGameRules::BuyingPossible(base_player pl)
+CSGameRules::BuyingPossible(NSClientPlayer pl)
 {
 	return (0);
 }
@@ -35,12 +35,12 @@ CSGameRules::BuyingPossible(base_player pl)
 /* we check what fields have changed over the course of the frame and network
  * only the ones that have actually changed */
 void
-CSGameRules::PlayerPostFrame(base_player pp)
+CSGameRules::PlayerPostFrame(NSClientPlayer pp)
 {
 }
 
 void
-CSGameRules::LevelDecodeParms(base_player pp)
+CSGameRules::LevelDecodeParms(NSClientPlayer pp)
 {
 	player pl = (player)pp;
 	g_landmarkpos[0] = parm1;
@@ -101,7 +101,7 @@ CSGameRules::LevelDecodeParms(base_player pp)
 }
 
 void
-CSGameRules::LevelChangeParms(base_player pp)
+CSGameRules::LevelChangeParms(NSClientPlayer pp)
 {
 	player pl = (player)pp;
 	parm1 = g_landmarkpos[0];
@@ -169,14 +169,14 @@ CSGameRules::LevelNewParms(void)
 }
 
 void
-CSGameRules::PlayerConnect(base_player pl)
+CSGameRules::PlayerConnect(NSClientPlayer pl)
 {
 	if (Plugin_PlayerConnect(pl) == FALSE)
 		bprint(PRINT_HIGH, sprintf("%s connected\n", pl.netname));
 }
 
 void
-CSGameRules::PlayerDisconnect(base_player pl)
+CSGameRules::PlayerDisconnect(NSClientPlayer pl)
 {
 	bprint(PRINT_HIGH, sprintf("%s disconnected\n", pl.netname));
 
@@ -190,7 +190,7 @@ CSGameRules::PlayerDisconnect(base_player pl)
 }
 
 void
-CSGameRules::PlayerKill(base_player pl)
+CSGameRules::PlayerKill(NSClientPlayer pl)
 {
 	Damage_Apply(pl, pl, pl.health, WEAPON_NONE, DMG_SKIP_ARMOR);
 }

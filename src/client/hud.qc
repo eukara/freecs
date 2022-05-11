@@ -116,12 +116,12 @@ HUD_DrawNums(float fNumber, vector vecPos, float fAlpha, vector vColor)
 
 /* timer */
 void
-HUD_DrawTimer(int spectator)
+HUD_DrawTimer(int NSClientSpectator)
 {
 	int iMinutes, iSeconds, iTens, iUnits;
 	vector time_pos;
 	
-	if (spectator) {
+	if (NSClientSpectator) {
 		time_pos = g_hudmins + [(g_hudres[0] / 2) - 62, 16];
 	} else {
 		time_pos = g_hudmins + [(g_hudres[0] / 2) - 62, g_hudres[1] - 42];
@@ -759,7 +759,7 @@ HUD_DrawSpectator(void)
 
 	/* tracking player box */
 	drawrect(g_hudmins + [(g_hudres[0] / 2) - 111, g_hudres[1]-26], [222,20], 1.0f, SPEC_SEP_COL, 1.0f, DRAWFLAG_NORMAL);
-	spectator spec = (spectator)pSeat->m_ePlayer;
+	NSClientSpectator spec = (NSClientSpectator)pSeat->m_ePlayer;
 	strText = strcat(HUD_GetChatColorHEX(getplayerkeyfloat(spec.spec_ent - 1, "*team")), getplayerkeyvalue(spec.spec_ent - 1, "name"));
 	vecPos[0] = g_hudmins[0] + (g_hudres[0] / 2) - (stringwidth(strText, TRUE, [12,12]) / 2);
 	vecPos[1] = g_hudres[1]-21;

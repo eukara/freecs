@@ -187,7 +187,7 @@ item_c4::item_c4(void)
 }
 
 void
-C4Bomb_Plant(base_player planter)
+C4Bomb_Plant(NSClientPlayer planter)
 {
 	item_c4 bomb = spawn(item_c4);
 	bomb.owner = planter;

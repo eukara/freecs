@@ -16,26 +16,26 @@
 
 class CSGameRules:CGameRules
 {
-	virtual void(base_player) PlayerConnect;
-	virtual void(base_player) PlayerDisconnect;
-	virtual void(base_player) PlayerKill;
-	virtual void(base_player) PlayerPostFrame;
-	virtual void(base_player) PlayerDeath;
-	virtual void(base_player) PlayerPain;
+	virtual void(NSClientPlayer) PlayerConnect;
+	virtual void(NSClientPlayer) PlayerDisconnect;
+	virtual void(NSClientPlayer) PlayerKill;
+	virtual void(NSClientPlayer) PlayerPostFrame;
+	virtual void(NSClientPlayer) PlayerDeath;
+	virtual void(NSClientPlayer) PlayerPain;
 
 	/* level transitions */
-	virtual void(base_player) LevelChangeParms;
-	virtual void(base_player) LevelDecodeParms;
+	virtual void(NSClientPlayer) LevelChangeParms;
+	virtual void(NSClientPlayer) LevelDecodeParms;
 	virtual void(void) LevelNewParms;
 
-	virtual int(base_player) BuyingPossible;
+	virtual int(NSClientPlayer) BuyingPossible;
 }; 
 
 class CSSingleplayerRules:CSGameRules
 {
 	/* client */
-	virtual void(base_player) PlayerSpawn;
-	virtual void(base_player) PlayerDeath;
+	virtual void(NSClientPlayer) PlayerSpawn;
+	virtual void(NSClientPlayer) PlayerDeath;
 };
 
 class CSMultiplayerRules:CSGameRules
@@ -47,12 +47,12 @@ class CSMultiplayerRules:CSGameRules
 
 	virtual void(void) InitPostEnts;
 	virtual void(void) FrameStart;
-	virtual void(base_player) PlayerDisconnect;
-	virtual void(base_player) PlayerSpawn;
-	virtual void(base_player) PlayerPreFrame;
-	virtual void(base_player) PlayerDeath;
+	virtual void(NSClientPlayer) PlayerDisconnect;
+	virtual void(NSClientPlayer) PlayerSpawn;
+	virtual void(NSClientPlayer) PlayerPreFrame;
+	virtual void(NSClientPlayer) PlayerDeath;
 	virtual int(int) MaxItemPerSlot;
-	virtual float(base_player, string) ConsoleCommand;
+	virtual float(NSClientPlayer, string) ConsoleCommand;
 
 	/* CS specific */
 	virtual void(void) CreateRescueZones;
@@ -61,21 +61,21 @@ class CSMultiplayerRules:CSGameRules
 	virtual void(float, int) TimerBegin;
 	virtual void(void) TimerUpdate;
 
-	virtual int(base_player) BuyingPossible;
+	virtual int(NSClientPlayer) BuyingPossible;
 	virtual void(int, int, int) RoundOver;
 	virtual void(int) RestartRound;
-	virtual void(base_player) DeathCheck;
-	virtual void(base_player) MakeBomber;
-	virtual void(base_player) MakeVIP;
+	virtual void(NSClientPlayer) DeathCheck;
+	virtual void(NSClientPlayer) MakeBomber;
+	virtual void(NSClientPlayer) MakeVIP;
 	virtual void(void) CountPlayers;
 	virtual void(void) SwitchTeams;
 	virtual void(void) TimeOut;
 	virtual float(void) IsTeamPlay;
 
-	virtual void(base_player) PlayerClearWeaponry;
-	virtual void(base_player, int) PlayerMakePlayable;
-	virtual void(base_player) PlayerMakeSpectator;
-	virtual void(base_player, int) PlayerRespawn;
+	virtual void(NSClientPlayer) PlayerClearWeaponry;
+	virtual void(NSClientPlayer, int) PlayerMakePlayable;
+	virtual void(NSClientPlayer) PlayerMakeSpectator;
+	virtual void(NSClientPlayer, int) PlayerRespawn;
 	virtual entity(float) PlayerFindSpawn;
 };
 

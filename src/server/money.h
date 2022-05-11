@@ -17,9 +17,9 @@
 int g_cs_moneyreward_ct;
 int g_cs_moneyreward_t;
 
-void Money_AddMoney(base_player, int);
+void Money_AddMoney(NSClientPlayer, int);
 void Money_QueTeamReward(int, int);
-void Money_GiveTeamReward(base_player);
+void Money_GiveTeamReward(NSClientPlayer);
 void Money_ResetTeamReward(void);
 void Money_HandleRoundReward(int)
 void Money_ResetRoundReward(void);

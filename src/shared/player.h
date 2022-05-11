@@ -41,7 +41,7 @@ enumflags
 	PLAYER_CSSHOTTIME
 };
 
-class player:base_player
+class player:NSClientPlayer
 {
 	int ingame;
 
@@ -151,7 +151,7 @@ player::ReceiveEntity
 void
 player::ReceiveEntity(float new, float fl)
 {
-	base_player::ReceiveEntity(new, fl);
+	NSClientPlayer::ReceiveEntity(new, fl);
 
 	/* animation */
 	if (fl & PLAYER_TOPFRAME) {
@@ -238,7 +238,7 @@ so we can roll them back later.
 void
 player::PredictPreFrame(void)
 {
-	base_player::PredictPreFrame();
+	NSClientPlayer::PredictPreFrame();
 
 	SAVE_STATE(usp45_mag);
 	SAVE_STATE(glock18_mag);
@@ -302,7 +302,7 @@ Where we roll back our values to the ones last sent/verified by the server.
 void
 player::PredictPostFrame(void)
 {
-	base_player::PredictPostFrame();
+	NSClientPlayer::PredictPostFrame();
 
 	ROLL_BACK(usp45_mag);
 	ROLL_BACK(glock18_mag);
@@ -360,7 +360,7 @@ player::PredictPostFrame(void)
 void
 player::EvaluateEntity(void)
 {
-	base_player::EvaluateEntity();
+	NSClientPlayer::EvaluateEntity();
 
 	/* animation */
 	if (anim_bottom_net != anim_bottom || anim_bottom_time != anim_bottom_time_net)
@@ -535,7 +535,7 @@ player::SendEntity(entity ePEnt, float fChanged)
 	WriteByte(MSG_ENTITY, ENT_PLAYER);
 	WriteFloat(MSG_ENTITY, fChanged);
 
-	base_player::SendEntity(ePEnt, fChanged);
+	NSClientPlayer::SendEntity(ePEnt, fChanged);
 
 	if (fChanged & PLAYER_TOPFRAME) {
 		WriteByte(MSG_ENTITY, anim_top);

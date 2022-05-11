@@ -171,7 +171,7 @@ Ammo_BuyCaliber(player pl, int cal, int free)
 
 
 void
-Ammo_BuySecondary(base_player pp, int free)
+Ammo_BuySecondary(NSClientPlayer pp, int free)
 {
 	int cal = 0;
 	int ps = 0;
@@ -228,7 +228,7 @@ CSEv_AmmoBuySecondary(void)
 }
 
 void
-Ammo_BuyPrimary(base_player pp, int free)
+Ammo_BuyPrimary(NSClientPlayer pp, int free)
 {
 	int ps = 0;
 	int cal = 0;
@@ -314,7 +314,7 @@ CSEv_AmmoBuyPrimary(void)
 }
 
 void
-Ammo_AutoFill(base_player pp)
+Ammo_AutoFill(NSClientPlayer pp)
 {
 	player pl = (player)pp;
 

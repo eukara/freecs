@@ -25,14 +25,14 @@ CSMultiplayerRules::MaxItemPerSlot(int slot)
 }
 
 void
-CSMultiplayerRules::PlayerDisconnect(base_player pl)
+CSMultiplayerRules::PlayerDisconnect(NSClientPlayer pl)
 {
 	if (health > 0)
 		PlayerDeath(pl);
 }
 
 void
-CSMultiplayerRules::PlayerDeath(base_player pl)
+CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 {
 	player targ = (player)g_dmg_eTarget;
 	player attk = (player)g_dmg_eAttacker;
@@ -69,10 +69,10 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 			g_dmg_eAttacker.frags--;
 		} else if (g_dmg_eTarget.team == g_dmg_eAttacker.team || vip) {
 			g_dmg_eAttacker.frags--;
-			Money_AddMoney((base_player)g_dmg_eAttacker, autocvar_fcs_penalty_teamkill);
+			Money_AddMoney((NSClientPlayer)g_dmg_eAttacker, autocvar_fcs_penalty_teamkill);
 		} else {
 			g_dmg_eAttacker.frags++;
-			Money_AddMoney((base_player)g_dmg_eAttacker, autocvar_fcs_reward_kill);
+			Money_AddMoney((NSClientPlayer)g_dmg_eAttacker, autocvar_fcs_reward_kill);
 		}
 	}
 
@@ -90,12 +90,7 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 	targ.gflags &= ~GF_FLASHLIGHT;
 
 	/* gamerule stuff */
-	static void GoSpec(void) {
-		spawnfunc_spectator();
-	}
-	targ.think = GoSpec;
-	targ.nextthink = time;
-	targ.classname = "player";
+	targ.MakeTempSpectator();
 	forceinfokey(targ, "*dead", "1"); 
 	forceinfokey(targ, "*team", ftos(targ.team));
 	CountPlayers();
@@ -110,7 +105,7 @@ CSMultiplayerRules::PlayerDeath(base_player pl)
 }
 
 void
-CSMultiplayerRules::PlayerPreFrame(base_player pl)
+CSMultiplayerRules::PlayerPreFrame(NSClientPlayer pl)
 {
 	player pp = (player)pl;
 
@@ -347,7 +342,7 @@ Checks if it is possible for players to buy anything
 =================
 */
 int
-CSMultiplayerRules::BuyingPossible(base_player pl)
+CSMultiplayerRules::BuyingPossible(NSClientPlayer pl)
 {
 	if (pl.health <= 0) {
 		return (0);
@@ -389,14 +384,14 @@ CSMultiplayerRules::BuyingPossible(base_player pl)
 }
 
 void
-CSMultiplayerRules::MakeBomber(base_player pl)
+CSMultiplayerRules::MakeBomber(NSClientPlayer pl)
 {
 	Weapons_AddItem(pl, WEAPON_C4BOMB, -1);
 	centerprint(pl, "You have the bomb!\nFind the target zone or DROP\nthe bomb for another Terrorist.");
 }
 
 void
-CSMultiplayerRules::MakeVIP(base_player pl)
+CSMultiplayerRules::MakeVIP(NSClientPlayer pl)
 {
 	pl.team = TEAM_VIP;
 	PlayerRespawn(pl, pl.team);
@@ -647,7 +642,7 @@ CSMultiplayerRules::CountPlayers(void)
 }
 
 void
-CSMultiplayerRules::DeathCheck(base_player pl)
+CSMultiplayerRules::DeathCheck(NSClientPlayer pl)
 {
 	/* hack so that we can kill rounds */
 	if ((g_cs_alive_t == 0) && (g_cs_alive_ct == 0)) {
@@ -738,7 +733,7 @@ Called whenever a player survived a round and needs a basic respawn.
 =================
 */
 void
-CSMultiplayerRules::PlayerRespawn(base_player pp, int fTeam)
+CSMultiplayerRules::PlayerRespawn(NSClientPlayer pp, int fTeam)
 {
 	player pl = (player)pp;
 
@@ -803,7 +798,7 @@ CSMultiplayerRules::PlayerRespawn(base_player pp, int fTeam)
 }
 
 void
-CSMultiplayerRules::PlayerClearWeaponry(base_player pp)
+CSMultiplayerRules::PlayerClearWeaponry(NSClientPlayer pp)
 {
 	player pl = (player)pp;
 
@@ -872,7 +867,7 @@ MakePlayable(entity targ)
 }
 
 void
-CSMultiplayerRules::PlayerMakePlayable(base_player pp, int chara)
+CSMultiplayerRules::PlayerMakePlayable(NSClientPlayer pp, int chara)
 {
 	player pl = (player)pp;
 	/* spectator */
@@ -914,7 +909,7 @@ Force the player to become an observer.
 =================
 */
 void
-CSMultiplayerRules::PlayerMakeSpectator(base_player pp)
+CSMultiplayerRules::PlayerMakeSpectator(NSClientPlayer pp)
 {
 	player pl = (player)pp;
 	pl.MakeTempSpectator();
@@ -929,7 +924,7 @@ Called on the client first joining the server.
 =================
 */
 void
-CSMultiplayerRules::PlayerSpawn(base_player pl)
+CSMultiplayerRules::PlayerSpawn(NSClientPlayer pl)
 {
 	/* immediately put us into spectating mode */
 	PlayerMakeSpectator(pl);
@@ -951,7 +946,7 @@ CSMultiplayerRules_BotJoin(void)
 }
 
 float
-CSMultiplayerRules::ConsoleCommand(base_player pp, string cmd)
+CSMultiplayerRules::ConsoleCommand(NSClientPlayer pp, string cmd)
 {
 	tokenize(cmd);
 

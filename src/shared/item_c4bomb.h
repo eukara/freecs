@@ -1,5 +1,5 @@
 #ifdef SERVER
-void C4Bomb_Plant(base_player); 
+void C4Bomb_Plant(NSClientPlayer); 
 #endif
 
 #ifdef CLIENT
