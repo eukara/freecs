@@ -156,13 +156,13 @@ FX_Impact(impactType_t iType, vector vecPos, vector vNormal)
 				break;
 			}
 			eBlood.drawmask = MASK_ENGINE;
-			eBlood.maxframe = modelframecount(eBlood.modelindex);
-			eBlood.loops = 0;
-			eBlood.scale = 0.25f;
-			eBlood.m_vecRenderColor = [1,1,1];
-			eBlood.m_iRenderMode = RM_ADDITIVE;
-			eBlood.m_flRenderAmt = 0.25f;
-			eBlood.framerate = 30;
+			eBlood.SetMaxFrame(modelframecount(eBlood.modelindex));
+			eBlood.SetLoopFlag(false);
+			eBlood.SetScale(0.25f);
+			eBlood.SetRenderColor([1,1,1]);
+			eBlood.SetRenderMode(RM_ADDITIVE);
+			eBlood.SetRenderAmt(0.25f);
+			eBlood.SetFramerate(30);
 			eBlood.nextthink = time + 0.05f;
 			makevectors(vectoangles(vNormal));
 			eBlood.velocity = v_forward * 64;

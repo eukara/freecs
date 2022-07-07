@@ -7,7 +7,6 @@
 #define CSTRIKE
 #define BULLETPENETRATION
 #define BULLETPATTERNS
-#define GS_RENDERFX
 
 #includelist
 ../../../src/shared/fteextensions.qc
