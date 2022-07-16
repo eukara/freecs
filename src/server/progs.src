@@ -50,7 +50,6 @@ ammo.qc
 buy.qc
 server.qc
 ../../../base/src/server/damage.qc
-rules.qc
 ../../../valve/src/server/flashlight.qc
 ../../../base/src/server/modelevent.qc
 

@@ -14,8 +14,6 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-var int autocvar_sv_playerkeepalive = TRUE;
-
 void
 CSGameRules::PlayerDeath(NSClientPlayer pl)
 {
@@ -26,10 +24,10 @@ CSGameRules::PlayerPain(NSClientPlayer pl)
 {
 }
 
-int
+bool
 CSGameRules::BuyingPossible(NSClientPlayer pl)
 {
-	return (0);
+	return (false);
 }
 
 /* we check what fields have changed over the course of the frame and network

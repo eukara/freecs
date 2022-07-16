@@ -28,7 +28,7 @@ class CSGameRules:CGameRules
 	virtual void(NSClientPlayer) LevelDecodeParms;
 	virtual void(void) LevelNewParms;
 
-	virtual int(NSClientPlayer) BuyingPossible;
+	virtual bool(NSClientPlayer) BuyingPossible;
 }; 
 
 class CSSingleplayerRules:CSGameRules
@@ -52,7 +52,7 @@ class CSMultiplayerRules:CSGameRules
 	virtual void(NSClientPlayer) PlayerPreFrame;
 	virtual void(NSClientPlayer) PlayerDeath;
 	virtual int(int) MaxItemPerSlot;
-	virtual float(NSClientPlayer, string) ConsoleCommand;
+	virtual bool(NSClientPlayer, string) ConsoleCommand;
 
 	/* CS specific */
 	virtual void(void) CreateRescueZones;
@@ -61,7 +61,7 @@ class CSMultiplayerRules:CSGameRules
 	virtual void(float, int) TimerBegin;
 	virtual void(void) TimerUpdate;
 
-	virtual int(NSClientPlayer) BuyingPossible;
+	virtual bool(NSClientPlayer) BuyingPossible;
 	virtual void(int, int, int) RoundOver;
 	virtual void(int) RestartRound;
 	virtual void(NSClientPlayer) DeathCheck;
@@ -70,7 +70,7 @@ class CSMultiplayerRules:CSGameRules
 	virtual void(void) CountPlayers;
 	virtual void(void) SwitchTeams;
 	virtual void(void) TimeOut;
-	virtual float(void) IsTeamPlay;
+	virtual bool(void) IsTeamplay;
 
 	virtual void(NSClientPlayer) PlayerClearWeaponry;
 	virtual void(NSClientPlayer, int) PlayerMakePlayable;
