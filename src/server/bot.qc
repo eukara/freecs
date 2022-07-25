@@ -42,7 +42,7 @@ csbot::RunToConfront(void)
 	ChatSayTeam("Going to run to the enemy spawn!");
 
 	if (t)
-		route_calculate(this, t.origin, 0, Bot_RouteCB);
+		RouteToPosition(t.origin);
 }
 /* go to the planted bomb */
 void
@@ -50,8 +50,11 @@ csbot::RunToBomb(void)
 {
 	entity e = world;
 	e = find(e, ::model, "models/w_c4bomb.mdl");
-	route_calculate(this, e.origin, 0, Bot_RouteCB);
-	ChatSayTeam("Going to run to the bomb!");
+
+	if (e) {
+		RouteToPosition(e.origin);
+		ChatSayTeam("Going to run to the bomb!");
+	}
 }
 
 /* go to a random bombsite */
@@ -69,7 +72,7 @@ csbot::RunToBombsite(void)
 	vecTarget[1] = e.absmin[1] + (0.5 * (e.absmax[1] - e.absmin[1]));
 	vecTarget[2] = e.absmin[2] + (0.5 * (e.absmax[2] - e.absmin[2]));
 
-	route_calculate(this, vecTarget, 0, Bot_RouteCB);
+	RouteToPosition(vecTarget);
 	ChatSayTeam("Going to run to a bomb site!");
 }
 
@@ -80,7 +83,7 @@ csbot::RunToHostages(void)
 
 	e = find(e, ::classname, "hostage_entity");
 
-	route_calculate(this, e.origin, 0, Bot_RouteCB);
+	RouteToPosition(e.origin);
 	ChatSayTeam("Going to run to the hostages!");
 }
 

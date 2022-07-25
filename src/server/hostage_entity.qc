@@ -89,7 +89,14 @@ class hostage_entity:NSTalkMonster
 	virtual int(void) AnimIdle;
 	virtual int(void) AnimWalk;
 	virtual int(void) AnimRun;
+	//virtual float(void) GetWalkSpeed;
 };
+
+float
+hostage_entity::GetWalkSpeed(void)
+{
+	return 128;
+}
 
 int
 hostage_entity::AnimIdle(void)
@@ -131,7 +138,7 @@ hostage_entity::OnPlayerUse(void)
 void
 hostage_entity::Pain(void)
 {
-	if (style == MONSTER_DEAD)
+	if (IsAlive() == false)
 		return;
 
 	switch (g_dmg_iHitBody) {
@@ -167,7 +174,7 @@ hostage_entity::Death(void)
 {
 	WarnAllies();
 
-	if (style != MONSTER_DEAD) {
+	if (IsAlive() == true) {
 		switch (g_dmg_iHitBody) {
 		case BODY_HEAD:
 			SetFrame(HOSA_DIE_HEADSHOT);
@@ -191,12 +198,11 @@ hostage_entity::Death(void)
 	}
 
 	/* HACK: don't let them gib */
-	health = 0;
+	SetHealth(0);
 
 	/* now mark our state as 'dead' */
 	super::Death();
 	SetSolid(SOLID_NOT);
-	health = 0;
 }
 
 void
