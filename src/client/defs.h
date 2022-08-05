@@ -50,6 +50,11 @@ var string g_cs_scope6;
 var string g_cs_scope7;
 var string g_cs_scope8;
 
+/* muzzleflash indices */
+var int MUZZLE_SMALL;
+var int MUZZLE_RIFLE;
+var int MUZZLE_WEIRD;
+
 struct
 {
 	/* hud.c */
