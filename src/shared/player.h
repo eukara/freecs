@@ -22,8 +22,7 @@ enumflags
 	PLAYER_AMMO1,
 	PLAYER_AMMO2,
 	PLAYER_AMMO3,
-	PLAYER_CSSHOT,
-	PLAYER_CSSHOTTIME
+	PLAYER_CSTIMERS
 };
 
 class player:NSClientPlayer
@@ -78,7 +77,7 @@ class player:NSClientPlayer
 	PREDICTED_FLOAT(anim_top);
 	PREDICTED_FLOAT(anim_top_time);
 	PREDICTED_FLOAT(anim_top_delay);
-	PREDICTED_FLOAT(anim_bottom); 
+	PREDICTED_FLOAT(anim_bottom);
 	PREDICTED_FLOAT(anim_bottom_time);
 
 	virtual float(void) Physics_MaxSpeed;
@@ -134,77 +133,59 @@ player::ReceiveEntity
 =================
 */
 void
-player::ReceiveEntity(float new, float fl)
+player::ReceiveEntity(float flIsNew, float flChanged)
 {
-	NSClientPlayer::ReceiveEntity(new, fl);
+	NSClientPlayer::ReceiveEntity(flIsNew, flChanged);
 
 	/* animation */
-	if (fl & PLAYER_TOPFRAME) {
-		anim_top = readbyte();
-		anim_top_time = readfloat();
-		anim_top_delay = readfloat();
-	}
-	if (fl & PLAYER_BOTTOMFRAME) {
-		anim_bottom = readbyte();
-		anim_bottom_time = readfloat();
-	}
+	READENTITY_BYTE(anim_top, PLAYER_TOPFRAME)
+	READENTITY_FLOAT(anim_top_time, PLAYER_TOPFRAME)
+	READENTITY_FLOAT(anim_top_delay, PLAYER_TOPFRAME)
+	READENTITY_BYTE(anim_bottom, PLAYER_BOTTOMFRAME)
+	READENTITY_FLOAT(anim_bottom_time, PLAYER_BOTTOMFRAME)
+	READENTITY_BYTE(usp45_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(glock18_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(deagle_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(p228_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(elites_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(fiveseven_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(m3_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(xm1014_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(mp5_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(p90_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(ump45_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(mac10_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(tmp_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(ak47_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(sg552_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(m4a1_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(aug_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(scout_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(awp_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(g3sg1_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(sg550_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(para_mag, PLAYER_AMMO1)
+	READENTITY_BYTE(ammo_50ae, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_762mm, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_556mm, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_556mmbox, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_338mag, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_9mm, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_buckshot, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_45acp, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_357sig, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_57mm, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_hegrenade, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_fbgrenade, PLAYER_AMMO2)
+	READENTITY_BYTE(ammo_smokegrenade, PLAYER_AMMO2)
+	READENTITY_BYTE(mode_usp45, PLAYER_AMMO3)
+	READENTITY_BYTE(mode_m4a1, PLAYER_AMMO3)
+	READENTITY_BYTE(mode_glock18, PLAYER_AMMO3)
+	READENTITY_BYTE(mode_temp, PLAYER_AMMO3)
+	READENTITY_BYTE(cs_shotmultiplier, PLAYER_CSTIMERS)
+	READENTITY_FLOAT(cs_shottime, PLAYER_CSTIMERS)
 
-	if (fl & PLAYER_AMMO1) {
-		usp45_mag = readbyte();
-		glock18_mag = readbyte();
-		deagle_mag = readbyte();
-		p228_mag = readbyte();
-		elites_mag = readbyte();
-		fiveseven_mag = readbyte();
-		m3_mag = readbyte();
-		xm1014_mag = readbyte();
-		mp5_mag = readbyte();
-		p90_mag = readbyte();
-		ump45_mag = readbyte();
-		mac10_mag = readbyte();
-		tmp_mag = readbyte();
-		ak47_mag = readbyte();
-		sg552_mag = readbyte();
-		m4a1_mag = readbyte();
-		aug_mag = readbyte();
-		scout_mag = readbyte();
-		awp_mag = readbyte();
-		g3sg1_mag = readbyte();
-		sg550_mag = readbyte();
-		para_mag = readbyte();
-	}
-
-	if (fl & PLAYER_AMMO2) {
-		ammo_50ae = readbyte();
-		ammo_762mm = readbyte();
-		ammo_556mm = readbyte();
-		ammo_556mmbox = readbyte();
-		ammo_338mag = readbyte();
-		ammo_9mm = readbyte();
-		ammo_buckshot = readbyte();
-		ammo_45acp = readbyte();
-		ammo_357sig = readbyte();
-		ammo_57mm = readbyte();
-		ammo_hegrenade = readbyte();
-		ammo_fbgrenade = readbyte();
-		ammo_smokegrenade = readbyte();
-	}
-
-	if (fl & PLAYER_AMMO3) {
-		mode_usp45 = readbyte();
-		mode_m4a1 = readbyte();
-		mode_glock18 = readbyte();
-		mode_temp = readbyte();
-	}
-
-	if (fl & PLAYER_CSSHOT) {
-		cs_shotmultiplier = readbyte();
-	}
-	if (fl & PLAYER_CSSHOTTIME) {
-		cs_shottime = readfloat();
-	}
-
-	if (fl & PLAYER_AMMO1 || fl & PLAYER_AMMO2 || fl & PLAYER_AMMO3) {
+	if (flChanged & PLAYER_AMMO1 || flChanged & PLAYER_AMMO2 || flChanged & PLAYER_AMMO3) {
 		Weapons_AmmoUpdate(this);
 		HUD_AmmoNotify_Check(this);
 	}
@@ -247,7 +228,6 @@ player::PredictPreFrame(void)
 	SAVE_STATE(g3sg1_mag);
 	SAVE_STATE(sg550_mag);
 	SAVE_STATE(para_mag);
-
 	SAVE_STATE(ammo_50ae);
 	SAVE_STATE(ammo_762mm);
 	SAVE_STATE(ammo_556mm);
@@ -261,19 +241,16 @@ player::PredictPreFrame(void)
 	SAVE_STATE(ammo_hegrenade);
 	SAVE_STATE(ammo_fbgrenade);
 	SAVE_STATE(ammo_smokegrenade);
-
 	SAVE_STATE(mode_usp45);
 	SAVE_STATE(mode_m4a1);
 	SAVE_STATE(mode_glock18);
 	SAVE_STATE(mode_temp);
-
 	SAVE_STATE(cs_shotmultiplier);
 	SAVE_STATE(cs_shottime);
-
 	SAVE_STATE(anim_top);
 	SAVE_STATE(anim_top_time);
 	SAVE_STATE(anim_top_delay);
-	SAVE_STATE(anim_bottom); 
+	SAVE_STATE(anim_bottom);
 	SAVE_STATE(anim_bottom_time);
 }
 
@@ -311,7 +288,6 @@ player::PredictPostFrame(void)
 	ROLL_BACK(g3sg1_mag);
 	ROLL_BACK(sg550_mag);
 	ROLL_BACK(para_mag);
-
 	ROLL_BACK(ammo_50ae);
 	ROLL_BACK(ammo_762mm);
 	ROLL_BACK(ammo_556mm);
@@ -325,19 +301,16 @@ player::PredictPostFrame(void)
 	ROLL_BACK(ammo_hegrenade);
 	ROLL_BACK(ammo_fbgrenade);
 	ROLL_BACK(ammo_smokegrenade);
-
 	ROLL_BACK(mode_usp45);
 	ROLL_BACK(mode_m4a1);
 	ROLL_BACK(mode_glock18);
 	ROLL_BACK(mode_temp);
-
 	ROLL_BACK(cs_shotmultiplier);
 	ROLL_BACK(cs_shottime);
-
 	ROLL_BACK(anim_top);
 	ROLL_BACK(anim_top_time);
 	ROLL_BACK(anim_top_delay);
-	ROLL_BACK(anim_bottom); 
+	ROLL_BACK(anim_bottom);
 	ROLL_BACK(anim_bottom_time);
 }
 
@@ -347,151 +320,52 @@ player::EvaluateEntity(void)
 {
 	NSClientPlayer::EvaluateEntity();
 
-	/* animation */
-	if (anim_bottom_net != anim_bottom || anim_bottom_time != anim_bottom_time_net)
-		SendFlags |= PLAYER_BOTTOMFRAME;
-	if (anim_top_net != anim_top || anim_top_time != anim_top_time_net || anim_top_delay != anim_top_delay_net)
-		SendFlags |= PLAYER_TOPFRAME;
-
-	/* ammo 1 type updates */
-	if (ATTR_CHANGED(glock18_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(usp45_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(glock18_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(deagle_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(p228_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(elites_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(fiveseven_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(m3_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(xm1014_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(mp5_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(p90_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(ump45_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(mac10_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(tmp_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(ak47_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(sg552_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(m4a1_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(aug_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(scout_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(awp_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(g3sg1_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(sg550_mag))
-		SendFlags |= PLAYER_AMMO1;
-	else if (ATTR_CHANGED(para_mag))
-		SendFlags |= PLAYER_AMMO1;
-
-	if (ATTR_CHANGED(ammo_50ae))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_762mm))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_556mm))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_556mmbox))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_338mag))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_9mm))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_buckshot))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_45acp))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_357sig))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_57mm))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_hegrenade))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_fbgrenade))
-		SendFlags |= PLAYER_AMMO2;
-	else if (ATTR_CHANGED(ammo_smokegrenade))
-		SendFlags |= PLAYER_AMMO2;
-
-	if (ATTR_CHANGED(mode_usp45))
-		SendFlags |= PLAYER_AMMO3;
-	else if (ATTR_CHANGED(mode_m4a1))
-		SendFlags |= PLAYER_AMMO3;
-	else if (ATTR_CHANGED(mode_glock18))
-		SendFlags |= PLAYER_AMMO3;
-	else if (ATTR_CHANGED(mode_temp))
-		SendFlags |= PLAYER_AMMO3;
-
-	if (ATTR_CHANGED(cs_shotmultiplier))
-		SendFlags |= PLAYER_CSSHOT;
-	if (ATTR_CHANGED(cs_shottime))
-		SendFlags |= PLAYER_CSSHOTTIME;
-
-	SAVE_STATE(usp45_mag);
-	SAVE_STATE(glock18_mag);
-	SAVE_STATE(deagle_mag);
-	SAVE_STATE(p228_mag);
-	SAVE_STATE(elites_mag);
-	SAVE_STATE(fiveseven_mag);
-	SAVE_STATE(m3_mag);
-	SAVE_STATE(xm1014_mag);
-	SAVE_STATE(mp5_mag);
-	SAVE_STATE(p90_mag);
-	SAVE_STATE(ump45_mag);
-	SAVE_STATE(mac10_mag);
-	SAVE_STATE(tmp_mag);
-	SAVE_STATE(ak47_mag);
-	SAVE_STATE(sg552_mag);
-	SAVE_STATE(m4a1_mag);
-	SAVE_STATE(aug_mag);
-	SAVE_STATE(scout_mag);
-	SAVE_STATE(awp_mag);
-	SAVE_STATE(g3sg1_mag);
-	SAVE_STATE(sg550_mag);
-	SAVE_STATE(para_mag);
-
-	SAVE_STATE(ammo_50ae);
-	SAVE_STATE(ammo_762mm);
-	SAVE_STATE(ammo_556mm);
-	SAVE_STATE(ammo_556mmbox);
-	SAVE_STATE(ammo_338mag);
-	SAVE_STATE(ammo_9mm);
-	SAVE_STATE(ammo_buckshot);
-	SAVE_STATE(ammo_45acp);
-	SAVE_STATE(ammo_357sig);
-	SAVE_STATE(ammo_57mm);
-	SAVE_STATE(ammo_hegrenade);
-	SAVE_STATE(ammo_fbgrenade);
-	SAVE_STATE(ammo_smokegrenade);
-
-	SAVE_STATE(mode_usp45);
-	SAVE_STATE(mode_m4a1);
-	SAVE_STATE(mode_glock18);
-	SAVE_STATE(mode_temp);
-
-	SAVE_STATE(cs_shotmultiplier);
-	SAVE_STATE(cs_shottime);
-
-	SAVE_STATE(anim_top);
-	SAVE_STATE(anim_top_time);
-	SAVE_STATE(anim_top_delay);
-	SAVE_STATE(anim_bottom); 
-	SAVE_STATE(anim_bottom_time);
+	EVALUATE_FIELD(anim_top, PLAYER_TOPFRAME)
+	EVALUATE_FIELD(anim_top_time, PLAYER_TOPFRAME)
+	EVALUATE_FIELD(anim_top_delay, PLAYER_TOPFRAME)
+	EVALUATE_FIELD(anim_bottom, PLAYER_BOTTOMFRAME)
+	EVALUATE_FIELD(anim_bottom_time, PLAYER_BOTTOMFRAME)
+	EVALUATE_FIELD(usp45_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(glock18_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(deagle_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(p228_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(elites_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(fiveseven_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(m3_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(xm1014_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(mp5_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(p90_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(ump45_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(mac10_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(tmp_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(ak47_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(sg552_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(m4a1_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(aug_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(scout_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(awp_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(g3sg1_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(sg550_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(para_mag, PLAYER_AMMO1)
+	EVALUATE_FIELD(ammo_50ae, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_762mm, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_556mm, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_556mmbox, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_338mag, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_9mm, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_buckshot, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_45acp, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_357sig, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_57mm, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_hegrenade, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_fbgrenade, PLAYER_AMMO2)
+	EVALUATE_FIELD(ammo_smokegrenade, PLAYER_AMMO2)
+	EVALUATE_FIELD(mode_usp45, PLAYER_AMMO3)
+	EVALUATE_FIELD(mode_m4a1, PLAYER_AMMO3)
+	EVALUATE_FIELD(mode_glock18, PLAYER_AMMO3)
+	EVALUATE_FIELD(mode_temp, PLAYER_AMMO3)
+	EVALUATE_FIELD(cs_shotmultiplier, PLAYER_CSTIMERS)
+	EVALUATE_FIELD(cs_shottime, PLAYER_CSTIMERS)
 }
 
 /*
@@ -500,7 +374,7 @@ player::SendEntity
 =================
 */
 float
-player::SendEntity(entity ePEnt, float fChanged)
+player::SendEntity(entity ePEnt, float flChanged)
 {
 	/* don't broadcast invisible players */
 	if (IsFakeSpectator() && ePEnt != this)
@@ -508,88 +382,59 @@ player::SendEntity(entity ePEnt, float fChanged)
 	if (!GetModelindex() && ePEnt != this)
 		return (0);
 
-	if (ePEnt != self) {
-		fChanged &= ~PLAYER_ITEMS;
-		fChanged &= ~PLAYER_HEALTH;
-		fChanged &= ~PLAYER_TIMINGS;
-		fChanged &= ~PLAYER_AMMO1;
-		fChanged &= ~PLAYER_AMMO2;
-		fChanged &= ~PLAYER_AMMO3;
-		fChanged &= ~PLAYER_FLAGS;
-		fChanged &= ~PLAYER_PUNCHANGLE;
-		fChanged &= ~PLAYER_VIEWZOOM;
-		fChanged &= ~PLAYER_SPECTATE;
-	}
+	flChanged = OptimiseChangedFlags(ePEnt, flChanged);
 
 	WriteByte(MSG_ENTITY, ENT_PLAYER);
-	WriteFloat(MSG_ENTITY, fChanged);
+	WriteFloat(MSG_ENTITY, flChanged);
 
-	NSClientPlayer::SendEntity(ePEnt, fChanged);
+	NSClientPlayer::SendEntity(ePEnt, flChanged);
 
-	if (fChanged & PLAYER_TOPFRAME) {
-		WriteByte(MSG_ENTITY, anim_top);
-		WriteFloat(MSG_ENTITY, anim_top_time);
-		WriteFloat(MSG_ENTITY, anim_top_delay);
-	}
-	if (fChanged & PLAYER_BOTTOMFRAME) {
-		WriteByte(MSG_ENTITY, anim_bottom);
-		WriteFloat(MSG_ENTITY, anim_bottom_time);
-	}
-
-	if (fChanged & PLAYER_AMMO1) {
- 		WriteByte(MSG_ENTITY, usp45_mag);
- 		WriteByte(MSG_ENTITY, glock18_mag);
- 		WriteByte(MSG_ENTITY, deagle_mag);
- 		WriteByte(MSG_ENTITY, p228_mag);
- 		WriteByte(MSG_ENTITY, elites_mag);
- 		WriteByte(MSG_ENTITY, fiveseven_mag);
- 		WriteByte(MSG_ENTITY, m3_mag);
- 		WriteByte(MSG_ENTITY, xm1014_mag);
- 		WriteByte(MSG_ENTITY, mp5_mag);
- 		WriteByte(MSG_ENTITY, p90_mag);
- 		WriteByte(MSG_ENTITY, ump45_mag);
- 		WriteByte(MSG_ENTITY, mac10_mag);
- 		WriteByte(MSG_ENTITY, tmp_mag);
- 		WriteByte(MSG_ENTITY, ak47_mag);
- 		WriteByte(MSG_ENTITY, sg552_mag);
- 		WriteByte(MSG_ENTITY, m4a1_mag);
- 		WriteByte(MSG_ENTITY, aug_mag);
- 		WriteByte(MSG_ENTITY, scout_mag);
- 		WriteByte(MSG_ENTITY, awp_mag);
- 		WriteByte(MSG_ENTITY, g3sg1_mag);
- 		WriteByte(MSG_ENTITY, sg550_mag);
- 		WriteByte(MSG_ENTITY, para_mag);
-	}
-
-	if (fChanged & PLAYER_AMMO2) {
- 		WriteByte(MSG_ENTITY, ammo_50ae);
- 		WriteByte(MSG_ENTITY, ammo_762mm);
- 		WriteByte(MSG_ENTITY, ammo_556mm);
- 		WriteByte(MSG_ENTITY, ammo_556mmbox);
- 		WriteByte(MSG_ENTITY, ammo_338mag);
- 		WriteByte(MSG_ENTITY, ammo_9mm);
- 		WriteByte(MSG_ENTITY, ammo_buckshot);
- 		WriteByte(MSG_ENTITY, ammo_45acp);
- 		WriteByte(MSG_ENTITY, ammo_357sig);
- 		WriteByte(MSG_ENTITY, ammo_57mm);
- 		WriteByte(MSG_ENTITY, ammo_hegrenade);
- 		WriteByte(MSG_ENTITY, ammo_fbgrenade);
- 		WriteByte(MSG_ENTITY, ammo_smokegrenade);
-	}
-
-	if (fChanged & PLAYER_AMMO3) {
- 		WriteByte(MSG_ENTITY, mode_usp45);
- 		WriteByte(MSG_ENTITY, mode_m4a1);
- 		WriteByte(MSG_ENTITY, mode_glock18);
- 		WriteByte(MSG_ENTITY, mode_temp);
-	}
-
-	if (fChanged & PLAYER_CSSHOT) {
-		WriteByte(MSG_ENTITY, cs_shotmultiplier);
-	}
-	if (fChanged & PLAYER_CSSHOTTIME) {
-		WriteFloat(MSG_ENTITY, cs_shottime);
-	}
+	SENDENTITY_BYTE(anim_top, PLAYER_TOPFRAME)
+	SENDENTITY_FLOAT(anim_top_time, PLAYER_TOPFRAME)
+	SENDENTITY_FLOAT(anim_top_delay, PLAYER_TOPFRAME)
+	SENDENTITY_BYTE(anim_bottom, PLAYER_BOTTOMFRAME)
+	SENDENTITY_FLOAT(anim_bottom_time, PLAYER_BOTTOMFRAME)
+	SENDENTITY_BYTE(usp45_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(glock18_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(deagle_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(p228_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(elites_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(fiveseven_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(m3_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(xm1014_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(mp5_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(p90_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(ump45_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(mac10_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(tmp_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(ak47_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(sg552_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(m4a1_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(aug_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(scout_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(awp_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(g3sg1_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(sg550_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(para_mag, PLAYER_AMMO1)
+	SENDENTITY_BYTE(ammo_50ae, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_762mm, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_556mm, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_556mmbox, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_338mag, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_9mm, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_buckshot, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_45acp, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_357sig, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_57mm, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_hegrenade, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_fbgrenade, PLAYER_AMMO2)
+	SENDENTITY_BYTE(ammo_smokegrenade, PLAYER_AMMO2)
+	SENDENTITY_BYTE(mode_usp45, PLAYER_AMMO3)
+	SENDENTITY_BYTE(mode_m4a1, PLAYER_AMMO3)
+	SENDENTITY_BYTE(mode_glock18, PLAYER_AMMO3)
+	SENDENTITY_BYTE(mode_temp, PLAYER_AMMO3)
+	SENDENTITY_BYTE(cs_shotmultiplier, PLAYER_CSTIMERS)
+	SENDENTITY_FLOAT(cs_shottime, PLAYER_CSTIMERS)
 
 	return (1);
 }
