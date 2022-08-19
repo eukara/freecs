@@ -104,10 +104,55 @@ class armoury_entity:NSRenderableEntity
 	int m_iID;
 
 	void(void) armoury_entity;
+	virtual void(float) Save;
+	virtual void(string,string) Restore;
 	virtual void(entity) Touch;
 	virtual void(void) Respawn;
 	virtual void(string, string) SpawnKey;
 };
+
+void
+armoury_entity::armoury_entity(void)
+{
+	if (autocvar_fcs_nopickups == TRUE) {
+		Destroy();
+		return;
+	}
+
+	precache_sound("items/gunpickup2.wav");
+	precache_sound("items/tr_kevlar.wav");
+
+	m_iID = 0;
+	m_iCount = 1;
+	m_iLeft = 0;
+}
+
+void
+armoury_entity::Save(float handle)
+{
+	super::Save(handle);
+	SaveInt(handle, "m_iID", m_iID);
+	SaveInt(handle, "m_iCount", m_iCount);
+	SaveInt(handle, "m_iLeft", m_iLeft);
+}
+
+void
+armoury_entity::Restore(string strKey, string strValue)
+{
+	switch (strKey) {
+	case "m_iID":
+		m_iID = ReadInt(strValue);
+		break;
+	case "m_iCount":
+		m_iCount = ReadInt(strValue);
+		break;
+	case "m_iLeft":
+		m_iLeft = ReadInt(strValue);
+		break;
+	default:
+		super::Restore(strKey, strValue);
+	}
+}
 
 void
 armoury_entity::Touch(entity eToucher)
@@ -140,7 +185,7 @@ armoury_entity::Touch(entity eToucher)
 			return;
 
 		sound(pl, CHAN_ITEM, "items/tr_kevlar.wav", 1, ATTN_NORM);
-	} else {
+	} else { /* weapon pickup code */
 		if (Weapons_AddItem(pl, g_cstrike_armouryitems[m_iID], -1) == FALSE)
 			return;
 
@@ -149,6 +194,7 @@ armoury_entity::Touch(entity eToucher)
 
 	Logging_Pickup(pl, this, __NULL__);
 	m_iLeft--;
+
 	if (m_iLeft <= 0) {
 		Hide();
 	}
@@ -183,19 +229,4 @@ armoury_entity::SpawnKey(string strKey, string strValue)
 		super::SpawnKey(strKey, strValue);
 		break;
 	}
-}
-
-void
-armoury_entity::armoury_entity(void)
-{
-	if (autocvar_fcs_nopickups == TRUE) {
-		remove(this);
-		return;
-	}
-
-	precache_sound("items/gunpickup2.wav");
-	precache_sound("items/tr_kevlar.wav");
-	m_iID = 0;
-	m_iCount = 1;
-	super::NSRenderableEntity();
 }
