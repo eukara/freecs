@@ -32,40 +32,52 @@ Choices for 'buying':
     3 = Neither Counter-Terrorists nor Terrorists can buy items
 */
 
-enum
+typedef enum
 {
 	BUY_BOTH,
 	BUY_CT,
 	BUY_T,
 	BUY_NEITHER
-};
+} imp_buyrules_t;
 
-class info_map_parameters:NSEntity
+class
+info_map_parameters:NSEntity
 {
+	float m_flBombRadius;
+	imp_buyrules_t m_buyRules;
+	
 	void(void) info_map_parameters;
 
+	virtual void(void) Respawn;
 	virtual void(string, string) SpawnKey;
 };
+
+void
+info_map_parameters::info_map_parameters(void)
+{
+	m_flBombRadius = 500;
+	m_buyRules = BUY_BOTH;
+}
+
+void
+info_map_parameters::Respawn(void)
+{
+	g_cstrike_buying = m_buyRules;
+	g_cstrike_bombradius = m_flBombRadius;
+}
 
 void
 info_map_parameters::SpawnKey(string strKey, string strValue)
 {
 	switch (strKey) {
 	case "buying":
-		g_cstrike_buying = stoi(strValue);
-		breakpoint();
+		m_buyRules = stoi(strValue);
 		break;
 	case "bombradius":
-		g_cstrike_bombradius = stof(strValue);
+		m_flBombRadius = stof(strValue);
 		break;
 	default:
 		super::SpawnKey(strKey, strValue);
 		break;
 	}
-}
-
-void
-info_map_parameters:: info_map_parameters(void)
-{
-	super::NSEntity();
 }

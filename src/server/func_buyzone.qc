@@ -40,7 +40,8 @@ Choices for 'team' include:
     2 = Counter-Terrorist
 */
 
-class func_buyzone:NSBrushTrigger
+class
+func_buyzone:NSBrushTrigger
 {
 	void(void) func_buyzone;
 
@@ -49,14 +50,8 @@ class func_buyzone:NSBrushTrigger
 };
 
 void
-func_buyzone::Touch(entity eToucher)
+func_buyzone::func_buyzone(void)
 {
-	player pl = (player)eToucher;
-	if (!(eToucher.flags & FL_CLIENT))
-		return;
-
-	if (team == 0 || team == pl.team)
-		pl.gflags |= GF_BUYZONE;
 }
 
 void
@@ -66,8 +61,13 @@ func_buyzone::Respawn(void)
 }
 
 void
-func_buyzone::func_buyzone(void)
+func_buyzone::Touch(entity eToucher)
 {
-	NSBrushTrigger::NSBrushTrigger();
-	InitBrushTrigger();
+	player pl = (player)eToucher;
+
+	if (!(eToucher.flags & FL_CLIENT))
+		return;
+
+	if (team == 0 || team == pl.team)
+		pl.gflags |= GF_BUYZONE;
 }

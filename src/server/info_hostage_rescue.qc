@@ -29,28 +29,43 @@ If neither a info_hostage_rescue or a func_hostage_rescue is placed,
 zones will be placed in Counter-Terrorist player spawn nodes automatically.
 */
 
-class info_hostage_rescue
+class info_hostage_rescue:NSPointTrigger
 {
 	void(void) info_hostage_rescue;
-	virtual void(void) touch;
+
+	virtual void(void) Respawn;
+	virtual void(entity) Touch;
 };
 
 void
-info_hostage_rescue::touch(void)
+info_hostage_rescue::info_hostage_rescue(void)
 {
-	if (other.flags & FL_CLIENT) {
-		player pl = (player)other;
+}
+
+void
+info_hostage_rescue::Respawn(void)
+{
+	SetSolid(SOLID_TRIGGER);
+	SetSize([-128,-128,-128], [128,128,128]);
+	SetOrigin(GetSpawnOrigin());
+}
+
+void
+info_hostage_rescue::Touch(entity eToucher)
+{
+	if (eToucher.flags & FL_CLIENT) {
+		player pl = (player)eToucher;
 		pl.gflags |= GF_RESCUEZONE;
 		return;
 	}
 
-	if (other.classname != "hostage_entity") {
+	if (eToucher.classname != "hostage_entity") {
 		return;
 	}
 
 	NSTalkMonster hosty = (NSTalkMonster)other;
 
-	if (hosty.solid == SOLID_NOT) {
+	if (hosty.GetSolid() == SOLID_NOT) {
 		return;
 	}
 
@@ -67,13 +82,5 @@ info_hostage_rescue::touch(void)
 	/* In Hostage Rescue, all Counter-Terrorists receive an $850
 	 * bonus for every hostage they rescue, even if they lose the round. */
 	Money_QueTeamReward(TEAM_CT, 850);
-
-	hosty.Hide();
-}
-
-void
-info_hostage_rescue::info_hostage_rescue(void)
-{
-	solid = SOLID_TRIGGER;
-	setsize(this, [-128,-128,-128], [128,128,128]);
+	hosty.Disappear();
 }

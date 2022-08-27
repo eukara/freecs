@@ -27,7 +27,8 @@ Used in the bomb defusal mode (de_* maps).
 Once the bomb explodes inside this volume, it'll trigger its targets.
 */
 
-class func_bomb_target:NSBrushTrigger
+class
+func_bomb_target:NSBrushTrigger
 {
 	void(void) func_bomb_target;
 
@@ -36,18 +37,9 @@ class func_bomb_target:NSBrushTrigger
 };
 
 void
-func_bomb_target::Touch(entity eToucher)
+func_bomb_target::func_bomb_target(void)
 {
-	player pl = (player)eToucher;
-	if (!(eToucher.flags & FL_CLIENT)) {
-		return;
-	}
-
-	if (pl.team != TEAM_T) {
-		return;
-	}
-
-	pl.gflags |= GF_BOMBZONE;
+	g_cs_bombzones++;
 }
 
 void
@@ -57,7 +49,17 @@ func_bomb_target::Respawn(void)
 }
 
 void
-func_bomb_target::func_bomb_target(void)
+func_bomb_target::Touch(entity eToucher)
 {
-	g_cs_bombzones++;
+	player pl = (player)eToucher;
+
+	if (!(eToucher.flags & FL_CLIENT)) {
+		return;
+	}
+
+	if (pl.team != TEAM_T) {
+		return;
+	}
+
+	pl.gflags |= GF_BOMBZONE;
 }

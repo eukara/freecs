@@ -28,13 +28,25 @@ If neither a func_hostage_rescue or a info_hostage_rescue is placed,
 zones will be placed in Counter-Terrorist player spawn nodes automatically.
 */
 
-class func_hostage_rescue:NSBrushTrigger
+class
+func_hostage_rescue:NSBrushTrigger
 {
 	void(void) func_hostage_rescue;
 
-	virtual void(entity) Touch;
 	virtual void(void) Respawn;
+	virtual void(entity) Touch;
 };
+
+void
+func_hostage_rescue::func_hostage_rescue(void)
+{
+}
+
+void
+func_hostage_rescue::Respawn(void)
+{
+	InitBrushTrigger();
+}
 
 void
 func_hostage_rescue::Touch(entity eToucher)
@@ -51,7 +63,7 @@ func_hostage_rescue::Touch(entity eToucher)
 
 	hostage_entity hosty = (hostage_entity)eToucher;
 
-	if (hosty.solid == SOLID_NOT) {
+	if (hosty.GetSolid() == SOLID_NOT) {
 		return;
 	}
 
@@ -68,18 +80,5 @@ func_hostage_rescue::Touch(entity eToucher)
 	 * bonus for every hostage that was rescued, even if they lose the round. */
 	Money_QueTeamReward(TEAM_CT, 850);
 
-	hosty.Hide();
-}
-
-void
-func_hostage_rescue::Respawn(void)
-{
-	InitBrushTrigger();
-}
-
-void
-func_hostage_rescue::func_hostage_rescue(void)
-{
-	NSBrushTrigger::NSBrushTrigger();
-	InitBrushTrigger();
+	hosty.Disappear();
 }

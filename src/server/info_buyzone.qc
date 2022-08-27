@@ -25,26 +25,36 @@ Buy zone.
 See func_buyzone for more information.
 */
 
-class info_buyzone
+class
+info_buyzone:NSPointTrigger
 {
 	void(void) info_buyzone;
-	virtual void(void) touch;
+
+	virtual void(void) Respawn;
+	virtual void(entity) Touch;
 };
-
-void
-info_buyzone::touch(void)
-{
-	player pl = (player)other;
-	if (!(other.flags & FL_CLIENT))
-		return;
-
-	if (team == 0 || team == pl.team)
-		pl.gflags |= GF_BUYZONE;
-}
 
 void
 info_buyzone::info_buyzone(void)
 {
-	solid = SOLID_TRIGGER;
-	setsize(this, [-128,-128,-128], [128,128,128]);
+}
+
+void
+info_buyzone::Respawn(void)
+{
+	SetSolid(SOLID_TRIGGER);
+	SetSize([-128,-128,-128], [128,128,128]);
+	SetOrigin(GetSpawnOrigin());
+}
+
+void
+info_buyzone::Touch(entity eToucher)
+{
+	player pl = (player)eToucher;
+
+	if (!(eToucher.flags & FL_CLIENT))
+		return;
+
+	if (team == 0 || team == pl.team)
+		pl.gflags |= GF_BUYZONE;
 }

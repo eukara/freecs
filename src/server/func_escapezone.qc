@@ -26,10 +26,19 @@ Terrorist escape zone.
 Used in the Escape mode (es_* maps).
 */
 
-class func_escapezone:NSBrushTrigger
+class
+func_escapezone:NSBrushTrigger
 {
+	void(void) func_escapezone;
+
 	virtual void(void) Respawn;
-}; 
+};
+
+void
+func_escapezone::func_escapezone(void)
+{
+
+}
 
 void
 func_escapezone::Respawn(void)

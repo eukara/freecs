@@ -104,6 +104,7 @@ class armoury_entity:NSRenderableEntity
 	int m_iID;
 
 	void(void) armoury_entity;
+	virtual void(void) Spawned;
 	virtual void(float) Save;
 	virtual void(string,string) Restore;
 	virtual void(entity) Touch;
@@ -114,17 +115,24 @@ class armoury_entity:NSRenderableEntity
 void
 armoury_entity::armoury_entity(void)
 {
+	m_iID = 0;
+	m_iCount = 1;
+	m_iLeft = 0;
+}
+
+void
+armoury_entity::Spawned(void)
+{
 	if (autocvar_fcs_nopickups == TRUE) {
 		Destroy();
 		return;
 	}
 
+	super::Spawned();
+
+	precache_model(g_cstrike_armourymodels[m_iID]);
 	precache_sound("items/gunpickup2.wav");
 	precache_sound("items/tr_kevlar.wav");
-
-	m_iID = 0;
-	m_iCount = 1;
-	m_iLeft = 0;
 }
 
 void
@@ -196,18 +204,20 @@ armoury_entity::Touch(entity eToucher)
 	m_iLeft--;
 
 	if (m_iLeft <= 0) {
-		Hide();
+		Disappear();
 	}
 }
 
 void
 armoury_entity::Respawn(void)
 {
+	SetOrigin(GetSpawnOrigin());
+	SetSolid(SOLID_TRIGGER);
 	SetModel(g_cstrike_armourymodels[m_iID]);
 	SetSize([-16,-16,0], [16,16,16]);
-	SetSolid(SOLID_TRIGGER);
-	m_iLeft = m_iCount;
 	DropToFloor();
+
+	m_iLeft = m_iCount;
 }
 
 void
@@ -221,7 +231,7 @@ armoury_entity::SpawnKey(string strKey, string strValue)
 		m_iID = stoi(strValue);
 
 		if (m_iID < 0 || m_iID >= 19) {
-			print(sprintf("^1armoury_entity with invalid item %i. ignoring\n", m_iID));
+			NSLog("^1armoury_entity with invalid item %i. ignoring\n", m_iID);
 			Destroy();
 		}
 		break;

@@ -20,7 +20,35 @@ class item_suit:NSRenderableEntity
 
 	virtual void(entity) Touch;
 	virtual void(void) Respawn;
+	virtual void(void) Spawned;
 };
+
+void
+item_suit::item_suit(void)
+{
+	/* a custom map may choose to override this */
+	model = "models/w_kevlar.mdl";
+}
+
+void
+item_suit::Spawned(void)
+{
+	super::Spawned();
+
+	precache_model(model);
+	precache_sound("items/tr_kevlar.wav");
+}
+
+void
+item_suit::Respawn(void)
+{
+	SetSolid(SOLID_TRIGGER);
+	SetMovetype(MOVETYPE_TOSS);
+	SetModel(GetSpawnModel());
+	SetSize(VEC_HULL_MIN, VEC_HULL_MAX);
+	SetOrigin(GetSpawnOrigin());
+	ReleaseThink();
+}
 
 void
 item_suit::Touch(entity eToucher)
@@ -41,32 +69,9 @@ item_suit::Touch(entity eToucher)
 	UseTargets(eToucher, TRIG_TOGGLE, m_flDelay);
 
 	if (cvar("sv_playerslots") == 1) {
-		remove(self);
+		Destroy();
 	} else {
-		Hide();
-		think = Respawn;
-		nextthink = time + 30.0f;
+		Disappear();
+		ScheduleThink(Respawn, 30.0f);
 	}
-}
-
-void
-item_suit::Respawn(void)
-{
-	SetSolid(SOLID_TRIGGER);
-	SetMovetype(MOVETYPE_TOSS);
-	SetSize(VEC_HULL_MIN, VEC_HULL_MAX);
-	SetOrigin(GetSpawnOrigin());
-	SetModel(GetSpawnModel());
-
-	think = __NULL__;
-	nextthink = -1;
-}
-
-void
-item_suit::item_suit(void)
-{
-	model = "models/w_kevlar.mdl";
-	precache_sound("items/tr_kevlar.wav");
-	NSRenderableEntity::NSRenderableEntity();
-	Respawn();
 }
