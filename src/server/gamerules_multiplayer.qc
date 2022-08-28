@@ -454,6 +454,16 @@ CSMultiplayerRules::RestartRound(int iWipe)
 	for (entity eFind = world; (eFind = find(eFind, ::classname, "remove_me"));) {
 		remove(eFind);
 	}
+	for (entity eFind = world; (eFind = find(eFind, ::classname, "tempdecal"));) {
+		decal dec = (decal)eFind;
+		dec.m_strTexture = "";
+		dec.SendFlags = -1;
+	}
+
+	WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
+	WriteByte(MSG_MULTICAST, EV_CLEARDECALS);
+	msg_entity = world;
+	multicast([0,0,0], MULTICAST_ALL);
 
 	// Select a random Terrorist for the bomb, if needed
 	if (g_cs_bombzones > 0) {
