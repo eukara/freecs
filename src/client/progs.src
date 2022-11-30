@@ -25,7 +25,6 @@ draw.qc
 textmenu.qc
 init.qc
 ../../../valve/src/client/flashlight.qc
-../../../valve/src/client/player.qc
 entities.qc
 cmds.qc
 game_event.qc

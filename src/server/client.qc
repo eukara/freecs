@@ -23,7 +23,6 @@ Game_RunClientCommand(void)
 	pl.gflags &= ~GF_RESCUEZONE;
 	pl.gflags &= ~GF_BOMBZONE;
 
-	Footsteps_Update();
 	pl.Physics_Run();
 }
 
