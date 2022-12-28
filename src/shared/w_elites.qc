@@ -250,7 +250,7 @@ w_elites_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 45, [accuracy,accuracy], WEAPON_ELITES);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 45, [accuracy,accuracy], WEAPON_ELITES, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_elites.fire");
 #endif
 

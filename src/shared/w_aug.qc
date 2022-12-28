@@ -145,7 +145,7 @@ w_aug_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 32, [accuracy,accuracy], WEAPON_AUG);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 32, [accuracy,accuracy], WEAPON_AUG, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_aug.fire");
 #endif
 

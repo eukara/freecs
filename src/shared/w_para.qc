@@ -138,7 +138,7 @@ w_para_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 35, [accuracy,accuracy], WEAPON_PARA);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 35, [accuracy,accuracy], WEAPON_PARA, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_para.fire");
 #endif
 

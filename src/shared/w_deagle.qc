@@ -178,7 +178,7 @@ w_deagle_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 54, [accuracy,accuracy], WEAPON_DEAGLE);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 54, [accuracy,accuracy], WEAPON_DEAGLE, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_deagle.fire");
 #endif
 

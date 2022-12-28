@@ -142,7 +142,7 @@ w_ump45_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(0.875); /* 6, but not 7 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 30, [accuracy,accuracy], WEAPON_UMP45);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 30, [accuracy,accuracy], WEAPON_UMP45, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ump45.fire");
 #endif
 

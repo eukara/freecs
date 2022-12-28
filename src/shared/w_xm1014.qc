@@ -206,7 +206,7 @@ w_xm1014_primary(player pl)
 		Cstrike_ShotMultiplierAdd(pl, 1);
 		pl.punchangle[0] = -4 * (6 / 6);
 #ifdef SERVER
-		TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 22, [random(-1,1) * 0.1,random(-1,1) * 0.05], WEAPON_M3);
+		TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 22, [random(-1,1) * 0.1,random(-1,1) * 0.05], WEAPON_M3, "Impact.BigShot");
 #endif
 	}
 	

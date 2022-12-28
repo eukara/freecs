@@ -139,7 +139,7 @@ w_sg550_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 70, [accuracy,accuracy], WEAPON_SG550);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 70, [accuracy,accuracy], WEAPON_SG550, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_sg550.fire");
 #endif
 

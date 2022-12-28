@@ -149,7 +149,7 @@ w_p228_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(1.5); /* penetrates 11, but not 12 units */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 40, [accuracy,accuracy], WEAPON_P228);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 40, [accuracy,accuracy], WEAPON_P228, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_p228.fire");
 #endif
 

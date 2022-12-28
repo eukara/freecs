@@ -142,7 +142,7 @@ w_mp5_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(1.25); /* 9 units but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_MP5);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_MP5, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mp5.fire");
 #endif
 

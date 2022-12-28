@@ -198,7 +198,7 @@ w_usp45_primary(player pl)
 	/* actual firing */
 	TraceAttack_SetRangeModifier(0.79); /* can penetrate 6 but not 7 units */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_USP45);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_USP45, "Impact.BigShot");
 #endif
 
 	pl.gflags |= GF_SEMI_TOGGLED;

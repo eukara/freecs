@@ -140,7 +140,7 @@ w_g3sg1_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(2.375);
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 80, [accuracy,accuracy], WEAPON_G3SG1);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 80, [accuracy,accuracy], WEAPON_G3SG1, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_g3sg1.fire");
 #endif
 

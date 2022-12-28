@@ -186,7 +186,7 @@ w_m4a1_primary(player pl)
 
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_M4A1);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_M4A1, "Impact.BigShot");
 #endif
 
 	pl.w_attack_next = 0.0875f;

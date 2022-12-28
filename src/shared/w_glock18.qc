@@ -148,7 +148,7 @@ w_glock18_primary(player pl)
 #ifdef SERVER
 		TraceAttack_SetRangeModifier(1.25); /* penetrates 9 units, but not 10 */
 		TraceAttack_SetPenetrationPower(1);
-		TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_GLOCK18);
+		TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_GLOCK18, "Impact.BigShot");
 #endif
 	}
 

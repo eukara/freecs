@@ -236,7 +236,7 @@ w_awp_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(1.375);
 	TraceAttack_SetPenetrationPower(2); /* however, we can only penetrate one wall if the first one is 5 units thick or higher */
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 115, [accuracy,accuracy], WEAPON_AWP);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 115, [accuracy,accuracy], WEAPON_AWP, "Impact.BigShot");
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_awp.fire");
 #endif

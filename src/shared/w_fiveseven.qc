@@ -149,7 +149,7 @@ w_fiveseven_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_FIVESEVEN);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_FIVESEVEN, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_fiveseven.fire");
 #endif
 

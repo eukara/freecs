@@ -199,7 +199,7 @@ w_scout_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(2.375);
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 75, [accuracy,accuracy], WEAPON_SCOUT);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 75, [accuracy,accuracy], WEAPON_SCOUT, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_scout.fire");
 #endif
 

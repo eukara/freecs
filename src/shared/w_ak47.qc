@@ -179,7 +179,7 @@ w_ak47_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(2.375); /* 18 units!!! */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 36, [accuracy,accuracy], WEAPON_AK47);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 36, [accuracy,accuracy], WEAPON_AK47, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ak47.fire");
 #endif
 

@@ -142,7 +142,7 @@ w_p90_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(1.875); /* 9 but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_P90);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_P90, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_p90.fire");
 #endif
 

@@ -142,7 +142,7 @@ w_tmp_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(1.25); /* 9 but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_TMP);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 26, [accuracy,accuracy], WEAPON_TMP, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_tmp.fire");
 #endif
 

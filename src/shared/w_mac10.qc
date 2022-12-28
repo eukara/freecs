@@ -144,7 +144,7 @@ w_mac10_primary(player pl)
 #else
 	TraceAttack_SetRangeModifier(1.25); /* 9, but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBullets(1, pl.origin + pl.view_ofs, 29, [accuracy,accuracy], WEAPON_MAC10);
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 29, [accuracy,accuracy], WEAPON_MAC10, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mac10.fire");
 #endif
 
