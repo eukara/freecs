@@ -182,7 +182,7 @@ class player:NSClientPlayer
 	virtual void PredictPreFrame(void);
 	virtual void PredictPostFrame(void);
 #else
-	virtual void RunClientCommand(void);
+	virtual void ServerInputFrame(void);
 	virtual void EvaluateEntity(void);
 	virtual float SendEntity(entity, float);
 
@@ -492,7 +492,7 @@ player::PredictPostFrame(void)
 
 #else
 void
-player::RunClientCommand(void)
+player::ServerInputFrame(void)
 {
 	gflags &= ~GF_BUYZONE;
 	gflags &= ~GF_RESCUEZONE;
