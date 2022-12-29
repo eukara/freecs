@@ -22,7 +22,6 @@ defs.h
 ../shared/include.src
 
 player.qc
-../../../valve/src/server/spectator.qc
 
 hostage_entity.qc
 armoury_entity.qc
@@ -46,7 +45,6 @@ gamerules_singleplayer.qc
 gamerules_multiplayer.qc
 
 radio.qc
-client.qc
 ammo.qc
 buy.qc
 server.qc

@@ -177,16 +177,14 @@ class player:NSClientPlayer
 	int cs_cross_deltadist;
 	float cs_crosshairdistance;
 
-	//virtual void(void) draw;
-	//virtual float() predraw;
-	//virtual void(void) postdraw;
 	virtual void UpdatePlayerAttachments(bool);
-	virtual void(float, float) ReceiveEntity;
-	virtual void(void) PredictPreFrame;
-	virtual void(void) PredictPostFrame;
+	virtual void ReceiveEntity(float, float);
+	virtual void PredictPreFrame(void);
+	virtual void PredictPostFrame(void);
 #else
-	virtual void(void) EvaluateEntity;
-	virtual float(entity, float) SendEntity;
+	virtual void RunClientCommand(void);
+	virtual void EvaluateEntity(void);
+	virtual float SendEntity(entity, float);
 
 	int charmodel;
 	int money;
@@ -493,6 +491,14 @@ player::PredictPostFrame(void)
 }
 
 #else
+void
+player::RunClientCommand(void)
+{
+	gflags &= ~GF_BUYZONE;
+	gflags &= ~GF_RESCUEZONE;
+	gflags &= ~GF_BOMBZONE;
+}
+
 void
 player::EvaluateEntity(void)
 {
