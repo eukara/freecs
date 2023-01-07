@@ -494,6 +494,7 @@ player::PredictPostFrame(void)
 void
 player::ServerInputFrame(void)
 {
+	super::ServerInputFrame();
 	gflags &= ~GF_BUYZONE;
 	gflags &= ~GF_RESCUEZONE;
 	gflags &= ~GF_BOMBZONE;
