@@ -16,19 +16,21 @@
 
 class CSGameRules:CGameRules
 {
-	virtual void(NSClientPlayer) PlayerConnect;
-	virtual void(NSClientPlayer) PlayerDisconnect;
-	virtual void(NSClientPlayer) PlayerKill;
-	virtual void(NSClientPlayer) PlayerPostFrame;
-	virtual void(NSClientPlayer) PlayerDeath;
-	virtual void(NSClientPlayer) PlayerPain;
+	virtual void PlayerConnect(NSClientPlayer);
+	virtual void PlayerDisconnect(NSClientPlayer);
+	virtual void PlayerKill(NSClientPlayer);
+	virtual void PlayerPostFrame(NSClientPlayer);
+	virtual void PlayerDeath(NSClientPlayer);
+	virtual void PlayerPain(NSClientPlayer);
 
-	/* level transitions */
-	virtual void(NSClientPlayer) LevelChangeParms;
-	virtual void(NSClientPlayer) LevelDecodeParms;
-	virtual void(void) LevelNewParms;
+/* level transitions */
+	virtual void LevelChangeParms(NSClientPlayer);
+	virtual void LevelDecodeParms(NSClientPlayer);
+	virtual void LevelNewParms(void);
 
-	virtual bool(NSClientPlayer) BuyingPossible;
+	virtual bool BuyingPossible(NSClientPlayer);
+
+	virtual bool ImpulseCommand(NSClient, float);
 }; 
 
 class CSSingleplayerRules:CSGameRules

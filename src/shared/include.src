@@ -47,7 +47,6 @@ w_hegrenade.qc
 w_smokegrenade.qc
 weapons.qc
 ../../../base/src/shared/weapon_common.qc
-../../../base/src/shared/input.qc
 pmove.qc
 item_c4bomb.qc
 #endlist
