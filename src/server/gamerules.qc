@@ -33,8 +33,11 @@ CSGameRules::BuyingPossible(NSClientPlayer pl)
 /* we check what fields have changed over the course of the frame and network
  * only the ones that have actually changed */
 void
-CSGameRules::PlayerPostFrame(NSClientPlayer pp)
+CSGameRules::PlayerPreFrame(NSClientPlayer pp)
 {
+	pp.gflags &= ~GF_BUYZONE;
+	pp.gflags &= ~GF_RESCUEZONE;
+	pp.gflags &= ~GF_BOMBZONE;
 }
 
 void

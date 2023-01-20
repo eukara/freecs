@@ -107,8 +107,7 @@ CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 void
 CSMultiplayerRules::PlayerPreFrame(NSClientPlayer pl)
 {
-	player pp = (player)pl;
-
+	super::PlayerPreFrame(pl);
 }
 
 void
