@@ -47,6 +47,7 @@ func_buyzone:NSBrushTrigger
 
 	virtual void(entity) Touch;
 	virtual void(void) Respawn;
+	virtual void(string, string) SpawnKey;
 };
 
 void
@@ -58,6 +59,18 @@ void
 func_buyzone::Respawn(void)
 {
 	InitBrushTrigger();
+}
+
+void
+func_buyzone::SpawnKey(string strKey, string strValue)
+{
+	switch (strKey) {
+	case "team":
+		team = stoi(strValue);
+		break;
+	default:
+		super::SpawnKey(strKey, strValue);
+	}
 }
 
 void
