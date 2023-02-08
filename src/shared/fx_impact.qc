@@ -43,6 +43,8 @@ FX_Impact_Init(void)
 	precache_model("sprites/wall_puff2.spr");
 	precache_model("sprites/wall_puff3.spr");
 	precache_model("sprites/wall_puff4.spr");
+
+	precache_model("sprites/wsplash3.spr");
 }
 #endif
 
@@ -170,6 +172,21 @@ FX_Impact(impactType_t iType, vector vecPos, vector vNormal)
 			eBlood.customphysics = Wallpuff_Travel;
 
 			break;
+	case IMPACT_SLOSH:
+
+		env_sprite splash = spawn(env_sprite);
+		setorigin(splash, vecPos + [0,0,24]);
+		setmodel(splash, "sprites/wsplash3.spr");
+		splash.SetRenderMode(RM_ADDITIVE);
+		splash.SetRenderAmt(1.0f);
+		splash.SetRenderColor([1,1,1]);
+		splash.drawmask = MASK_ENGINE;
+		splash.m_iMaxFrame = modelframecount(splash.modelindex);
+		splash.m_bLoops = 0;
+		splash.m_flFramerate = 20;
+		splash.nextthink = time + 0.05f;
+
+		break;
 	}
 
 	switch (iType) {
