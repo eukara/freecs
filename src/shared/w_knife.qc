@@ -111,7 +111,7 @@ w_knife_primary(player pl)
 	vector src;
 	Weapons_MakeVectors(pl);
 	src = pl.origin + pl.view_ofs;
-	traceline(src, src + (v_forward * 32), FALSE, pl);
+	traceline(src, src + (v_forward * 32), MOVE_HITMODEL, pl);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_knife.miss");
 
@@ -126,8 +126,30 @@ w_knife_primary(player pl)
 		Sound_Play(pl, CHAN_WEAPON, "weapon_knife.hit");
 	}
 
+	/* let's calculate damage! */
 	if (trace_ent.takedamage) {
-		Damage_Apply(trace_ent, pl, 15, WEAPON_KNIFE, DMG_SLASH);
+		/* values taken from https://counterstrike.fandom.com/wiki/Knife */
+		int dmg;
+		switch (trace_surface_id) {
+		case BODY_HEAD:
+			dmg = 60;
+			break;
+		case BODY_STOMACH:
+			dmg = 18;
+			break;
+		case BODY_LEGLEFT:
+		case BODY_LEGRIGHT:
+			dmg = 11;
+			break;
+		case BODY_DEFAULT:
+		case BODY_CHEST:
+		case BODY_ARMLEFT:
+		case BODY_ARMRIGHT:
+		default:
+			dmg = 15;
+			break;
+		}
+		Damage_Apply(trace_ent, pl, dmg, WEAPON_KNIFE, DMG_SLASH);
 	}
 #endif
 }
@@ -153,7 +175,7 @@ w_knife_secondary(player pl)
 	vector src;
 	Weapons_MakeVectors(pl);
 	src = pl.origin + pl.view_ofs;
-	traceline(src, src + (v_forward * 32), FALSE, pl);
+	traceline(src, src + (v_forward * 32), MOVE_HITMODEL, pl);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_knife.miss");
 
@@ -169,8 +191,39 @@ w_knife_secondary(player pl)
 		Sound_Play(pl, CHAN_WEAPON, "weapon_knife.hit");
 	}
 
+	/* let's calculate damage! */
 	if (trace_ent.takedamage) {
-		Damage_Apply(trace_ent, pl, 65, WEAPON_KNIFE, DMG_SLASH);
+		/* values taken from https://counterstrike.fandom.com/wiki/Knife */
+		int dmg;
+		switch (trace_surface_id) {
+		case BODY_HEAD:
+			dmg = 260;
+			break;
+		case BODY_STOMACH:
+			dmg = 81;
+			break;
+		case BODY_LEGLEFT:
+		case BODY_LEGRIGHT:
+			dmg = 48;
+			break;
+		case BODY_DEFAULT:
+		case BODY_CHEST:
+		case BODY_ARMLEFT:
+		case BODY_ARMRIGHT:
+		default:
+			dmg = 65;
+			break;
+		}
+
+		/* secondary can do a backstab */
+		if (trace_ent.classname == "player") {
+			player otherpl = (player)trace_ent;
+			if (otherpl.IsFacing(pl) == false) {
+				dmg *= 3;
+			}
+		}
+
+		Damage_Apply(trace_ent, pl, dmg, WEAPON_KNIFE, DMG_SLASH);
 	}
 #endif
 }
