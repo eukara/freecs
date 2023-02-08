@@ -57,7 +57,7 @@ Radar_Draw(void)
 
 		vector matrix;
 		float ht;
-		makevectors([0,input_angles[1] - 90, 0]);
+		makevectors([0,view_angles[1] - 90, 0]);
 		matrix[0] = dotproduct(difference, v_forward);
 		matrix[1] = dotproduct(difference, v_right);
 		matrix[2] = 0;
