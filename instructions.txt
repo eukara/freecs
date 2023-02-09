@@ -1,0 +1,2 @@
+In order to play this FreeHL addon, please move the folder this file is
+in into the same place where 'valve' and 'default.fmf' reside. Thanks!
