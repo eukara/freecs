@@ -1,7 +1,7 @@
  #includelist
 flags.h
 player.h
-../../../base/src/shared/weapon_common.h
+../../../valve/src/shared/weapon_common.h
 animations.h
 animations.qc
 
@@ -11,8 +11,8 @@ item_c4bomb.h
 ../../../valve/src/shared/fx_breakmodel.qc
 ../../../valve/src/shared/fx_explosion.qc
 ../../../valve/src/shared/fx_gibhuman.qc
-../../../base/src/shared/fx_spark.qc
-../../../base/src/shared/fx_corpse.qc
+../../../valve/src/shared/fx_spark.qc
+../../../valve/src/shared/fx_corpse.qc
 fx_impact.qc
 fx_flashbang.qc
 fx_smokenade.qc
@@ -46,7 +46,7 @@ w_flashbang.qc
 w_hegrenade.qc
 w_smokegrenade.qc
 weapons.qc
-../../../base/src/shared/weapon_common.qc
+../../../valve/src/shared/weapon_common.qc
 pmove.qc
 item_c4bomb.qc
 #endlist

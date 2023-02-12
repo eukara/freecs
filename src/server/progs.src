@@ -48,9 +48,9 @@ radio.qc
 ammo.qc
 buy.qc
 server.qc
-../../../base/src/server/damage.qc
+../../../valve/src/server/damage.qc
 ../../../valve/src/server/flashlight.qc
-../../../base/src/server/modelevent.qc
+../../../valve/src/server/modelevent.qc
 
 spawn.qc
 

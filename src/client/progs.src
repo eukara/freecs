@@ -39,7 +39,7 @@ hud.qc
 hud_weaponselect.qc
 ../../../valve/src/client/scoreboard.qc
 radio.qc
-../../../base/src/client/modelevent.qc
+../../../valve/src/client/modelevent.qc
 
 ../../../src/client/include.src
 ../../../src/shared/include.src
