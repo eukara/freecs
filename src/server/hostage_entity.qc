@@ -92,11 +92,13 @@ class hostage_entity:NSTalkMonster
 	//virtual float(void) GetWalkSpeed;
 };
 
+#if 0
 float
 hostage_entity::GetWalkSpeed(void)
 {
 	return 128;
 }
+#endif
 
 int
 hostage_entity::AnimIdle(void)

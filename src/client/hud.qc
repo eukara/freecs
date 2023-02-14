@@ -743,7 +743,7 @@ string g_specmodes[] = {
 void
 HUD_DrawSpectator(void)
 {
-	vector vecPos;
+	vector vecPos = g_vec_null;
 	float flSep;
 	string strText;
 	int iMinutes, iSeconds;

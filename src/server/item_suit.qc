@@ -75,3 +75,5 @@ item_suit::Touch(entity eToucher)
 		ScheduleThink(Respawn, 30.0f);
 	}
 }
+
+CLASSEXPORT(item_kevlar, item_suit)

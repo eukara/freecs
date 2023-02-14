@@ -219,6 +219,12 @@ CSMultiplayerRules::InitPostEnts(void)
 	}
 
 	CreateRescueZones();
+
+	/* get all of the vip zones */
+	g_cs_vipzones = 0;
+	for (entity e = world; (e = find(e, ::classname, "func_vip_safetyzone"));) {
+		g_cs_vipzones++;
+	}
 }
 
 void
@@ -449,6 +455,29 @@ CSMultiplayerRules::RestartRound(int iWipe)
 		}
 	}
 
+	/* respawn the VIP as well, but turn them back into a CT. */
+	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_VIP));) {
+		if (!(eFind.flags & FL_CLIENT))
+			continue;
+
+		player pl = (player)eFind;
+		pl.team = TEAM_CT;
+
+		if (pl.health > 0 && iWipe == FALSE) {
+			PlayerRespawn(pl, TEAM_CT);
+		} else {
+			PlayerMakeSpectator(pl);
+			PlayerMakePlayable(pl, pl.charmodel);
+		}
+
+		if (iWipe == FALSE) {
+			Money_GiveTeamReward(pl);
+		} else {
+			pl.money = 0;
+			Money_AddMoney(pl, autocvar_mp_startmoney);
+		}
+	}
+
 	/* clear the corpses/items/bombs */
 	for (entity eFind = world; (eFind = find(eFind, ::classname, "remove_me"));) {
 		remove(eFind);
@@ -637,6 +666,15 @@ CSMultiplayerRules::CountPlayers(void)
 			g_cs_alive_t++;
 	}
 	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_CT));) {
+		if (!(eFind.flags & FL_CLIENT))
+			continue;
+
+		g_cs_total_ct++;
+
+		if (eFind.health > 0)
+			g_cs_alive_ct++;
+	}
+	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_VIP));) {
 		if (!(eFind.flags & FL_CLIENT))
 			continue;
 

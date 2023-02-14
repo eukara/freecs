@@ -129,7 +129,8 @@ w_knife_primary(player pl)
 	/* let's calculate damage! */
 	if (trace_ent.takedamage) {
 		/* values taken from https://counterstrike.fandom.com/wiki/Knife */
-		int dmg;
+		int dmg = 0;
+
 		switch (trace_surface_id) {
 		case BODY_HEAD:
 			dmg = 60;
@@ -194,7 +195,7 @@ w_knife_secondary(player pl)
 	/* let's calculate damage! */
 	if (trace_ent.takedamage) {
 		/* values taken from https://counterstrike.fandom.com/wiki/Knife */
-		int dmg;
+		int dmg = 0;
 		switch (trace_surface_id) {
 		case BODY_HEAD:
 			dmg = 260;

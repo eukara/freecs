@@ -28,11 +28,34 @@ Used in the assassination mode (as_* maps).
 
 class func_vip_safetyzone:NSBrushTrigger
 {
-	virtual void(void) Respawn;
-}; 
+	void func_vip_safetyzone(void);
+
+	virtual void Respawn(void);
+	virtual void Touch(entity);
+
+};
+
+void
+func_vip_safetyzone::func_vip_safetyzone(void)
+{
+}
 
 void
 func_vip_safetyzone::Respawn(void)
 {
 	InitBrushTrigger();
+}
+
+void
+func_vip_safetyzone::Touch(entity eToucher)
+{
+	player pl = (player)eToucher;
+
+	if (!(eToucher.flags & FL_CLIENT))
+		return;
+
+	if (pl.team == TEAM_VIP) {
+		Money_AddMoney(pl, 2500);
+		//RoundOver(TEAM_CT, 0, FALSE);
+	}
 }
