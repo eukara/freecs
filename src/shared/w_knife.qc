@@ -109,9 +109,11 @@ w_knife_primary(player pl)
 
 #ifdef SERVER
 	vector src;
+	int range = Skill_GetValue("plr_knife_range", 48);
+
 	Weapons_MakeVectors(pl);
 	src = pl.origin + pl.view_ofs;
-	traceline(src, src + (v_forward * 32), MOVE_HITMODEL, pl);
+	traceline(src, src + (v_forward * range), MOVE_HITMODEL, pl);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_knife.miss");
 
