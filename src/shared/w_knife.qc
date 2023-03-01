@@ -135,21 +135,25 @@ w_knife_primary(player pl)
 
 		switch (trace_surface_id) {
 		case BODY_HEAD:
-			dmg = 60;
+			dmg = Skill_GetValue("plr_knife_dmghead", 60);
 			break;
 		case BODY_STOMACH:
-			dmg = 18;
+			dmg = Skill_GetValue("plr_knife_dmgstomach", 18);
 			break;
 		case BODY_LEGLEFT:
 		case BODY_LEGRIGHT:
-			dmg = 11;
+			dmg = Skill_GetValue("plr_knife_dmglegs", 11);
 			break;
-		case BODY_DEFAULT:
 		case BODY_CHEST:
+			dmg = Skill_GetValue("plr_knife_dmgchest", 15);
+			break;
 		case BODY_ARMLEFT:
 		case BODY_ARMRIGHT:
+			dmg = Skill_GetValue("plr_knife_dmgarms", 15);
+			break;
+		case BODY_DEFAULT:
 		default:
-			dmg = 15;
+			dmg = Skill_GetValue("plr_knife_dmg", 15);
 			break;
 		}
 		Damage_Apply(trace_ent, pl, dmg, WEAPON_KNIFE, DMG_SLASH);
@@ -180,7 +184,7 @@ w_knife_secondary(player pl)
 
 	Weapons_MakeVectors(pl);
 	src = pl.origin + pl.view_ofs;
-	traceline(src, src + (v_forward * 32), MOVE_HITMODEL, pl);
+	traceline(src, src + (v_forward * range), MOVE_HITMODEL, pl);
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_knife.miss");
 
@@ -202,21 +206,25 @@ w_knife_secondary(player pl)
 		int dmg = 0;
 		switch (trace_surface_id) {
 		case BODY_HEAD:
-			dmg = 260;
+			dmg = Skill_GetValue("plr_knife_altdmghead", 260);
 			break;
 		case BODY_STOMACH:
-			dmg = 81;
+			dmg = Skill_GetValue("plr_knife_altdmgstomach", 81);
 			break;
 		case BODY_LEGLEFT:
 		case BODY_LEGRIGHT:
-			dmg = 48;
+			dmg = Skill_GetValue("plr_knife_altdmglegs", 48);
 			break;
-		case BODY_DEFAULT:
 		case BODY_CHEST:
+			dmg = Skill_GetValue("plr_knife_altdmgchest", 65);
+			break;
 		case BODY_ARMLEFT:
 		case BODY_ARMRIGHT:
+			dmg = Skill_GetValue("plr_knife_altdmgarms", 65);
+			break;
+		case BODY_DEFAULT:
 		default:
-			dmg = 65;
+			dmg = Skill_GetValue("plr_knife_altdmg", 65);
 			break;
 		}
 
