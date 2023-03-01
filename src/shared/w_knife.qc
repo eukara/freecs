@@ -176,6 +176,8 @@ w_knife_secondary(player pl)
 
 #ifdef SERVER
 	vector src;
+	int range = Skill_GetValue("plr_knife_altrange", 48);
+
 	Weapons_MakeVectors(pl);
 	src = pl.origin + pl.view_ofs;
 	traceline(src, src + (v_forward * 32), MOVE_HITMODEL, pl);
