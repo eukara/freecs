@@ -29,6 +29,8 @@ CSMultiplayerRules::PlayerDisconnect(NSClientPlayer pl)
 {
 	if (health > 0)
 		PlayerDeath(pl);
+
+	super::PlayerDisconnect(pl);
 }
 
 void
