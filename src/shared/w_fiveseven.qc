@@ -122,6 +122,7 @@ w_fiveseven_primary(player pl)
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+	int dmg = 0;
 	pl.fiveseven_mag--;
 
 	if (pl.fiveseven_mag <= 0) {
@@ -147,9 +148,10 @@ w_fiveseven_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
+	dmg = Skill_GetValue("plr_fiveseven_dmg", 25);
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_FIVESEVEN, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_FIVESEVEN, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_fiveseven.fire");
 #endif
 

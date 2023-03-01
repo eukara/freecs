@@ -119,6 +119,7 @@ w_p228_primary(player pl)
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+	int dmg = 0;
 	pl.p228_mag--;
 
 	if (pl.p228_mag <= 0) {
@@ -147,9 +148,10 @@ w_p228_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
+	dmg = Skill_GetValue("plr_p228_dmg", 40);
 	TraceAttack_SetRangeModifier(1.5); /* penetrates 11, but not 12 units */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 40, [accuracy,accuracy], WEAPON_P228, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_P228, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_p228.fire");
 #endif
 

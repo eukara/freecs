@@ -108,6 +108,7 @@ w_sg552_draw(player pl)
 void
 w_sg552_primary(player pl)
 {
+	int dmg = 0;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -140,9 +141,10 @@ w_sg552_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_rifle_ejectshell, 0.0f);
 #else
+	dmg = Skill_GetValue("plr_sg552_dmg", 33);
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 33, [accuracy,accuracy], WEAPON_SG552, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_SG552, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_sg552.fire");
 #endif
 

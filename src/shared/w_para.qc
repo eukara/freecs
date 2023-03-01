@@ -107,6 +107,7 @@ w_para_draw(player pl)
 void
 w_para_primary(player pl)
 {
+	int dmg = 0;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -136,9 +137,10 @@ w_para_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_rifle_ejectshell, 0.0f);
 #else
+	dmg = Skill_GetValue("plr_para_dmg", 35);
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 35, [accuracy,accuracy], WEAPON_PARA, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_PARA, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_para.fire");
 #endif
 

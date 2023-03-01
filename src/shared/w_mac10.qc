@@ -108,6 +108,7 @@ w_mac10_draw(player pl)
 void
 w_mac10_primary(player pl)
 {
+	int dmg = 0;
 
 	if (pl.w_attack_next > 0.0) {
 		return;
@@ -142,9 +143,10 @@ w_mac10_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
+	dmg = Skill_GetValue("plr_mac10_dmg", 29);
 	TraceAttack_SetRangeModifier(1.25); /* 9, but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 29, [accuracy,accuracy], WEAPON_MAC10, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_MAC10, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mac10.fire");
 #endif
 

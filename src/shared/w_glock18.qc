@@ -127,7 +127,6 @@ w_glock18_draw(player pl)
 void
 w_glock18_primary(player pl)
 {
-
 	if (pl.w_attack_next > 0.0)
 		return;
 	if (pl.gflags & GF_SEMI_TOGGLED)
@@ -136,6 +135,7 @@ w_glock18_primary(player pl)
 		return;
 
 	int shotcount = (pl.mode_glock18) ? 3 : 1;
+	int dmg = 0;
 
 	/* fix shotcount if we're < 3 in burst mode */
 	if (pl.glock18_mag < 3 && pl.mode_glock18)
@@ -146,9 +146,10 @@ w_glock18_primary(player pl)
 		float accuracy = Cstrike_CalculateAccuracy(pl, (pl.mode_glock18) ? 175 : 200);
 		pl.glock18_mag--;
 #ifdef SERVER
+		dmg = Skill_GetValue("plr_glock18_dmg", 25);
 		TraceAttack_SetRangeModifier(1.25); /* penetrates 9 units, but not 10 */
 		TraceAttack_SetPenetrationPower(1);
-		TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 25, [accuracy,accuracy], WEAPON_GLOCK18, "Impact.BigShot");
+		TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_GLOCK18, "Impact.BigShot");
 #endif
 	}
 

@@ -136,6 +136,7 @@ w_usp45_primary(player pl)
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+	int dmg = 0;
 	pl.usp45_mag--;
 
 	/* this stuff is predicted */
@@ -196,9 +197,10 @@ w_usp45_primary(player pl)
 	}
 
 	/* actual firing */
+	dmg = Skill_GetValue("plr_usp45_dmg", 33);
 	TraceAttack_SetRangeModifier(0.79); /* can penetrate 6 but not 7 units */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_USP45, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg,  [accuracy,accuracy], WEAPON_USP45, "Impact.BigShot");
 #endif
 
 	pl.gflags |= GF_SEMI_TOGGLED;

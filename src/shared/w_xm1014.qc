@@ -155,6 +155,8 @@ void w_xm1014_release(player pl);
 void
 w_xm1014_primary(player pl)
 {
+	int dmg = 0;
+	int r = 0;
 
 	if (pl.w_attack_next > 0.0) {
 		w_xm1014_release(pl);
@@ -179,7 +181,7 @@ w_xm1014_primary(player pl)
 
 	pl.xm1014_mag--;
 
-	int r = (float)input_sequence % 3;
+	r = (float)input_sequence % 3;
 	switch (r) {
 	case 0:
 		Weapons_ViewAnimation(pl, XM1014_SHOOT1);
@@ -198,6 +200,7 @@ w_xm1014_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_xm1014_ejectshell, 0.0f);
 #else
+	dmg = Skill_GetValue("plr_xm1014_dmg", 22);
 	TraceAttack_SetPenetrationPower(0); /* shotties can't wallbang?! */
 	Sound_Play(pl, CHAN_WEAPON, "weapon_xm1014.fire");
 #endif
@@ -206,7 +209,7 @@ w_xm1014_primary(player pl)
 		Cstrike_ShotMultiplierAdd(pl, 1);
 		pl.punchangle[0] = -4 * (6 / 6);
 #ifdef SERVER
-		TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 22, [random(-1,1) * 0.1,random(-1,1) * 0.05], WEAPON_M3, "Impact.BigShot");
+		TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [random(-1,1) * 0.1,random(-1,1) * 0.05], WEAPON_M3, "Impact.BigShot");
 #endif
 	}
 	

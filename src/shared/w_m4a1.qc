@@ -124,6 +124,7 @@ w_m4a1_draw(player pl)
 void
 w_m4a1_primary(player pl)
 {
+	int dmg = 0;
 
 	if (pl.w_attack_next > 0.0) {
 		return;
@@ -184,9 +185,10 @@ w_m4a1_primary(player pl)
 		Sound_Play(pl, CHAN_WEAPON, "weapon_m4a1.fire");
 	}
 
+	dmg = Skill_GetValue("plr_m4a1_dmg", 33);
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 33,  [accuracy,accuracy], WEAPON_M4A1, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg,  [accuracy,accuracy], WEAPON_M4A1, "Impact.BigShot");
 #endif
 
 	pl.w_attack_next = 0.0875f;

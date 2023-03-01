@@ -164,6 +164,7 @@ w_scout_secondary(player pl)
 void
 w_scout_primary(player pl)
 {
+	int dmg = 0;
 
 	if (pl.w_attack_next > 0.0) {
 		w_scout_release(pl);
@@ -192,14 +193,14 @@ w_scout_primary(player pl)
 	else
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_RIFLE, 0.45f);
 
-
 #ifdef CLIENT
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_rifle_ejectshell, 0.5f);
 #else
+	dmg = Skill_GetValue("plr_scout_dmg", 75);
 	TraceAttack_SetRangeModifier(2.375);
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 75, [accuracy,accuracy], WEAPON_SCOUT, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_SCOUT, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_scout.fire");
 #endif
 

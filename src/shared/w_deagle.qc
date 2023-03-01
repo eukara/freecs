@@ -151,6 +151,7 @@ w_deagle_primary(player pl)
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+	int dmg;
 	pl.deagle_mag--;
 
 	if (pl.deagle_mag <= 0) {
@@ -176,9 +177,10 @@ w_deagle_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
+	dmg = Skill_GetValue("plr_deagle_dmg", 54);
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 54, [accuracy,accuracy], WEAPON_DEAGLE, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_DEAGLE, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_deagle.fire");
 #endif
 

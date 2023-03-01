@@ -108,6 +108,7 @@ w_ump45_draw(player pl)
 void
 w_ump45_primary(player pl)
 {
+	int dmg = 0;
 
 	if (pl.w_attack_next > 0.0)
 		return;
@@ -140,9 +141,10 @@ w_ump45_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
+	dmg = Skill_GetValue("plr_ump45_dmg", 30);
 	TraceAttack_SetRangeModifier(0.875); /* 6, but not 7 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 30, [accuracy,accuracy], WEAPON_UMP45, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_UMP45, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ump45.fire");
 #endif
 

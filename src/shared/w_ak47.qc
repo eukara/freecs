@@ -143,6 +143,7 @@ w_ak47_draw(player pl)
 void
 w_ak47_primary(player pl)
 {
+	int dmg = 0;
 
 	if (pl.w_attack_next > 0) {
 		return;
@@ -177,9 +178,10 @@ w_ak47_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_rifle_ejectshell, 0.0f);
 #else
+	dmg = Skill_GetValue("plr_ak47_dmg", 36);
 	TraceAttack_SetRangeModifier(2.375); /* 18 units!!! */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 36, [accuracy,accuracy], WEAPON_AK47, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_AK47, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ak47.fire");
 #endif
 

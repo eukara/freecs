@@ -179,6 +179,7 @@ w_elites_primary(player pl)
 
 	Cstrike_ShotMultiplierAdd(pl, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+	int dmg = 0;
 	pl.elites_mag--;
 
 	int r = (float)input_sequence % 5;
@@ -248,9 +249,10 @@ w_elites_primary(player pl)
 	else
 		View_AddEvent(w_pistol_ejectshell_right, 0.0f);
 #else
+	dmg = Skill_GetValue("plr_elites_dmg", 45);
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 45, [accuracy,accuracy], WEAPON_ELITES, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_ELITES, "Impact.BigShot");
 	Sound_Play(pl, CHAN_WEAPON, "weapon_elites.fire");
 #endif
 

@@ -199,6 +199,7 @@ w_awp_secondary(player pl)
 void
 w_awp_primary(player pl)
 {
+	int dmg = 0;
 
 	if (pl.w_attack_next > 0.0) {
 		w_awp_release(pl);
@@ -234,9 +235,10 @@ w_awp_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_sniper_ejectshell, 0.9f);
 #else
+	dmg = Skill_GetValue("plr_awp_dmg", 115);
 	TraceAttack_SetRangeModifier(1.375);
 	TraceAttack_SetPenetrationPower(2); /* however, we can only penetrate one wall if the first one is 5 units thick or higher */
-	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, 115, [accuracy,accuracy], WEAPON_AWP, "Impact.BigShot");
+	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_AWP, "Impact.BigShot");
 
 	Sound_Play(pl, CHAN_WEAPON, "weapon_awp.fire");
 #endif
