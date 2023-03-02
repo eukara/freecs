@@ -485,7 +485,12 @@ CSMultiplayerRules::RestartRound(int iWipe)
 
 	/* clear the corpses/items/bombs */
 	for (entity eFind = world; (eFind = find(eFind, ::classname, "remove_me"));) {
-		remove(eFind);
+		if (eFind.identity) {
+			NSEntity e = (NSEntity)eFind;
+			e.Destroy();
+		} else {
+			remove(eFind);
+		}
 	}
 	for (entity eFind = world; (eFind = find(eFind, ::classname, "tempdecal"));) {
 		decal dec = (decal)eFind;
