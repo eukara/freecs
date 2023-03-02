@@ -419,6 +419,25 @@ Loop through all ents and handle them
 void
 CSMultiplayerRules::RestartRound(int iWipe)
 {
+	if (autocvar_fcs_swaponround > 0)
+	if (m_iSwapTeamRoundCounter >= autocvar_fcs_swaponround) {
+		m_iSwapTeamRoundCounter = 0;
+		
+		for (entity eFind = world; (eFind = find(eFind, ::classname, "player"));) { 
+			player pl = (player)eFind;
+
+			if (pl.team == TEAM_T) {
+				pl.team = TEAM_CT; /* temp for CT */
+				pl.charmodel += 4;
+				pl.health = 0;
+			} else if (pl.team == TEAM_VIP || pl.team == TEAM_CT) {
+				pl.team = TEAM_T; /* temp for CT */
+				pl.charmodel -= 4;
+				pl.health = 0;
+			}
+		}
+	}
+
 	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_T));) {
 		if (!(eFind.flags & FL_CLIENT))
 			continue;
@@ -565,11 +584,13 @@ CSMultiplayerRules::RoundOver(int iTeamWon, int iMoneyReward, int fSilent)
 			Radio_BroadcastMessage(RADIO_TERWIN);
 		}
 		g_cs_roundswon_t++;
+		m_iSwapTeamRoundCounter++;
 	} else if (iTeamWon == TEAM_CT) {
 		if (fSilent == FALSE) {
 			Radio_BroadcastMessage(RADIO_CTWIN);
 		}
 		g_cs_roundswon_ct++;
+		m_iSwapTeamRoundCounter++;
 
 		/* In Bomb Defusal, if Terrorists were able to plant the bomb
 		 * but lose the round, all Terrorists receive an $800 bonus. */

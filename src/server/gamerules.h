@@ -46,6 +46,7 @@ class CSMultiplayerRules:CSGameRules
 	entity m_eLastCTSpawn;
 
 	int m_iEscapedTerrorists;
+	int m_iSwapTeamRoundCounter;
 
 	void() CSMultiplayerRules;
 
