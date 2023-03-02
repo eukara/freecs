@@ -1028,6 +1028,7 @@ CSMultiplayerRules::CSMultiplayerRules(void)
 	forceinfokey(world, "teamscore_1", "0");
 	forceinfokey(world, "team_2", "Counter-Terrorist");
 	forceinfokey(world, "teamscore_2", "0");
+	m_iEscapedTerrorists = 0;
 }
 
 /*

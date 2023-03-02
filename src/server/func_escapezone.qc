@@ -29,9 +29,10 @@ Used in the Escape mode (es_* maps).
 class
 func_escapezone:NSBrushTrigger
 {
-	void(void) func_escapezone;
+	void func_escapezone(void);
 
-	virtual void(void) Respawn;
+	virtual void Respawn(void);
+	virtual void Touch(entity);
 };
 
 void
@@ -44,4 +45,42 @@ void
 func_escapezone::Respawn(void)
 {
 	InitBrushTrigger();
+}
+
+
+void
+func_escapezone::Touch(entity eToucher)
+{
+	CSMultiplayerRules rule = (CSMultiplayerRules)g_grMode;
+	int to_escape = g_cs_total_t;
+
+	/* only 3 Ts need to escape, max */
+	if (to_escape > 3)
+		to_escape = 3;
+
+	player pl = (player)eToucher;
+
+	/* don't matter when rules are not active */
+	if (g_cs_gamestate != GAME_ACTIVE)
+		return;
+
+	/* disallow the wrong players */
+	if (pl.classname != "player")
+		return;
+	if (pl.team != TEAM_T)
+		return;
+
+	rule.m_iEscapedTerrorists++;
+
+	/* mark player as spectator for the end of this 'round' */
+	pl.MakeTempSpectator();
+
+	/* threshold has been met to trigger the end of the round */
+	if (rule.m_iEscapedTerrorists >= to_escape) {
+		/* reset */
+		rule.m_iEscapedTerrorists = 0;
+
+		/* Ts win the round */
+		rule.RoundOver(TEAM_T, 3600, FALSE);
+	}
 }

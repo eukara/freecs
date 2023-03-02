@@ -45,6 +45,8 @@ class CSMultiplayerRules:CSGameRules
 	entity m_eLastTSpawn;
 	entity m_eLastCTSpawn;
 
+	int m_iEscapedTerrorists;
+
 	void() CSMultiplayerRules;
 
 	virtual void(void) InitPostEnts;
