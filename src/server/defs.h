@@ -67,6 +67,7 @@ var string autocvar_motdfile = "motd.txt";
 var int autocvar_mp_friendlyfire = FALSE;
 
 /* new, FreeCS exclusive variables */
+var int autocvar_fcs_escapepenalty = -300;
 var int autocvar_fcs_swaponround = 0;
 var int autocvar_fcs_voxannounce = FALSE;
 var int autocvar_fcs_knifeonly = FALSE; /* Disallows buying and spawning with weps */

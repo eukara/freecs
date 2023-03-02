@@ -52,7 +52,10 @@ void
 func_escapezone::Touch(entity eToucher)
 {
 	CSMultiplayerRules rule = (CSMultiplayerRules)g_grMode;
-	int to_escape = g_cs_total_t;
+	int to_escape = 0;
+
+	rule.CountPlayers();
+	to_escape = g_cs_total_t;
 
 	/* only 3 Ts need to escape, max */
 	if (to_escape > 3)
@@ -71,6 +74,17 @@ func_escapezone::Touch(entity eToucher)
 		return;
 
 	rule.m_iEscapedTerrorists++;
+
+	/* balancing tweak: for every escaped T, each and every CT will lose funds */
+	if (autocvar_fcs_escapepenalty != 0) {
+		for (entity eFind = world; (eFind = find(eFind, ::classname, "player"));) { 
+			player ct = (player)eFind;
+
+			if (ct.team == TEAM_CT) {
+				Money_AddMoney(ct, autocvar_fcs_escapepenalty);
+			}
+		}
+	}
 
 	/* mark player as spectator for the end of this 'round' */
 	pl.MakeTempSpectator();
