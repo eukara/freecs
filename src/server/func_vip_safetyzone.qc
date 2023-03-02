@@ -59,7 +59,7 @@ func_vip_safetyzone::Touch(entity eToucher)
 		return;
 
 	/* CTs win the round */
-	rule.RoundOver(TEAM_CT, 3600, FALSE);
+	rule.RoundOver(TEAM_CT, 3500, FALSE);
 	/* VIP receives money to spend */
 	Money_AddMoney(pl, 2500);
 
