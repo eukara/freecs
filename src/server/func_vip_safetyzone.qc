@@ -49,13 +49,20 @@ func_vip_safetyzone::Respawn(void)
 void
 func_vip_safetyzone::Touch(entity eToucher)
 {
+	CSMultiplayerRules rule = (CSMultiplayerRules)g_grMode;
+
 	player pl = (player)eToucher;
 
-	if (!(eToucher.flags & FL_CLIENT))
+	if (pl.classname != "player")
+		return;
+	if (pl.team != TEAM_VIP)
 		return;
 
-	if (pl.team == TEAM_VIP) {
-		Money_AddMoney(pl, 2500);
-		//RoundOver(TEAM_CT, 0, FALSE);
-	}
+	/* CTs win the round */
+	rule.RoundOver(TEAM_CT, 3600, FALSE);
+	/* VIP receives money to spend */
+	Money_AddMoney(pl, 2500);
+
+	/* mark player as spectator for the end of this 'round' */
+	pl.MakeTempSpectator();
 }
