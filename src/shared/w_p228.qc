@@ -166,7 +166,7 @@ w_p228_reload(player pl)
 
 	if (pl.w_attack_next > 0.0)
 		return;
-	if (pl.p228_mag >= 30)
+	if (pl.p228_mag >= 13)
 		return;
 	if (!pl.ammo_357sig)
 		return;
