@@ -65,4 +65,5 @@ func_vip_safetyzone::Touch(entity eToucher)
 
 	/* mark player as spectator for the end of this 'round' */
 	pl.MakeTempSpectator();
+	pl.gflags &= ~GF_FLASHLIGHT;
 }

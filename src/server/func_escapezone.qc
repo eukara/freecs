@@ -88,6 +88,7 @@ func_escapezone::Touch(entity eToucher)
 
 	/* mark player as spectator for the end of this 'round' */
 	pl.MakeTempSpectator();
+	pl.gflags &= ~GF_FLASHLIGHT;
 
 	/* threshold has been met to trigger the end of the round */
 	if (rule.m_iEscapedTerrorists >= to_escape) {
