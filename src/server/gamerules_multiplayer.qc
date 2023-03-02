@@ -30,7 +30,7 @@ CSMultiplayerRules::PlayerDisconnect(NSClientPlayer pl)
 	if (health > 0)
 		PlayerDeath(pl);
 
-	super::PlayerDisconnect(pl);
+	NSGameRules::PlayerDisconnect(pl);
 }
 
 void
@@ -687,34 +687,19 @@ CSMultiplayerRules::CountPlayers(void)
 	g_cs_total_t = 0;
 	g_cs_total_ct = 0;
 
-	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_T));) {
-		if (!(eFind.flags & FL_CLIENT))
-			continue;
+	for (entity eFind = world; (eFind = find(eFind, ::classname, "player"));) {
+		if (eFind.team == TEAM_T) {
+			g_cs_total_t++;
 
-		g_cs_total_t++;
+			if (eFind.health > 0)
+				g_cs_alive_t++;
+		} else if (eFind.team == TEAM_CT || eFind.team == TEAM_VIP) {
+			g_cs_total_ct++;
 
-		if (eFind.health > 0)
-			g_cs_alive_t++;
+			if (eFind.health > 0)
+				g_cs_alive_ct++;
+		}
 	}
-	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_CT));) {
-		if (!(eFind.flags & FL_CLIENT))
-			continue;
-
-		g_cs_total_ct++;
-
-		if (eFind.health > 0)
-			g_cs_alive_ct++;
-	}
-	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_VIP));) {
-		if (!(eFind.flags & FL_CLIENT))
-			continue;
-
-		g_cs_total_ct++;
-
-		if (eFind.health > 0)
-			g_cs_alive_ct++;
-	}
-
 
 	g_total_players = g_cs_total_t + g_cs_total_ct;
 }
