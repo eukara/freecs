@@ -84,6 +84,9 @@ CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 	if (targ.g_items & ITEM_C4BOMB) {
 		targ.activeweapon = WEAPON_C4BOMB;
 		Weapon_DropCurrentWeapon(targ);
+	} else {
+		targ.activeweapon = Cstrike_WeaponToDropUponDeath(targ);
+		Weapon_DropCurrentWeapon(targ);
 	}
 
 	/* clear all ammo and inventory... */

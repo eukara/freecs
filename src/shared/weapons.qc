@@ -45,3 +45,20 @@ weapon_t g_weapons[] = {
 	w_smokegrenade,
 	w_c4bomb
 };
+
+int
+Cstrike_WeaponToDropUponDeath(player pl)
+{
+	int best_weapon = WEAPON_KNIFE; /* this will never drop, so an okay default */
+
+	for (int i = 0; i < g_weapons.length; i++) {
+		if (pl.g_items & g_weapons[i].id) {
+			if (g_weapons[i].slot == 0)
+				return i; /* immediately choose this primary weapon */
+
+			best_weapon = i;
+		}
+	}
+
+	return best_weapon;
+}
