@@ -42,5 +42,6 @@ radio.qc
 ../../../valve/src/client/modelevent.qc
 
 ../../../src/client/include.src
+../../../valve/src/client/vgui_motd.qc
 ../../../src/shared/include.src
 #endlist

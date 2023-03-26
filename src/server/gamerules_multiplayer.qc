@@ -208,6 +208,8 @@ CSMultiplayerRules::CreateTBuyzones(void)
 void
 CSMultiplayerRules::InitPostEnts(void)
 {
+	MOTD_LoadDefault();
+
 	/* let's check if we need to create buyzones */
 	switch (g_cstrike_buying) {
 	case BUY_CT:

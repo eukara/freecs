@@ -112,11 +112,14 @@ ClientGame_Init(float apilevel, string enginename, float engineversion)
 	Sound_Precache("nvg.off");
 }
 
+void VGUI_ShowMOTD(void);
 void
 ClientGame_InitDone(void)
 {
 	if (serverkeyfloat("sv_playerslots") > 1)
 		Textmenu_Call("TEAM_SELECT");
+
+	VGUI_ShowMOTD();
 }
 
 void
