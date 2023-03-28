@@ -399,7 +399,7 @@ void
 CSMultiplayerRules::MakeBomber(NSClientPlayer pl)
 {
 	Weapons_AddItem(pl, WEAPON_C4BOMB, -1);
-	centerprint(pl, "You have the bomb!\nFind the target zone or DROP\nthe bomb for another Terrorist.");
+	env_message_single(pl, "Hint_you_have_the_bomb");
 }
 
 void
@@ -407,7 +407,7 @@ CSMultiplayerRules::MakeVIP(NSClientPlayer pl)
 {
 	pl.team = TEAM_VIP;
 	PlayerRespawn(pl, pl.team);
-	centerprint(pl, "You are the VIP\nMake your way to the safety zones!");
+	env_message_single(pl, "Hint_you_are_the_vip");
 	forceinfokey(pl, "*dead", "2");
 }
 
