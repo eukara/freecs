@@ -189,6 +189,8 @@ class player:NSClientPlayer
 	int charmodel;
 	int money;
 	float progress;
+
+	bool m_buyMessage;
 #endif
 };
 

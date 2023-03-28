@@ -83,4 +83,9 @@ func_buyzone::Touch(entity eToucher)
 
 	if (team == 0 || team == pl.team)
 		pl.gflags |= GF_BUYZONE;
+
+	if (pl.m_buyMessage == false) {
+		env_message_single(pl, "Hint_press_buy_to_purchase");
+		pl.m_buyMessage = true;
+	}
 }

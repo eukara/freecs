@@ -456,8 +456,7 @@ CSMultiplayerRules::RestartRound(int iWipe)
 		if (iWipe == FALSE) {
 			Money_GiveTeamReward(pl);
 		} else {
-			pl.money = 0;
-			Money_AddMoney(pl, autocvar_mp_startmoney);
+			PlayerReset(pl);
 		}
 	}
 	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_CT));) {
@@ -476,8 +475,7 @@ CSMultiplayerRules::RestartRound(int iWipe)
 		if (iWipe == FALSE) {
 			Money_GiveTeamReward(pl);
 		} else {
-			pl.money = 0;
-			Money_AddMoney(pl, autocvar_mp_startmoney);
+			PlayerReset(pl);
 		}
 	}
 
@@ -499,8 +497,7 @@ CSMultiplayerRules::RestartRound(int iWipe)
 		if (iWipe == FALSE) {
 			Money_GiveTeamReward(pl);
 		} else {
-			pl.money = 0;
-			Money_AddMoney(pl, autocvar_mp_startmoney);
+			PlayerReset(pl);
 		}
 	}
 
@@ -983,6 +980,25 @@ CSMultiplayerRules::PlayerMakeSpectator(NSClientPlayer pp)
 
 /*
 =================
+PlayerReset
+
+Called when we give the initial starting money, and also when
+another player joins and causes the game rules/scores to reset fully
+=================
+*/
+void
+CSMultiplayerRules::PlayerReset(NSClientPlayer pl)
+{
+	player p = (player)pl;
+
+	/* give the initial server-joining money */
+	p.money = 0;
+	Money_AddMoney(pl, autocvar_mp_startmoney);
+	p.m_buyMessage = false; /* unset the buy message. */
+}
+
+/*
+=================
 PlayerSpawn
 
 Called on the client first joining the server.
@@ -995,8 +1011,7 @@ CSMultiplayerRules::PlayerSpawn(NSClientPlayer pl)
 	PlayerMakeSpectator(pl);
 	Spawn_ObserverCam(pl);
 
-	/* give the initial server-joining money */
-	Money_AddMoney(pl, autocvar_mp_startmoney);
+	PlayerReset(pl);
 
 	/* we don't belong to any team */
 	pl.team = TEAM_SPECTATOR;
