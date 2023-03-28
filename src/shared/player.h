@@ -191,6 +191,7 @@ class player:NSClientPlayer
 	float progress;
 
 	bool m_buyMessage;
+	bool m_hostMessageT;
 #endif
 };
 

@@ -122,6 +122,11 @@ void
 hostage_entity::OnPlayerUse(void)
 {
 	if (eActivator.team == TEAM_T) {
+		player pl = (player)eActivator;
+		if (pl.m_hostMessageT == false) {
+			env_message_single(pl, "Only_CT_Can_Move_Hostages");
+			pl.m_hostMessageT = true;
+		}
 		return;
 	}
 

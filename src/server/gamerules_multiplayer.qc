@@ -995,6 +995,7 @@ CSMultiplayerRules::PlayerReset(NSClientPlayer pl)
 	p.money = 0;
 	Money_AddMoney(pl, autocvar_mp_startmoney);
 	p.m_buyMessage = false; /* unset the buy message. */
+	p.m_hostMessageT = false;
 }
 
 /*
