@@ -113,6 +113,38 @@ void
 CSMultiplayerRules::PlayerPreFrame(NSClientPlayer pl)
 {
 	super::PlayerPreFrame(pl);
+
+	/* the messages that get printed when you aim at something
+	   happen here */
+	{
+		vector sourcePos, destPos;
+		player p = (player)pl;
+
+		sourcePos = pl.GetEyePos();
+		destPos = sourcePos + (pl.GetForward() * 512);
+		traceline(sourcePos, destPos, MOVE_NORMAL, pl);
+
+		if (trace_ent) {
+			if (trace_ent.classname == "player")
+				if (trace_ent.team == p.team && p.m_seenFriend == false) {
+					env_message_single(pl, "Hint_spotted_a_friend");
+					p.m_seenFriend = true;
+				} else if (trace_ent.team != p.team && p.m_seenEnemy == false) {
+					env_message_single(pl, "Hint_spotted_an_enemy");
+					p.m_seenEnemy = true;
+				}
+
+			if (trace_ent.classname == "hostage_entity" && p.m_seenHostage == false) {
+				if (p.team == TEAM_T) {
+					env_message_single(pl, "Hint_prevent_hostage_rescue");
+				} else {
+					env_message_single(pl, "Hint_rescue_the_hostages");
+					env_message_single(pl, "Hint_press_use_so_hostage_will_follow");
+				}
+				p.m_seenHostage = true;
+			}
+		}
+	}
 }
 
 void
@@ -996,6 +1028,9 @@ CSMultiplayerRules::PlayerReset(NSClientPlayer pl)
 	Money_AddMoney(pl, autocvar_mp_startmoney);
 	p.m_buyMessage = false; /* unset the buy message. */
 	p.m_hostMessageT = false;
+	p.m_seenFriend = false;
+	p.m_seenEnemy = false;
+	p.m_seenHostage = false;
 }
 
 /*

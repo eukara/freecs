@@ -192,6 +192,9 @@ class player:NSClientPlayer
 
 	bool m_buyMessage;
 	bool m_hostMessageT;
+	bool m_seenFriend;
+	bool m_seenEnemy;
+	bool m_seenHostage;
 #endif
 };
 
