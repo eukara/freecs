@@ -14,192 +14,151 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-static CUIWindow winChooseTeam;
-static CUIWindow winCTTeam;
-static CUIWindow winTTeam;
+static VGUIWindow winChooseTeam;
 
-void
-T_Skin1(void)
+string
+VGUI_ChooseTeam_MapInfo(void)
 {
-	sendevent("GamePlayerSpawn", "f", 1);
-	winTTeam.Hide();
-}
-void
-T_Skin2(void)
-{
-	sendevent("GamePlayerSpawn", "f", 2);
-	winTTeam.Hide();
-}
-void
-T_Skin3(void)
-{
-	sendevent("GamePlayerSpawn", "f", 3);
-	winTTeam.Hide();
-}
-void
-T_Skin4(void)
-{
-	sendevent("GamePlayerSpawn", "f", 4);
-	winTTeam.Hide();
-}
+	static string mapinfo = __NULL__;
 
-void
-CT_Skin1(void)
-{
-	sendevent("GamePlayerSpawn", "f", 5);
-	winCTTeam.Hide();
-}
-void
-CT_Skin2(void)
-{
-	sendevent("GamePlayerSpawn", "f", 6);
-	winCTTeam.Hide();
-}
-void
-CT_Skin3(void)
-{
-	sendevent("GamePlayerSpawn", "f", 7);
-	winCTTeam.Hide();
-}
-void
-CT_Skin4(void)
-{
-	sendevent("GamePlayerSpawn", "f", 8);
-	winCTTeam.Hide();
-}
-void
-VGUI_GoSpectator(void)
-{
-	sendevent("GamePlayerSpawn", "f", 0);
-	winChooseTeam.Hide();
-}
+	if (mapinfo != __NULL__)
+		return mapinfo;
+	
+	filestream fileMap = fopen(strcat("maps/", mapname, ".txt"), FILE_READ);
+	string temp;
 
-void
-VGUI_ChooseTeam_CT(void)
-{
-	static int initialized;
-	static CUIButton btnSkin1;
-	static CUIButton btnSkin2;
-	static CUIButton btnSkin3;
-	static CUIButton btnSkin4;
-
-	if (!initialized) {
-		initialized = TRUE;
-		winCTTeam = spawn(CUIWindow);
-		winCTTeam.SetTitle("Choose Skin");
-		winCTTeam.SetSize([420,320]);
-
-		btnSkin1 = spawn(CUIButton);
-		btnSkin1.SetTitle("Skin 1");
-		btnSkin1.SetPos([8,132]);
-		btnSkin1.SetFunc(CT_Skin1);
-
-		btnSkin2 = spawn(CUIButton);
-		btnSkin2.SetTitle("Skin 2");
-		btnSkin2.SetPos([8,132+30]);
-		btnSkin2.SetFunc(CT_Skin2);
-
-		btnSkin3 = spawn(CUIButton);
-		btnSkin3.SetTitle("Skin 3");
-		btnSkin3.SetPos([8,132+30+30]);
-		btnSkin3.SetFunc(CT_Skin3);
-
-		btnSkin4 = spawn(CUIButton);
-		btnSkin4.SetTitle("Skin 4");
-		btnSkin4.SetPos([8,132+30+30+30]);
-		btnSkin4.SetFunc(CT_Skin4);
-
-		g_uiDesktop.Add(winCTTeam);
-		winCTTeam.Add(btnSkin1);
-		winCTTeam.Add(btnSkin2);
-		winCTTeam.Add(btnSkin3);
-		winCTTeam.Add(btnSkin4);
+	if (fileMap != -1) {
+		while ((temp = fgets(fileMap))) {
+			mapinfo = strcat(mapinfo, temp, "\n");
+		}
+	} else {
+		mapinfo = "No map info available.";
 	}
 
-	winChooseTeam.Hide();
-	winCTTeam.Show();
-	winCTTeam.SetPos((video_res / 2) - (winCTTeam.GetSize() / 2));
+	return mapinfo;
 }
 
-void
-VGUI_ChooseTeam_T(void)
+/* returns true if you should join CT, else T */
+bool
+VGUI_ChooseTeam_AutoQuery(void)
 {
-	static int initialized;
-	static CUIButton btnSkin1;
-	static CUIButton btnSkin2;
-	static CUIButton btnSkin3;
-	static CUIButton btnSkin4;
+	int teamT = 0;
+	int teamCT = 0;
 
-	if (!initialized) {
-		initialized = TRUE;
-		winTTeam = spawn(CUIWindow);
-		winTTeam.SetTitle("Choose Skin");
-		winTTeam.SetSize([420,320]);
-
-		btnSkin1 = spawn(CUIButton);
-		btnSkin1.SetTitle("Skin 1");
-		btnSkin1.SetPos([8,132]);
-		btnSkin1.SetFunc(T_Skin1);
-
-		btnSkin2 = spawn(CUIButton);
-		btnSkin2.SetTitle("Skin 2");
-		btnSkin2.SetPos([8,132+30]);
-		btnSkin2.SetFunc(T_Skin2);
-
-		btnSkin3 = spawn(CUIButton);
-		btnSkin3.SetTitle("Skin 3");
-		btnSkin3.SetPos([8,132+30+30]);
-		btnSkin3.SetFunc(T_Skin3);
-
-		btnSkin4 = spawn(CUIButton);
-		btnSkin4.SetTitle("Skin 4");
-		btnSkin4.SetPos([8,132+30+30+30]);
-		btnSkin4.SetFunc(T_Skin4);
-
-		g_uiDesktop.Add(winTTeam);
-		winTTeam.Add(btnSkin1);
-		winTTeam.Add(btnSkin2);
-		winTTeam.Add(btnSkin3);
-		winTTeam.Add(btnSkin4);
+	for (int i = -1; i > -32; i--) {
+		if (getplayerkeyfloat(i, "*team") == 1) {
+			teamT++;
+		} else if (getplayerkeyfloat(i, "*team") == 2) {
+			teamCT++;
+		}
 	}
 
-	winChooseTeam.Hide();
-	winTTeam.Show();
-	winTTeam.SetPos((video_res / 2) - (winTTeam.GetSize() / 2));
+	if (teamT > teamCT)
+		return true;
+
+	return false;
 }
 
 void
 VGUI_ChooseTeam(void)
 {
 	static int initialized;
-	static CUIButton btnGoCT;
-	static CUIButton btnGoT;
-	static CUIButton btnGoSpectator;
+	static VGUIButton btnJoinT;
+	static VGUIButton btnJoinCT;
+	static VGUIButton btnAutoAssign;
+	static VGUIButton btnGoSpectator;
+	static VGUIFrame frmMapInfo;
+	static VGUILabel lblSelectTeam;
+	static VGUILabel lblMapName;
+	static VGUILabel lblMapInfo;
+
+	static void VGUI_ChooseTeam_CT(void) {
+		VGUI_ChooseClassCT();
+		winChooseTeam.Hide();
+	}
+
+	static void VGUI_ChooseTeam_T(void) {
+		VGUI_ChooseClassT();
+		winChooseTeam.Hide();
+	}
+
+	static void VGUI_ChooseTeam_Auto(void) {
+		if (VGUI_ChooseTeam_AutoQuery())
+			VGUI_ChooseTeam_CT();
+		else
+			VGUI_ChooseTeam_T();
+	}
+
+	static void VGUI_ChooseTeam_Spec(void) {
+		//sendevent("JoinAuto", "");
+		winChooseTeam.Hide();
+	}
 
 	if (!initialized) {
+		vector btnpos = [40,80];
+
 		initialized = TRUE;
-		winChooseTeam = spawn(CUIWindow);
-		winChooseTeam.SetTitle("Choose Team");
-		winChooseTeam.SetSize('420 320');
+		winChooseTeam = spawn(VGUIWindow);
+		winChooseTeam.SetSize('640 480');
+		winChooseTeam.SetStyleMask(VGUIWindowBorderless | VGUIWindowFullscreen);
 
-		btnGoCT = spawn(CUIButton);
-		btnGoCT.SetTitle("Counter-Terrorists");
-		btnGoCT.SetPos('8 132');
-		btnGoCT.SetFunc(VGUI_ChooseTeam_CT);
+		lblSelectTeam = spawn(VGUILabel);
+		lblSelectTeam.SetTitle("Select Your Team");
+		lblSelectTeam.SetTextSize(19);
+		lblSelectTeam.SetPos([40, 38]);
+		lblSelectTeam.SetSize('400 24');
 
-		btnGoT = spawn(CUIButton);
-		btnGoT.SetTitle("Terrorists");
-		btnGoT.SetPos('8 162');
-		btnGoT.SetFunc(VGUI_ChooseTeam_T);
+		frmMapInfo = spawn(VGUIFrame);
+		frmMapInfo.SetPos('176 80');
+		frmMapInfo.SetSize('424 312');
 
-		btnGoSpectator = spawn(CUIButton);
-		btnGoSpectator.SetTitle("Spectator");
-		btnGoSpectator.SetPos('8 192');
-		btnGoSpectator.SetFunc(VGUI_GoSpectator);
+		lblMapName = spawn(VGUILabel);
+		lblMapName.SetTitle(mapname);
+		lblMapName.SetTextSize(19);
+		lblMapName.SetPos('194 105');
+		lblMapName.SetSize('250 312');
+
+		lblMapInfo = spawn(VGUILabel);
+		lblMapInfo.SetTitle(VGUI_ChooseTeam_MapInfo());
+		lblMapInfo.SetPos('194 129');
+		lblMapInfo.SetSize('375 250');
+
+		btnJoinT = spawn(VGUIButton);
+		btnJoinT.SetTitle("Terrorist Forces");
+		btnJoinT.SetPos('40 80');
+		btnJoinT.SetSize('124 24');
+		btnJoinT.SetKeyEquivalent("1");
+		btnJoinT.SetFunc(VGUI_ChooseTeam_T);
+
+		btnJoinCT = spawn(VGUIButton);
+		btnJoinCT.SetTitle("CT Forces");
+		btnJoinCT.SetPos('40 112');
+		btnJoinCT.SetSize('124 24');
+		btnJoinCT.SetKeyEquivalent("2");
+		btnJoinCT.SetFunc(VGUI_ChooseTeam_CT);
+
+		btnAutoAssign = spawn(VGUIButton);
+		btnAutoAssign.SetTitle("Auto Assign");
+		btnAutoAssign.SetPos('40 208');
+		btnAutoAssign.SetSize('124 24');
+		btnAutoAssign.SetKeyEquivalent("5");
+		btnAutoAssign.SetFunc(VGUI_ChooseTeam_Auto);
+
+		btnGoSpectator = spawn(VGUIButton);
+		btnGoSpectator.SetTitle("Spectate");
+		btnGoSpectator.SetPos('40 272');
+		btnGoSpectator.SetSize('124 24');
+		btnGoSpectator.SetKeyEquivalent("6");
+		btnGoSpectator.SetFunc(VGUI_ChooseTeam_Spec);
 
 		g_uiDesktop.Add(winChooseTeam);
-		winChooseTeam.Add(btnGoCT);
-		winChooseTeam.Add(btnGoT);
+		winChooseTeam.Add(frmMapInfo);
+		winChooseTeam.Add(lblSelectTeam);
+		winChooseTeam.Add(lblMapName);
+		winChooseTeam.Add(lblMapInfo);
+		winChooseTeam.Add(btnJoinT);
+		winChooseTeam.Add(btnJoinCT);
+		winChooseTeam.Add(btnAutoAssign);
 		winChooseTeam.Add(btnGoSpectator);
 	}
 

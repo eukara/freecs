@@ -42,6 +42,9 @@ radio.qc
 ../../../valve/src/client/modelevent.qc
 
 ../../../src/client/include.src
-../../../valve/src/client/vgui_motd.qc
+vgui_motd.qc
+vgui_changeclass_t.qc
+vgui_changeclass_ct.qc
+vgui_chooseteam.qc
 ../../../src/shared/include.src
 #endlist

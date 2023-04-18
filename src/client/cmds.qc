@@ -14,13 +14,27 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+void VGUI_ChooseTeam(void);
+
+void
+CMD_ChooseTeam(void)
+{
+	if (serverkeyfloat("sv_playerslots") <= 1)
+		return;
+
+	/* handle both VGUI and text menus */
+	if (ClientGame_IsUsingVGUI())
+		VGUI_ChooseTeam();
+	else
+		Textmenu_Toggle("TEAM_SELECT");
+}
+
 int
 ClientGame_ConsoleCommand(void)
 {
 	switch(argv(0)) {
 	case "chooseteam":
-		if (serverkeyfloat("sv_playerslots") > 1)
-			Textmenu_Toggle("TEAM_SELECT");
+		CMD_ChooseTeam();
 		break;
 	case "buy":
 		Textmenu_Toggle("BUY");
