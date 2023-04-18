@@ -181,6 +181,7 @@ class player:NSClientPlayer
 	virtual void ReceiveEntity(float, float);
 	virtual void PredictPreFrame(void);
 	virtual void PredictPostFrame(void);
+	virtual void UpdateAliveCam(void);
 #else
 	virtual void ServerInputFrame(void);
 	virtual void EvaluateEntity(void);
@@ -226,6 +227,39 @@ player::UpdatePlayerAnimation(float timelength)
 }
 
 #ifdef CLIENT
+void Camera_RunPosBob(vector angles, __inout vector camera_pos);
+void Camera_StrafeRoll(__inout vector camera_angle);
+void Shake_Update(NSClientPlayer);
+
+void
+player::UpdateAliveCam(void)
+{
+	vector cam_pos = GetEyePos();
+	Camera_RunPosBob(view_angles, cam_pos);
+
+	g_view.SetCameraOrigin(cam_pos);
+	Camera_StrafeRoll(view_angles);
+	g_view.SetCameraAngle(view_angles);
+
+	if (vehicle) {
+		NSVehicle veh = (NSVehicle)vehicle;
+
+		if (veh.UpdateView)
+			veh.UpdateView();
+	} else if (health) {
+		if (autocvar_pm_thirdPerson == TRUE) {
+			makevectors(view_angles);
+			vector vStart = [pSeat->m_vecPredictedOrigin[0], pSeat->m_vecPredictedOrigin[1], pSeat->m_vecPredictedOrigin[2] + 16] + (v_right * 4);
+			vector vEnd = vStart + (v_forward * -48) + [0,0,16] + (v_right * 4);
+			traceline(vStart, vEnd, FALSE, this);
+			g_view.SetCameraOrigin(trace_endpos + (v_forward * 5));
+		}
+	}
+
+	Shake_Update(this);
+	g_view.AddPunchAngle(punchangle);
+}
+
 .string oldmodel;
 string Weapons_GetPlayermodel(player, int);
 

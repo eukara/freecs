@@ -547,6 +547,10 @@ CSMultiplayerRules::RestartRound(int iWipe)
 		dec.m_strTexture = "";
 		dec.SendFlags = -1;
 	}
+	for (entity eFind = world; (eFind = find(eFind, ::classname, "item_c4"));) {
+		NSEntity e = (NSEntity)eFind;
+		e.Destroy();
+	}
 
 	WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
 	WriteByte(MSG_MULTICAST, EV_CLEARDECALS);

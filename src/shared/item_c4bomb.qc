@@ -28,17 +28,18 @@ class item_c4:NSRenderableEntity
 #endif
 
 #ifdef SERVER
-	void(void) item_c4;
-	virtual float(entity, float) SendEntity;
-	virtual void(void) ClearProgress;
-	virtual void(void) OnPlayerUse;
-	virtual void(void) Logic;
+	void item_c4(void);
+	virtual float SendEntity(entity, float);
+	virtual void ClearProgress(void);
+	virtual void OnPlayerUse(void);
+	virtual void Logic(void);
+	virtual void OnRemoveEntity(void);
 #endif
 
 #ifdef CLIENT
-	void(void) item_c4;
-	virtual void(void) DrawLED;
-	virtual float(void) predraw;
+	void item_c4(void);
+	virtual void DrawLED(void);
+	virtual float predraw(void);
 #endif
 };
 
@@ -115,20 +116,15 @@ item_c4::Logic(void)
 	}
 
 	if (m_flDefusalState > 10.0f) {
-		ClearProgress();
 		sound(this, CHAN_VOICE, "weapons/c4_disarmed.wav", 1.0, ATTN_NORM);
 		rules.RoundOver(TEAM_CT, 3600, TRUE);
 		Radio_BroadcastMessage(RADIO_BOMBDEF);
-		m_flBeepTime = 0.0f;
-		m_flDefusalState = 0;
-		remove(this);
+		Destroy();
 		return;
 	}
 
 	/* if our time has passed, explode */
-	if (m_flExplodeTime < time) {
-		ClearProgress();
-
+	if (m_flExplodeTime < time) {\
 		/* In Bomb Defusal, all Terrorists receive $3500
 		 * if they won by detonating the bomb. */
 		rules.RoundOver(TEAM_T, 3500, FALSE);
@@ -142,9 +138,7 @@ item_c4::Logic(void)
 			}
 		}
 
-		m_flBeepTime = 0.0f;
-		m_flDefusalState = 0;
-		remove(this);
+		Destroy();
 		return;
 	}
 
@@ -166,6 +160,14 @@ item_c4::Logic(void)
 	} else {
 		sound(this, CHAN_VOICE, "weapons/c4_beep1.wav", 1.0, ATTN_NORM);
 	}
+}
+
+void
+item_c4::OnRemoveEntity(void)
+{
+	ClearProgress();
+	m_flBeepTime = 0.0f;
+	m_flDefusalState = 0;
 }
 
 void
