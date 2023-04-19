@@ -279,6 +279,10 @@ VGUI_BuyMenu_Page(int buyPage)
 		}
 	}
 
+	lblBuyItemDescr.SetTitle("");
+	lblBuyItemTitle.SetTitle("");
+	imgBuyItemPic.SetImage("");
+
 	winBuyMenuPage.Show();
 	winBuyMenuPage.SetPos((video_res / 2) - (winBuyMenuPage.GetSize() / 2));
 
