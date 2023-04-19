@@ -33,6 +33,13 @@ CMD_ChooseTeam(void)
 void
 CMD_BuyMenu(void)
 {
+	player pl = (player)pSeat->m_ePlayer;
+
+	/* only in buy zones... */
+	if (!(pl.gflags & GF_BUYZONE)) {
+		return;
+	}
+
 	/* handle both VGUI and text menus */
 	if (ClientGame_IsUsingVGUI())
 		VGUI_BuyMenu();
