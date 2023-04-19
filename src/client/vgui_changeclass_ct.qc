@@ -26,6 +26,9 @@ CSClassCT_Init(void)
 	g_classDescrGSG9 = textfile_to_string("classes/gsg9.txt");
 	g_classDescrSAS = textfile_to_string("classes/sas.txt");
 	g_classDescrGIGN = textfile_to_string("classes/gign.txt");
+
+	if (!g_classDescrAuto)
+		g_classDescrAuto = textfile_to_string("classes/autoselect.txt");
 }
 
 static VGUIWindow winClassSelectionCT;
@@ -51,6 +54,11 @@ void
 CSClassButtonCT::OnMouseUp(void)
 {
 	int classSelection = GetTag();
+
+	/* auto-select, aka random really */
+	if (classSelection == 5)
+		classSelection = floor(random(1, 5));
+
 	sendevent("JoinTeam", "f", (float)classSelection + 4);
 	winClassSelectionCT.Hide();
 }
@@ -81,6 +89,11 @@ CSClassButtonCT::OnMouseEntered(void)
 			imgClassPreview.SetImage("gfx/vgui/640_gign");
 			lblClassDescription.SetTitle(g_classDescrGIGN);
 			break;
+		case 5:
+			lblClassTitle.SetTitle(Titles_GetTextBody("Auto_Select"));
+			imgClassPreview.SetImage("gfx/vgui/640_ct_random");
+			lblClassDescription.SetTitle(g_classDescrAuto);
+			break;
 	}
 }
 
@@ -94,6 +107,7 @@ VGUI_ChooseClassCT(void)
 	static CSClassButtonCT btnGSG9;
 	static CSClassButtonCT btnSAS;
 	static CSClassButtonCT btnGIGN;
+	static CSClassButtonCT btnAuto;
 
 	if (!initialized) {
 		vector btnpos = [40,80];
@@ -163,11 +177,18 @@ VGUI_ChooseClassCT(void)
 			btnGIGN.SetPos([40, 176]);
 			btnGIGN.SetTag(4);
 			btnGIGN.SetKeyEquivalent("4");
+		btnAuto = spawn(CSClassButtonCT);
+			btnAuto.SetTitle(Titles_GetTextBody("Auto_Select"));
+			btnAuto.SetSize([124, 24]);
+			btnAuto.SetPos([40, 240]);
+			btnAuto.SetTag(5);
+			btnAuto.SetKeyEquivalent("5");
 
 		winClassSelectionCT.Add(btnSeal);
 		winClassSelectionCT.Add(btnGSG9);
 		winClassSelectionCT.Add(btnSAS);
 		winClassSelectionCT.Add(btnGIGN);
+		winClassSelectionCT.Add(btnAuto);
 	}
 
 	winClassSelectionCT.Show();

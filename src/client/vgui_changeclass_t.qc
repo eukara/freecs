@@ -18,6 +18,7 @@ static string g_classDescrPhoenix;
 static string g_classDescrLeet;
 static string g_classDescrArctic;
 static string g_classDescrGuerilla;
+string g_classDescrAuto;
 
 static void
 CSClassT_Init(void)
@@ -26,6 +27,9 @@ CSClassT_Init(void)
 	g_classDescrLeet = textfile_to_string("classes/leet.txt");
 	g_classDescrArctic = textfile_to_string("classes/arctic.txt");
 	g_classDescrGuerilla = textfile_to_string("classes/guerilla.txt");
+
+	if (g_classDescrAuto)
+	g_classDescrAuto = textfile_to_string("classes/autoselect.txt");
 }
 
 static VGUIWindow winClassSelection;
@@ -51,6 +55,11 @@ void
 CSClassButtonT::OnMouseUp(void)
 {
 	int classSelection = GetTag();
+
+	/* auto-select, aka random really */
+	if (classSelection == 5)
+		classSelection = floor(random(1, 5));
+
 	sendevent("JoinTeam", "f", (float)classSelection);
 	winClassSelection.Hide();
 }
@@ -81,6 +90,11 @@ CSClassButtonT::OnMouseEntered(void)
 			imgClassPreview.SetImage("gfx/vgui/640_guerilla");
 			lblClassDescription.SetTitle(g_classDescrGuerilla);
 			break;
+		case 5:
+			lblClassTitle.SetTitle(Titles_GetTextBody("Auto_Select"));
+			imgClassPreview.SetImage("gfx/vgui/640_t_random");
+			lblClassDescription.SetTitle(g_classDescrAuto);
+			break;
 	}
 }
 
@@ -94,6 +108,7 @@ VGUI_ChooseClassT(void)
 	static CSClassButtonT btnLeet;
 	static CSClassButtonT btnArctic;
 	static CSClassButtonT btnGuerilla;
+	static CSClassButtonT btnAuto;
 
 	if (!initialized) {
 		vector btnpos = [40,80];
@@ -163,11 +178,18 @@ VGUI_ChooseClassT(void)
 			btnGuerilla.SetPos([40, 176]);
 			btnGuerilla.SetTag(4);
 			btnGuerilla.SetKeyEquivalent("4");
+		btnAuto = spawn(CSClassButtonT);
+			btnAuto.SetTitle(Titles_GetTextBody("Auto_Select"));
+			btnAuto.SetSize([124, 24]);
+			btnAuto.SetPos([40, 240]);
+			btnAuto.SetTag(5);
+			btnAuto.SetKeyEquivalent("5");
 
 		winClassSelection.Add(btnPhoenix);
 		winClassSelection.Add(btnLeet);
 		winClassSelection.Add(btnArctic);
 		winClassSelection.Add(btnGuerilla);
+		winClassSelection.Add(btnAuto);
 	}
 
 	winClassSelection.Show();
