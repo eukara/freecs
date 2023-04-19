@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2020 Marco Cawthorne <marco@icculus.org>
+ * Copyright (c) 2016-2023 Marco Cawthorne <marco@icculus.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,6 +15,7 @@
  */
 
 void VGUI_ChooseTeam(void);
+void VGUI_BuyMenu(void);
 
 void
 CMD_ChooseTeam(void)
@@ -29,6 +30,16 @@ CMD_ChooseTeam(void)
 		Textmenu_Toggle("TEAM_SELECT");
 }
 
+void
+CMD_BuyMenu(void)
+{
+	/* handle both VGUI and text menus */
+	if (ClientGame_IsUsingVGUI())
+		VGUI_BuyMenu();
+	else
+		Textmenu_Toggle("BUY");
+}
+
 int
 ClientGame_ConsoleCommand(void)
 {
@@ -37,7 +48,7 @@ ClientGame_ConsoleCommand(void)
 		CMD_ChooseTeam();
 		break;
 	case "buy":
-		Textmenu_Toggle("BUY");
+		CMD_BuyMenu();
 		break;
 	case "radio1":
 		Textmenu_Toggle("RADIOA");

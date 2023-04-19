@@ -42,6 +42,8 @@ radio.qc
 ../../../valve/src/client/modelevent.qc
 
 ../../../src/client/include.src
+vgui_buypages.qc
+vgui_buymenu.qc
 vgui_motd.qc
 vgui_changeclass_t.qc
 vgui_changeclass_ct.qc
