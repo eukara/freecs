@@ -28,8 +28,8 @@ CSClassT_Init(void)
 	g_classDescrArctic = textfile_to_string("classes/arctic.txt");
 	g_classDescrGuerilla = textfile_to_string("classes/guerilla.txt");
 
-	if (g_classDescrAuto)
-	g_classDescrAuto = textfile_to_string("classes/autoselect.txt");
+	if (!g_classDescrAuto)
+		g_classDescrAuto = textfile_to_string("classes/autoselect.txt");
 }
 
 static VGUIWindow winClassSelection;
