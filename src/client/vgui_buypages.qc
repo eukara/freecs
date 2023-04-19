@@ -249,7 +249,7 @@ VGUI_BuyMenu_Page(int buyPage)
 		btnBuyItem9.SetKeyEquivalent("9");
 		btnBuyItem9.SetFunc(VGUI_BuyMenu_Pistols_Cancel);
 
-		btnCancel = spawn(CSBuyItemButton);
+		btnCancel = spawn(VGUIButton);
 		btnCancel.SetTitle(Titles_GetTextBody("Menu_Cancel"));
 		btnCancel.SetPos('40 368');
 		btnCancel.SetSize('124 24');
