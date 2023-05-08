@@ -484,7 +484,7 @@ RADIOC(int n)
 		sendevent("Radio", "f", RADIO_CT_INPOS);
 		break;
 	case 6:
-		sendevent("Radio", "f", RADIO_COM_REPORTIN);
+		sendevent("Radio", "f", RADIO_CT_REPORTINGIN);
 		break;
 	case 7:
 		sendevent("Radio", "f", RADIO_BLOW);
