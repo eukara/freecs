@@ -142,14 +142,17 @@ w_glock18_primary(player pl)
 		shotcount = pl.glock18_mag;
 
 	for (int i = 0; i < shotcount; i ++) {
-		Cstrike_ShotMultiplierAdd(pl, 1);
-		float accuracy = Cstrike_CalculateAccuracy(pl, (pl.mode_glock18) ? 175 : 200);
+		
+		float accuracy = Cstrike_CalculateAccuracy(pl, (pl.mode_glock18) ? 75 : 120,1.2);
+		accuracy += 0.0035;
 		pl.glock18_mag--;
 #ifdef SERVER
 		dmg = Skill_GetValue("plr_glock18_dmg", 25);
 		TraceAttack_SetRangeModifier(1.25); /* penetrates 9 units, but not 10 */
 		TraceAttack_SetPenetrationPower(1);
+		g_CstrikeBulletRecoil.ApplyPre(pl,0.5);
 		TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_GLOCK18, "Impact.BigShot");
+		g_CstrikeBulletRecoil.ApplyPost(pl,0.5);
 #endif
 	}
 
@@ -170,7 +173,7 @@ w_glock18_primary(player pl)
 		} else {
 			Weapons_ViewAnimation(pl, GLOCK_SHOOT);
 		}
-		pl.w_attack_next = 0.15f;
+		pl.w_attack_next = 0.13f;
 	}
 
 	if (pl.flags & FL_CROUCHING)
@@ -189,6 +192,7 @@ w_glock18_primary(player pl)
 	}
 #endif
 
+	Cstrike_ShotMultiplierAdd(pl, 2, .7);
 	pl.gflags |= GF_SEMI_TOGGLED;
 	pl.w_idle_next = pl.w_attack_next + 1.0f;
 }

@@ -174,7 +174,7 @@ w_scout_primary(player pl)
 		return;
 	}
 
-	Cstrike_ShotMultiplierAdd(pl, 1);
+	Cstrike_ShotMultiplierAdd(pl, 1, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.scout_mag--;
 

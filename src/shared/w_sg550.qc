@@ -114,7 +114,7 @@ w_sg550_primary(player pl)
 	if (!pl.sg550_mag)
 		return;
 
-	Cstrike_ShotMultiplierAdd(pl, 1);
+	Cstrike_ShotMultiplierAdd(pl, 1, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.sg550_mag--;
 

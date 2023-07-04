@@ -114,7 +114,7 @@ w_para_primary(player pl)
 	if (!pl.para_mag)
 		return;
 
-	Cstrike_ShotMultiplierAdd(pl, 1);
+	Cstrike_ShotMultiplierAdd(pl, 1, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 175);
 	pl.para_mag--;
 
