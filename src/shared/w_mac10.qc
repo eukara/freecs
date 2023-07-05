@@ -118,7 +118,7 @@ w_mac10_primary(player pl)
 	}
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl, 80,0.9)+0.011;
+	float accuracy = Cstrike_CalculateAccuracy(pl, 80,0.7)+0.009f;
 	pl.mac10_mag--;
 
 	int r = (float)input_sequence % 3;
@@ -146,9 +146,9 @@ w_mac10_primary(player pl)
 	dmg = Skill_GetValue("plr_mac10_dmg", 29);
 	TraceAttack_SetRangeModifier(1.25); /* 9, but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	g_CstrikeBulletRecoil.ApplyPre(pl,1.2);
+	g_CstrikeBulletRecoil.ApplyPre(pl,1.125);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_MAC10, "Impact.BigShot");
-	g_CstrikeBulletRecoil.ApplyPost(pl,1.2);
+	g_CstrikeBulletRecoil.ApplyPost(pl,1.125);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mac10.fire");
 #endif
 

@@ -28,6 +28,11 @@
  * to other weapons.
 */
 
+var float autocvar_guns_recoil_strength = 1.0f;
+var bool autocvar_guns_random_recoil_direction = TRUE;
+var float autocvar_guns_movement_inaccuracy = 1.0f;
+var float autocvar_guns_firing_inaccuracy = 1.0f;
+
 weapontype_t
 csweapon_ranged_type(player pl)
 {
@@ -63,16 +68,20 @@ Cstrike_ShotMultiplierAdd(player pl, int shots, float strength)
 
 	if (pl.cs_shotmultiplier < 1.6) {
 		pl.cs_prev_hor_rec = 0;
-		if (pseudorandom() > 0.5) {
-			pl.cs_hor_rec_sign = 1;
-		} else {
+		pl.cs_hor_rec_sign = 1;
+		if (autocvar_guns_random_recoil_direction && pseudorandom() >= 0.5) {
 			pl.cs_hor_rec_sign = -1;
 		}
 	}
-	if (pseudorandom() > 0.83) {
-		pl.cs_hor_rec_sign = -pl.cs_hor_rec_sign;
+	if (autocvar_guns_random_recoil_direction == 1) {
+		if (pseudorandom() > 0.83) {
+			pl.cs_hor_rec_sign = -pl.cs_hor_rec_sign;
+		}
+	} else {
+		if ( pl.cs_shotmultiplier > 9) {
+			pl.cs_hor_rec_sign = -1;
+		}
 	}
-	/* more than 12 is enough, you can barely hit the barn */
 	float new_shotmultiplier
 		= pl.cs_shotmultiplier
 		+ 1.5
@@ -85,14 +94,17 @@ Cstrike_ShotMultiplierAdd(player pl, int shots, float strength)
 
 	float movement_inaccuracy = bound(0.92,Cstrike_CalculateMovementInaccuracy(pl),1.25);
 	pl.punchangle[0] = -(pl.cs_shotmultiplier)*0.3*movement_inaccuracy*strength+0.5;
+	pl.punchangle[0] *= autocvar_guns_recoil_strength;
 	float hor_recoil
 		= pl.cs_shotmultiplier*0.005
-		+ (pseudorandom() - 0.35)*0.75;
+		+ (pseudorandom() - 0.35)*0.75*autocvar_guns_firing_inaccuracy;
+
+	hor_recoil *= movement_inaccuracy * strength * autocvar_guns_recoil_strength;
 		
 	if (pl.cs_hor_rec_sign > 0) {
-		pl.cs_prev_hor_rec += hor_recoil*movement_inaccuracy*strength;
+		pl.cs_prev_hor_rec += hor_recoil;
 	} else if (pl.cs_hor_rec_sign < 0) {
-		pl.cs_prev_hor_rec -= hor_recoil*movement_inaccuracy*strength;
+		pl.cs_prev_hor_rec -= hor_recoil;
 	}
 	pl.punchangle[1] = pl.cs_prev_hor_rec;
 	r = (float)input_sequence % 5;
@@ -133,11 +145,11 @@ Cstrike_CalculateAccuracy(player pl, float divisor, float movement_penalty=1)
 		/* snipers shoot way less accurate overall. */
 		return (pl.viewzoom < 1.0f) ? (0.0f) : (0.05 * m);
 	} else {
-		inacc = pl.cs_shotmultiplier*pl.cs_shotmultiplier;
+		inacc = pl.cs_shotmultiplier*pl.cs_shotmultiplier * autocvar_guns_firing_inaccuracy;
 		inacc = inacc / divisor / 1000;
 		inacc = inacc * m;
 		if (m > 1) {
-			inacc += m * 0.0025*movement_penalty;
+			inacc += m * 0.0025*movement_penalty * autocvar_guns_movement_inaccuracy;
 		} else {
 			inacc += m * 0.0025;
 		}
@@ -151,9 +163,11 @@ class CstrikeBulletRecoil {
 	public:
 		void ApplyPre(player pl, float strength) {
 			m_flRandomSpread = (pseudorandom() - 0.5) * 2.0;
+			strength *= autocvar_guns_recoil_strength;
 			pl.v_angle += strength*pl.punchangle*(2 + pl.cs_shotmultiplier/100*(m_flRandomSpread-0.5));
 		};
 		void ApplyPost(player pl, float strength) {
+			strength *= autocvar_guns_recoil_strength;
 			pl.v_angle -= strength*pl.punchangle*(2 + pl.cs_shotmultiplier/100*(m_flRandomSpread-0.5));
 		};
 };

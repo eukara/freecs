@@ -116,7 +116,7 @@ w_mp5_primary(player pl)
 		return;
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl,100,1)+0.0065f;
+	float accuracy = Cstrike_CalculateAccuracy(pl,100,1)+0.004f;
 	pl.mp5_mag--;
 
 	int r = (float)input_sequence % 3;
