@@ -62,7 +62,7 @@ Cstrike_CalculateMovementInaccuracy(player pl) {
 
 /* called whenever a cstrike gun fires a successful shot */
 void
-Cstrike_ShotMultiplierAdd(player pl, int shots, float strength)
+Cstrike_ShotMultiplierAdd(player pl, float shots, float strength)
 {
 	int r;
 
@@ -74,7 +74,7 @@ Cstrike_ShotMultiplierAdd(player pl, int shots, float strength)
 		}
 	}
 	if (autocvar_guns_random_recoil_direction == 1) {
-		if (pseudorandom() > 0.83) {
+		if (pseudorandom() > 0.82f) {
 			pl.cs_hor_rec_sign = -pl.cs_hor_rec_sign;
 		}
 	} else {
@@ -86,8 +86,8 @@ Cstrike_ShotMultiplierAdd(player pl, int shots, float strength)
 		= pl.cs_shotmultiplier
 		+ 1.5
 		+ shots
-		+ pl.cs_shotmultiplier/5
-		- pl.cs_shotmultiplier*pl.cs_shotmultiplier/90;
+		+ pl.cs_shotmultiplier/6
+		- pl.cs_shotmultiplier*pl.cs_shotmultiplier/100;
 	pl.cs_shotmultiplier = bound(0, new_shotmultiplier, 30);
 	float bound_shotmultiplier = bound(0, pl.cs_shotmultiplier, 12);
 	pl.cs_shottime = 0.2f;
@@ -95,6 +95,12 @@ Cstrike_ShotMultiplierAdd(player pl, int shots, float strength)
 	float movement_inaccuracy = bound(0.92,Cstrike_CalculateMovementInaccuracy(pl),1.25);
 	pl.punchangle[0] = -(pl.cs_shotmultiplier)*0.3*movement_inaccuracy*strength+0.5;
 	pl.punchangle[0] *= autocvar_guns_recoil_strength;
+	if (pl.cs_shotmultiplier < 3) {
+		//here we add extra punchangle for low multiplier values,
+		//so that tapping has more weight to it.
+		float extrapunch = bound(0.7f,shots,1.5);
+		pl.punchangle[0] -= extrapunch;
+	}
 	float hor_recoil
 		= pl.cs_shotmultiplier*0.005
 		+ (pseudorandom() - 0.35)*0.75*autocvar_guns_firing_inaccuracy;
@@ -157,21 +163,19 @@ Cstrike_CalculateAccuracy(player pl, float divisor, float movement_penalty=1)
 	}
 }
 
-class CstrikeBulletRecoil {
-	private:
-		float m_flRandomSpread;
-	public:
-		void ApplyPre(player pl, float strength) {
-			m_flRandomSpread = (pseudorandom() - 0.5) * 2.0;
-			strength *= autocvar_guns_recoil_strength;
-			pl.v_angle += strength*pl.punchangle*(2 + pl.cs_shotmultiplier/100*(m_flRandomSpread-0.5));
-		};
-		void ApplyPost(player pl, float strength) {
-			strength *= autocvar_guns_recoil_strength;
-			pl.v_angle -= strength*pl.punchangle*(2 + pl.cs_shotmultiplier/100*(m_flRandomSpread-0.5));
-		};
-};
-CstrikeBulletRecoil g_CstrikeBulletRecoil;
+
+void
+Cstrike_BulletRecoil_ApplyPre(player pl, float strength) {
+	strength *= autocvar_guns_recoil_strength;
+	pl.v_angle += strength*pl.punchangle*(2 - pl.cs_shotmultiplier/100*0.2);
+}
+void
+Cstrike_BulletRecoil_ApplyPost(player pl, float strength) {
+	strength *= autocvar_guns_recoil_strength;
+	pl.v_angle -= strength*pl.punchangle*(2 - pl.cs_shotmultiplier/100*0.2);
+}
+
+
 /* called whenever cstrike guns aren't firing */
 void
 Cstrike_ShotMultiplierUpdate(player pl)
@@ -187,5 +191,6 @@ void
 w_cstrike_weaponrelease(void)
 {
 	player pl = (player)self;
+	pl.punchangle[1] *= 0.95;
 	Cstrike_ShotMultiplierUpdate(pl);
 }

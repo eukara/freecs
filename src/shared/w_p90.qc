@@ -144,9 +144,9 @@ w_p90_primary(player pl)
 	dmg = Skill_GetValue("plr_p90_dmg", 26);
 	TraceAttack_SetRangeModifier(1.875); /* 9 but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	g_CstrikeBulletRecoil.ApplyPre(pl,1);
+	Cstrike_BulletRecoil_ApplyPre(pl,1);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_P90, "Impact.BigShot");
-	g_CstrikeBulletRecoil.ApplyPost(pl,1);
+	Cstrike_BulletRecoil_ApplyPost(pl,1);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_p90.fire");
 #endif
 

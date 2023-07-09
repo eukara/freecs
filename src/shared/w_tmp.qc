@@ -144,13 +144,13 @@ w_tmp_primary(player pl)
 	dmg = Skill_GetValue("plr_tmp_dmg", 26);
 	TraceAttack_SetRangeModifier(1.25); /* 9 but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	g_CstrikeBulletRecoil.ApplyPre(pl,0.9);
+	Cstrike_BulletRecoil_ApplyPre(pl,0.8);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_TMP, "Impact.BigShot");
-	g_CstrikeBulletRecoil.ApplyPost(pl,0.9);
+	Cstrike_BulletRecoil_ApplyPost(pl,0.8);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_tmp.fire");
 #endif
 
-	Cstrike_ShotMultiplierAdd(pl, 0.8, 1.35);
+	Cstrike_ShotMultiplierAdd(pl, 0.85, 1.25);
 	pl.w_attack_next = 0.07f;
 	pl.w_idle_next = pl.w_attack_next;
 }

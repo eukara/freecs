@@ -201,10 +201,30 @@ class player:NSClientPlayer
 #endif
 };
 
+float punchangle_recovery(float punchangle) {
+	return 0.05 * (-0.2 * pow(1.2, fabs(punchangle)) + 4);
+}
 void
 player::Physics_InputPostMove(void)
 {
-	super::Physics_InputPostMove();
+	//start of this function is taken from super::Physics_InputPostMove
+	float punch;
+	/* timers, these are predicted and shared across client and server */
+	w_attack_next = max(0, w_attack_next - input_timelength);
+	w_idle_next = max(0, w_idle_next - input_timelength);
+	weapontime += input_timelength;
+	punch = max(0, 1.0f - (input_timelength * 4));
+	if (punchangle[0] < 0) {
+		punchangle[0] += punchangle_recovery(punchangle[0]);
+	}
+	punchangle[1] *= .98;
+	punchangle[2] *= .99;
+
+	/* player animation code */
+	UpdatePlayerAnimation(input_timelength);
+
+	RemoveFlags(FL_FROZEN);
+	ProcessInput();
 
 #ifdef SERVER
 	if (g_cs_gamestate == GAME_FREEZE) {

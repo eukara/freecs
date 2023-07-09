@@ -144,9 +144,9 @@ w_mp5_primary(player pl)
 	dmg = Skill_GetValue("plr_mp5_dmg", 26);
 	TraceAttack_SetRangeModifier(1.25); /* 9 units but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	g_CstrikeBulletRecoil.ApplyPre(pl,.7f);
+	Cstrike_BulletRecoil_ApplyPre(pl,.7f);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_MP5, "Impact.BigShot");
-	g_CstrikeBulletRecoil.ApplyPost(pl,.7f);
+	Cstrike_BulletRecoil_ApplyPost(pl,.7f);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mp5.fire");
 #endif
 

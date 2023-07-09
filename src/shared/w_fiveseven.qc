@@ -151,9 +151,9 @@ w_fiveseven_primary(player pl)
 	dmg = Skill_GetValue("plr_fiveseven_dmg", 25);
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
-	g_CstrikeBulletRecoil.ApplyPre(pl,0.5f);
+	Cstrike_BulletRecoil_ApplyPre(pl,0.5f);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_FIVESEVEN, "Impact.BigShot");
-	g_CstrikeBulletRecoil.ApplyPost(pl,0.5f);
+	Cstrike_BulletRecoil_ApplyPost(pl,0.5f);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_fiveseven.fire");
 #endif
 	Cstrike_ShotMultiplierAdd(pl, 10, .4);

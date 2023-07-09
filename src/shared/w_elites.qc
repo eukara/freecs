@@ -252,9 +252,9 @@ w_elites_primary(player pl)
 	dmg = Skill_GetValue("plr_elites_dmg", 45);
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
-	g_CstrikeBulletRecoil.ApplyPre(pl,.9f);
+	Cstrike_BulletRecoil_ApplyPre(pl,.9f);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_ELITES, "Impact.BigShot");
-	g_CstrikeBulletRecoil.ApplyPost(pl,.9f);
+	Cstrike_BulletRecoil_ApplyPost(pl,.9f);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_elites.fire");
 #endif
 	Cstrike_ShotMultiplierAdd(pl, 3, .85);

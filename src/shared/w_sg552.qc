@@ -144,9 +144,9 @@ w_sg552_primary(player pl)
 	dmg = Skill_GetValue("plr_sg552_dmg", 33);
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	g_CstrikeBulletRecoil.ApplyPre(pl,1);
+	Cstrike_BulletRecoil_ApplyPre(pl,1);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_SG552, "Impact.BigShot");
-	g_CstrikeBulletRecoil.ApplyPost(pl,1);
+	Cstrike_BulletRecoil_ApplyPost(pl,1);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_sg552.fire");
 #endif
 

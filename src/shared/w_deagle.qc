@@ -180,9 +180,9 @@ w_deagle_primary(player pl)
 	dmg = Skill_GetValue("plr_deagle_dmg", 54);
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
-	g_CstrikeBulletRecoil.ApplyPre(pl,0.5);
+	Cstrike_BulletRecoil_ApplyPre(pl,0.5);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_DEAGLE, "Impact.BigShot");
-	g_CstrikeBulletRecoil.ApplyPost(pl,0.5);
+	Cstrike_BulletRecoil_ApplyPost(pl,0.5);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_deagle.fire");
 #endif
 

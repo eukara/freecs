@@ -144,9 +144,9 @@ w_ump45_primary(player pl)
 	dmg = Skill_GetValue("plr_ump45_dmg", 30);
 	TraceAttack_SetRangeModifier(0.875); /* 6, but not 7 */
 	TraceAttack_SetPenetrationPower(1);
-	g_CstrikeBulletRecoil.ApplyPre(pl,1.2);
+	Cstrike_BulletRecoil_ApplyPre(pl,1.2);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_UMP45, "Impact.BigShot");
-	g_CstrikeBulletRecoil.ApplyPost(pl,1.2);
+	Cstrike_BulletRecoil_ApplyPost(pl,1.2);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ump45.fire");
 #endif
 	Cstrike_ShotMultiplierAdd(pl, 1, .9);

@@ -189,9 +189,9 @@ w_m4a1_primary(player pl)
 	dmg = Skill_GetValue("plr_m4a1_dmg", 33);
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	g_CstrikeBulletRecoil.ApplyPre(pl,1);
+	Cstrike_BulletRecoil_ApplyPre(pl,1);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg,  [accuracy,accuracy], WEAPON_M4A1, "Impact.BigShot");
-	g_CstrikeBulletRecoil.ApplyPost(pl,1);
+	Cstrike_BulletRecoil_ApplyPost(pl,1);
 #endif
 
 	Cstrike_ShotMultiplierAdd(pl, 1, 1);

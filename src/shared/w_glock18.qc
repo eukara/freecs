@@ -150,9 +150,9 @@ w_glock18_primary(player pl)
 		dmg = Skill_GetValue("plr_glock18_dmg", 25);
 		TraceAttack_SetRangeModifier(1.25); /* penetrates 9 units, but not 10 */
 		TraceAttack_SetPenetrationPower(1);
-		g_CstrikeBulletRecoil.ApplyPre(pl,0.5);
+		Cstrike_BulletRecoil_ApplyPre(pl,0.6);
 		TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_GLOCK18, "Impact.BigShot");
-		g_CstrikeBulletRecoil.ApplyPost(pl,0.5);
+		Cstrike_BulletRecoil_ApplyPost(pl,0.6);
 #endif
 	}
 
