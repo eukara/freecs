@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_ (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_p228.mdl"
+/*!QUAKED weapon_p228 (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -24,6 +23,8 @@ SIG P228 Weapon
 - Buy Menu -
 Price: $600
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_p228.mdl"
 */
 
 enum
@@ -183,6 +184,7 @@ w_p228_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::p228_mag, player::ammo_357sig, 13);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

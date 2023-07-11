@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_sg550 (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_sg550.mdl"
+/*!QUAKED weapon_sg550 (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -24,6 +23,8 @@ SIG SG 550 Weapon
 - Buy Menu -
 Price: $4200
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_sg550.mdl"
 */
 
 enum
@@ -191,6 +192,7 @@ w_sg550_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::sg550_mag, player::ammo_556mm, 30);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

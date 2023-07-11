@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_g3sg1 (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_g3sg1.mdl"
+/*!QUAKED weapon_g3sg1 (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -24,7 +23,8 @@ Heckler & Koch G3/SG-1 Weapon
 - Buy Menu -
 Price: $5000
 
-*/
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_g3sg1.mdl"*/
 
 enum
 {
@@ -188,7 +188,8 @@ w_g3sg1_reload(player pl)
 #ifdef SERVER
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
-	Weapons_ReloadWeapon(pl, player::g3sg1_mag, player::ammo_762mm, 20);
+		Weapons_ReloadWeapon(pl, player::g3sg1_mag, player::ammo_762mm, 20);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_ak47 (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_ak47.mdl"
+/*!QUAKED weapon_ak47 (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -25,6 +24,8 @@ AK-47 Weapon
 Price: $2500
 Terrorists only weapon
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_ak47.mdl"
 */
 
 #ifdef CLIENT
@@ -215,6 +216,7 @@ w_ak47_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::ak47_mag, player::ammo_762mm, 30);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

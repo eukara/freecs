@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_deagle (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_deagle.mdl"
+/*!QUAKED weapon_deagle (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -24,6 +23,8 @@ Desert Eagle .50 AE Weapon
 - Buy Menu -
 Price: $650
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_deagle.mdl"
 */
 
 #ifdef CLIENT
@@ -214,6 +215,7 @@ w_deagle_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::deagle_mag, player::ammo_50ae, 7);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_c4bomb (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_c4.mdl"
+/*!QUAKED weapon_c4bomb (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -26,6 +25,8 @@ Default arsenal for Terrorists
 Can only be picked up by Terrorists and planted in
 func_bombtarget brush entities.
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_c4.mdl"
 */
 
 /* C4 weapon logic */

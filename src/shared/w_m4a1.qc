@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_m4a1 (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_m4a1.mdl"
+/*!QUAKED weapon_m4a1 (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -25,6 +24,8 @@ Colt M4A1 Carbine Weapon
 Price: $3100
 Counter-Terrorists only weapon
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_m4a1.mdl"
 */
 
 enum
@@ -245,6 +246,7 @@ w_m4a1_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::m4a1_mag, player::ammo_556mm, 30);
+		Cstrike_ShotReset(pl);
 	}
 	
 	pl.think = w_weapon_reload_done;

@@ -14,19 +14,22 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED hostage_entity (0 1 0) (-16 -16 0) (16 16 72)
+/*!QUAKED hostage_entity (0 1 0) (-16 -16 0) (16 16 72)
+# OVERVIEW
+Hostage NPC.
+Used in the Hostage Rescue mode (cs_* maps).
+
+# KEYS
 "targetname"    Name
 "target"        Target when triggered.
 "killtarget"    Target to kill when triggered.
-"model"         "models/hostage.mdl"
-"skin"          "0"
 
-COUNTER-STRIKE (1999) ENTITY
+# TRIVIA
+This entity was introduced in Counter-Strike (1999)
 
-Hostage NPC.
-
-Used in the Hostage Rescue mode (cs_* maps).
-
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/hostage.mdl"
+skin="0"
 */
 
 enum

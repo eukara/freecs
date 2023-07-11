@@ -187,10 +187,24 @@ Cstrike_ShotMultiplierUpdate(player pl)
 
 	pl.cs_shottime = max(0, pl.cs_shottime - input_timelength);
 }
+
+void
+Cstrike_ShotReset(player pl)
+{
+	pl.cs_shottime = 0.0f;
+	pl.cs_shotmultiplier = 0;
+}
+
 void
 w_cstrike_weaponrelease(void)
 {
 	player pl = (player)self;
 	pl.punchangle[1] *= 0.95;
 	Cstrike_ShotMultiplierUpdate(pl);
+}
+
+void
+w_cstrke_switched(player pl)
+{
+	Cstrike_ShotReset(pl);
 }

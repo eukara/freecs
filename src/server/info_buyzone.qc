@@ -14,7 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED info_buyzone (0 0 0.8) (-16 -16 0) (16 16 16)
+/*!QUAKED info_buyzone (0 0 0.8) (-16 -16 0) (16 16 16)
 "targetname"    Name
 "target"        Target when triggered.
 "killtarget"    Target to kill when triggered.
@@ -28,10 +28,10 @@ See func_buyzone for more information.
 class
 info_buyzone:NSPointTrigger
 {
-	void(void) info_buyzone;
+	void info_buyzone(void);
 
-	virtual void(void) Respawn;
-	virtual void(entity) Touch;
+	virtual void Respawn(void);
+	virtual void Touch(entity);
 };
 
 void
