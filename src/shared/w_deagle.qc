@@ -149,8 +149,8 @@ w_deagle_primary(player pl)
 	if (!pl.deagle_mag)
 		return;
 
-	Cstrike_ShotMultiplierAdd(pl, 1);
-	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+
+	float accuracy = Cstrike_CalculateAccuracy(pl, 25,2.2)+0.005;
 	int dmg;
 	pl.deagle_mag--;
 
@@ -180,12 +180,15 @@ w_deagle_primary(player pl)
 	dmg = Skill_GetValue("plr_deagle_dmg", 54);
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
+	Cstrike_BulletRecoil_ApplyPre(pl,0.5);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_DEAGLE, "Impact.BigShot");
+	Cstrike_BulletRecoil_ApplyPost(pl,0.5);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_deagle.fire");
 #endif
 
+	Cstrike_ShotMultiplierAdd(pl, 20, .25);
 	pl.gflags |= GF_SEMI_TOGGLED;
-	pl.w_attack_next = 0.15f;
+	pl.w_attack_next = 0.2f;
 	pl.w_idle_next = pl.w_attack_next;
 }
 

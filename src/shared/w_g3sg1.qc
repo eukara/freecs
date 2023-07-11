@@ -116,7 +116,7 @@ w_g3sg1_primary(player pl)
 		return;
 	}
 
-	Cstrike_ShotMultiplierAdd(pl, 1);
+	Cstrike_ShotMultiplierAdd(pl, 1, 1);
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
 	pl.g3sg1_mag--;
 

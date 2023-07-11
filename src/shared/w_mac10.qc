@@ -117,8 +117,8 @@ w_mac10_primary(player pl)
 		return;
 	}
 
-	Cstrike_ShotMultiplierAdd(pl, 1);
-	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+
+	float accuracy = Cstrike_CalculateAccuracy(pl, 80,0.7)+0.009f;
 	pl.mac10_mag--;
 
 	int r = (float)input_sequence % 3;
@@ -146,10 +146,13 @@ w_mac10_primary(player pl)
 	dmg = Skill_GetValue("plr_mac10_dmg", 29);
 	TraceAttack_SetRangeModifier(1.25); /* 9, but not 10 */
 	TraceAttack_SetPenetrationPower(1);
+	Cstrike_BulletRecoil_ApplyPre(pl,1.125);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_MAC10, "Impact.BigShot");
+	Cstrike_BulletRecoil_ApplyPost(pl,1.125);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mac10.fire");
 #endif
 
+	Cstrike_ShotMultiplierAdd(pl, .8, .9);
 	pl.w_attack_next = 0.07f;
 	pl.w_idle_next = pl.w_attack_next;
 }

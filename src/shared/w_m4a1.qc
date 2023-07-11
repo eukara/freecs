@@ -86,7 +86,7 @@ int
 w_m4a1_pickup(player pl, int new, int startammo)
 {
 #ifdef SERVER
-
+	Cstrike_ShotMultiplierUpdate(pl);
 	if (new) {
 		if (startammo == -1)
 			pl.m4a1_mag = 30;
@@ -133,8 +133,9 @@ w_m4a1_primary(player pl)
 		return;
 	}
 
-	Cstrike_ShotMultiplierAdd(pl, 1);
-	float accuracy = Cstrike_CalculateAccuracy(pl, 220);
+
+	float accuracy = Cstrike_CalculateAccuracy(pl, 150, 3);
+//	accuracy += pl.cs_shotmultiplier*pl.cs_shotmultiplier / 500;
 	pl.m4a1_mag--;
 
 	int r = (float)input_sequence % 3;
@@ -188,9 +189,12 @@ w_m4a1_primary(player pl)
 	dmg = Skill_GetValue("plr_m4a1_dmg", 33);
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
+	Cstrike_BulletRecoil_ApplyPre(pl,1);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg,  [accuracy,accuracy], WEAPON_M4A1, "Impact.BigShot");
+	Cstrike_BulletRecoil_ApplyPost(pl,1);
 #endif
 
+	Cstrike_ShotMultiplierAdd(pl, 1, 1);
 	pl.w_attack_next = 0.0875f;
 	pl.w_idle_next = 2.0f;
 }
@@ -227,6 +231,7 @@ w_m4a1_reload(player pl)
 		return;
 	if (!pl.ammo_556mm)
 		return;
+	Cstrike_ShotMultiplierUpdate(pl);
 
 	if (pl.mode_m4a1 == 1)
 		Weapons_ViewAnimation(pl, M4A1_RELOAD);
@@ -241,7 +246,7 @@ w_m4a1_reload(player pl)
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::m4a1_mag, player::ammo_556mm, 30);
 	}
-
+	
 	pl.think = w_weapon_reload_done;
 	pl.nextthink = time + pl.w_attack_next - 0.1f;
 #endif

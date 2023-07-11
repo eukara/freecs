@@ -154,8 +154,10 @@ class player:NSClientPlayer
 	PREDICTED_INT(mode_glock18)
 	PREDICTED_INT(mode_temp)
 
-	PREDICTED_INT(cs_shotmultiplier)
+	PREDICTED_FLOAT(cs_shotmultiplier)
 	PREDICTED_FLOAT(cs_shottime)
+	PREDICTED_FLOAT(cs_prev_hor_rec)
+	PREDICTED_INT(cs_hor_rec_sign)
 
 	PREDICTED_FLOAT(anim_top)
 	PREDICTED_FLOAT(anim_top_time)
@@ -199,10 +201,30 @@ class player:NSClientPlayer
 #endif
 };
 
+float punchangle_recovery(float punchangle) {
+	return 0.05 * (-0.2 * pow(1.2, fabs(punchangle)) + 4);
+}
 void
 player::Physics_InputPostMove(void)
 {
-	super::Physics_InputPostMove();
+	//start of this function is taken from super::Physics_InputPostMove
+	float punch;
+	/* timers, these are predicted and shared across client and server */
+	w_attack_next = max(0, w_attack_next - input_timelength);
+	w_idle_next = max(0, w_idle_next - input_timelength);
+	weapontime += input_timelength;
+	punch = max(0, 1.0f - (input_timelength * 4));
+	if (punchangle[0] < 0) {
+		punchangle[0] += punchangle_recovery(punchangle[0]);
+	}
+	punchangle[1] *= .98;
+	punchangle[2] *= .99;
+
+	/* player animation code */
+	UpdatePlayerAnimation(input_timelength);
+
+	RemoveFlags(FL_FROZEN);
+	ProcessInput();
 
 #ifdef SERVER
 	if (g_cs_gamestate == GAME_FREEZE) {
@@ -400,7 +422,8 @@ player::ReceiveEntity(float flIsNew, float flChanged)
 	READENTITY_BYTE(mode_temp, PLAYER_AMMO3)
 	READENTITY_BYTE(cs_shotmultiplier, PLAYER_CSTIMERS)
 	READENTITY_FLOAT(cs_shottime, PLAYER_CSTIMERS)
-
+	READENTITY_FLOAT(cs_prev_hor_rec, PLAYER_CSTIMERS)
+	READENTITY_BYTE(cs_hor_rec_sign, PLAYER_CSTIMERS)
 	if (flChanged & PLAYER_AMMO1 || flChanged & PLAYER_AMMO2 || flChanged & PLAYER_AMMO3) {
 		Weapons_AmmoUpdate(this);
 		HUD_AmmoNotify_Check(this);
@@ -463,6 +486,8 @@ player::PredictPreFrame(void)
 	SAVE_STATE(mode_temp)
 	SAVE_STATE(cs_shotmultiplier)
 	SAVE_STATE(cs_shottime)
+	SAVE_STATE(cs_prev_hor_rec)
+	SAVE_STATE(cs_hor_rec_sign)
 	SAVE_STATE(anim_top)
 	SAVE_STATE(anim_top_time)
 	SAVE_STATE(anim_top_delay)
@@ -523,6 +548,8 @@ player::PredictPostFrame(void)
 	ROLL_BACK(mode_temp)
 	ROLL_BACK(cs_shotmultiplier)
 	ROLL_BACK(cs_shottime)
+	ROLL_BACK(cs_prev_hor_rec)
+	ROLL_BACK(cs_hor_rec_sign)
 	ROLL_BACK(anim_top)
 	ROLL_BACK(anim_top_time)
 	ROLL_BACK(anim_top_delay)
@@ -588,6 +615,8 @@ player::EvaluateEntity(void)
 	EVALUATE_FIELD(mode_temp, PLAYER_AMMO3)
 	EVALUATE_FIELD(cs_shotmultiplier, PLAYER_CSTIMERS)
 	EVALUATE_FIELD(cs_shottime, PLAYER_CSTIMERS)
+	EVALUATE_FIELD(cs_prev_hor_rec, PLAYER_CSTIMERS)
+	EVALUATE_FIELD(cs_hor_rec_sign, PLAYER_CSTIMERS)
 }
 
 /*
@@ -657,6 +686,8 @@ player::SendEntity(entity ePEnt, float flChanged)
 	SENDENTITY_BYTE(mode_temp, PLAYER_AMMO3)
 	SENDENTITY_BYTE(cs_shotmultiplier, PLAYER_CSTIMERS)
 	SENDENTITY_FLOAT(cs_shottime, PLAYER_CSTIMERS)
+	SENDENTITY_FLOAT(cs_prev_hor_rec, PLAYER_CSTIMERS)
+	SENDENTITY_BYTE(cs_hor_rec_sign, PLAYER_CSTIMERS)
 
 	return (1);
 }

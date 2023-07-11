@@ -177,8 +177,8 @@ w_elites_primary(player pl)
 
 	pl.mode_temp = 1 - pl.mode_temp;
 
-	Cstrike_ShotMultiplierAdd(pl, 1);
-	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+
+	float accuracy = Cstrike_CalculateAccuracy(pl, 150,1)+0.002;
 	int dmg = 0;
 	pl.elites_mag--;
 
@@ -252,12 +252,14 @@ w_elites_primary(player pl)
 	dmg = Skill_GetValue("plr_elites_dmg", 45);
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
+	Cstrike_BulletRecoil_ApplyPre(pl,.9f);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_ELITES, "Impact.BigShot");
+	Cstrike_BulletRecoil_ApplyPost(pl,.9f);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_elites.fire");
 #endif
-
+	Cstrike_ShotMultiplierAdd(pl, 3, .85);
 	pl.gflags |= GF_SEMI_TOGGLED;
-	pl.w_attack_next = 0.15f;
+	pl.w_attack_next = 0.13f;
 	pl.w_idle_next = pl.w_attack_next;
 }
 

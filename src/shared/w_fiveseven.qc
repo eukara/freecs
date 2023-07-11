@@ -120,8 +120,8 @@ w_fiveseven_primary(player pl)
 		return;
 	}
 
-	Cstrike_ShotMultiplierAdd(pl, 1);
-	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+
+	float accuracy = Cstrike_CalculateAccuracy(pl,200,1.4)+ 0.0055f;
 	int dmg = 0;
 	pl.fiveseven_mag--;
 
@@ -151,12 +151,14 @@ w_fiveseven_primary(player pl)
 	dmg = Skill_GetValue("plr_fiveseven_dmg", 25);
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
+	Cstrike_BulletRecoil_ApplyPre(pl,0.5f);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_FIVESEVEN, "Impact.BigShot");
+	Cstrike_BulletRecoil_ApplyPost(pl,0.5f);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_fiveseven.fire");
 #endif
-
+	Cstrike_ShotMultiplierAdd(pl, 10, .4);
 	pl.gflags |= GF_SEMI_TOGGLED;
-	pl.w_attack_next = 0.15f;
+	pl.w_attack_next = 0.155f;
 	pl.w_idle_next = pl.w_attack_next;
 }
 
