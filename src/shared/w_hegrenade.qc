@@ -103,7 +103,7 @@ w_hegrenade_throw(player pl)
 	static void hegrenade_explode(void)
 	{
 		float dmg = 100;
-		FX_Explosion(self.origin);
+		pointparticles(particleeffectnum("fx_explosion.main"), self.origin, [0,0,0], 1);
 		Damage_Radius(self.origin, self.owner, dmg, dmg * 2.5f, TRUE, WEAPON_HEGRENADE);
 		Sound_Play(self, CHAN_BODY, "weapon_hegrenade.explode");
 		remove(self);

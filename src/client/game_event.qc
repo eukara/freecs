@@ -21,28 +21,6 @@ switch (fHeader) {
 	case EV_OBITUARY:
 		Obituary_Parse();
 		break;
-	case EV_SPARK:
-		vector vSparkPos, vSparkAngle;
-		vSparkPos[0] = readcoord();
-		vSparkPos[1] = readcoord();
-		vSparkPos[2] = readcoord();
-		vSparkAngle[0] = readcoord();
-		vSparkAngle[1] = readcoord();
-		vSparkAngle[2] = readcoord();
-		FX_Spark(vSparkPos, vSparkAngle);
-		break;
-	case EV_GIBHUMAN:
-		vector vGibPos;
-		vGibPos[0] = readcoord();
-		vGibPos[1] = readcoord();
-		vGibPos[2] = readcoord();
-		vector vDir;
-		vDir[0] = readcoord();
-		vDir[1] = readcoord();
-		vDir[2] = readcoord();
-		float flForce = readfloat();
-		FX_GibHuman(vGibPos, vDir, flForce);
-		break;
 	case EV_BLOOD:
 		vector vBloodPos;
 		vector vBloodColor;
@@ -56,45 +34,6 @@ switch (fHeader) {
 		vBloodColor[2] = readbyte() / 255;
 
 		FX_Blood(vBloodPos, vBloodColor);
-		break;
-	case EV_EXPLOSION:
-		vector vExploPos;
-
-		vExploPos[0] = readcoord();
-		vExploPos[1] = readcoord();
-		vExploPos[2] = readcoord();
-
-		FX_Explosion(vExploPos);
-		break;
-	case EV_MODELGIB:
-		vector vecPos;
-		vecPos[0] = readcoord();
-		vecPos[1] = readcoord();
-		vecPos[2] = readcoord();
-
-		vector vSize;
-		vSize[0] = readcoord();
-		vSize[1] = readcoord();
-		vSize[2] = readcoord();
-
-		float fStyle = readbyte();
-		int count = readbyte();
-		FX_BreakModel(count, vecPos, vSize, [0,0,0], fStyle);
-		break;
-	case EV_IMPACT:
-		impactType_t iType;
-		vector vOrigin, vNormal;
-
-		iType = (impactType_t)readbyte();
-		vOrigin[0] = readcoord();
-		vOrigin[1] = readcoord();
-		vOrigin[2] = readcoord();
-
-		vNormal[0] = readcoord();
-		vNormal[1] = readcoord();
-		vNormal[2] = readcoord();
-
-		FX_Impact(iType, vOrigin, vNormal);
 		break;
 	case EV_SMOKE:
 		vector vSmokePos;

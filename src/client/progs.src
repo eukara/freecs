@@ -37,6 +37,7 @@ crosshair.qc
 hud_ammonotify.qc
 hud.qc
 hud_weaponselect.qc
+../../../valve/src/client/hud_sprite.qc
 ../../../valve/src/client/scoreboard.qc
 radio.qc
 ../../../valve/src/client/modelevent.qc
