@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_smokegrenade (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_smokegrenade.mdl"
+/*!QUAKED weapon_smokegrenade (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -26,6 +25,8 @@ When thrown, the explosion casts view-blocking smoke in that radius.
 - Buy Menu -
 Price: $300
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_smokegrenade.mdl"
 */
 
 enum
@@ -162,6 +163,9 @@ w_smokegrenade_primary(player pl)
 
 	/* Ammo check */
 	if (pl.ammo_smokegrenade <= 0) {
+#ifdef SERVER
+		Weapons_RemoveItem(pl, WEAPON_SMOKEGRENADE);
+#endif
 		return;
 	}
 

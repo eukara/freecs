@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_fiveseven (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_fiveseven.mdl"
+/*!QUAKED weapon_fiveseven (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -24,6 +23,8 @@ Five-SeveN Weapon
 - Buy Menu -
 Price: $750
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_fiveseven.mdl"
 */
 
 enum
@@ -182,6 +183,7 @@ w_fiveseven_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::fiveseven_mag, player::ammo_57mm, 20);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

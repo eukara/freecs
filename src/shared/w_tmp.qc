@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_tmp (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_tmp.mdl"
+/*!QUAKED weapon_tmp (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -24,6 +23,8 @@ Steyr Tactical Weapon
 - Buy Menu -
 Price: $1250
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_tmp.mdl"
 */
 
 enum
@@ -175,6 +176,7 @@ w_tmp_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::tmp_mag, player::ammo_9mm, 30);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

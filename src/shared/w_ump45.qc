@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_ump45 (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_ump45.mdl"
+/*!QUAKED weapon_ump45 (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -24,6 +23,8 @@ Heckler & Koch UMP .45 ACP Weapon
 - Buy Menu -
 Price: $1700
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_ump45.mdl"
 */
 
 enum
@@ -174,6 +175,7 @@ w_ump45_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::ump45_mag, player::ammo_45acp, 25);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

@@ -14,7 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED func_bomb_target (0 .5 .8) ?
+/*!QUAKED func_bomb_target (0 .5 .8) ?
 "targetname"    Name
 "target"        Target when bomb blows up.
 "killtarget"    Target to kill when triggered.

@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_hegrenade (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_hegrenade.mdl"
+/*!QUAKED weapon_hegrenade (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -26,6 +25,8 @@ When thrown, explodes with a fairly deadly blast radius to players.
 - Buy Menu -
 Price: $300
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_hegrenade.mdl"
 */
 
 enum
@@ -102,7 +103,7 @@ w_hegrenade_throw(player pl)
 	static void hegrenade_explode(void)
 	{
 		float dmg = 100;
-		FX_Explosion(self.origin);
+		pointparticles(particleeffectnum("fx_explosion.main"), self.origin, [0,0,0], 1);
 		Damage_Radius(self.origin, self.owner, dmg, dmg * 2.5f, TRUE, WEAPON_HEGRENADE);
 		Sound_Play(self, CHAN_BODY, "weapon_hegrenade.explode");
 		remove(self);
@@ -164,6 +165,9 @@ w_hegrenade_primary(player pl)
 
 	/* Ammo check */
 	if (pl.ammo_hegrenade <= 0) {
+#ifdef SERVER
+		Weapons_RemoveItem(pl, WEAPON_HEGRENADE);
+#endif
 		return;
 	}
 

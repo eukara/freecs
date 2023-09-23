@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_aug (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_aug.mdl"
+/*!QUAKED weapon_aug (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -25,6 +24,8 @@ Steyr AUG Weapon
 Price: $3500
 Counter-Terrorists only weapon
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_aug.mdl"
 */
 
 enum
@@ -198,6 +199,7 @@ w_aug_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::aug_mag, player::ammo_762mm, 30);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

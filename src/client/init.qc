@@ -154,6 +154,9 @@ ClientGame_RendererRestart(string rstr)
 	precache_model("models/shotgunshell.mdl");
 
 	/* there's also muzzleflash.spr, but that's just MUZZLE_SMALL again */
+	precache_model("sprites/muzzleflash1.spr");
+	precache_model("sprites/muzzleflash2.spr");
+	precache_model("sprites/muzzleflash3.spr");
 	MUZZLE_RIFLE = (int)getmodelindex("sprites/muzzleflash1.spr");
 	MUZZLE_SMALL = (int)getmodelindex("sprites/muzzleflash2.spr");
 	MUZZLE_WEIRD = (int)getmodelindex("sprites/muzzleflash3.spr");
@@ -162,11 +165,6 @@ ClientGame_RendererRestart(string rstr)
 	Damage_Precache();
 
 	FX_Blood_Init();
-	FX_BreakModel_Init();
-	FX_Explosion_Init();
-	FX_GibHuman_Init();
-	FX_Spark_Init();
-	FX_Impact_Init();
 	FX_Smokenade_Init();
 
 	Radar_Init();

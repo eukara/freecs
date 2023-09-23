@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_usp45 (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_usp45.mdl"
+/*!QUAKED weapon_usp45 (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -26,6 +25,8 @@ Default arsenal for Counter-Terrorists
 - Buy Menu -
 Price: $500
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_usp45.mdl"
 */
 
 enum
@@ -254,6 +255,7 @@ w_usp45_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::usp45_mag, player::ammo_45acp, 12);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

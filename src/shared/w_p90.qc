@@ -14,8 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED weapon_p90 (0 0 1) (-16 -16 0) (16 16 32)
-"model" "models/w_p90.mdl"
+/*!QUAKED weapon_p90 (0 0 1) (-16 -16 0) (16 16 32)
 
 COUNTER-STRIKE (1999) ENTITY
 
@@ -24,6 +23,8 @@ FN P90 Weapon
 - Buy Menu -
 Price: $2350
 
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/w_p90.mdl"
 */
 
 enum
@@ -175,6 +176,7 @@ w_p90_reload(player pl)
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
 		Weapons_ReloadWeapon(pl, player::p90_mag, player::ammo_57mm, 50);
+		Cstrike_ShotReset(pl);
 	}
 
 	pl.think = w_weapon_reload_done;

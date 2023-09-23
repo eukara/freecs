@@ -14,7 +14,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/*QUAKED func_hostage_rescue (0 .5 .8) ?
+/*!QUAKED func_hostage_rescue (0 .5 .8) ?
 "targetname"    Name
 "target"        Target when triggered.
 "killtarget"    Target to kill when triggered.
