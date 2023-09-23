@@ -28,10 +28,10 @@
  * to other weapons.
 */
 
-var float autocvar_guns_recoil_strength = 1.0f;
-var bool autocvar_guns_random_recoil_direction = TRUE;
-var float autocvar_guns_movement_inaccuracy = 1.0f;
-var float autocvar_guns_firing_inaccuracy = 1.0f;
+var float autocvar_fcs_guns_recoil_strength = 1.0f;
+var bool autocvar_fcs_guns_random_recoil_direction = TRUE;
+var float autocvar_fcs_guns_movement_inaccuracy = 1.0f;
+var float autocvar_fcs_guns_firing_inaccuracy = 1.0f;
 
 weapontype_t
 csweapon_ranged_type(player pl)
@@ -77,7 +77,7 @@ Cstrike_ShotMultiplierAdd(player pl, float shots, float strength, float inaccura
 		pl.cs_rec_reverse_chance = 0.95f;
 		pl.cs_prev_hor_rec = 0;
 		pl.cs_hor_rec_sign = 1;
-		if (autocvar_guns_random_recoil_direction && pseudorandom() >= 0.5) {
+		if (autocvar_fcs_guns_random_recoil_direction && pseudorandom() >= 0.5) {
 			pl.cs_hor_rec_sign = -1;
 		}
 	}
@@ -85,7 +85,7 @@ Cstrike_ShotMultiplierAdd(player pl, float shots, float strength, float inaccura
 	if (pl.cs_rec_reverse_chance < 0.1f) {
 		pl.cs_rec_reverse_chance = 0.1f;
 	}
-	if (autocvar_guns_random_recoil_direction == 1) {
+	if (autocvar_fcs_guns_random_recoil_direction == 1) {
 		if (pseudorandom() > pl.cs_rec_reverse_chance) {
 			pl.cs_hor_rec_sign = -pl.cs_hor_rec_sign;
 			pl.cs_rec_reverse_chance = 0.92f;
@@ -107,8 +107,8 @@ Cstrike_ShotMultiplierAdd(player pl, float shots, float strength, float inaccura
 
 	float movement_inaccuracy = bound(0.92,Cstrike_CalculateMovementInaccuracy(pl),1.25);
 	pl.punchangle[0] = -(pl.cs_shotmultiplier)*0.35*(strength*0.9+inaccuracy/9)+0.5;
-	pl.punchangle[0] -= autocvar_guns_firing_inaccuracy * (1 + 3*inaccuracy * inaccuracy)/19;
-	pl.punchangle[0] *= autocvar_guns_recoil_strength;
+	pl.punchangle[0] -= autocvar_fcs_guns_firing_inaccuracy * (1 + 3*inaccuracy * inaccuracy)/19;
+	pl.punchangle[0] *= autocvar_fcs_guns_recoil_strength;
 	if (pl.cs_shotmultiplier < 5) {
 		//here we add extra punchangle for low multiplier values,
 		//so that tapping has more weight to it.
@@ -117,9 +117,9 @@ Cstrike_ShotMultiplierAdd(player pl, float shots, float strength, float inaccura
 	}
 	float hor_recoil
 		= pl.cs_shotmultiplier/185*(1 + (pseudorandom() - 0.5)/3)
-		+ (pseudorandom() - 0.3)*inaccuracy*inaccuracy*0.5*autocvar_guns_firing_inaccuracy;
+		+ (pseudorandom() - 0.3)*inaccuracy*inaccuracy*0.5*autocvar_fcs_guns_firing_inaccuracy;
 
-	hor_recoil *= 1.2 * movement_inaccuracy * strength * autocvar_guns_recoil_strength;
+	hor_recoil *= 1.2 * movement_inaccuracy * strength * autocvar_fcs_guns_recoil_strength;
 		
 	if (pl.cs_hor_rec_sign > 0) {
 		pl.cs_prev_hor_rec += hor_recoil;
@@ -165,11 +165,11 @@ Cstrike_CalculateAccuracy(player pl, float divisor, float movement_penalty=1)
 		/* snipers shoot way less accurate overall. */
 		return (pl.viewzoom < 1.0f) ? (0.0f) : (0.05 * m);
 	} else {
-		inacc = pl.cs_shotmultiplier*(1.25 + pl.cs_shotmultiplier*pl.cs_shotmultiplier*0.3) * autocvar_guns_firing_inaccuracy;
+		inacc = pl.cs_shotmultiplier*(1.25 + pl.cs_shotmultiplier*pl.cs_shotmultiplier*0.3) * autocvar_fcs_guns_firing_inaccuracy;
 		inacc = inacc / divisor / 3100;
 		inacc = inacc * m;
 		if (m > 1) {
-			inacc += m * 0.0025*movement_penalty * autocvar_guns_movement_inaccuracy;
+			inacc += m * 0.0025*movement_penalty * autocvar_fcs_guns_movement_inaccuracy;
 		} else {
 			inacc += m * 0.0025;
 		}
@@ -180,12 +180,12 @@ Cstrike_CalculateAccuracy(player pl, float divisor, float movement_penalty=1)
 
 void
 Cstrike_BulletRecoil_ApplyPre(player pl, float strength) {
-	strength *= autocvar_guns_recoil_strength;
+	strength *= autocvar_fcs_guns_recoil_strength;
 	pl.v_angle += strength*pl.punchangle*(2 - pl.cs_shotmultiplier/100*0.2);
 }
 void
 Cstrike_BulletRecoil_ApplyPost(player pl, float strength) {
-	strength *= autocvar_guns_recoil_strength;
+	strength *= autocvar_fcs_guns_recoil_strength;
 	pl.v_angle -= strength*pl.punchangle*(2 - pl.cs_shotmultiplier/100*0.2);
 }
 
