@@ -116,7 +116,7 @@ w_p90_primary(player pl)
 		return;
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl, 50,1)+0.0055;
+	float accuracy = Cstrike_CalculateAccuracy(pl, 50,1.125)+0.0055;
 	pl.p90_mag--;
 
 	int r = (float)input_sequence % 3;
@@ -144,13 +144,13 @@ w_p90_primary(player pl)
 	dmg = Skill_GetValue("plr_p90_dmg", 26);
 	TraceAttack_SetRangeModifier(1.875); /* 9 but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	Cstrike_BulletRecoil_ApplyPre(pl,1);
+	Cstrike_BulletRecoil_ApplyPre(pl,.9);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_P90, "Impact.BigShot");
-	Cstrike_BulletRecoil_ApplyPost(pl,1);
+	Cstrike_BulletRecoil_ApplyPost(pl,.9);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_p90.fire");
 #endif
 
-	Cstrike_ShotMultiplierAdd(pl, 1.1, 1.1);
+	Cstrike_ShotMultiplierAdd(pl, 1.1, 1.3,accuracy);
 	pl.w_attack_next = 0.07f;
 	pl.w_idle_next = pl.w_attack_next;
 }

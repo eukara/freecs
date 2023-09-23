@@ -116,7 +116,7 @@ w_sg552_primary(player pl)
 		return;
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl, 80,3)*pl.viewzoom;
+	float accuracy = Cstrike_CalculateAccuracy(pl, 75,3)*pl.viewzoom;
 	pl.sg552_mag--;
 
 	int r = (float)input_sequence % 3;
@@ -144,13 +144,13 @@ w_sg552_primary(player pl)
 	dmg = Skill_GetValue("plr_sg552_dmg", 33);
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	Cstrike_BulletRecoil_ApplyPre(pl,1);
+	Cstrike_BulletRecoil_ApplyPre(pl,0.726f);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_SG552, "Impact.BigShot");
-	Cstrike_BulletRecoil_ApplyPost(pl,1);
+	Cstrike_BulletRecoil_ApplyPost(pl,0.725f);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_sg552.fire");
 #endif
 
-	Cstrike_ShotMultiplierAdd(pl, 2.2, 0.9);
+	Cstrike_ShotMultiplierAdd(pl, 2.2, 0.9,accuracy);
 	if (pl.viewzoom == 1.0f)
 		pl.w_attack_next = 0.0825f;
 	else

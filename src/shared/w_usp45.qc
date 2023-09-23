@@ -135,7 +135,7 @@ w_usp45_primary(player pl)
 		return;
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl,40,2.2);
+	float accuracy = Cstrike_CalculateAccuracy(pl,25,2.2);
 	int dmg = 0;
 	pl.usp45_mag--;
 
@@ -204,7 +204,7 @@ w_usp45_primary(player pl)
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg,  [accuracy,accuracy], WEAPON_USP45, "Impact.BigShot");
 	Cstrike_BulletRecoil_ApplyPost(pl,0.625);
 #endif
-	Cstrike_ShotMultiplierAdd(pl, 10, 0.4);
+	Cstrike_ShotMultiplierAdd(pl, 2.5, .5,accuracy*0.5);
 
 	pl.gflags |= GF_SEMI_TOGGLED;
 	pl.w_attack_next = 0.15f;

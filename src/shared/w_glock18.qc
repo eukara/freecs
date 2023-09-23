@@ -134,6 +134,7 @@ w_glock18_primary(player pl)
 	if (!pl.glock18_mag)
 		return;
 
+	float accuracy = Cstrike_CalculateAccuracy(pl, (pl.mode_glock18) ? 75 : 120,1.2);
 	int shotcount = (pl.mode_glock18) ? 3 : 1;
 	int dmg = 0;
 
@@ -143,7 +144,7 @@ w_glock18_primary(player pl)
 
 	for (int i = 0; i < shotcount; i ++) {
 		
-		float accuracy = Cstrike_CalculateAccuracy(pl, (pl.mode_glock18) ? 75 : 120,1.2);
+		
 		accuracy += 0.0035;
 		pl.glock18_mag--;
 #ifdef SERVER
@@ -192,7 +193,7 @@ w_glock18_primary(player pl)
 	}
 #endif
 
-	Cstrike_ShotMultiplierAdd(pl, 2, .7);
+	Cstrike_ShotMultiplierAdd(pl, 2, .7,accuracy);
 	pl.gflags |= GF_SEMI_TOGGLED;
 	pl.w_idle_next = pl.w_attack_next + 1.0f;
 }

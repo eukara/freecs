@@ -158,6 +158,7 @@ class player:NSClientPlayer
 	PREDICTED_FLOAT(cs_shottime)
 	PREDICTED_FLOAT(cs_prev_hor_rec)
 	PREDICTED_INT(cs_hor_rec_sign)
+	PREDICTED_FLOAT(cs_rec_reverse_chance)
 
 	PREDICTED_FLOAT(anim_top)
 	PREDICTED_FLOAT(anim_top_time)
@@ -424,6 +425,7 @@ player::ReceiveEntity(float flIsNew, float flChanged)
 	READENTITY_FLOAT(cs_shottime, PLAYER_CSTIMERS)
 	READENTITY_FLOAT(cs_prev_hor_rec, PLAYER_CSTIMERS)
 	READENTITY_BYTE(cs_hor_rec_sign, PLAYER_CSTIMERS)
+	READENTITY_FLOAT(cs_rec_reverse_chance, PLAYER_CSTIMERS)
 	if (flChanged & PLAYER_AMMO1 || flChanged & PLAYER_AMMO2 || flChanged & PLAYER_AMMO3) {
 		Weapons_AmmoUpdate(this);
 		HUD_AmmoNotify_Check(this);
@@ -488,6 +490,7 @@ player::PredictPreFrame(void)
 	SAVE_STATE(cs_shottime)
 	SAVE_STATE(cs_prev_hor_rec)
 	SAVE_STATE(cs_hor_rec_sign)
+	SAVE_STATE(cs_rec_reverse_chance)
 	SAVE_STATE(anim_top)
 	SAVE_STATE(anim_top_time)
 	SAVE_STATE(anim_top_delay)
@@ -550,6 +553,7 @@ player::PredictPostFrame(void)
 	ROLL_BACK(cs_shottime)
 	ROLL_BACK(cs_prev_hor_rec)
 	ROLL_BACK(cs_hor_rec_sign)
+	ROLL_BACK(cs_rec_reverse_chance)
 	ROLL_BACK(anim_top)
 	ROLL_BACK(anim_top_time)
 	ROLL_BACK(anim_top_delay)
@@ -617,6 +621,7 @@ player::EvaluateEntity(void)
 	EVALUATE_FIELD(cs_shottime, PLAYER_CSTIMERS)
 	EVALUATE_FIELD(cs_prev_hor_rec, PLAYER_CSTIMERS)
 	EVALUATE_FIELD(cs_hor_rec_sign, PLAYER_CSTIMERS)
+	EVALUATE_FIELD(cs_rec_reverse_chance, PLAYER_CSTIMERS)
 }
 
 /*
@@ -688,7 +693,7 @@ player::SendEntity(entity ePEnt, float flChanged)
 	SENDENTITY_FLOAT(cs_shottime, PLAYER_CSTIMERS)
 	SENDENTITY_FLOAT(cs_prev_hor_rec, PLAYER_CSTIMERS)
 	SENDENTITY_BYTE(cs_hor_rec_sign, PLAYER_CSTIMERS)
-
+	SENDENTITY_FLOAT(cs_rec_reverse_chance, PLAYER_CSTIMERS)
 	return (1);
 }
 #endif

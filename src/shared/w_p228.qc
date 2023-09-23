@@ -151,12 +151,12 @@ w_p228_primary(player pl)
 	dmg = Skill_GetValue("plr_p228_dmg", 40);
 	TraceAttack_SetRangeModifier(1.5); /* penetrates 11, but not 12 units */
 	TraceAttack_SetPenetrationPower(1);
-	Cstrike_BulletRecoil_ApplyPre(pl,1.2);
+	Cstrike_BulletRecoil_ApplyPre(pl,1.05);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_P228, "Impact.BigShot");
-	Cstrike_BulletRecoil_ApplyPost(pl,1.2);
+	Cstrike_BulletRecoil_ApplyPost(pl,1.05);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_p228.fire");
 #endif
-	Cstrike_ShotMultiplierAdd(pl, 6, 0.5f);
+	Cstrike_ShotMultiplierAdd(pl, 6, 0.5f,accuracy);
 
 	pl.gflags |= GF_SEMI_TOGGLED;
 	pl.w_attack_next = 0.1425f;

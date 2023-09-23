@@ -116,7 +116,7 @@ w_mp5_primary(player pl)
 		return;
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl,100,1)+0.004f;
+	float accuracy = Cstrike_CalculateAccuracy(pl,60,1.25)+0.0045f;
 	pl.mp5_mag--;
 
 	int r = (float)input_sequence % 3;
@@ -144,13 +144,13 @@ w_mp5_primary(player pl)
 	dmg = Skill_GetValue("plr_mp5_dmg", 26);
 	TraceAttack_SetRangeModifier(1.25); /* 9 units but not 10 */
 	TraceAttack_SetPenetrationPower(1);
-	Cstrike_BulletRecoil_ApplyPre(pl,.7f);
+	Cstrike_BulletRecoil_ApplyPre(pl,.825f);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_MP5, "Impact.BigShot");
-	Cstrike_BulletRecoil_ApplyPost(pl,.7f);
+	Cstrike_BulletRecoil_ApplyPost(pl,.825f);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_mp5.fire");
 #endif
 
-	Cstrike_ShotMultiplierAdd(pl, .5f, 1.5f);
+	Cstrike_ShotMultiplierAdd(pl, .5f, 1.25f,accuracy);
 	pl.w_attack_next = 0.08f;
 	pl.w_idle_next = pl.w_attack_next;
 }

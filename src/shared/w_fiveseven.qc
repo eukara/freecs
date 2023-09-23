@@ -156,7 +156,7 @@ w_fiveseven_primary(player pl)
 	Cstrike_BulletRecoil_ApplyPost(pl,0.5f);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_fiveseven.fire");
 #endif
-	Cstrike_ShotMultiplierAdd(pl, 10, .4);
+	Cstrike_ShotMultiplierAdd(pl, 10, .4,accuracy);
 	pl.gflags |= GF_SEMI_TOGGLED;
 	pl.w_attack_next = 0.155f;
 	pl.w_idle_next = pl.w_attack_next;

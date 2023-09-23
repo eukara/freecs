@@ -149,7 +149,7 @@ w_ump45_primary(player pl)
 	Cstrike_BulletRecoil_ApplyPost(pl,1.2);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ump45.fire");
 #endif
-	Cstrike_ShotMultiplierAdd(pl, 1, .9);
+	Cstrike_ShotMultiplierAdd(pl, 1, .9,accuracy);
 	pl.w_attack_next = 0.105f;
 	pl.w_idle_next = pl.w_attack_next;
 }

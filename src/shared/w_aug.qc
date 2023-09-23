@@ -119,7 +119,7 @@ w_aug_primary(player pl)
 	}
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl, 45,3)*pl.viewzoom;
+	float accuracy = Cstrike_CalculateAccuracy(pl, 35,2);
 	pl.aug_mag--;
 
 	int r = (float)input_sequence % 3;
@@ -153,7 +153,7 @@ w_aug_primary(player pl)
 	Sound_Play(pl, CHAN_WEAPON, "weapon_aug.fire");
 #endif
 
-	Cstrike_ShotMultiplierAdd(pl, 0.7f, 1.1f);
+	Cstrike_ShotMultiplierAdd(pl, 0.7f, 1.1f,accuracy);
 	if (pl.viewzoom == 1.0f) {
 		pl.w_attack_next = 0.0825f;
 	} else {

@@ -134,7 +134,7 @@ w_m4a1_primary(player pl)
 	}
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl, 150, 3);
+	float accuracy = Cstrike_CalculateAccuracy(pl, 60, 3);
 //	accuracy += pl.cs_shotmultiplier*pl.cs_shotmultiplier / 500;
 	pl.m4a1_mag--;
 
@@ -189,12 +189,12 @@ w_m4a1_primary(player pl)
 	dmg = Skill_GetValue("plr_m4a1_dmg", 33);
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	Cstrike_BulletRecoil_ApplyPre(pl,1);
+	Cstrike_BulletRecoil_ApplyPre(pl,.96f);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg,  [accuracy,accuracy], WEAPON_M4A1, "Impact.BigShot");
-	Cstrike_BulletRecoil_ApplyPost(pl,1);
+	Cstrike_BulletRecoil_ApplyPost(pl,.96f);
 #endif
 
-	Cstrike_ShotMultiplierAdd(pl, 1, 1);
+	Cstrike_ShotMultiplierAdd(pl, 0.8f, 1.025f,accuracy*0.8);
 	pl.w_attack_next = 0.0875f;
 	pl.w_idle_next = 2.0f;
 }

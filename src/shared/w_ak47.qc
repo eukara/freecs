@@ -153,7 +153,7 @@ w_ak47_primary(player pl)
 	}
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl, 110,2.5);
+	float accuracy = Cstrike_CalculateAccuracy(pl, 30,3)/1.5;
 	pl.ak47_mag--;
 
 	int r = (float)input_sequence % 3;
@@ -181,13 +181,13 @@ w_ak47_primary(player pl)
 	dmg = Skill_GetValue("plr_ak47_dmg", 36);
 	TraceAttack_SetRangeModifier(2.375); /* 18 units!!! */
 	TraceAttack_SetPenetrationPower(1);
-	Cstrike_BulletRecoil_ApplyPre(pl,1);
+	Cstrike_BulletRecoil_ApplyPre(pl,1.2);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_AK47, "Impact.BigShot");
-	Cstrike_BulletRecoil_ApplyPost(pl,1);
+	Cstrike_BulletRecoil_ApplyPost(pl,1.2);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_ak47.fire");
 #endif
 
-	Cstrike_ShotMultiplierAdd(pl, 1.5, 1.05);
+	Cstrike_ShotMultiplierAdd(pl, 1.1f, 0.92f,accuracy*0.5);
 	pl.w_attack_next = 0.0975f;
 	pl.w_idle_next = pl.w_attack_next;
 }

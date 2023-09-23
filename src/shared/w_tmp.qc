@@ -116,7 +116,7 @@ w_tmp_primary(player pl)
 		return;
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl, 30,0.8)+0.0035;
+	float accuracy = Cstrike_CalculateAccuracy(pl, 30,0.95)+0.0035;
 	pl.tmp_mag--;
 
 	int r = (float)input_sequence % 3;
@@ -150,7 +150,7 @@ w_tmp_primary(player pl)
 	Sound_Play(pl, CHAN_WEAPON, "weapon_tmp.fire");
 #endif
 
-	Cstrike_ShotMultiplierAdd(pl, 0.85, 1.25);
+	Cstrike_ShotMultiplierAdd(pl, 0.95, 1.25,accuracy);
 	pl.w_attack_next = 0.07f;
 	pl.w_idle_next = pl.w_attack_next;
 }
