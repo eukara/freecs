@@ -115,8 +115,9 @@ w_para_primary(player pl)
 	if (!pl.para_mag)
 		return;
 
-	Cstrike_ShotMultiplierAdd(pl, 1, 1);
-	float accuracy = Cstrike_CalculateAccuracy(pl, 175);
+
+	float accuracy = Cstrike_CalculateAccuracy(pl, 70);
+	
 	pl.para_mag--;
 
 	int r = (float)input_sequence % 2;
@@ -141,10 +142,13 @@ w_para_primary(player pl)
 	dmg = Skill_GetValue("plr_para_dmg", 35);
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
+	Cstrike_BulletRecoil_ApplyPost(pl,1);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_PARA, "Impact.BigShot");
+	Cstrike_BulletRecoil_ApplyPost(pl,1);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_para.fire");
 #endif
 
+	Cstrike_ShotMultiplierAdd(pl, 1, 1,accuracy);
 	pl.w_attack_next = 0.1f;
 	pl.w_idle_next = pl.w_attack_next;
 }

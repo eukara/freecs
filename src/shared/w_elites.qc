@@ -258,7 +258,7 @@ w_elites_primary(player pl)
 	Cstrike_BulletRecoil_ApplyPost(pl,.9f);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_elites.fire");
 #endif
-	Cstrike_ShotMultiplierAdd(pl, 3, .85);
+	Cstrike_ShotMultiplierAdd(pl, 3, .85,accuracy);
 	pl.gflags |= GF_SEMI_TOGGLED;
 	pl.w_attack_next = 0.13f;
 	pl.w_idle_next = pl.w_attack_next;

@@ -151,7 +151,7 @@ w_deagle_primary(player pl)
 		return;
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl, 25,2.2)+0.005;
+	float accuracy = Cstrike_CalculateAccuracy(pl, 55,1.5)+0.005;
 	int dmg;
 	pl.deagle_mag--;
 
@@ -187,7 +187,7 @@ w_deagle_primary(player pl)
 	Sound_Play(pl, CHAN_WEAPON, "weapon_deagle.fire");
 #endif
 
-	Cstrike_ShotMultiplierAdd(pl, 20, .25);
+	Cstrike_ShotMultiplierAdd(pl, 10, .35,accuracy*0.5);
 	pl.gflags |= GF_SEMI_TOGGLED;
 	pl.w_attack_next = 0.2f;
 	pl.w_idle_next = pl.w_attack_next;

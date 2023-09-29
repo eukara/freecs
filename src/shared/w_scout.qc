@@ -175,8 +175,9 @@ w_scout_primary(player pl)
 		return;
 	}
 
-	Cstrike_ShotMultiplierAdd(pl, 1, 1);
+
 	float accuracy = Cstrike_CalculateAccuracy(pl, 200);
+	
 	pl.scout_mag--;
 
 	int r = (float)input_sequence % 2;
@@ -205,6 +206,7 @@ w_scout_primary(player pl)
 	Sound_Play(pl, CHAN_WEAPON, "weapon_scout.fire");
 #endif
 
+	Cstrike_ShotMultiplierAdd(pl, 1, 1,accuracy);
 	pl.w_attack_next = 1.25f;
 	pl.w_idle_next = pl.w_attack_next;
 }
