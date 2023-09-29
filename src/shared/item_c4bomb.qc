@@ -124,7 +124,10 @@ item_c4::Logic(void)
 	}
 
 	/* if our time has passed, explode */
-	if (m_flExplodeTime < time) {\
+	if (m_flExplodeTime < time) {
+		float bestDist = 9999.0f;
+		NSEntity bestTarget = __NULL__;
+
 		/* In Bomb Defusal, all Terrorists receive $3500
 		 * if they won by detonating the bomb. */
 		rules.RoundOver(TEAM_T, 3500, FALSE);
@@ -132,10 +135,17 @@ item_c4::Logic(void)
 		Sound_Play(this, CHAN_VOICE, "weapon_c4bomb.explode");
 
 		for (entity e = world; (e = find(e, ::classname, "func_bomb_target"));) {
-			NSEntity trigger = (NSEntity)e;
-			if (trigger.Trigger != __NULL__) {
-				trigger.Trigger(this, TRIG_TOGGLE);
+			float dist = vlen(origin - e.origin);
+
+			if (dist < bestDist) {
+				bestDist = dist;
+				bestTarget = e;
 			}
+		}
+
+		/* Found it. */
+		if (bestTarget) {
+			bestTarget.UseTargets(this, TRIG_TOGGLE, 0.0f);
 		}
 
 		Destroy();
