@@ -25,6 +25,12 @@ CSGameRules::PlayerPain(NSClientPlayer pl)
 }
 
 bool
+CSGameRules::ShowHints(void)
+{
+	return (true);
+}
+
+bool
 CSGameRules::BuyingPossible(NSClientPlayer pl)
 {
 	return (false);

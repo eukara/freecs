@@ -199,6 +199,7 @@ class player:NSClientPlayer
 	bool m_seenFriend;
 	bool m_seenEnemy;
 	bool m_seenHostage;
+	bool m_seenBombSite;
 #endif
 };
 

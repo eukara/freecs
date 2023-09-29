@@ -42,6 +42,7 @@ bot.qc
 game_money.qc
 gamerules.qc
 gamerules_singleplayer.qc
+gamerules_deathmatch.qc
 gamerules_multiplayer.qc
 
 radio.qc

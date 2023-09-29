@@ -130,6 +130,7 @@ void CMD_ChooseTeam(void);
 void
 ClientGame_InitDone(void)
 {
+	if (serverkey("mode") == "Counter-Strike")
 	if (serverkeyfloat("sv_playerslots") > 1)
 		VGUI_ShowMOTD();
 }

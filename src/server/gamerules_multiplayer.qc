@@ -14,6 +14,12 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+string
+CSMultiplayerRules::Title(void)
+{
+	return "Counter-Strike";
+}
+
 int
 CSMultiplayerRules::MaxItemPerSlot(int slot)
 {

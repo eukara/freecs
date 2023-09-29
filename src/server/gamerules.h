@@ -29,15 +29,42 @@ class CSGameRules:CGameRules
 	virtual void LevelNewParms(void);
 
 	virtual bool BuyingPossible(NSClientPlayer);
+	virtual bool ShowHints(void);
 
 	virtual bool ImpulseCommand(NSClient, float);
 }; 
 
 class CSSingleplayerRules:CSGameRules
 {
+	virtual string Title(void);
+
 	/* client */
 	virtual void PlayerSpawn(NSClientPlayer);
 	virtual void PlayerDeath(NSClientPlayer);
+};
+
+class CSDeathmatchRules:CSGameRules
+{
+	int m_iIntermission;
+	int m_iIntermissionTime;
+	string m_strTeamList;
+
+	void(void) CSDeathmatchRules;
+
+	virtual string Title(void);
+	virtual void(void) FrameStart;
+	virtual void(void) CheckRules;
+	virtual bool(void) MonstersSpawn;
+
+	/* client */
+	virtual void(NSClientPlayer) PlayerSpawn;
+	virtual void(NSClientPlayer) PlayerDeath;
+	virtual bool(NSClientPlayer, string) ConsoleCommand;
+	virtual bool(void) IsMultiplayer;
+	virtual bool(void) IsTeamplay;
+	virtual void(void) InitPostEnts;
+	virtual bool PlayerRequestRespawn(NSClientPlayer);
+	virtual bool ShowHints(void);
 };
 
 class CSMultiplayerRules:CSGameRules
@@ -50,6 +77,7 @@ class CSMultiplayerRules:CSGameRules
 
 	void CSMultiplayerRules(void);
 
+	virtual string Title(void);
 	virtual void InitPostEnts(void);
 	virtual void FrameStart(void);
 	virtual void PlayerDisconnect(NSClientPlayer);
@@ -87,3 +115,5 @@ class CSMultiplayerRules:CSGameRules
 };
 
 void CSEv_JoinAuto(void);
+
+CSGameRules g_csMode;

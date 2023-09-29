@@ -14,6 +14,12 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+string
+CSSingleplayerRules::Title(void)
+{
+	return "Singleplayer";
+}
+
 void
 CSSingleplayerRules::PlayerDeath(NSClientPlayer pl)
 {

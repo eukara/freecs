@@ -20,8 +20,14 @@ Game_InitRules(void)
 	if (cvar("sv_playerslots") == 1 || cvar("coop") == 1) {
 		g_grMode = spawn(CSSingleplayerRules);
 	} else {
-		g_grMode = spawn(CSMultiplayerRules);
+		if (cvar("fcs_deathmatch") == 1) {
+			g_grMode = spawn(CSDeathmatchRules);
+		} else {
+			g_grMode = spawn(CSMultiplayerRules);
+		}
 	}
+
+	g_csMode = (CSGameRules)g_grMode;
 }
 
 void
