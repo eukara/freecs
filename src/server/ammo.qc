@@ -113,7 +113,7 @@ Ammo_BuyCaliber(player pl, int cal, int free)
 	int *ptr_ammo = __NULL__;
 	int rv = 0;
 
-	while (pl.money - cs_ammoinfo[cal].price > 0) {
+	while (pl.money - cs_ammoinfo[cal].price > 0 || free) {
 		switch (cal) {
 		case CALIBER_50AE:
 			ptr_ammo = &pl.ammo_50ae;
