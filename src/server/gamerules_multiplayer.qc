@@ -441,6 +441,7 @@ CSMultiplayerRules::MakeVIP(NSClientPlayer pl)
 	PlayerRespawn(pl, pl.team);
 	env_message_single(pl, "Hint_you_are_the_vip");
 	forceinfokey(pl, "*dead", "2");
+	pl.SetModel("models/player/vip/vip.mdl");
 }
 
 /*
