@@ -38,6 +38,7 @@ class func_vip_safetyzone:NSBrushTrigger
 void
 func_vip_safetyzone::func_vip_safetyzone(void)
 {
+	g_cs_vipzones++;
 }
 
 void

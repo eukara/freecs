@@ -38,7 +38,7 @@ func_escapezone:NSBrushTrigger
 void
 func_escapezone::func_escapezone(void)
 {
-
+	g_cs_escapezones++;
 }
 
 void
