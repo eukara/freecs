@@ -22,6 +22,8 @@ class csbot:bot
 	virtual void(void) RunToConfront;
 	virtual void(void) RunToBomb;
 	virtual void(void) RunToBombsite;
+	virtual void(void) RunToEscapeZone;
+	virtual void(void) RunToVIPSafetyZone;
 	virtual void(void) RunToHostages;
 
 	virtual void(void) CreateObjective;
@@ -39,7 +41,7 @@ csbot::RunToConfront(void)
 		t = Route_SelectRandom("info_player_deathmatch");
 	}
 
-	ChatSayTeam("Going to run to the enemy spawn!");
+	ChatSayTeam("Going to run to the Enemy Spawn!");
 
 	if (t)
 		RouteToPosition(t.origin);
@@ -53,7 +55,7 @@ csbot::RunToBomb(void)
 
 	if (e) {
 		RouteToPosition(e.origin);
-		ChatSayTeam("Going to run to the bomb!");
+		ChatSayTeam("Going to run to the Bomb!");
 	}
 }
 
@@ -73,7 +75,45 @@ csbot::RunToBombsite(void)
 	vecTarget[2] = e.absmin[2] + (0.5 * (e.absmax[2] - e.absmin[2]));
 
 	RouteToPosition(vecTarget);
-	ChatSayTeam("Going to run to a bomb site!");
+	ChatSayTeam("Going to run to a Bomb Site!");
+}
+
+/* go to a random escape zone */
+void
+csbot::RunToEscapeZone(void)
+{
+	entity e = world;
+	vector vecTarget;
+
+	/* FIXME: make this random and error checked */
+	while (e == world)
+		e = find(e, ::classname, "func_escapezone");
+
+	vecTarget[0] = e.absmin[0] + (0.5 * (e.absmax[0] - e.absmin[0]));
+	vecTarget[1] = e.absmin[1] + (0.5 * (e.absmax[1] - e.absmin[1]));
+	vecTarget[2] = e.absmin[2] + (0.5 * (e.absmax[2] - e.absmin[2]));
+
+	RouteToPosition(vecTarget);
+	ChatSayTeam("Going to run to an Escape Zone!");
+}
+
+/* go to a random escape zone */
+void
+csbot::RunToVIPSafetyZone(void)
+{
+	entity e = world;
+	vector vecTarget;
+
+	/* FIXME: make this random and error checked */
+	while (e == world)
+		e = find(e, ::classname, "func_vip_safetyzone");
+
+	vecTarget[0] = e.absmin[0] + (0.5 * (e.absmax[0] - e.absmin[0]));
+	vecTarget[1] = e.absmin[1] + (0.5 * (e.absmax[1] - e.absmin[1]));
+	vecTarget[2] = e.absmin[2] + (0.5 * (e.absmax[2] - e.absmin[2]));
+
+	RouteToPosition(vecTarget);
+	ChatSayTeam("Going to run to a VIP Safety Zone!");
 }
 
 void
@@ -93,6 +133,28 @@ csbot::CreateObjective(void)
 
 	if (g_cs_bombzones > 0 && g_cs_bombplanted)
 		RunToBombsite();
+
+	if (g_cs_escapezones && team == TEAM_T) {
+		RunToEscapeZone();
+		return;
+	}
+
+	if (random() < 0.5 && g_cs_escapezones > 0 && team == TEAM_CT) {
+		RunToEscapeZone();
+		return;
+	}
+
+
+	if (g_cs_vipzones > 0 && team == TEAM_CT) {
+		RunToVIPSafetyZone();
+		return;
+	}
+
+	if (random() < 0.5 && g_cs_vipzones > 0 && team == TEAM_T) {
+		RunToVIPSafetyZone();
+		return;
+	}
+
 
 	if (random() < 0.5) {
 		if (g_cs_hostagestotal > 0)
