@@ -821,6 +821,9 @@ CSMultiplayerRules::PlayerFindSpawn(float t)
 		point = m_eLastCTSpawn;
 	} else if (t == TEAM_VIP) {
 		point = find(world, ::classname, "info_vip_start");
+
+		if (!point)
+			point = find(m_eLastTSpawn, ::classname, "info_player_start");
 	}
 
 	if (point == world) {
@@ -1019,6 +1022,7 @@ CSMultiplayerRules::PlayerMakeSpectator(NSClientPlayer pp)
 	player pl = (player)pp;
 	pl.MakeTempSpectator();
 	PlayerClearWeaponry(pl);
+	pl.view_ofs = g_vec_null;
 }
 
 /*

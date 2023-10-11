@@ -89,37 +89,7 @@ class hostage_entity:NSTalkMonster
 	virtual void(void) OnPlayerUse;
 	virtual void(void) Pain;
 	virtual void(void) Death;
-	virtual int(void) AnimIdle;
-	virtual int(void) AnimWalk;
-	virtual int(void) AnimRun;
-	//virtual float(void) GetWalkSpeed;
 };
-
-#if 0
-float
-hostage_entity::GetWalkSpeed(void)
-{
-	return 128;
-}
-#endif
-
-int
-hostage_entity::AnimIdle(void)
-{
-	return HOSA_IDLE1;
-}
-
-int
-hostage_entity::AnimWalk(void)
-{
-	return HOSA_WALK;
-}
-
-int
-hostage_entity::AnimRun(void)
-{
-	return HOSA_RUN;
-}
 
 void
 hostage_entity::OnPlayerUse(void)
@@ -220,7 +190,15 @@ hostage_entity::Death(void)
 void
 hostage_entity::Respawn(void)
 {
-	NSTalkMonster::Respawn();
+	spawnflags |= MSF_MULTIPLAYER;
+	model = "models/hostage.mdl";
+	netname = "Hostage";
+	base_health = 100;
+	base_mins = [-16,-16,0];
+	base_maxs = [16,16,72];
+
+	super::Respawn();
+
 	m_iFlags |= MONSTER_CANFOLLOW;
 	m_iUsedOnce = FALSE;
 	PlayerUse = OnPlayerUse;
@@ -252,12 +230,5 @@ hostage_entity::hostage_entity(void)
 	m_talkFollow = "";
 	m_talkStopFollow = "";
 
-	spawnflags |= MSF_MULTIPLAYER;
-	model = "models/hostage.mdl";
-	netname = "Hostage";
-	base_health = 100;
-	base_mins = [-16,-16,0];
-	base_maxs = [16,16,72];
-	NSTalkMonster::NSTalkMonster();
 	g_cs_hostagestotal++;
 }
