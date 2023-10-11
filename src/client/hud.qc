@@ -754,8 +754,8 @@ HUD_DrawSpectator(void)
 	Textmenu_Draw();
 
 	/* parts on top and bottom */
-	drawfill(g_hudmins, [g_hudres[0], 32], [0,0,0], 0.75f, DRAWFLAG_NORMAL);
-	drawfill(g_hudmins + [0, g_hudres[1]-32], [g_hudres[0], 32], [0,0,0], 0.75f, DRAWFLAG_NORMAL);
+	drawfill(video_mins, [video_res[0], 32], [0,0,0], 0.75f, DRAWFLAG_NORMAL);
+	drawfill(video_mins + [0, video_res[1]-32], [video_res[0], 32], [0,0,0], 0.75f, DRAWFLAG_NORMAL);
 
 	/* tracking player box */
 	drawrect(g_hudmins + [(g_hudres[0] / 2) - 111, g_hudres[1]-26], [222,20], 1.0f, SPEC_SEP_COL, 1.0f, DRAWFLAG_NORMAL);
