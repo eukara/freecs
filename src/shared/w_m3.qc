@@ -148,6 +148,7 @@ w_m3_draw(player pl)
 #ifdef CLIENT
 	pl.cs_cross_mindist = 8;
 	pl.cs_cross_deltadist = 6;
+	CStrikeView_UpdateGeomset(pl);
 #endif
 }
 

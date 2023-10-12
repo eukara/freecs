@@ -119,6 +119,7 @@ w_m4a1_draw(player pl)
 #ifdef CLIENT
 	pl.cs_cross_mindist = 4;
 	pl.cs_cross_deltadist = 3;
+	CStrikeView_UpdateGeomset(pl);
 #endif
 }
 

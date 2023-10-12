@@ -94,6 +94,10 @@ w_flashbang_draw(player pl)
 	Weapons_SetModel("models/v_flashbang.mdl");
 	Weapons_ViewAnimation(pl, FLASHBANG_DRAW);
 	pl.mode_temp = 0;
+
+#ifdef CLIENT
+	CStrikeView_UpdateGeomset(pl);
+#endif
 }
 
 #ifdef SERVER

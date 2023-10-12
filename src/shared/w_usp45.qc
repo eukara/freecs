@@ -121,6 +121,7 @@ w_usp45_draw(player pl)
 #ifdef CLIENT
 	pl.cs_cross_mindist = 8;
 	pl.cs_cross_deltadist = 3;
+	CStrikeView_UpdateGeomset(pl);
 #endif
 }
 
@@ -182,12 +183,7 @@ w_usp45_primary(player pl)
 		Animation_PlayerTop(pl, ANIM_CROUCH_SHOOT_ONEHAND, 0.45f);
 
 #ifdef CLIENT
-	if (pl.mode_usp45 == 1) {
-		View_SetMuzzleflash(0);
-	} else {
-		View_SetMuzzleflash(MUZZLE_SMALL);
-	}
-
+	View_SetMuzzleflash(MUZZLE_SMALL);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
 	/* Different sounds without silencer */

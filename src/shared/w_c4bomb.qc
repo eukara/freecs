@@ -101,6 +101,10 @@ w_c4bomb_draw(player pl)
 	Weapons_SetModel("models/v_c4.mdl");
 	Weapons_ViewAnimation(pl, C4_DRAW);
 	pl.mode_temp = 0;
+
+#ifdef CLIENT
+	CStrikeView_UpdateGeomset(pl);
+#endif
 }
 
 void

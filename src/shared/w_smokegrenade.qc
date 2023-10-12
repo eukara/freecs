@@ -94,6 +94,10 @@ w_smokegrenade_draw(player pl)
 	Weapons_SetModel("models/v_smokegrenade.mdl");
 	Weapons_ViewAnimation(pl, SMOKEGRENADE_DRAW);
 	pl.mode_temp = 0;
+
+#ifdef CLIENT
+	CStrikeView_UpdateGeomset(pl);
+#endif
 }
 
 #ifdef SERVER

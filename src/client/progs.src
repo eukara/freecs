@@ -30,7 +30,6 @@ cmds.qc
 game_event.qc
 ../../../valve/src/client/camera.qc
 ../../../valve/src/client/viewmodel.qc
-view.qc
 crosshair.qc
 ../../../valve/src/client/obituary.qc
 ../../../valve/src/client/hud_dmgnotify.qc
@@ -40,7 +39,6 @@ hud_weaponselect.qc
 ../../../valve/src/client/hud_sprite.qc
 ../../../valve/src/client/scoreboard.qc
 radio.qc
-../../../valve/src/client/modelevent.qc
 
 ../../../src/client/include.src
 vgui_buypages.qc

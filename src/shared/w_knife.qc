@@ -82,6 +82,10 @@ w_knife_draw(player pl)
 {
 	Weapons_SetModel("models/v_knife.mdl");
 	Weapons_ViewAnimation(pl, KNIFE_DRAW);
+
+#ifdef CLIENT
+	CStrikeView_UpdateGeomset(pl);
+#endif
 }
 
 void

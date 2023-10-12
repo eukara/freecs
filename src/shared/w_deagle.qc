@@ -136,6 +136,7 @@ w_deagle_draw(player pl)
 #ifdef CLIENT
 	pl.cs_cross_mindist = 8;
 	pl.cs_cross_deltadist = 3;
+	CStrikeView_UpdateGeomset(pl);
 #endif
 }
 

@@ -138,6 +138,7 @@ w_ak47_draw(player pl)
 #ifdef CLIENT
 	pl.cs_cross_mindist = 4;
 	pl.cs_cross_deltadist = 4;
+	CStrikeView_UpdateGeomset(pl);
 #endif
 }
 

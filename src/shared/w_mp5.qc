@@ -103,6 +103,7 @@ w_mp5_draw(player pl)
 #ifdef CLIENT
 	pl.cs_cross_mindist = 5;
 	pl.cs_cross_deltadist = 2;
+	CStrikeView_UpdateGeomset(pl);
 #endif
 }
 

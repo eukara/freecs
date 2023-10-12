@@ -94,6 +94,10 @@ w_hegrenade_draw(player pl)
 	Weapons_SetModel("models/v_hegrenade.mdl");
 	Weapons_ViewAnimation(pl, HEGRENADE_DRAW);
 	pl.mode_temp = 0;
+
+#ifdef CLIENT
+	CStrikeView_UpdateGeomset(pl);
+#endif
 }
 
 #ifdef SERVER

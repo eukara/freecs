@@ -103,6 +103,7 @@ w_p90_draw(player pl)
 #ifdef CLIENT
 	pl.cs_cross_mindist = 7;
 	pl.cs_cross_deltadist = 3;
+	CStrikeView_UpdateGeomset(pl);
 #endif
 }
 

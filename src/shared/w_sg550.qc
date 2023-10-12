@@ -102,6 +102,7 @@ w_sg550_draw(player pl)
 #ifdef CLIENT
 	pl.cs_cross_mindist = 5;
 	pl.cs_cross_deltadist = 3;
+	CStrikeView_UpdateGeomset(pl);
 #endif
 }
 

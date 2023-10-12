@@ -222,3 +222,15 @@ w_cstrke_switched(player pl)
 {
 	Cstrike_ShotReset(pl);
 }
+
+#ifdef CLIENT
+void
+CStrikeView_UpdateGeomset(player pl)
+{
+	if (getplayerkeyfloat(pl.entnum-1, "*team") == TEAM_CT) {
+		setcustomskin(pSeat->m_eViewModel, "", "geomset 0 2\ngeomset 1 1\n");
+	} else {
+		setcustomskin(pSeat->m_eViewModel, "", "geomset 0 1\ngeomset 1 2\n");
+	}
+}
+#endif
