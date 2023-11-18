@@ -64,7 +64,6 @@ var float autocvar_mp_c4timer = 45;
 var float autocvar_mp_roundtime = 5;
 var float autocvar_mp_timelimit = 60;
 var string autocvar_motdfile = "motd.txt";
-var int autocvar_mp_friendlyfire = FALSE;
 
 /* new, FreeCS exclusive variables */
 var int autocvar_fcs_escapepenalty = -300;
