@@ -29,6 +29,14 @@ class csbot:bot
 	virtual void(void) CreateObjective;
 	virtual void(void) PostFrame;
 	virtual void(void) WeaponThink;
+
+	/* Workaround:
+	* gflags is not yet set when CSBot_BuyStart_Shop() or CreateObjective()
+	* are called, so we back it up on PostFrame() and use that instead.
+	* Known issues it solves:
+	* - Check if the bot is in a Bomb Zone (gflags & GF_BOMBZONE)
+	* - Check if the bot is in a Buy Zone (gflags & GF_BUYZONE) */
+	int m_gflagsBackup;
 };
 
 void
@@ -170,6 +178,7 @@ void
 csbot::PostFrame(void)
 {
 	team = infokeyf(this, "*team");
+	m_gflagsBackup = gflags;
 };
 
 void
@@ -196,6 +205,7 @@ csbot::csbot(void)
 	bot::bot();
 	targetname = "_csbot_";
 	team = infokeyf(this, "*team");
+	m_gflagsBackup = 0;
 }
 
 void
@@ -242,6 +252,9 @@ CSBot_BuyStart_Shop(void)
 	player pl = (player)self;
 
 	pl.team = infokeyf(pl, "*team");
+
+	/* Workaround */
+	pl.gflags = ((csbot)pl).m_gflagsBackup;
 
 	count = 0;
 	while (done != 1) {
