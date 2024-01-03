@@ -536,7 +536,7 @@ HUD_DrawZones(void)
 	if (pl.gflags & GF_BUYZONE) {
 		zc++;
 	}
-	if (pl.gflags & GF_BOMBZONE) {
+	if (pl.g_items & ITEM_C4BOMB) {
 		zc++;
 	}
 	if (pl.gflags & GF_RESCUEZONE) {
@@ -561,17 +561,37 @@ HUD_DrawZones(void)
 		);
 		pos[1] += 32;
 	}
-	if (pl.gflags & GF_BOMBZONE) {
-		drawsubpic(
-			pos,
-			[32,32],
-			g_hud7_spr,
-			[0/256,148/256],
-			[32/256,32/256],
-			[0,1,0],
-			1.0f,
-			DRAWFLAG_ADDITIVE
-		);
+	if (pl.g_items & ITEM_C4BOMB) {
+		bool isRed = false;
+
+		if (pl.gflags & GF_BOMBZONE) {
+			isRed = (time*4) & 1 ? true : false;
+		}
+
+		if (isRed) {
+			drawsubpic(
+				pos,
+				[32,32],
+				g_hud7_spr,
+				[0/256,148/256],
+				[32/256,32/256],
+				[1,0,0],
+				1.0f,
+				DRAWFLAG_ADDITIVE
+			);
+		} else {
+			drawsubpic(
+				pos,
+				[32,32],
+				g_hud7_spr,
+				[0/256,148/256],
+				[32/256,32/256],
+				[0,1,0],
+				1.0f,
+				DRAWFLAG_ADDITIVE
+			);
+		}
+
 		pos[1] += 32;
 	}
 	if (pl.gflags & GF_RESCUEZONE) {
