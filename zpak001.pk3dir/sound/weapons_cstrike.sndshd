@@ -21,6 +21,7 @@ weapon_awp.zoom
 
 weapon_c4bomb.disarm
 {
+	attenuation none
 	sample weapons/c4_disarm.wav
 }
 
@@ -31,12 +32,39 @@ weapon_c4bomb.disarmed
 
 weapon_c4bomb.explode
 {
+	attenuation none
 	sample weapons/c4_explode1.wav
 }
 
 weapon_c4bomb.plant
 {
 	sample weapons/c4_plant.wav
+}
+
+weapon_c4bomb.beep1
+{
+	sample weapons/c4_beep1.wav
+}
+
+weapon_c4bomb.beep2
+{
+	sample weapons/c4_beep2.wav
+}
+
+weapon_c4bomb.beep3
+{
+	sample weapons/c4_beep3.wav
+}
+
+weapon_c4bomb.beep4
+{
+	sample weapons/c4_beep4.wav
+}
+
+weapon_c4bomb.beep5
+{
+	attenuation none
+	sample weapons/c4_beep5.wav
 }
 
 weapon_deagle.fire

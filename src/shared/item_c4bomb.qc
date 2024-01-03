@@ -23,12 +23,10 @@ class item_c4:NSRenderableEntity
 	float m_flDefusalState;
 #endif
 
-#ifdef CLIENT
-	float m_flAlpha;
-#endif
-
 #ifdef SERVER
 	void item_c4(void);
+
+	virtual void Spawned(void);
 	virtual float SendEntity(entity, float);
 	virtual void ClearProgress(void);
 	virtual void OnPlayerUse(void);
@@ -42,6 +40,17 @@ class item_c4:NSRenderableEntity
 	virtual float predraw(void);
 #endif
 };
+
+void
+item_c4::item_c4(void)
+{
+#ifdef SERVER
+	m_eUser = __NULL__;
+	m_flBeepTime = 0.0f;
+	m_flExplodeTime = 0.0f;
+	m_flDefusalState = 0.0f;
+#endif
+}
 
 #ifdef SERVER
 float
@@ -81,7 +90,7 @@ item_c4::OnPlayerUse(void)
 	/* don't allow anyone else to hijack. */
 	if (m_eUser == world) {
 		m_eUser = eActivator;
-		sound(this, CHAN_ITEM, "weapons/c4_disarm.wav", 1.0, ATTN_NONE);
+		StartSoundDef("weapon_c4bomb.disarm", CHAN_ITEM, true);
 	}
 }
 
@@ -116,7 +125,7 @@ item_c4::Logic(void)
 	}
 
 	if (m_flDefusalState > 10.0f) {
-		sound(this, CHAN_VOICE, "weapons/c4_disarmed.wav", 1.0, ATTN_NORM);
+		StartSoundDef("weapon_c4bomb.disarmed", CHAN_VOICE, true);
 		rules.RoundOver(TEAM_CT, 3600, TRUE);
 		Radio_BroadcastMessage(RADIO_BOMBDEF);
 		Destroy();
@@ -131,8 +140,8 @@ item_c4::Logic(void)
 		/* In Bomb Defusal, all Terrorists receive $3500
 		 * if they won by detonating the bomb. */
 		rules.RoundOver(TEAM_T, 3500, FALSE);
-		Damage_Radius(origin, this.owner, 500, g_cstrike_bombradius, FALSE, WEAPON_C4BOMB);
-		Sound_Play(this, CHAN_VOICE, "weapon_c4bomb.explode");
+		Damage_Radius(origin, this.real_owner, 500, g_cstrike_bombradius, false, WEAPON_C4BOMB);
+		StartSoundDef("weapon_c4bomb.explode", CHAN_VOICE, true);
 
 		for (entity e = world; (e = find(e, ::classname, "func_bomb_target"));) {
 			float dist = vlen(origin - e.origin);
@@ -157,18 +166,16 @@ item_c4::Logic(void)
 	}
 	m_flBeepTime = time + 1.5;
 
-	if (m_flExplodeTime - time < 2) {
-		sound(this, CHAN_VOICE, "weapons/c4_beep5.wav", 1.0, ATTN_NONE);
-	} else if (m_flExplodeTime - time < 5) {
-		sound(this, CHAN_VOICE, "weapons/c4_beep5.wav", 1.0, ATTN_NORM);
+	if (m_flExplodeTime - time < 5) {
+		StartSoundDef("weapon_c4bomb.beep5", CHAN_VOICE, true);
 	} else if (m_flExplodeTime - time < 10) {
-		sound(this, CHAN_VOICE, "weapons/c4_beep4.wav", 1.0, ATTN_NORM);
+		StartSoundDef("weapon_c4bomb.beep4", CHAN_VOICE, true);
 	} else if (m_flExplodeTime - time < 20) {
-		sound(this, CHAN_VOICE, "weapons/c4_beep3.wav", 1.0, ATTN_NORM);
+		StartSoundDef("weapon_c4bomb.beep3", CHAN_VOICE, true);
 	} else if (m_flExplodeTime - time < 30) {
-		sound(this, CHAN_VOICE, "weapons/c4_beep2.wav", 1.0, ATTN_NORM);
+		StartSoundDef("weapon_c4bomb.beep2", CHAN_VOICE, true);
 	} else {
-		sound(this, CHAN_VOICE, "weapons/c4_beep1.wav", 1.0, ATTN_NORM);
+		StartSoundDef("weapon_c4bomb.beep1", CHAN_VOICE, true);
 	}
 }
 
@@ -181,8 +188,10 @@ item_c4::OnRemoveEntity(void)
 }
 
 void
-item_c4::item_c4(void)
+item_c4::Spawned(void)
 {
+	super::Spawned();
+
 	/* throw this in with the other temporary round entities */
 	classname = "remove_me";
 
@@ -194,20 +203,23 @@ item_c4::item_c4(void)
 	customphysics = Logic;
 	PlayerUse = OnPlayerUse;
 	m_flExplodeTime = time + 45.0f;
-
-	Sound_Play(this, CHAN_WEAPON, "weapon_c4bomb.plant");
+	StartSoundDef("weapon_c4bomb.plant", CHAN_WEAPON, true);
 }
 
 void
 C4Bomb_Plant(NSClientPlayer planter)
 {
 	item_c4 bomb = spawn(item_c4);
-	bomb.owner = planter;
+	bomb.Spawned();
+	bomb.real_owner = planter;
 
 	/* place directly below */
 	traceline(planter.origin, planter.origin + [0,0,-64], FALSE, planter);
 	setorigin(bomb, trace_endpos);
 	bomb.SendFlags = -1;
+
+	/* push the player out if we're on top */
+	setorigin_safe(planter, planter.origin);
 
 	Radio_BroadcastMessage(RADIO_BOMBPL);
 	CSBot_BombPlantedNotify();
@@ -219,45 +231,31 @@ C4Bomb_Plant(NSClientPlayer planter)
 void
 item_c4::DrawLED(void)
 {
-	vector vecPlayer;
+	vector cameraPos = g_view.GetCameraOrigin();
+	float ledAlpha = 1.0 - (time - floor(time));
 
-	int s = (float)getproperty(VF_ACTIVESEAT);
-	pSeat = &g_seats[s];
-	vecPlayer = pSeat->m_vecPredictedOrigin;
-
-	m_flAlpha -= frametime;
-
-	if (m_flAlpha <= 0.0f)
-		m_flAlpha = 1.0f;
-
-	if (m_flAlpha > 0) {
-		vector forg;
-		vector fsize;
-		float falpha;
+	if (ledAlpha > 0.0f) {
+		vector ledPos = GetOrigin() + [0,0,8];
+		vector ledSize = [16,16];
 		
 		/* Scale the glow somewhat with the players distance */
-		fsize = [16,16];
-		fsize *= bound(1, vlen(vecPlayer - origin) / 256, 4);
-
-		/* Fade out when the player is starting to move away */
-		falpha = 1 - bound(0, vlen(vecPlayer - origin) / 1024, 1);
-		falpha *= m_flAlpha;
+		ledSize *= bound(1, vlen(cameraPos - origin) / 256, 4);
 
 		/* Nudge this slightly towards the camera */
-		makevectors(vectoangles(origin - vecPlayer));
-		forg = (origin + [0,0,8]) + (v_forward * -16);
+		makevectors(vectoangles(ledPos - cameraPos));
+		ledPos += (v_forward * -16);
 
 		/* Project it, always facing the player */
-		makevectors(view_angles);
+		makevectors(g_view.GetCameraAngle());
 		R_BeginPolygon(g_c4bombled_spr, 1, 0);
-		R_PolygonVertex(forg + v_right * fsize[0] - v_up * fsize[1],
-			[1,1], [1,1,1], falpha);
-		R_PolygonVertex(forg - v_right * fsize[0] - v_up * fsize[1],
-			[0,1], [1,1,1], falpha);
-		R_PolygonVertex(forg - v_right * fsize[0] + v_up * fsize[1],
-			[0,0], [1,1,1], falpha);
-		R_PolygonVertex(forg + v_right * fsize[0] + v_up * fsize[1],
-			[1,0], [1,1,1], falpha);
+		R_PolygonVertex(ledPos + v_right * ledSize[0] - v_up * ledSize[1],
+			[1,1], [1,1,1] * ledAlpha, 1.0f);
+		R_PolygonVertex(ledPos - v_right * ledSize[0] - v_up * ledSize[1],
+			[0,1], [1,1,1] * ledAlpha, 1.0f);
+		R_PolygonVertex(ledPos - v_right * ledSize[0] + v_up * ledSize[1],
+			[0,0], [1,1,1] * ledAlpha, 1.0f);
+		R_PolygonVertex(ledPos + v_right * ledSize[0] + v_up * ledSize[1],
+			[1,0], [1,1,1] * ledAlpha, 1.0f);
 		R_EndPolygon();
 	}
 }
@@ -268,14 +266,6 @@ item_c4::predraw(void)
 	DrawLED();
 	addentity(this);
 	return PREDRAW_NEXT;
-}
-
-void
-item_c4::item_c4(void)
-{
-	solid = SOLID_BBOX;
-	movetype = MOVETYPE_NONE;
-	drawmask = MASK_ENGINE;
 }
 
 void
@@ -295,5 +285,8 @@ w_c4bomb_parse(void)
 	tm.modelindex = readshort();
 	setorigin(tm, tm.origin);
 	setsize(tm, [-6,-6,0], [6,6,6]);
+	tm.solid = SOLID_BBOX;
+	tm.movetype = MOVETYPE_NONE;
+	tm.drawmask = MASK_ENGINE;
 }
 #endif

@@ -55,6 +55,11 @@ w_c4bomb_precache(void)
 	Sound_Precache("weapon_c4bomb.disarmed");
 	Sound_Precache("weapon_c4bomb.explode");
 	Sound_Precache("weapon_c4bomb.plant");
+	Sound_Precache("weapon_c4bomb.beep1");
+	Sound_Precache("weapon_c4bomb.beep2");
+	Sound_Precache("weapon_c4bomb.beep3");
+	Sound_Precache("weapon_c4bomb.beep4");
+	Sound_Precache("weapon_c4bomb.beep5");
 	precache_sound("weapons/c4_beep1.wav");
 	precache_sound("weapons/c4_beep2.wav");
 	precache_sound("weapons/c4_beep3.wav");
