@@ -749,6 +749,9 @@ CSMultiplayerRules::CountPlayers(void)
 void
 CSMultiplayerRules::DeathCheck(NSClientPlayer pl)
 {
+	if (g_cs_gamestate == GAME_END)
+		return;
+
 	/* hack so that we can kill rounds */
 	if ((g_cs_alive_t == 0) && (g_cs_alive_ct == 0)) {
 		g_cs_gamestate = GAME_ACTIVE;
