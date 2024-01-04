@@ -479,6 +479,9 @@ CSMultiplayerRules::RestartRound(int iWipe)
 		}
 	}
 
+	// Reset CSBot vars
+	CSBot_RestartRound();
+
 	for (entity eFind = world; (eFind = findfloat(eFind, ::team, TEAM_T));) {
 		if (!(eFind.flags & FL_CLIENT))
 			continue;
@@ -557,6 +560,12 @@ CSMultiplayerRules::RestartRound(int iWipe)
 	for (entity eFind = world; (eFind = find(eFind, ::classname, "item_c4"));) {
 		NSEntity e = (NSEntity)eFind;
 		e.Destroy();
+	}
+	// Remove potential bomb backpack model from the world, else bots will go
+	// chase a ghost.
+	entity e = find(world, ::model, "models/w_backpack.mdl");
+	if (e != world) {
+		remove(e);
 	}
 
 	WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
@@ -650,6 +659,7 @@ CSMultiplayerRules::RoundOver(int iTeamWon, int iMoneyReward, int fSilent)
 	TimerBegin(5, GAME_END); // Round is over, 5 seconds til a new round starts
 
 	g_cs_hostagesrescued = 0;
+	g_cs_bombbeingdefused = 0;
 	g_cs_bombplanted = 0;
 	g_cs_roundsplayed++;
 

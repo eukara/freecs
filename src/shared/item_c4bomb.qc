@@ -110,6 +110,7 @@ item_c4::Logic(void)
 			/* clear user */
 			m_eUser = world;
 			m_flDefusalState = 0.0f;
+			g_cs_bombbeingdefused = FALSE;
 		} else {
 
 			/* defusal kit always cuts the time in half */
@@ -121,6 +122,8 @@ item_c4::Logic(void)
 			/* tracked stat */
 			pl.progress = m_flDefusalState;
 			pl.flags |= FL_FROZEN;
+
+			g_cs_bombbeingdefused = TRUE;
 		}
 	}
 
@@ -185,6 +188,7 @@ item_c4::OnRemoveEntity(void)
 	ClearProgress();
 	m_flBeepTime = 0.0f;
 	m_flDefusalState = 0;
+	g_cs_bombbeingdefused = FALSE;
 }
 
 void

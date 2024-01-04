@@ -17,3 +17,4 @@
 void CSBot_BombPlantedNotify(void);
 void CSBot_HostageRescueNotify(void);
 void CSBot_RoundStart(void);
+void CSBot_RestartRound(void);
