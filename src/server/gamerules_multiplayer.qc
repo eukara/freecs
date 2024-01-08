@@ -294,7 +294,7 @@ CSMultiplayerRules::TimerBegin(float tleft, int mode)
 			RoundOver(TEAM_T, 3600, FALSE);
 			return;
 		}
-	
+
 	} else if (mode == GAME_END) {
 		g_cs_gamestate = GAME_END;
 	} else if (mode == GAME_COMMENCING) {
@@ -397,7 +397,7 @@ CSMultiplayerRules::BuyingPossible(NSClientPlayer pl)
 	if (pl.health <= 0) {
 		return (false);
 	}
-	
+
 	if (g_cs_gamestate == GAME_ACTIVE) {
 		if (((autocvar_mp_roundtime * 60) - g_cs_gametime) > autocvar_mp_buytime) {
 			centerprint(pl, sprintf("%d seconds have passed...\nYou can't buy anything now!", autocvar_mp_buytime));
@@ -409,12 +409,12 @@ CSMultiplayerRules::BuyingPossible(NSClientPlayer pl)
 		centerprint(pl, "You are the VIP...\nYou can't buy anything!\n");
 		return (false);
 	}
-	
+
 	if (g_cstrike_buying == BUY_NEITHER) {
 		centerprint(pl, "Sorry, you aren't meant\nto be buying anything.\n");
 		return (false);
 	}
-	
+
 	if (g_cstrike_buying != BUY_BOTH) {
 		if (g_cstrike_buying == BUY_CT && pl.team == TEAM_T) {
 			centerprint(pl, "Terrorists aren't allowed to\nbuy anything on this map!\n");
@@ -424,12 +424,12 @@ CSMultiplayerRules::BuyingPossible(NSClientPlayer pl)
 			return (false);
 		}
 	}
-	
+
 	if (!(pl.gflags & GF_BUYZONE)) {
 		centerprint(pl, "Sorry, you aren't in a buyzone.\n");
 		return (false);
 	}
-	
+
 	return (true);
 }
 
@@ -463,7 +463,7 @@ CSMultiplayerRules::RestartRound(int iWipe)
 	if (autocvar_fcs_swaponround > 0)
 	if (m_iSwapTeamRoundCounter >= autocvar_fcs_swaponround) {
 		m_iSwapTeamRoundCounter = 0;
-		
+
 		for (entity eFind = world; (eFind = find(eFind, ::classname, "player"));) { 
 			player pl = (player)eFind;
 
@@ -577,11 +577,11 @@ CSMultiplayerRules::RestartRound(int iWipe)
 	if (g_cs_bombzones > 0) {
 		int iRandomT = floor(random(1, (float)g_cs_alive_t + 1)); 
 		int iPickT = 0;
-		
+
 		for (entity eFind = world; (eFind = find(eFind, ::classname, "player"));) { 
 			if (eFind.team == TEAM_T) {
 				iPickT++;
-				
+
 				if (iPickT == iRandomT) {
 					MakeBomber((player)eFind);
 				}
@@ -820,14 +820,14 @@ CSMultiplayerRules::PlayerFindSpawn(float t)
 
 	if (t == TEAM_T) {
 		m_eLastTSpawn = find(m_eLastTSpawn, ::classname, "info_player_deathmatch");
-		
+
 		if (m_eLastTSpawn == world) {
 			m_eLastTSpawn = find(m_eLastTSpawn, ::classname, "info_player_deathmatch");
 		}
 		point = m_eLastTSpawn;
 	} else if (t == TEAM_CT) {
 		m_eLastCTSpawn = find(m_eLastCTSpawn, ::classname, "info_player_start");
-		
+
 		if (m_eLastCTSpawn == world) {
 			m_eLastCTSpawn = find(m_eLastCTSpawn, ::classname, "info_player_start");
 		}
@@ -1121,8 +1121,10 @@ CSMultiplayerRules::CSMultiplayerRules(void)
 	forceinfokey(world, "teams", "2");
 	forceinfokey(world, "team_1", "Terrorist");
 	forceinfokey(world, "teamscore_1", "0");
+	forceinfokey(world, "teamcolor_1", "1 0 0" );
 	forceinfokey(world, "team_2", "Counter-Terrorist");
 	forceinfokey(world, "teamscore_2", "0");
+	forceinfokey(world, "teamcolor_2", "0.25 0.25 1" );
 	m_iEscapedTerrorists = 0;
 }
 
@@ -1226,4 +1228,12 @@ CSEv_JoinAuto(void)
 	} else {
 		CSEv_JoinTeam_f(floor(random(5,9)));
 	}
+}
+
+void
+CSEv_JoinSpectator(void)
+{
+	NSClientPlayer pl = (NSClientPlayer)self;
+	ClientKill();
+	pl.MakeSpectator();
 }

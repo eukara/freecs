@@ -106,7 +106,7 @@ item_c4::Logic(void)
 		/* we need to check if the user has changed every frame. */
 		if (!m_eUser.button5) {
 			ClearProgress();
-			
+
 			/* clear user */
 			m_eUser = world;
 			m_flDefusalState = 0.0f;
@@ -189,6 +189,7 @@ item_c4::OnRemoveEntity(void)
 	m_flBeepTime = 0.0f;
 	m_flDefusalState = 0;
 	g_cs_bombbeingdefused = FALSE;
+	g_cs_bombplanted = false;
 }
 
 void

@@ -14,9 +14,6 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-const string mp_teamlist_fallback = "robo;hgrunt";
-var string autocvar_mp_teamlist = mp_teamlist_fallback;
-
 string
 CSDeathmatchRules::Title(void)
 {
@@ -60,25 +57,11 @@ CSDeathmatchRules::InitPostEnts(void)
 	forceinfokey(world, "scorepoints", "0");
 
 	if (IsTeamplay() == true) {
-		int c;
-
-		/* get the segments from our cvar */
-		m_strTeamList = autocvar_mp_teamlist;
-		c = tokenizebyseparator(m_strTeamList, ";");
-
-		/* if we've got less than 2 teams, use the fallback... */
-		if (c < 2) {
-			m_strTeamList = mp_teamlist_fallback;
-			c = tokenizebyseparator(m_strTeamList, ";");
-		}
-
-		forceinfokey(world, "teams", itos(c));
-
-		/* initialize all dem teams */
-		for (int i = 0; i < c; i++) {
-			forceinfokey(world, sprintf("team_%i", i+1i), argv(i));
-			forceinfokey(world, sprintf("teamscore_%i", i+1i), "0");
-		}
+		forceinfokey(world, "teams", "2");
+		forceinfokey(world, "team_1", "Counter-Terrorist");
+		forceinfokey(world, "teamscore_1", "0");
+		forceinfokey(world, "team_2", "Terrorist");
+		forceinfokey(world, "teamscore_2", "0");
 	} else {
 		forceinfokey(world, "teams", "0");
 	}
@@ -167,7 +150,6 @@ void
 CSDeathmatchRules::PlayerSpawn(NSClientPlayer pp)
 {
 	player pl = (player)pp;
-	string playerModel;
 	/* this is where the mods want to deviate */
 	entity spot;
 
@@ -190,11 +172,13 @@ CSDeathmatchRules::PlayerSpawn(NSClientPlayer pp)
 		/* TODO: this should sort us into the lowest team */
 		if (playerTeam == 0) {
 			playerTeam = 1i + (int)floor(random(0, (float)teamCount)); /* teams start at 1 after all */
-			pl.SetTeam(playerTeam);
+			pl.SetTeam(random() < 0.5 ? TEAM_CT : TEAM_T);
 		}
 
-		/* assign our player model */
-		playerModel = sprintf("models/player/%s/%s.mdl", argv(playerTeam - 1i), argv(playerTeam - 1i));
+		if (playerTeam == TEAM_T)
+			pl.charmodel = floor(random(1,5));
+		else
+			pl.charmodel = floor(random(5,9));
 	} else {
 		pl.charmodel = rint(random(1,9));
 	}
@@ -228,12 +212,8 @@ CSDeathmatchRules::PlayerSpawn(NSClientPlayer pp)
 		pl.model = "models/player/vip/vip.mdl";
 	}
 
-	/* fallback is always models/player.mdl for Half-Life */
-	if not (whichpack(playerModel)) {
-		playerModel = "models/player.mdl";
-	}
 	
-	pl.SetModel(playerModel);
+	pl.SetModel(pl.model);
 	pl.SetSize(VEC_HULL_MIN, VEC_HULL_MAX);
 	pl.ClearVelocity();
 	pl.gravity = __NULL__;
@@ -306,31 +286,4 @@ CSDeathmatchRules::CSDeathmatchRules(void)
 	/* these lines do nothing but tell the server to register those cvars */
 	autocvar(timelimit, 15, "Timelimit for multiplayer rounds");
 	autocvar(fraglimit, 15, "Points limit for multiplayer rounds");
-}
-
-void
-CSEv_HLDM_Chooseteam_s(string teamName)
-{
-	CSGameRules rules = (CSGameRules)g_grMode;
-	player pl = (player)self;
-
-	if (!teamName)
-		return;
-	if (rules.IsMultiplayer() == false)
-		return;
-	if (rules.IsTeamplay() == false)
-		return;
-	if (pl.IsDead() == true)
-		return;
-
-	CSDeathmatchRules mprules = (CSDeathmatchRules)rules;
-	int c = tokenizebyseparator(mprules.m_strTeamList, ";");
-
-	for (int i = 0; i < c; i++) {
-		if (argv(i) == teamName) {
-			pl.SetTeam((float)i + 1);
-			Damage_Apply(pl, pl, 100, 0, DMG_SKIP_ARMOR);
-			return;
-		}
-	}
 }

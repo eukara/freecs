@@ -90,7 +90,7 @@ VGUI_ChooseTeam(void)
 	}
 
 	static void VGUI_ChooseTeam_Spec(void) {
-		//sendevent("JoinAuto", "");
+		sendevent("JoinSpectator", "");
 		winChooseTeam.Hide();
 	}
 

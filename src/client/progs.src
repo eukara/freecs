@@ -34,6 +34,7 @@ crosshair.qc
 ../../../valve/src/client/obituary.qc
 ../../../valve/src/client/hud_dmgnotify.qc
 hud_ammonotify.qc
+vgui_spectator.qc
 hud.qc
 hud_weaponselect.qc
 ../../../valve/src/client/hud_sprite.qc
