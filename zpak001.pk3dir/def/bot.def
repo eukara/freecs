@@ -1,0 +1,4 @@
+entityDef bot
+{
+	spawnclass csbot
+}

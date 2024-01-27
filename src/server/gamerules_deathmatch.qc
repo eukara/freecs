@@ -252,6 +252,7 @@ CSDeathmatchRules::ConsoleCommand(NSClientPlayer pp, string cmd)
 	tokenize(cmd);
 
 	switch (argv(0)) {
+#if 0
 	case "bot_add":
 		bot pete = (bot)Bot_AddQuick();
 		Bot_RandomColormap(pete);
@@ -262,6 +263,7 @@ CSDeathmatchRules::ConsoleCommand(NSClientPlayer pp, string cmd)
 		pete.SetInfoKey("model", argv(2));
 		search_end(pm);
 		break;
+#endif
 	case "jumptest":
 		makevectors(pp.v_angle);
 		traceline(pp.origin + pp.view_ofs, pp.origin + pp.view_ofs + v_forward * 1024, FALSE, pp);

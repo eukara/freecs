@@ -1082,26 +1082,12 @@ CSMultiplayerRules::PlayerSpawn(NSClientPlayer pl)
 	forceinfokey(pl, "*team", "0"); 
 }
 
-void
-CSMultiplayerRules_BotJoin(void)
-{
-	spawnfunc_csbot();
-	CSEv_JoinAuto();
-}
-
 bool
 CSMultiplayerRules::ConsoleCommand(NSClientPlayer pp, string cmd)
 {
 	tokenize(cmd);
 
 	switch (argv(0)) {
-	case "bot_add":
-		entity bot_ent = Bot_AddQuick();
-		if (bot_ent) {
-			bot_ent.think = CSMultiplayerRules_BotJoin;
-			bot_ent.nextthink = time;
-		}
-		break;
 	default:
 		return (false);
 	}

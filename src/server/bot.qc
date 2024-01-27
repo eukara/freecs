@@ -23,7 +23,7 @@ vector getEntityCenterPos(entity e) {
 	return newVec;
 }
 
-class csbot:bot
+class csbot:NSBot
 {
 	void(void) csbot;
 
@@ -372,6 +372,10 @@ void csbot::AimLerp(vector aimpos, float flLerp) {
 void
 csbot::PostFrame(void)
 {
+	if (team == 0) {
+		CSEv_JoinAuto();
+	}
+
 	team = infokeyf(this, "*team");
 	m_gflagsBackup = gflags;
 };
@@ -439,7 +443,6 @@ csbot::GetVIPSafetyZoneByIndex(int index)
 void
 csbot::csbot(void)
 {
-	bot::bot();
 	targetname = "_csbot_";
 	team = infokeyf(this, "*team");
 	m_actionIsPlanting = FALSE;
