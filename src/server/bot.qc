@@ -400,7 +400,7 @@ csbot::WeaponThink(void)
 
 /** @brief Get entity by class name and index **/
 entity
-csbot::GetEntityByNameAndIndex(const string name, int index)
+csbot::GetEntityByNameAndIndex(string name, int index)
 {
 	int curIndex = 0;
 	for (entity a = world; (a = find(a, ::classname, name));) {

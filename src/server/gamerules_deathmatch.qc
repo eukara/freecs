@@ -128,7 +128,7 @@ CSDeathmatchRules::PlayerDeath(NSClientPlayer pl)
 		float gibStrength = g_dmg_iDamage * 2.0f;
 		BreakModel_Entity(pl, gibDir, gibStrength);
 	} else {
-		FX_Corpse_Spawn(pl, ANIM_DEATH1);
+		FX_Corpse_Spawn((player)pl, ANIM_DEATH1);
 		//FX_Corpse_Spawn((player)pl, ANIM_DIESIMPLE);
 	}
 

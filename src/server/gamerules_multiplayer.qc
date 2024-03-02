@@ -84,6 +84,14 @@ CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 		}
 	}
 
+	/* scoreboard death icon */
+	if (g_dmg_eTarget.flags & FL_CLIENT) {
+		targ.SetInfoKey("*icon1", "d_skull");
+		targ.SetInfoKey("*icon1_r", "1");
+		targ.SetInfoKey("*icon1_g", "0");
+		targ.SetInfoKey("*icon1_b", "0");
+	}
+
 	Weapon_DropCurrentWeapon(targ);
 
 	/* if we're the bomb carrier, make sure we drop the bomb. */
@@ -879,6 +887,11 @@ CSMultiplayerRules::PlayerRespawn(NSClientPlayer pp, int fTeam)
 	pl.angles = eSpawn.angles;
 	pl.SendFlags = UPDATE_ALL;
 	Client_FixAngle(pl, pl.angles);
+
+	pl.SetInfoKey("*icon1", "");
+	pl.SetInfoKey("*icon1_r", "1");
+	pl.SetInfoKey("*icon1_g", "1");
+	pl.SetInfoKey("*icon1_b", "1");
 
 	switch (pl.charmodel) {
 	case 1:

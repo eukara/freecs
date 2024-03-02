@@ -151,7 +151,7 @@ item_c4::Logic(void)
 
 			if (dist < bestDist) {
 				bestDist = dist;
-				bestTarget = e;
+				bestTarget = (NSEntity)e;
 			}
 		}
 

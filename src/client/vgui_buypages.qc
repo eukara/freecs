@@ -401,7 +401,7 @@ VGUI_BuyMenu_Page(int buyPage)
 		btnBuyItem7.SetTitle(Titles_GetTextBody("D3AU1"));
 		btnBuyItem7.SetTag(BUYITEM_G3SG1);
 		btnBuyItem8.SetTitle(Titles_GetTextBody("Krieg550"));
-		btnBuyItem8.SetTag(BUYITEM_G3SG1);
+		btnBuyItem8.SetTag(BUYITEM_SG550);
 		break;
 	case BUYPAGE_MGS:
 		lblBuyScreenTitle.SetTitle(Titles_GetTextBody("Title_machinegun_selection"));

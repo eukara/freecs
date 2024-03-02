@@ -143,7 +143,6 @@ w_deagle_draw(player pl)
 void
 w_deagle_primary(player pl)
 {
-
 	if (pl.w_attack_next > 0.0)
 		return;
 	if (pl.gflags & GF_SEMI_TOGGLED)
@@ -153,7 +152,6 @@ w_deagle_primary(player pl)
 
 
 	float accuracy = Cstrike_CalculateAccuracy(pl, 55,1.5)+0.005;
-	int dmg;
 	pl.deagle_mag--;
 
 	if (pl.deagle_mag <= 0) {
@@ -179,7 +177,7 @@ w_deagle_primary(player pl)
 	View_SetMuzzleflash(MUZZLE_RIFLE);
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
-	dmg = Skill_GetValue("plr_deagle_dmg", 54);
+	int dmg = Skill_GetValue("plr_deagle_dmg", 54);
 	TraceAttack_SetRangeModifier(1.875); /* 14 but not 15 */
 	TraceAttack_SetPenetrationPower(1);
 	Cstrike_BulletRecoil_ApplyPre(pl,0.5);

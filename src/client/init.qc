@@ -135,6 +135,7 @@ ClientGame_InitDone(void)
 		VGUI_ShowMOTD();
 }
 
+void HLSprite_Init(void);
 void
 ClientGame_RendererRestart(string rstr)
 {
@@ -167,6 +168,7 @@ ClientGame_RendererRestart(string rstr)
 
 	FX_Blood_Init();
 	FX_Smokenade_Init();
+	HLSprite_Init();
 
 	Radar_Init();
 }

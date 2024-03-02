@@ -14,6 +14,8 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+void View_ForceChange(player pl, int targetWeapon);
+
 vector g_vecHUDNums[6] =
 {
 	[168 / 256, 72 / 256],
@@ -35,9 +37,10 @@ HUD_DrawWeaponSelect_Forward(void)
 
 	if (pSeat->m_flHUDWeaponSelectTime < time) {
 		pSeat->m_iHUDWeaponSelected = pl.activeweapon;
-		sound(pSeat->m_ePlayer, CHAN_ITEM, "common/wpn_hudon.wav", 0.5, ATTN_NONE);
+		pl.StartSoundDef("Player.WeaponSelectionOpen", CHAN_ITEM, false);
 	} else {
-		sound(pSeat->m_ePlayer, CHAN_ITEM, "common/wpn_moveselect.wav", 0.5, ATTN_NONE);
+		pl.StartSoundDef("Player.WeaponSelectionMoveSlot", CHAN_ITEM, false);
+
 		pSeat->m_iHUDWeaponSelected--;
 		if (pSeat->m_iHUDWeaponSelected <= 0) {
 			pSeat->m_iHUDWeaponSelected = g_weapons.length - 1;
@@ -62,9 +65,10 @@ HUD_DrawWeaponSelect_Back(void)
 
 	if (pSeat->m_flHUDWeaponSelectTime < time) {
 		pSeat->m_iHUDWeaponSelected = pl.activeweapon;
-		sound(pSeat->m_ePlayer, CHAN_ITEM, "common/wpn_hudon.wav", 0.5, ATTN_NONE);
+		pl.StartSoundDef("Player.WeaponSelectionOpen", CHAN_ITEM, false);
 	} else {
-		sound(pSeat->m_ePlayer, CHAN_ITEM, "common/wpn_moveselect.wav", 0.5, ATTN_NONE);
+		pl.StartSoundDef("Player.WeaponSelectionMoveSlot", CHAN_ITEM, false);
+
 		pSeat->m_iHUDWeaponSelected++;
 		if (pSeat->m_iHUDWeaponSelected >= g_weapons.length) {
 			pSeat->m_iHUDWeaponSelected = 1;
@@ -84,11 +88,10 @@ HUD_DrawWeaponSelect_Trigger(void)
 	player pl = (player)pSeat->m_ePlayer;
 
 	if (pl.activeweapon != pSeat->m_iHUDWeaponSelected)
-		sendevent("PlayerSwitchWeapon", "i", pSeat->m_iHUDWeaponSelected);
+		View_ForceChange(pl, pSeat->m_iHUDWeaponSelected);
 
-	pl.activeweapon = pSeat->m_iHUDWeaponSelected;
 
-	sound(pSeat->m_ePlayer, CHAN_ITEM, "common/wpn_select.wav", 0.5f, ATTN_NONE);
+	pl.StartSoundDef("Player.WeaponSelected", CHAN_ITEM, false);
 	pSeat->m_iHUDWeaponSelected = pSeat->m_flHUDWeaponSelectTime = 0;
 }
 
@@ -142,9 +145,9 @@ HUD_SlotSelect(int slot)
 	}
 
 	if (pSeat->m_flHUDWeaponSelectTime < time) {
-		sound(pSeat->m_ePlayer, CHAN_ITEM, "common/wpn_hudon.wav", 0.5, ATTN_NONE);
+		pl.StartSoundDef("Player.WeaponSelectionOpen", CHAN_ITEM, false);
 	} else {
-		sound(pSeat->m_ePlayer, CHAN_ITEM, "common/wpn_moveselect.wav", 0.5, ATTN_NONE);
+		pl.StartSoundDef("Player.WeaponSelectionMoveSlot", CHAN_ITEM, false);
 	}
 
 	/* weren't in that slot? select the first one then */
@@ -187,7 +190,7 @@ HUD_DrawWeaponSelect(void)
 	}
 	if (pSeat->m_flHUDWeaponSelectTime < time) {
 		if (pSeat->m_iHUDWeaponSelected) {
-			sound(pSeat->m_ePlayer, CHAN_ITEM, "common/wpn_hudoff.wav", 0.5, ATTN_NONE);
+			pl.StartSoundDef("Player.WeaponSelectionClose", CHAN_ITEM, false);
 			pSeat->m_iHUDWeaponSelected = 0;
 		}
 		return;

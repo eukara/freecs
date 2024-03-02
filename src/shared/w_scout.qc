@@ -111,7 +111,6 @@ w_scout_draw(player pl)
 void
 w_scout_release(player pl)
 {
-
 	w_cstrike_weaponrelease();
 
 	/* auto-reload if need be */
