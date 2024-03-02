@@ -23,62 +23,40 @@ The engine you want to use to run this is FTEQW (https://www.fteqw.org), which i
 ![Preview 4](img/preview4.jpg)
 
 ## Features and Improvements
-* Native support for Windows/Mac/Linux/BSD and wherever else FTEQW runs on
-* Better support for higher display modes and aspect ratios
-* Much easier modding by having the entire logic be in modern QuakeC
-* Netcode that's always improving and more advanced prediction
-* Open-source code for transparent modding
-* Very permissive license (ISC/BSD)
-* The code doesn't rely on others work, so nobody can shut it down :-)
 
-## Installation
-Grab the latest binary release, extract and put an FTEQW engine binary (for your platform) into the same folder as the default.fmf and readme file.
-Get FTEQW here: https://www.fteqw.org/
+- Native support for Windows/Mac/Linux/BSD and wherever else FTEQW runs on
+- Better support for higher display modes and aspect ratios
+- Much easier modding by having the entire logic be in modern QuakeC
+- Netcode that's always improving and more advanced prediction
+- Open-source code for transparent modding
+- Very permissive license (ISC/BSD)
+- The code doesn't rely on others work, so nobody can shut it down :-)
 
-Run the engine and when in-game download the needed content, or optionally merge your own HL + CS 1.5 installation.
+## Installing 
+To run it, all you need is [FTEQW](https://www.fteqw.org), [FreeHL](https://www.frag-net.com/pkgs/package_valve.pk3), and [the latest release .pk3 file](https://www.frag-net.com/pkgs/package_cstrike.pk3), which you save into `Half-Life/valve/` and `Half-Life/cstrike/` respectively. That's about it. You can install updates through the **Configuration > Updates** menu from here on out.
 
-### Notes
-
-*You'd think this disclaimer may be unnecessary but here we go:*
-
-**This project is designed for the CS 1.5 data files.**
-
-You will have a bad time if you use it with later or earlier versions.
-
-You won't be able to connect to most people their servers. Content may be missing.
-
-This is designed for CS 1.5 and the Half-Life CD data files **ONLY**.
-**If you want to play and later version of CS, please do it on Steam.**
+### Disclaimer
+Please **do not** file bugs if you see missing/broken content **while not** using the original Half-Life and Counter-Strike 1.5 data.
 
 ## Building
 Here's the quick and dirty instructions for those unfamilar:
 
-First of all, make sure you've got Nuclide cloned.
+```
+$ git clone https://code.idtech.space/vera/nuclide Nuclide-SDK
+$ cd Nuclide-SDK
+$ ./build_engine.sh # (only required if you don't have an up-to-date FTEQW & FTEQCC in your PATH)
+$ git clone https://code.idtech.space/fn/valve valve
+$ git clone https://code.idtech.space/fn/cstrike cstrike
+$ SKIP_UPDATE=1 SKIP_RADIANT=1 ./build_game.sh valve
+$ SKIP_UPDATE=1 SKIP_RADIANT=1 ./build_game.sh cstrike
+```
 
-> git clone https://github.com/veravisions/nuclide
-
-Then, **inside** of the cloned repo, you'll clone FreeHL.
-
-> git clone https://github.com/eukara/freehl valve
-
-Then, in the same directory (Nuclide's) you will clone this repo.
-
-> git clone https://github.com/eukara/freecs cstrike
-
-Run 
-> ./build_game.sh valve
-
-First, so we have a usable menu.
-
-then either run Nuclide's `./build_game.sh cstrike` shell script, or issue `make` inside
-./cstrike/src for whenever you need to recompile FreeCS.
+You can also issue `make` inside `valve/src/` and `cstrike/src`, but it won't build an `entities.def` file for use in Radiant (level editor family).
 
 ** !! You need to also provide data-files !! **
 
-There's separate scripts inside FreeHL's cloned valve/ directory and FreeCS's cstrike/ directory
-for grabbing/moving the data files from various install media.
-
-The archive.org scripts for Half-Life will download content from the various demo builds of Half-Life, and can use yt-dlp for grabbing the music. You should be able to get everything required to play off the Internet.
+This should be self explanatory.
+Half-Life and Counter-Strike are owned by Valve and protected under copyright.
 
 ## Community
 
@@ -93,10 +71,19 @@ and other such things. It's bridged with the Matrix room of the same name!
 ### Others
 We've had people ask in the oddest of places for help, please don't do that.
 
+## Special Thanks
+
+- Spike for FTEQW and for being the most helpful person all around!
+- Xylemon for the hundreds of test maps, verifying entity and game-logic behaviour
+- CYBERDEViL for his work on making Bots fascinated with Bomb Defusal
+- mikota for his work on refining the bullet spread code
+- To my supporters on Patreon, who are always eager to follow what I do.
+- Any and all people trying it, tinkering with it etc. :)
+
 ## License
 ISC License
 
-Copyright (c) 2016-2022 Marco Cawthorne <marco@icculus.org>
+Copyright (c) 2016-2024 Marco Cawthorne <marco@icculus.org>
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
