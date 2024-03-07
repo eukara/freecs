@@ -45,9 +45,8 @@ CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 	player targ = (player)g_dmg_eTarget;
 	player attk = (player)g_dmg_eAttacker;
 	NSRenderableEntity newCorpse;
-	float deathAnimation;
+	float deathAnimation = ANIM_DEATH1;
 
-	/* TODO: death anims based on hit-regions */
 	if (targ.flags & FL_CROUCHING) {
 		deathAnimation = ANIM_CROUCH_DIE;
 	} else {
@@ -66,18 +65,21 @@ CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 			break;
 		default:
 			bool isFacing = targ.IsFacingPosition(g_dmg_vecLocation);
-			deathAnimation = ANIM_DEATH1;
 
-			if (isFacing == false) 
-				deathAnimation = ANIM_DIE_FORWARD;
-			else
-				deathAnimation = ANIM_DIE_BACK;
+			/* still want to play ANIM_DEATH1 */
+			if (random() < 0.5f) {
+				if (isFacing == false) {
+					deathAnimation = ANIM_DIE_FORWARD;
+				} else {
+					deathAnimation = ANIM_DIE_BACK;
+				}
+			}
 
 			break;
 		}
 	}
 
-	newCorpse = FX_Corpse_Spawn(targ, deathAnimation);
+	newCorpse = (NSRenderableEntity)FX_Corpse_Spawn(targ, deathAnimation);
 	
 	targ.SpectatorDeathcam(newCorpse, attk, 3.0f);
 
