@@ -172,7 +172,6 @@ class player:NSClientPlayer
 
 	virtual void(void) Physics_InputPostMove;
 	virtual void UpdatePlayerAnimation(float);
-	virtual void SharedInputFrame(void);
 
 #ifdef CLIENT
 	int playertype;
@@ -227,7 +226,6 @@ player::Physics_InputPostMove(void)
 	UpdatePlayerAnimation(input_timelength);
 
 	RemoveFlags(FL_FROZEN);
-	ProcessInput();
 
 #ifdef SERVER
 	if (g_cs_gamestate == GAME_FREEZE) {
@@ -235,9 +233,14 @@ player::Physics_InputPostMove(void)
 	if (getstati(STAT_GAMESTATE) == GAME_FREEZE) {
 #endif
 		flags |= FL_FROZEN;
-	}
-}
 
+		if (input_buttons & INPUT_BUTTON0) {
+			w_attack_next = (w_attack_next > 0.1) ? w_attack_next : 0.1f;
+		}
+
+	}
+	ProcessInput();
+}
 
 void Animation_PlayerUpdate(player); 
 void Animation_TimerUpdate(player, float); 
@@ -249,22 +252,6 @@ player::UpdatePlayerAnimation(float timelength)
 	Animation_PlayerUpdate(this);
 	/* advance animation timers */
 	Animation_TimerUpdate(this, timelength);
-}
-
-void
-player::SharedInputFrame(void)
-{
-	/* don't allow attacks when in freeze. */
-#ifdef CLIENT
-	if (getstatf(STAT_GAMESTATE) == GAME_FREEZE) {
-#else
-	if (g_cs_gamestate == GAME_FREEZE) {
-#endif
-		/* secondary fire is still allowed, however. */
-		if (input_buttons & INPUT_BUTTON0) {
-			w_attack_next = (w_attack_next > 0.1) ? w_attack_next : 0.1f;
-		}
-	}
 }
 
 #ifdef CLIENT
