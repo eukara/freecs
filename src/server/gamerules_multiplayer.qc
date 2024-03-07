@@ -589,15 +589,6 @@ CSMultiplayerRules::RestartRound(int iWipe)
 		}
 	}
 
-	/* clear the corpses/items/bombs */
-	for (entity eFind = world; (eFind = find(eFind, ::classname, "remove_me"));) {
-		if (eFind.identity) {
-			NSEntity e = (NSEntity)eFind;
-			e.Destroy();
-		} else {
-			remove(eFind);
-		}
-	}
 	for (entity eFind = world; (eFind = find(eFind, ::classname, "tempdecal"));) {
 		decal dec = (decal)eFind;
 		dec.m_strTexture = "";
@@ -655,6 +646,16 @@ CSMultiplayerRules::RestartRound(int iWipe)
 		NSEntity caw = (NSEntity)a;
 		if (caw.classname != "player")
 			caw.Respawn();
+	}
+
+	/* clear the corpses/items/bombs */
+	for (entity eFind = world; (eFind = find(eFind, ::classname, "remove_me"));) {
+		if (eFind.identity) {
+			NSEntity toRemove = (NSEntity)eFind;
+			toRemove.Destroy();
+		} else {
+			remove(eFind);
+		}
 	}
 
 	CSBot_BuyStart();
