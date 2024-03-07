@@ -172,6 +172,7 @@ class player:NSClientPlayer
 
 	virtual void(void) Physics_InputPostMove;
 	virtual void UpdatePlayerAnimation(float);
+	virtual void SharedInputFrame(void);
 
 #ifdef CLIENT
 	int playertype;
@@ -248,6 +249,22 @@ player::UpdatePlayerAnimation(float timelength)
 	Animation_PlayerUpdate(this);
 	/* advance animation timers */
 	Animation_TimerUpdate(this, timelength);
+}
+
+void
+player::SharedInputFrame(void)
+{
+	/* don't allow attacks when in freeze. */
+#ifdef CLIENT
+	if (getstatf(STAT_GAMESTATE) == GAME_FREEZE) {
+#else
+	if (g_cs_gamestate == GAME_FREEZE) {
+#endif
+		/* secondary fire is still allowed, however. */
+		if (input_buttons & INPUT_BUTTON0) {
+			w_attack_next = (w_attack_next > 0.1) ? w_attack_next : 0.1f;
+		}
+	}
 }
 
 #ifdef CLIENT

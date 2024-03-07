@@ -176,27 +176,6 @@ CSGameRules::LevelNewParms(void)
 }
 
 void
-CSGameRules::PlayerConnect(NSClientPlayer pl)
-{
-	if (Plugin_PlayerConnect(pl) == FALSE)
-		bprint(PRINT_HIGH, sprintf("%s connected\n", pl.netname));
-}
-
-void
-CSGameRules::PlayerDisconnect(NSClientPlayer pl)
-{
-	bprint(PRINT_HIGH, sprintf("%s disconnected\n", pl.netname));
-
-	/* Make this unusable */
-	pl.solid = SOLID_NOT;
-	pl.movetype = MOVETYPE_NONE;
-	pl.modelindex = 0;
-	pl.health = 0;
-	pl.takedamage = 0;
-	pl.SendFlags = PLAYER_MODELINDEX;
-}
-
-void
 CSGameRules::PlayerKill(NSClientPlayer pl)
 {
 	Damage_Apply(pl, pl, pl.health, WEAPON_NONE, DMG_SKIP_ARMOR);

@@ -36,7 +36,7 @@ CSMultiplayerRules::PlayerDisconnect(NSClientPlayer pl)
 	if (health > 0)
 		PlayerDeath(pl);
 
-	NSGameRules::PlayerDisconnect(pl);
+	super::PlayerDisconnect(pl);
 }
 
 void
@@ -44,8 +44,42 @@ CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 {
 	player targ = (player)g_dmg_eTarget;
 	player attk = (player)g_dmg_eAttacker;
+	NSRenderableEntity newCorpse;
+	float deathAnimation;
 
-	FX_Corpse_Spawn(targ, ANIM_DEATH1);
+	/* TODO: death anims based on hit-regions */
+	if (targ.flags & FL_CROUCHING) {
+		deathAnimation = ANIM_CROUCH_DIE;
+	} else {
+		switch (g_dmg_iHitBody) {
+		case BODY_HEAD:
+			deathAnimation = ANIM_DIE_HEAD;
+			break;
+		case BODY_STOMACH:
+			deathAnimation = ANIM_DIE_GUT;
+			break;
+		case BODY_ARMLEFT:
+			deathAnimation = ANIM_DIE_LEFT;
+			break;
+		case BODY_ARMRIGHT:
+			deathAnimation = ANIM_DIE_RIGHT;
+			break;
+		default:
+			bool isFacing = targ.IsFacingPosition(g_dmg_vecLocation);
+			deathAnimation = ANIM_DEATH1;
+
+			if (isFacing == false) 
+				deathAnimation = ANIM_DIE_FORWARD;
+			else
+				deathAnimation = ANIM_DIE_BACK;
+
+			break;
+		}
+	}
+
+	newCorpse = FX_Corpse_Spawn(targ, deathAnimation);
+	
+	targ.SpectatorDeathcam(newCorpse, attk, 3.0f);
 
 	/* obituary networking */
 	WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
@@ -107,6 +141,8 @@ CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 	PlayerClearWeaponry(targ);
 	targ.Death();
 	targ.gflags &= ~GF_FLASHLIGHT;
+
+	targ.StartSoundDef("Player.Death", CHAN_AUTO, true);
 
 	/* gamerule stuff */
 	targ.MakeTempSpectator();

@@ -16,8 +16,6 @@
 
 class CSGameRules:CGameRules
 {
-	virtual void PlayerConnect(NSClientPlayer);
-	virtual void PlayerDisconnect(NSClientPlayer);
 	virtual void PlayerKill(NSClientPlayer);
 	virtual void PlayerPreFrame(NSClientPlayer);
 	virtual void PlayerDeath(NSClientPlayer);
