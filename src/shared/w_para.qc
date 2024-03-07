@@ -117,7 +117,7 @@ w_para_primary(player pl)
 		return;
 
 
-	float accuracy = Cstrike_CalculateAccuracy(pl, 70);
+	float accuracy = Cstrike_CalculateAccuracy(pl, 70, 3);
 	
 	pl.para_mag--;
 
@@ -143,7 +143,7 @@ w_para_primary(player pl)
 	dmg = Skill_GetValue("plr_para_dmg", 35);
 	TraceAttack_SetRangeModifier(2.125);
 	TraceAttack_SetPenetrationPower(1);
-	Cstrike_BulletRecoil_ApplyPost(pl,1);
+	Cstrike_BulletRecoil_ApplyPre(pl,1);
 	TraceAttack_FireBulletsWithDecal(1, pl.origin + pl.view_ofs, dmg, [accuracy,accuracy], WEAPON_PARA, "Impact.BigShot");
 	Cstrike_BulletRecoil_ApplyPost(pl,1);
 	Sound_Play(pl, CHAN_WEAPON, "weapon_para.fire");
